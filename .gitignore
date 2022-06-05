@@ -2,6 +2,7 @@
 # This part will be removed by `remix.init`
 .idea
 .cache
+dist
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
@@ -9,8 +10,6 @@ pnpm-lock.yml
 
 node_modules
 
-/server/index.js
-/public/build
 preferences.arc
 sam.json
 sam.yaml

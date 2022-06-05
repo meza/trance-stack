@@ -6,5 +6,6 @@ module.exports = {
   appDirectory: 'src',
   assetsBuildDirectory: 'dist/static/assets',
   serverBuildPath: 'dist/server/index.js',
-  publicPath: `${process.env.STATIC_PATH ?? ''}/assets/`
+  publicPath: `${process.env.STATIC_PATH ?? ''}/assets/`,
+  server: './server.ts'
 };

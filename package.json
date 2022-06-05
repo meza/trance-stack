@@ -5,9 +5,9 @@
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix build",
-    "clean:all": "rm -rf node_modules",
+    "clean:all": "rm -rf node_modules .cache",
     "dev": "run-p dev:*",
-    "dev:arc": "node ./dev sandbox -v",
+    "dev:arc": "node ./dev sandbox",
     "dev:remix": "remix watch",
     "lint": "eslint --cache --cache-location .cache/eslint .",
     "test": "jest",
@@ -18,8 +18,7 @@
   },
   "eslintIgnore": [
     "/node_modules",
-    "/dist/server/remix.js",
-    "/dist/static/assets"
+    "/dist"
   ],
   "dependencies": {
     "@architect/architect": "^10.3.3",

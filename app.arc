@@ -4,10 +4,6 @@ trance-stack-template
 @http
 /*
   method any
-  src ./dist/server
+  src dist/server
 
 @static
-fingerprint true
-folder ./dist/static
-prune true
-prefix assets

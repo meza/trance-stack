@@ -47,13 +47,13 @@ async function main({ rootDirectory }) {
   await Promise.all([
     fs.writeFile(
       APP_ARC_PATH,
-      appArc.replace("grunge-stack-template", APP_NAME)
+      appArc.replace("trance-stack-template", APP_NAME)
     ),
     fs.writeFile(ENV_PATH, newEnv),
     fs.writeFile(PACKAGE_JSON_PATH, newPackageJson),
     fs.writeFile(
       README_PATH,
-      readme.replace(new RegExp("RemixGrungeStack", "g"), toLogicalID(APP_NAME))
+      readme.replace(new RegExp("RemixTranceStack", "g"), toLogicalID(APP_NAME))
     ),
     fs.copyFile(
       path.join(rootDirectory, "remix.init", "gitignore"),
@@ -89,9 +89,9 @@ async function askSetupQuestions({ rootDirectory }) {
     console.log(
       `Running the validate script to make sure everything was set up properly`
     );
-    execSync(`npm run validate`, { stdio: "inherit", cwd: rootDirectory });
+    execSync(`yarn validate`, { stdio: "inherit", cwd: rootDirectory });
   }
-  console.log(`✅  Project is ready! Start development with "npm run dev"`);
+  console.log(`✅  Project is ready! Start development with "yarn dev"`);
 }
 
 module.exports = main;

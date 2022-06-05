@@ -1,5 +1,7 @@
+import { useTranslation } from 'react-i18next';
 export default function Index() {
+  const { t } = useTranslation();
   return (
-    <div>Hello World</div>
+    <div>{t('greeting')} World</div>
   );
 }

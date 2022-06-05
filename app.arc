@@ -7,3 +7,7 @@ trance-stack-template
   src dist/server
 
 @static
+folder dist/static
+
+@sandbox
+livereload true

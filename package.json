@@ -36,8 +36,8 @@
     "i18next-browser-languagedetector": "^6.1.4",
     "i18next-fs-backend": "^1.1.4",
     "i18next-http-backend": "^1.4.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
+    "react": "next",
+    "react-dom": "next",
     "react-i18next": "^11.17.1",
     "remix-i18next": "^4.1.1",
     "tiny-invariant": "^1.2.0"

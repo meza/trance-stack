@@ -3,7 +3,7 @@
  */
 module.exports = {
   extends: [
-    'tailored-tunes',
+    //'tailored-tunes',
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
     '@remix-run/eslint-config/jest-testing-library'

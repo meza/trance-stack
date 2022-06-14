@@ -8,7 +8,7 @@
     "clean": "rm -rf dist",
     "clean:all": "rm -rf node_modules .cache dist",
     "dev": "run-p dev:*",
-    "dev:arc": "STATIC_PATH=\"_static\" node ./dev sandbox",
+    "dev:arc": "STATIC_PATH=\"_static\" cross-env PORT=3000 ARC_LOCAL=1 ARC_TABLES_PORT=5555 arc sandbox",
     "dev:remix": "remix watch",
     "lint": "eslint --cache --cache-location .cache/eslint .",
     "test": "jest",

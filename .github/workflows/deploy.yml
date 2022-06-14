@@ -60,8 +60,8 @@ jobs:
       - name: 🔎 Type check
         run: npm run typecheck --if-present
 
-  vitest:
-    name: ⚡ Vitest
+  jest:
+    name: ⚡ Jest
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
@@ -80,7 +80,7 @@ jobs:
         with:
           useLockFile: false
 
-      - name: ⚡ Run vitest
+      - name: ⚡ Run jest
         run: npm run test -- --coverage
 
   cypress:
@@ -118,7 +118,7 @@ jobs:
           PORT: "8811"
 
   deploy:
-    needs: [lint, typecheck, vitest, cypress]
+    needs: [lint, typecheck, jest, cypress]
     runs-on: ubuntu-latest
 
     steps:

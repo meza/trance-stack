@@ -8,16 +8,18 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 npx create-remix --template meza/trace-stack
 ```
 
-## What's in the stack
+## What's planned for the stack
 
-- i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
-- [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
-- [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
-- End-to-end testing with [Cypress](https://cypress.io)
-- Local third party request mocking with [MSW](https://mswjs.io)
-- Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- Linting with [ESLint](https://eslint.org)
-- Static Types with [TypeScript](https://typescriptlang.org)
+- [ ] i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
+- [ ] [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
+- [ ] [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
+- [ ] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
+- [ ] End-to-end testing with [Cypress](https://cypress.io)
+- [ ] Local third party request mocking with [MSW](https://mswjs.io)
+- [ ] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
+- [ ] Linting with [ESLint](https://eslint.org)
+- [ ] Static Types with [TypeScript](https://typescriptlang.org)
+- [x] PNPM for package management
 
 Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
 
@@ -26,13 +28,13 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 - Validate the app has been set up properly (optional):
 
   ```sh
-  yarn validate
+  pnpm validate
   ```
 
 - Start dev server:
 
   ```sh
-  yarn dev
+  pnpm dev
   ```
 
 This starts your app in development mode, rebuilding assets on file changes.

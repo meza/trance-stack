@@ -1,0 +1,48 @@
+name: "Setup node and install dependencies"
+description: "Takes care of the copy-pasta for the cache handling of pnpm"
+inputs:
+  cache-name:
+    description: "The name of the cache to use"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: latest
+
+    - uses: pnpm/action-setup@v2.2.3
+      name: Install pnpm
+      id: pnpm-install
+      with:
+        version: latest
+        run_install: false
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      shell: bash
+      run: |
+        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+    - name: Cache build helpers
+      id: cache-build-data
+      uses: pat-s/always-upload-cache@v3
+      if: always()
+      env:
+        cache-name: cache-build-data
+      with:
+        path: ./.cache
+        key: ${{ runner.os }}-build-data-${{ inputs.cache-name }}
+
+    - uses: pat-s/always-upload-cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ inputs.cache-name }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - run: pnpm install
+      shell: bash

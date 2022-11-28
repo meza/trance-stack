@@ -1,0 +1,18 @@
+name: Verify and Release
+
+on: [ push ]
+
+env:
+  LEFTHOOK: 0
+
+jobs:
+  verify:
+    name: 🔎 Lint and Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up node
+        uses: ./.github/actions/setup/
+        with:
+          cache-name: pure-dependencies
+      - run: pnpm ci

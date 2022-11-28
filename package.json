@@ -5,6 +5,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:remix": "remix build",
+    "ci": "exit 0",
     "clean": "rm -rf dist",
     "clean:all": "rm -rf node_modules .cache dist",
     "dev": "run-p dev:*",

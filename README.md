@@ -14,6 +14,7 @@ npx create-remix --template meza/trace-stack
 - [ ] [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
 - [ ] [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - [ ] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
+- [x] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
 - [ ] End-to-end testing with [Cypress](https://cypress.io)
 - [ ] Local third party request mocking with [MSW](https://mswjs.io)
 - [ ] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)

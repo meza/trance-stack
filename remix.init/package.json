@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@architect/utils": "^3.1.2",
-    "inquirer": "^8.2.4",
+    "inquirer": "^9.0.0",
     "sort-package-json": "^1.57.0"
   }
 }

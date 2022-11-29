@@ -1,6 +1,7 @@
 # We don't want lockfiles in stacks, as people could use a different package manager
 # This part will be removed by `remix.init`
 .idea
+.vscode
 .cache
 dist
 package-lock.json
@@ -17,4 +18,4 @@ sam.yaml
 
 /cypress/screenshots
 /cypress/videos
-.env
+tmp

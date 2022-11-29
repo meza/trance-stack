@@ -21,6 +21,15 @@ npx create-remix --template meza/trace-stack
 - [ ] Linting with [ESLint](https://eslint.org)
 - [ ] Static Types with [TypeScript](https://typescriptlang.org)
 - [x] PNPM for package management
+- [x] [act](https://github.com/nektos/act) to test GitHub Actions locally
+
+---
+
+> ## A note on lockfiles
+>
+> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of dependencies are used when creating a new project.
+
+---
 
 Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
 
@@ -45,6 +54,10 @@ This starts your app in development mode, rebuilding assets on file changes.
 This is a pretty a basic Hello World app with all the bells and whistles of a modern production app.
 
 Go to `src/routes/index.tsx` and start creating your app
+
+### Test github actions locally
+
+Install [act](https://github.com/nektos/act#installation-through-package-managers) and then run `act` in the root of the project.
 
 ## Deployment
 

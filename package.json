@@ -69,7 +69,7 @@
     "commitlint": "^17.3.0",
     "cross-env": "^7.0.3",
     "cypress": "^11.2.0",
-    "esbuild": "^0.16.0",
+    "esbuild": "^0.17.0",
     "esbuild-copy-static-files": "^0.1.0",
     "eslint": "^8.28.0",
     "eslint-config-tailored-tunes": "^5.0.2",

@@ -1,23 +1,9 @@
-# We don't want lockfiles in stacks, as people could use a different package manager
-# This part will be removed by `remix.init`
-.idea
-.vscode
-.cache
-dist
-reports
-
-# Lockfiles are not needed in stacks
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-pnpm-lock.yml
-
 node_modules
 
+/.cache
+/server/index.js
+/public/build
+preferences.arc
 sam.json
 sam.yaml
 .env
-
-/cypress/screenshots
-/cypress/videos
-tmp

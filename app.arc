@@ -1,3 +1,6 @@
+@aws
+runtime nodejs
+
 @app
 trance-stack-template
 

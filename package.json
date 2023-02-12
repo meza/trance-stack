@@ -73,7 +73,7 @@
     "esbuild-copy-static-files": "^0.1.0",
     "eslint": "^8.28.0",
     "eslint-config-tailored-tunes": "^5.0.2",
-    "happy-dom": "^7.7.0",
+    "happy-dom": "^8.0.0",
     "lefthook": "^1.2.2",
     "mock-aws-s3": "^4.0.2",
     "msw": "^1.0.0",

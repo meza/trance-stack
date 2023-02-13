@@ -25,4 +25,4 @@ pre-commit:
 post-merge:
   commands:
     install-deps-postmerge:
-      run: pnpm install --frozen-lockfile
+      run: pnpm install

@@ -1,3 +1,6 @@
+.idea
+.vscode
+
 dist
 reports
 node_modules

@@ -1,3 +1,4 @@
+# No IDE specific files should ever make it into the repo
 .idea
 .vscode
 
@@ -13,3 +14,9 @@ preferences.arc
 sam.json
 sam.yaml
 .env
+
+# Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
+# dependencies are used when creating a new project.
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

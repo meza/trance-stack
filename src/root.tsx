@@ -23,7 +23,13 @@ export const links: LinksFunction = () => {
 };
 
 export const loader = async () => {
-  return json({ ENV: { hotjarId: process.env.HOTJAR_ID } });
+  return json({
+    ENV: {
+      hotjarId: process.env.HOTJAR_ID,
+      mixpanelToken: process.env.MIXPANEL_TOKEN,
+      isProduction: process.env.NODE_ENV === 'production'
+    }
+  });
 };
 
 const App = () => {

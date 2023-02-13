@@ -8,6 +8,7 @@ repl-app-slug
 
 @static
 
-# @aws
+@aws
+cors *
 # profile default
 region eu-west-2

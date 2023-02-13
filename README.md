@@ -1,4 +1,4 @@
-# Remix Trance Stack
+# REPL_APP_NAME
 
 ![The Remix Trance Stack](https://armadamusic.imgix.net/news/Trance-Music.jpg?auto=format&crop=focalpoint&fit=cover&w=1200)
 

@@ -1,5 +1,10 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
+  env: {
+    commonjs: false,
+    es6: true,
+    node: true
+  },
   extends: [
     'tailored-tunes',
     'plugin:json/recommended',

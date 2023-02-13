@@ -1,17 +1,17 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
+  ScrollRestoration
+} from '@remix-run/react';
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "REPL_APP_NAME",
-  viewport: "width=device-width,initial-scale=1",
+  charset: 'utf-8',
+  title: 'REPL_APP_NAME',
+  viewport: 'width=device-width,initial-scale=1'
 });
 
 export default function App() {

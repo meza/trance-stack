@@ -27,6 +27,7 @@ export const loader = async () => {
     ENV: {
       hotjarId: process.env.HOTJAR_ID,
       mixpanelToken: process.env.MIXPANEL_TOKEN,
+      mixpanelApi: process.env.MIXPANEL_API,
       isProduction: process.env.NODE_ENV === 'production'
     }
   });

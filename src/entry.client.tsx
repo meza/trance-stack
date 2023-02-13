@@ -4,17 +4,17 @@ import { hydrateRoot } from 'react-dom/client';
 import mixpanel from 'mixpanel-browser';
 
 const MixPanel = () => {
-  const { mixpanelToken, isProduction } = (window as any).ENV;
+  const { mixpanelToken, isProduction, mixpanelApi } = (window as any).ENV;
 
   useEffect(() => {
     mixpanel.init(mixpanelToken, {
       test: !isProduction,
       debug: !isProduction,
       // eslint-disable-next-line camelcase
-      api_host: 'https://api-eu.mixpanel.com'
+      api_host: mixpanelApi
     });
     mixpanel.track('Page View');
-  }, [mixpanelToken, isProduction]);
+  }, [mixpanelToken, isProduction, mixpanelApi]);
 
   return <></>;
 };

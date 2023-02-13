@@ -2,14 +2,13 @@ const { execSync } = require('child_process');
 const crypto = require('crypto');
 const fs = require('fs/promises');
 const path = require('path');
-const inquirer = require('inquirer');
-const sort = require('sort-package-json');
 const { toLogicalID } = require('@architect/utils');
 
 const getRandomString = length => crypto.randomBytes(length).toString('hex');
 
 const askSetupQuestions = async () => {
-  return inquirer.prompt([
+  const inquirer = (await import('inquirer')).default;
+  const answers = await inquirer.prompt([
     {
       type: 'input',
       name: 'hotjarId',
@@ -19,12 +18,29 @@ const askSetupQuestions = async () => {
       type: 'input',
       name: 'mixpanelId',
       message: 'What is your Mixpanel ID?'
+    },
+    {
+      type: 'list',
+      name: 'mixpanelApi',
+      message: 'What is your Mixpanel data residency?',
+      choices: [
+        { name: 'US', value: 'us' },
+        { name: 'EU', value: 'eu' }
+      ],
+      default: 'us',
+      filter: (value) => {
+        if (value === 'us') {
+          return 'https://api.mixpanel.com';
+        }
+        return 'https://api-eu.mixpanel.com';
+      }
     }
   ]);
+  return answers;
 };
 
 const main = async ({ rootDirectory }) => {
-
+  const sort = (await import('sort-package-json')).default;
   const answers = await askSetupQuestions().catch((error) => {
     if (error.isTtyError) {
       throw new Error('Prompt couldn\'t be rendered in the current environment');
@@ -61,6 +77,9 @@ const main = async ({ rootDirectory }) => {
   ).replace(
     /^MIXPANEL_TOKEN=.*$/m,
     `MIXPANEL_TOKEN=${answers.mixpanelToken}`
+  ).replace(
+    /^MIXPANEL_API=.*$/m,
+    `MIXPANEL_API=${answers.mixpanelApi}`
   )
 
   const newPackageJson

@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from '@remix-run/node';
 
 import {
   Links,
@@ -29,8 +29,6 @@ const App = () => {
         <Links/>
       </head>
       <body>
-        <Outlet/>
-        <ScrollRestoration/>
         <script
           async
           id="hotjar-tracker"
@@ -46,6 +44,8 @@ const App = () => {
           `
           }}
         />
+        <Outlet/>
+        <ScrollRestoration/>
         <Scripts/>
         <LiveReload/>
       </body>

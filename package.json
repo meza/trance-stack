@@ -6,7 +6,7 @@
     "dev:remix": "remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox",
     "dev": "remix build && run-p \"dev:*\"",
-    "lint": "eslint --ext .ts,.tsx,.json app",
+    "lint": "eslint --ext .ts,.tsx,.json src",
     "prepare": "lefthook install",
     "report": "exit 0",
     "start": "cross-env NODE_ENV=production arc sandbox",

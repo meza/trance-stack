@@ -3,8 +3,8 @@ module.exports = {
   serverBuildTarget: "arc",
   server: "./server.js",
   ignoredRouteFiles: ["**/.*"],
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
+  appDirectory: "src",
+  // assetsBuildDirectory: "dist",
   // serverBuildPath: "server/index.js",
   // publicPath: "/_static/build/",
 };

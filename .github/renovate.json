@@ -1,0 +1,57 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "enabledManagers": [
+    "npm"
+  ],
+  "baseBranches": [
+    "main"
+  ],
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "packageRules": [
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true,
+      "semanticCommitType": "chore",
+      "groupName": "all dev-dependencies",
+      "groupSlug": "all-dev-dependencies"
+    },
+    {
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "automerge": true,
+      "semanticCommitType": "chore"
+    },
+    {
+      "matchDepTypes": [
+        "dependencies"
+      ],
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "automerge": true,
+      "semanticCommitType": "fix",
+      "groupName": "all main dependencies",
+      "groupSlug": "all-main-dependencies"
+    }
+  ],
+  "schedule": [
+    "after 10pm and before 5am every weekday",
+    "every weekend"
+  ]
+}

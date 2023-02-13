@@ -25,7 +25,8 @@ npx create-remix --template meza/trace-stack
 
 > ## A note on lockfiles
 >
-> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of dependencies are used when creating a new project.
+> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
+> dependencies are used when creating a new project.
 
 ---
 
@@ -33,8 +34,25 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 
 ## Development
 
-- Start dev server:
+### Setup
 
-  ```sh
-  pnpm dev
-  ```
+This stack uses [pnpm](https://pnpm.io/) for package management. If you don't have it installed, you can install it
+with:
+
+```sh
+npmx pnpm i
+```
+
+In order to make thing work locally, create a file called `.env` in the root of the project and add the following:
+
+```sh
+NODE_ENV=development
+```
+
+### Running
+
+- Start the dev server:
+
+```sh
+pnpm dev
+```

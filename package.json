@@ -3,7 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev:remix": "remix watch",
+    "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox",
     "dev": "remix build && run-p \"dev:*\"",
     "lint": "eslint --ext .ts,.tsx,.json src",
@@ -15,9 +15,10 @@
   "dependencies": {
     "@aws-sdk/smithy-client": "^3.0.0",
     "@aws-sdk/types": "^3.0.0",
-    "@remix-run/architect": "*",
-    "@remix-run/node": "*",
-    "@remix-run/react": "*",
+    "@remix-run/architect": "^1.12.0",
+    "@remix-run/node": "^1.12.0",
+    "@remix-run/react": "^1.12.0",
+    "@remix-run/server-runtime": "^1.12.0",
     "cross-env": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

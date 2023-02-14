@@ -10,6 +10,8 @@ import {
 } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { getVisitorIdByRequest } from '~/session.server';
+import React from 'react';
+import splitClient from '~/split.server';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -24,19 +26,24 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
+  const visitorId = await getVisitorIdByRequest(request);
+  await splitClient.ready();
+  splitClient.track(visitorId, 'anonymous', 'page_view');
   return json({
     ENV: {
       hotjarId: process.env.HOTJAR_ID,
       mixpanelToken: process.env.MIXPANEL_TOKEN,
       mixpanelApi: process.env.MIXPANEL_API,
+      splitToken: process.env.SPLIT_CLIENT_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
-      visitorId: await getVisitorIdByRequest(request)
+      visitorId: visitorId
     }
   });
 };
 
 const App = () => {
-  const { ENV, visitorId } = useLoaderData<typeof loader>();
+  const { ENV } = useLoaderData<typeof loader>();
+
   return (
     <html lang="en">
       <head>

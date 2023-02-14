@@ -1,21 +1,22 @@
-# We don't want lockfiles in stacks, as people could use a different package manager
-# This part will be removed by `remix.init`
+# No IDE specific files should ever make it into the repo
 .idea
 .vscode
-.cache
-dist
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-pnpm-lock.yml
 
+dist
+reports
 node_modules
 
+.cache
+server/index.js
+server/index.js.map
+public/build
 preferences.arc
 sam.json
 sam.yaml
 .env
 
-/cypress/screenshots
-/cypress/videos
-tmp
+# Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
+# dependencies are used when creating a new project.
+pnpm-lock.yaml
+package-lock.json
+yarn.lock

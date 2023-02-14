@@ -1,4 +1,3 @@
-#
 # Lefthook
 #
 # Skip lefthook execution:
@@ -16,8 +15,14 @@ commit-msg:
   commands:
     lint-commit-msg:
       run: npx commitlint --edit
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: pnpm lint
+    test:
+      run: pnpm report
 post-merge:
   commands:
     install-deps-postmerge:
-      glob: "{package.json}"
       run: pnpm install

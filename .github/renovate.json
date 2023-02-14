@@ -23,7 +23,9 @@
         "digest"
       ],
       "automerge": true,
-      "semanticCommitType": "chore"
+      "semanticCommitType": "chore",
+      "groupName": "all dev-dependencies",
+      "groupSlug": "all-dev-dependencies"
     },
     {
       "matchDepTypes": [
@@ -43,7 +45,9 @@
         "minor"
       ],
       "automerge": true,
-      "semanticCommitType": "fix"
+      "semanticCommitType": "fix",
+      "groupName": "all main dependencies",
+      "groupSlug": "all-main-dependencies"
     }
   ],
   "schedule": [

@@ -1,13 +1,14 @@
 @app
-trance-stack-template
+repl-app-slug
 
 @http
 /*
   method any
-  src dist/server
+  src server
 
 @static
-folder dist/static
 
-@sandbox
-livereload true
+@aws
+cors *
+# profile default
+region eu-west-2

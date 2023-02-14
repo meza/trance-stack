@@ -1,4 +1,4 @@
-# Remix Trance Stack
+# REPL_APP_NAME
 
 ![The Remix Trance Stack](https://armadamusic.imgix.net/news/Trance-Music.jpg?auto=format&crop=focalpoint&fit=cover&w=1200)
 
@@ -11,23 +11,22 @@ npx create-remix --template meza/trace-stack
 ## What's planned for the stack
 
 - [ ] i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
-- [ ] [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
+- [x] [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
 - [ ] [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
 - [ ] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
-- [x] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
-- [ ] End-to-end testing with [Cypress](https://cypress.io)
-- [ ] Local third party request mocking with [MSW](https://mswjs.io)
+- [ ] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
 - [ ] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- [ ] Linting with [ESLint](https://eslint.org)
-- [ ] Static Types with [TypeScript](https://typescriptlang.org)
+- [x] Linting with [ESLint](https://eslint.org)
+- [x] Static Types with [TypeScript](https://typescriptlang.org)
 - [x] PNPM for package management
-- [x] [act](https://github.com/nektos/act) to test GitHub Actions locally
+- [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally
 
 ---
 
 > ## A note on lockfiles
 >
-> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of dependencies are used when creating a new project.
+> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
+> dependencies are used when creating a new project.
 
 ---
 
@@ -35,81 +34,25 @@ Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --
 
 ## Development
 
-- Validate the app has been set up properly (optional):
+### Setup
 
-  ```sh
-  pnpm validate
-  ```
+This stack uses [pnpm](https://pnpm.io/) for package management. If you don't have it installed, you can install it
+with:
 
-- Start dev server:
+```sh
+npmx pnpm i
+```
 
-  ```sh
-  pnpm dev
-  ```
+In order to make thing work locally, create a file called `.env` in the root of the project and add the following:
 
-This starts your app in development mode, rebuilding assets on file changes.
+```sh
+NODE_ENV=development
+```
 
-### Relevant code:
+### Running
 
-This is a pretty a basic Hello World app with all the bells and whistles of a modern production app.
+- Start the dev server:
 
-Go to `src/routes/index.tsx` and start creating your app
-
-### Test github actions locally
-
-Install [act](https://github.com/nektos/act#installation-through-package-managers) and then run `act` in the root of the project.
-
-## Deployment
-
-This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments. By default, Arc will deploy to the `us-west-2` region, if you wish to deploy to a different region, you'll need to change your [`app.arc`](https://arc.codes/docs/en/reference/project-manifest/aws)
-
-Prior to your first deployment, you'll need to do a few things:
-
-- Create a new [GitHub repo](https://repo.new)
-
-- [Sign up](https://portal.aws.amazon.com/billing/signup#/start) and login to your AWS account
-
-- Add `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to [your GitHub repo's secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets). Go to your AWS [security credentials](https://console.aws.amazon.com/iam/home?region=us-west-2#/security_credentials) and click on the "Access keys" tab, and then click "Create New Access Key", then you can copy those and add them to your repo's secrets.
-
-- Along with your AWS credentials, you'll also need to give your CloudFormation a `SESSION_SECRET` variable of its own for both staging and production environments, as well as an `ARC_APP_SECRET` for Arc itself.
-
-  ```sh
-  npx arc env --add --env staging ARC_APP_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env staging SESSION_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env production ARC_APP_SECRET $(openssl rand -hex 32)
-  npx arc env --add --env production SESSION_SECRET $(openssl rand -hex 32)
-  ```
-
-  If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
-
-## Where do I find my CloudFormation?
-
-You can find the CloudFormation template that Architect generated for you in the sam.yaml file.
-
-To find it on AWS, you can search for [CloudFormation](https://console.aws.amazon.com/cloudformation/home) (make sure you're looking at the correct region!) and find the name of your stack (the name is a PascalCased version of what you have in `app.arc`, so by default it's RemixGrungeStackStaging and RemixGrungeStackProduction) that matches what's in `app.arc`, you can find all of your app's resources under the "Resources" tab.
-
-## GitHub Actions
-
-We use GitHub Actions for continuous integration and deployment. Anything that gets into the `main` branch will be deployed to production after running tests/build/etc. Anything in the `dev` branch will be deployed to staging.
-
-## Testing
-
-### Cypress
-
-We use Cypress for our End-to-End tests in this project. You'll find those in the `cypress` directory. As you make changes, add to an existing file or create a new file in the `cypress/e2e` directory to test your changes.
-
-We use [`@testing-library/cypress`](https://testing-library.com/cypress) for selecting elements on the page semantically.
-
-To run these tests in development, run `npm run test:e2e:dev` which will start the dev server for the app as well as the Cypress client. Make sure the database is running in docker as described above.
-
-### Vitest
-
-For lower level tests of utilities and individual components, we use `vitest`. We have DOM-specific assertion helpers via [`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
-
-### Type Checking
-
-This project uses TypeScript. It's recommended to get TypeScript set up for your editor to get a really great in-editor experience with type checking and auto-complete. To run type checking across the whole project, run `npm run typecheck`.
-
-### Linting
-
-This project uses ESLint for linting. That is configured in `.eslintrc.js`.
+```sh
+pnpm dev
+```

@@ -10,7 +10,6 @@ import {
 } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { getVisitorIdByRequest } from '~/session.server';
-import React from 'react';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';

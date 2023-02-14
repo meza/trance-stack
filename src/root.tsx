@@ -12,6 +12,9 @@ import { json } from '@remix-run/node';
 import { getVisitorIdByRequest } from '~/session.server';
 import React from 'react';
 import splitClient from '~/split.server';
+import styles from './styles/app.css';
+import darkStyles from './styles/dark.css';
+import lightStyles from './styles/light.css';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -21,6 +24,9 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
+    { rel: 'stylesheet', href: lightStyles },
+    { rel: 'stylesheet', href: darkStyles, media: '(prefers-color-scheme: dark)' },
+    { rel: 'stylesheet', href: styles },
     { rel: 'icon', href: '/_static/favicon.ico', type: 'image/x-icon' }
   ];
 };

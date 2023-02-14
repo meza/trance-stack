@@ -2,3 +2,5 @@ remix.init
 node_modules
 dist
 reports
+postcss.config.js
+remix.config.js

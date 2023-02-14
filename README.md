@@ -56,3 +56,26 @@ NODE_ENV=development
 ```sh
 pnpm dev
 ```
+
+### CSS
+
+We're using vanilla CSS with PostCSS for the stack.
+You can add your own CSS files to the `<projectRoot>/styles` directory.
+They will be automagically picked up and transformed by PostCSS.
+
+PostCSS writes the transformed CSS files into the `src/styles` directory and this is where you should import them
+from in your components.
+
+With Remix, you need to include these styles in the links function of your routes.
+
+```js
+import styles from './styles/app.css';
+
+export const links: LinksFunction = () => {
+  return [
+    { rel: 'stylesheet', href: lightStyles }
+  ];
+};
+```
+
+Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#postcsss) works.

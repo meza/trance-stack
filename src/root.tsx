@@ -40,10 +40,18 @@ export const loader: LoaderFunction = async ({ request }) => {
       mixpanelToken: process.env.MIXPANEL_TOKEN,
       mixpanelApi: process.env.MIXPANEL_API,
       splitToken: process.env.SPLIT_CLIENT_TOKEN,
+      cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: visitorId
     }
   });
+};
+
+const CookieYes = (props: { isProduction: boolean, token: string }) => {
+  if (props.isProduction) {
+    return <script id="cookieyes" type="text/javascript" src={`https://cdn-cookieyes.com/client_data/${props.token}/script.js`}></script>;
+  }
+  return <></>;
 };
 
 const App = () => {
@@ -54,6 +62,7 @@ const App = () => {
       <head>
         <Meta/>
         <Links/>
+        <CookieYes isProduction={ENV.isProduction} token={ENV.cookieYesToken}/>
       </head>
       <body>
         <script

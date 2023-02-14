@@ -10,7 +10,6 @@ import {
 } from '@remix-run/react';
 import { json } from '@remix-run/node';
 import { getVisitorIdByRequest } from '~/session.server';
-import React from 'react';
 import splitClient from '~/split.server';
 
 export const meta: MetaFunction = () => ({

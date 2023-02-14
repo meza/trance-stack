@@ -26,6 +26,11 @@ const getSession = async (request: Request) => {
   return sessionStorage.getSession(cookie);
 };
 
+export const getVisitorIdByRequest = async (request: Request) => {
+  const session = await getSession(request);
+  return getVisitorId(session);
+};
+
 const createUserSession = async (request: Request) => {
 
   const session = await getSession(request);

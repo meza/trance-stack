@@ -1,8 +1,9 @@
 import type { EntryContext } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
 import { renderToString } from 'react-dom/server';
+import { createUserSession } from '~/session.server';
 
-export default (
+export default async (
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
@@ -13,6 +14,7 @@ export default (
   );
 
   responseHeaders.set('Content-Type', 'text/html');
+  responseHeaders.set('Set-Cookie', await createUserSession(request));
 
   return new Response('<!DOCTYPE html>' + markup, {
     headers: responseHeaders,

@@ -4,7 +4,7 @@ import { hydrateRoot } from 'react-dom/client';
 import mixpanel from 'mixpanel-browser';
 
 const MixPanel = () => {
-  const { mixpanelToken, isProduction, mixpanelApi } = (window as any).ENV;
+  const { mixpanelToken, isProduction, mixpanelApi, visitorId } = (window as any).ENV;
 
   useEffect(() => {
     mixpanel.init(mixpanelToken, {
@@ -13,8 +13,9 @@ const MixPanel = () => {
       // eslint-disable-next-line camelcase
       api_host: mixpanelApi
     });
+    mixpanel.identify(visitorId);
     mixpanel.track('Page View');
-  }, [mixpanelToken, isProduction, mixpanelApi]);
+  }, [mixpanelToken, isProduction, mixpanelApi, visitorId]);
 
   return <></>;
 };
@@ -24,7 +25,7 @@ const hydrate = () => {
     hydrateRoot(
       document,
       <StrictMode>
-        <MixPanel/>
+        <MixPanel />
         <RemixBrowser/>
       </StrictMode>
     );

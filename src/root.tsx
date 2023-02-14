@@ -1,4 +1,4 @@
-import type { MetaFunction, LinksFunction } from '@remix-run/node';
+import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
 
 import {
   Links,
@@ -9,6 +9,7 @@ import {
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
 import { json } from '@remix-run/node';
+import { getVisitorIdByRequest } from '~/session.server';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -22,19 +23,20 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
   return json({
     ENV: {
       hotjarId: process.env.HOTJAR_ID,
       mixpanelToken: process.env.MIXPANEL_TOKEN,
       mixpanelApi: process.env.MIXPANEL_API,
-      isProduction: process.env.NODE_ENV === 'production'
+      isProduction: process.env.NODE_ENV === 'production',
+      visitorId: await getVisitorIdByRequest(request)
     }
   });
 };
 
 const App = () => {
-  const { ENV } = useLoaderData<typeof loader>();
+  const { ENV, visitorId } = useLoaderData<typeof loader>();
   return (
     <html lang="en">
       <head>
@@ -59,6 +61,7 @@ const App = () => {
             r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
             a.appendChild(r);
           })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          hj('identify', window.ENV.visitorId);
           `
           }}
         />

@@ -2,11 +2,16 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "run-s build:css build:remix",
+    "build:remix": "remix build",
+    "build:css": "postcss styles --base styles --dir src/styles --env production",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox",
-    "dev": "remix build && run-p \"dev:*\"",
-    "lint": "eslint --ext .ts,.tsx,.json src",
+    "dev:css": "postcss styles --base styles --dir src/styles",
+    "dev": "run-p \"dev:css -w\" dev:remix dev:arc",
+    "lint": "run-p \"lint:*\"",
+    "lint:css": "stylelint styles/**/*.css",
+    "lint:eslint": "eslint --ext .ts,.tsx,.json src",
     "prepare": "lefthook install",
     "report": "exit 0",
     "start": "cross-env NODE_ENV=production arc sandbox",
@@ -38,6 +43,10 @@
     "@types/react-dom": "^18.0.8",
     "@typescript-eslint/eslint-plugin": "5.51.0",
     "@typescript-eslint/parser": "5.51.0",
+    "autoprefixer": "^10.4.13",
+    "colorguard": "^1.2.1",
+    "cssnano": "^5.1.14",
+    "doiuse": "^4.4.1",
     "eslint": "^8.27.0",
     "eslint-config-tailored-tunes": "5.0.2",
     "eslint-plugin-json": "3.1.0",
@@ -45,7 +54,31 @@
     "lefthook": "^1.2.8",
     "npm-run-all": "^4.1.5",
     "pnpm": "^7.27.0",
+    "postcss": "^8.4.21",
+    "postcss-advanced-variables": "^3.0.1",
+    "postcss-cli": "^10.1.0",
+    "postcss-mixins": "^9.0.4",
+    "postcss-nested": "^6.0.0",
+    "postcss-preset-env": "^8.0.1",
+    "postcss-reporter": "^7.0.5",
+    "postcss-scss": "^4.0.6",
+    "postcss-sorting": "^8.0.1",
+    "stylelint": "^15.1.0",
+    "stylelint-config-standard": "^30.0.1",
+    "stylelint-order": "^6.0.2",
     "typescript": "^4.8.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "commitlint": {
     "extends": [

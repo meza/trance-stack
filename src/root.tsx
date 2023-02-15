@@ -9,7 +9,7 @@ import {
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
 import { json } from '@remix-run/node';
-import { getVisitorIdByRequest } from '~/session.server';
+import { getVisitorIdFromRequest } from '~/session.server';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
@@ -33,7 +33,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const [visitorId, locale] = await Promise.all([
-    getVisitorIdByRequest(request),
+    getVisitorIdFromRequest(request),
     remixI18next.getLocale(request),
     splitClient.ready()
   ]);

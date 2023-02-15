@@ -1,3 +1,5 @@
+const { readGitignoreFiles } = require('eslint-gitignore');
+
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   env: {
@@ -30,15 +32,51 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
-    project: './tsconfig.json'
+    sourceType: 'module',
+    ecmaVersion: 'latest',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    project: ['./tsconfig.json', './.storybook/tsconfig.json']
   },
+  settings: {
+    jest: {
+      version: 28,
+    },
+  },
+  ignorePatterns: readGitignoreFiles({ cwd: __dirname }),
   plugins: [
     'json',
     '@typescript-eslint'
   ],
   root: true,
   rules: {
+    'import/order': [
+      2,
+      {
+        alphabetize: {
+          caseInsensitive: false,
+          order: 'asc',
+        },
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'type',
+        ],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['type'],
+      },
+    ],
     'no-continue': 'off',
     'dot-notation': 'error',
     '@typescript-eslint/dot-notation': 'error',

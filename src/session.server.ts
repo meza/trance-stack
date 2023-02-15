@@ -1,44 +1,33 @@
-import { createCookieSessionStorage, Session } from '@remix-run/node'; // or cloudflare/deno
+import { getSessionStorage } from '~/sessionStorage.server';
+import type { Session } from '@remix-run/node';
 
-const sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: '__session',
-
-    httpOnly: true,
-    maxAge: 60,
-    path: '/',
-    sameSite: 'lax',
-    secrets: [process.env.SESSION_SECRET || 'secret'],
-    secure: process.env.NODE_ENV === 'production'
+export const getVisitorId = (session: Session) => {
+  const existingId = session.get('visitorId');
+  if (existingId) {
+    return existingId;
   }
-});
+  const newId = crypto.randomUUID();
+  session.set('visitorId', newId);
 
-export const getVisitorId = async (session: Session) => {
-  if (!session.get('visitorId')) {
-    session.set('visitorId', crypto.randomUUID());
-  }
-
-  return session.get('visitorId');
+  return newId;
 };
 
-const getSession = async (request: Request) => {
+export const getSessionFromRequest = async (request: Request) => {
   const cookie = request.headers.get('Cookie');
-  return sessionStorage.getSession(cookie);
+  return getSessionStorage().getSession(cookie);
 };
 
-export const getVisitorIdByRequest = async (request: Request) => {
-  const session = await getSession(request);
+export const getVisitorIdFromRequest = async (request: Request) => {
+  const session = await getSessionFromRequest(request);
   return getVisitorId(session);
 };
 
-const createUserSession = async (request: Request) => {
+export const createUserSession = async (request: Request) => {
 
-  const session = await getSession(request);
-  await getVisitorId(session);
+  const session = await getSessionFromRequest(request);
+  getVisitorId(session);
 
-  return await sessionStorage.commitSession(session, {
+  return await getSessionStorage().commitSession(session, {
     maxAge: 2147483647 // 31 Dec 2037
   });
 };
-
-export { createUserSession, getSession };

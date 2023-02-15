@@ -2,9 +2,6 @@
 .idea
 .vscode
 
-# PostCSS generates the styles here for remix to then pick it up and bundle it
-src/styles
-
 dist
 reports
 node_modules

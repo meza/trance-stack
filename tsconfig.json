@@ -1,9 +1,5 @@
 {
-  "include": [
-    "remix.env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": ["./*", "src", "test", "types"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "isolatedModules": true,
@@ -16,15 +12,21 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
+    "rootDir": ".",
     "paths": {
       "~/*": ["./src/*"],
       "@test": ["./test"],
       "@test/*": ["./test/*"],
       "@styles": ["./src/styles"],
-      "@styles/*": ["./src/styles/*"],
+      "@styles/*": ["./src/styles/*"]
     },
-
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    },
+    "require": ["reflect-metadata", "tsconfig-paths/register"]
   }
 }

@@ -75,18 +75,6 @@ export default async (
     );
     setTimeout(abort, ABORT_DELAY);
   });
-
-  // const markup = renderToString(
-  //   <RemixServer context={remixContext} url={request.url} />
-  // );
-  //
-  // responseHeaders.set('Content-Type', 'text/html');
-  // responseHeaders.set('Set-Cookie', await createUserSession(request));
-  //
-  // return new Response('<!DOCTYPE html>' + markup, {
-  //   headers: responseHeaders,
-  //   status: responseStatusCode
-  // });
 };
 
 export const handleDataRequest = (

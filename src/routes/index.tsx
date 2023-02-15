@@ -4,6 +4,7 @@ import { getVisitorIdByRequest } from '~/session.server';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Features } from '~/features';
+import { Hello } from '~/components/Hello';
 
 export const loader: LoaderFunction = async ({ request }) => {
   await splitClient.ready();
@@ -18,7 +19,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default () => {
   const { serverTreatment } = useLoaderData<typeof loader>();
   if (serverTreatment === 'on') {
-    return <div>Hello World!</div>;
+    return <Hello/>;
   }
   return <div>Goodbye World!</div>;
 };

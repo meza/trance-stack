@@ -1,0 +1,17 @@
+import { {{pascalCase name}} } from './{{pascalCase name}}';
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
+
+export default {
+  title: 'Components/{{pascalCase name}}',
+  component: {{pascalCase name}},
+  parameters: {
+    // layout: 'centered', // or 'fullscreen' or 'padded' (default)
+  },
+} as ComponentMeta<typeof {{pascalCase name}}>;
+
+const Template: ComponentStory<typeof {{pascalCase name}}> = (args) => <{{pascalCase name}} {...args} />;
+
+export const Standard = Template.bind({});
+Standard.args = {
+  children: 'Child content',
+};

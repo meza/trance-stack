@@ -4,3 +4,4 @@ dist
 reports
 postcss.config.js
 remix.config.js
+plopfile.js

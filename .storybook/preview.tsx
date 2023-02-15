@@ -1,4 +1,5 @@
 import { themes } from '@storybook/theming';
+import i18n from '@test/i18next';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -21,12 +22,10 @@ export const parameters = {
     theme: themes.dark,
   },
   backgrounds: { disable: true },
-  //i18n,
+  i18n,
   locale: 'en',
   locales: {
-    en: 'English',
-    fr: 'Français',
-    es: 'Español',
+    en: 'English'
   },
   themes: {
     default: 'dark',

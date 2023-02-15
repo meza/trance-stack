@@ -7,6 +7,7 @@ const storybookConfig: StorybookConfig = {
   addons: [
     '@storybook/addon-a11y',
     '@storybook/addon-links',
+    'storybook-react-i18next',
     '@storybook/addon-essentials',
     // 'storybook-addon-themes', // ignore until we figure out proper theme switching
     {

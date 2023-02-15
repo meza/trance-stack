@@ -1,0 +1,26 @@
+import { ReactNode } from 'react';
+
+export interface {{pascalCase name}}Props {
+  children: ReactNode;
+}
+
+/**
+`import { {{pascalCase name}} } from '~/components';`
+
+The `{{pascalCase name}}` component... (What does the {{pascalCase name}} component do?)
+
+_Usage:_
+
+```jsx
+<{{pascalCase name}}>
+  Child content
+</{{pascalCase name}}>
+```
+**/
+export const {{pascalCase name}} = ({ children }: {{pascalCase name}}Props) => {
+  return (
+    <{{pascalCase name}}>
+      {children}
+    </{{pascalCase name}}>
+  );
+};

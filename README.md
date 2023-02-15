@@ -1,5 +1,9 @@
 # REPL_APP_NAME
 
+> ### Issues to be aware of
+>
+> - https://github.com/storybookjs/storybook/issues/19055#issuecomment-1327944959
+
 ![The Remix Trance Stack](https://armadamusic.imgix.net/news/Trance-Music.jpg?auto=format&crop=focalpoint&fit=cover&w=1200)
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
@@ -19,6 +23,9 @@ npx create-remix --template meza/trace-stack
 - [x] Linting with [ESLint](https://eslint.org)
 - [x] Static Types with [TypeScript](https://typescriptlang.org)
 - [x] PNPM for package management
+- [x] [Storybook](https://storybook.js.org) for component development
+- [x] [Cookieyes](cookieyes.com) for cookie consent
+- [x] [Split](https://split.io) for feature flags
 - [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally
 
 ---

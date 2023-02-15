@@ -12,9 +12,16 @@
     "lint": "run-p \"lint:*\"",
     "lint:css": "stylelint styles/**/*.css",
     "lint:eslint": "eslint --ext .ts,.tsx,.json src",
+    "new": "plop",
+    "new:component": "plop component",
+    "new:util": "plop util",
+    "new:hook": "plop hook",
     "prepare": "lefthook install",
     "report": "exit 0",
     "start": "cross-env NODE_ENV=production arc sandbox",
+    "storybook": "run-s dev:css && run-p \"dev:css -w\" storybook:serve",
+    "storybook:serve": "start-storybook -p 6005",
+    "storybook:build": "run-s dev:css build-storybook",
     "typecheck": "tsc"
   },
   "dependencies": {
@@ -32,15 +39,29 @@
   },
   "devDependencies": {
     "@architect/architect": "^10.7.2",
+    "@babel/core": "^7.20.12",
     "@commitlint/cli": "17.4.3",
     "@commitlint/config-conventional": "17.4.3",
     "@commitlint/prompt-cli": "17.4.3",
     "@meza/adr-tools": "^1.0.10",
-    "@remix-run/dev": "*",
-    "@remix-run/eslint-config": "*",
+    "@remix-run/dev": "^1.12.0",
+    "@remix-run/eslint-config": "^1.12.0",
+    "@storybook/addon-a11y": "^6.5.16",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-docs": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/addons": "^6.5.16",
+    "@storybook/builder-webpack5": "^6.5.16",
+    "@storybook/manager-webpack5": "^6.5.16",
+    "@storybook/react": "^6.5.16",
+    "@storybook/testing-library": "^0.0.13",
+    "@storybook/theming": "^6.5.16",
     "@types/mixpanel-browser": "^2.38.1",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "5.52.0",
     "@typescript-eslint/parser": "5.52.0",
     "autoprefixer": "^10.4.13",
@@ -53,20 +74,24 @@
     "eslint-plugin-security": "1.7.1",
     "lefthook": "^1.2.8",
     "npm-run-all": "^4.1.5",
+    "plop": "^3.1.2",
     "pnpm": "^7.27.0",
     "postcss": "^8.4.21",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-cli": "^10.1.0",
-    "postcss-mixins": "^9.0.4",
     "postcss-nested": "^6.0.0",
     "postcss-preset-env": "^8.0.1",
     "postcss-reporter": "^7.0.5",
     "postcss-scss": "^4.0.6",
     "postcss-sorting": "^8.0.1",
+    "require-from-string": "^2.0.2",
+    "storybook-addon-themes": "^6.1.0",
     "stylelint": "^15.1.0",
     "stylelint-config-standard": "^30.0.1",
     "stylelint-order": "^6.0.2",
-    "typescript": "^4.8.4"
+    "tsconfig-paths-webpack-plugin": "^4.0.0",
+    "typescript": "^4.8.4",
+    "webpack": "^5.75.0"
   },
   "browserslist": {
     "production": [
@@ -94,5 +119,10 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "pnpm": {
+    "overrides": {
+      "@storybook/react-docgen-typescript-plugin": "npm:react-docgen-typescript-plugin@1.0.2"
+    }
   }
 }

@@ -7,7 +7,6 @@ module.exports = (cfg) => {
     plugins: {
       'postcss-advanced-variables': {},
       'postcss-nested': {},
-      'postcss-mixins': {},
       'postcss-sorting': {},
       'postcss-preset-env': {},
       'colorguard': {},

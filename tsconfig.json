@@ -17,7 +17,9 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@styles": ["./src/styles"],
+      "@styles/*": ["./src/styles/*"],
     },
 
     // Remix takes care of building everything in `remix build`.

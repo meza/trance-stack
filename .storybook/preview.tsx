@@ -9,7 +9,7 @@ export const parameters = {
     },
   },
   docs: {
-    theme: themes.dark,
+    theme: themes.normal,
   },
   backgrounds: { disable: true },
   //i18n,

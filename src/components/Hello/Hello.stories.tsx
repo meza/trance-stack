@@ -8,4 +8,4 @@ export default {
 
 const Template: ComponentStory<typeof Hello> = (args) => <Hello/>;
 
-export const Standard = Template.bind({});
+export const basic = Template.bind({});

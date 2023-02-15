@@ -1,3 +1,9 @@
+import styles from '@styles/components/Hello/hello.css';
+
+export const links = () => [
+  { rel: 'stylesheet', href: styles }
+];
+
 /**
 `import { Hello } from '~/components';`
 
@@ -11,6 +17,6 @@ _Usage:_
 **/
 export const Hello = () => {
   return (
-    <div>Hello World!</div>
+    <div className={'hello'}>Hello World!</div>
   );
 };

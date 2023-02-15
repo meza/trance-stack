@@ -27,5 +27,12 @@ export const parameters = {
     en: 'English',
     fr: 'Français',
     es: 'Español',
+  },
+  themes: {
+    default: 'dark',
+    list: [
+      { name: 'dark', class: 'theme-dark', color: '#00aced' },
+      { name: 'light', class: 'theme-light', color: '#3b5998' }
+    ],
   }
 };

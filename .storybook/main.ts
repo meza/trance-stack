@@ -1,3 +1,4 @@
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { DefinePlugin } from 'webpack';
 import type { StorybookConfig } from '@storybook/react/types';
 
@@ -7,6 +8,7 @@ const storybookConfig: StorybookConfig = {
     '@storybook/addon-a11y',
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    // 'storybook-addon-themes', // ignore until we figure out proper theme switching
     {
       name: '@storybook/addon-docs',
       options: {
@@ -39,6 +41,7 @@ const storybookConfig: StorybookConfig = {
 
     if (config.resolve) {
       config.resolve.plugins = config.resolve.plugins || [];
+      config.resolve.plugins.push(new TsconfigPathsPlugin());
     }
 
     return config;

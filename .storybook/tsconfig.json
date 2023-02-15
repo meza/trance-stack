@@ -19,7 +19,9 @@
     "paths": {
       "~/*": ["../src/*"],
       "@test": ["../test"],
-      "@test/*": ["../test/*"]
+      "@test/*": ["../test/*"],
+      "@styles": ["../src/styles/"],
+      "@styles/*": ["../src/styles/*"]
     }
   },
   "ts-node": {

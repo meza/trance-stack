@@ -18,6 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
+      "@test": ["./test"],
+      "@test/*": ["./test/*"],
       "@styles": ["./src/styles"],
       "@styles/*": ["./src/styles/*"],
     },

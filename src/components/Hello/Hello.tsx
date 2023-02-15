@@ -1,4 +1,5 @@
 import styles from '@styles/components/Hello/hello.css';
+import { useTranslation } from 'react-i18next';
 
 export const links = () => [
   { rel: 'stylesheet', href: styles }
@@ -16,7 +17,8 @@ _Usage:_
 ```
 **/
 export const Hello = () => {
+  const { t } = useTranslation();
   return (
-    <div className={'hello'}>Hello World!</div>
+    <div className={'hello'}>{t('microcopy.helloWorld')}</div>
   );
 };

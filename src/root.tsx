@@ -14,6 +14,7 @@ import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
+import { remixI18next } from '~/i18n';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -31,8 +32,11 @@ export const links: LinksFunction = () => {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const visitorId = await getVisitorIdByRequest(request);
-  await splitClient.ready();
+  const [visitorId, locale] = await Promise.all([
+    getVisitorIdByRequest(request),
+    remixI18next.getLocale(request),
+    splitClient.ready()
+  ]);
   splitClient.track(visitorId, 'anonymous', 'page_view');
   return json({
     ENV: {
@@ -43,7 +47,8 @@ export const loader: LoaderFunction = async ({ request }) => {
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: visitorId
-    }
+    },
+    locale: locale
   });
 };
 
@@ -55,7 +60,7 @@ const CookieYes = (props: { isProduction: boolean, token: string }) => {
 };
 
 const App = () => {
-  const { ENV } = useLoaderData<typeof loader>();
+  const { ENV, locale } = useLoaderData<typeof loader>();
 
   return (
     <html lang="en">
@@ -86,7 +91,7 @@ const App = () => {
           `
           }}
         />
-        <Outlet/>
+        <Outlet context={{ locale: locale }}/>
         <ScrollRestoration/>
         <Scripts/>
         <LiveReload/>

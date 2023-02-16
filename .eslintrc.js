@@ -1,5 +1,3 @@
-const { readGitignoreFiles } = require('eslint-gitignore');
-
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   env: {
@@ -44,7 +42,6 @@ module.exports = {
       version: 28,
     },
   },
-  ignorePatterns: readGitignoreFiles({ cwd: __dirname }),
   plugins: [
     'json',
     '@typescript-eslint'

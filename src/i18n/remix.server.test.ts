@@ -18,7 +18,7 @@ describe('The remix i18n server module', () => {
     vi.resetModules();
   });
 
-  it('should work', async () => {
+  it('should not change unintentionally', async () => {
     const actual = await import('./remix.server');
     expect(actual.default).toEqual({ mocked:'remix-i18next' });
 
@@ -36,7 +36,7 @@ describe('The remix i18n server module', () => {
         },
         "i18next": {
           "backend": {
-            "loadPath": "./public/locales/{{lng}}/{{ns}}.json",
+            "loadPath": "../public/locales/{{lng}}/{{ns}}.json",
           },
         },
       }

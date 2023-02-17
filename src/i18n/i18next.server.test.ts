@@ -51,11 +51,14 @@ describe('The i18next server module', () => {
     expect(initCall).toMatchInlineSnapshot(`
       {
         "backend": {
-          "loadPath": "public/locales/{{lng}}/{{ns}}.json",
+          "loadPath": "../public/locales/{{lng}}/{{ns}}.json",
         },
-        "client": "config",
+        "debug": false,
+        "defaultNS": [],
+        "fallbackLng": "en",
         "lng": "en",
         "ns": undefined,
+        "supportedLngs": [],
       }
     `);
     expect(actual).toBe(ci);

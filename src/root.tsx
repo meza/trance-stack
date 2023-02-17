@@ -41,7 +41,7 @@ export const links: LinksFunction = () => {
 };
 
 export const handle = {
-  i18n: defaultNS
+  i18n: 'translation'
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   ]);
   splitClient.track(visitorId, 'anonymous', 'page_view');
   return json({
-    ENV: {
+    appConfig: {
       hotjarId: process.env.HOTJAR_ID,
       mixpanelToken: process.env.MIXPANEL_TOKEN,
       mixpanelApi: process.env.MIXPANEL_API,
@@ -73,22 +73,22 @@ const CookieYes = (props: { isProduction: boolean, token: string }) => {
 };
 
 const App = () => {
-  const { ENV, locale } = useLoaderData<typeof loader>();
+  const { appConfig, locale } = useLoaderData<typeof loader>();
 
   const { i18n } = useTranslation();
   useChangeLanguage(locale);
 
   return (
-    <html lang={locale} dir={i18n.dir()}>
+    <html lang={i18n.language} dir={i18n.dir()}>
       <head>
         <Meta/>
         <Links/>
-        <CookieYes isProduction={ENV.isProduction} token={ENV.cookieYesToken}/>
+        <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken}/>
       </head>
       <body>
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`
+            __html: `window.appConfig = ${JSON.stringify(appConfig)}`
           }}
         />
         <script
@@ -97,17 +97,17 @@ const App = () => {
           dangerouslySetInnerHTML={{
             __html: `(function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:window.ENV.hotjarId,hjsv:6};
+            h._hjSettings={hjid:window.appConfig.hotjarId,hjsv:6};
             a=o.getElementsByTagName('head')[0];
             r=o.createElement('script');r.async=1;
             r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
             a.appendChild(r);
           })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-          hj('identify', window.ENV.visitorId);
+          hj('identify', window.appConfig.visitorId);
           `
           }}
         />
-        <Outlet context={{ ENV: ENV, locale: locale }}/>
+        <Outlet context={{ appConfig: appConfig, locale: locale }}/>
         <ScrollRestoration/>
         <Scripts/>
         <LiveReload/>

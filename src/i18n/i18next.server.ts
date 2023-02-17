@@ -20,7 +20,7 @@ const init = async (
       lng: locale,
       ns: remixI18next.getRouteNamespaces(remixContext),
       backend: {
-        loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json')
+        loadPath: resolve('../public/locales/{{lng}}/{{ns}}.json')
       }
     });
   }

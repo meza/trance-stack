@@ -37,7 +37,14 @@ export default defineConfig({
     coverage: {
       excludeNodeModules: true,
       include: ['src/**/*.ts', 'src/**/*.tsx'],
-      exclude: ['**/__mocks__/**.*', '**/*.d.ts', '**/*.test.ts', '**/*.test.tsx'],
+      exclude: [
+        '**/__mocks__/**.*',
+        '**/*.d.ts',
+        '**/*.test.ts',
+        '**/*.test.tsx',
+        '**/*.stories.mdx',
+        '**/*.stories.tsx'
+      ],
       all: true,
       reportsDirectory: './reports/coverage/unit',
       reporter: coverageReporters,

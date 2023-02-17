@@ -18,16 +18,14 @@ export default async (
   remixContext: EntryContext
 ) => {
   const locale = remixContext.staticHandlerContext.loaderData.root.locale;
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const callbackName = isbot(request.headers.get('user-agent')) ? 'onAllReady' : 'onShellReady';
 
   // initialise stuff in parallel
-  const [i18nextInstance] = await Promise.all([
-    initServerI18n(locale, remixContext)
+  const [i18nextInstance, cookie] = await Promise.all([
+    initServerI18n(locale, remixContext),
+    createUserSession(request)
   ]);
-
-  const cookie = await createUserSession(request);
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  const callbackName = isbot(request.headers.get('user-agent')) ? 'onAllReady' : 'onShellReady';
 
   return new Promise((resolve, reject) => {
     let didError = false;

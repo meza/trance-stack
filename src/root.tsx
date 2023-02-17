@@ -1,5 +1,5 @@
-import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
 
+import { json } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -8,13 +8,13 @@ import {
   Scripts,
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
-import { json } from '@remix-run/node';
-import { getVisitorIdByRequest } from '~/session.server';
+import { remixI18next } from '~/i18n';
+import { getVisitorIdFromRequest } from '~/session.server';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
-import { remixI18next } from '~/i18n';
+import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -33,7 +33,7 @@ export const links: LinksFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }) => {
   const [visitorId, locale] = await Promise.all([
-    getVisitorIdByRequest(request),
+    getVisitorIdFromRequest(request),
     remixI18next.getLocale(request),
     splitClient.ready()
   ]);

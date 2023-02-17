@@ -10,8 +10,5 @@
   },
   "reportDescriptionlessDisables": true,
   "reportInvalidScopeDisables": true,
-  "reportNeedlessDisables": true,
-  "ignoreFiles": [
-    "src/styles/**/*"
-  ]
+  "reportNeedlessDisables": true
 }

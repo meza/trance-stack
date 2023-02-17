@@ -39,11 +39,11 @@ module.exports = {
         path: 'src/components/{{pascalCase name}}/{{pascalCase name}}.stories.tsx',
         templateFile: './generate/component/templates/story.hbs',
       },
-      // {
-      //   type: 'add',
-      //   path: 'src/components/{{pascalCase name}}/{{pascalCase name}}.test.tsx',
-      //   templateFile: './generate/component/templates/test.hbs',
-      // },
+      {
+        type: 'add',
+        path: 'src/components/{{pascalCase name}}/{{pascalCase name}}.test.tsx',
+        templateFile: './generate/component/templates/test.hbs',
+      },
       {
         type: 'modify',
         path: 'src/components/index.ts',

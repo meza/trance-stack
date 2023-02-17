@@ -31,11 +31,11 @@ module.exports = {
         path: 'src/utils/{{camelCase name}}/{{camelCase name}}.ts',
         templateFile: './generate/util/templates/function.hbs',
       },
-      // {
-      //   type: 'add',
-      //   path: 'src/utils/{{camelCase name}}/{{camelCase name}}.test.ts',
-      //   templateFile: './generate/util/templates/test.hbs',
-      // },
+      {
+        type: 'add',
+        path: 'src/utils/{{camelCase name}}/{{camelCase name}}.test.ts',
+        templateFile: './generate/util/templates/test.hbs',
+      },
       {
         type: 'add',
         path: 'src/utils/{{camelCase name}}/{{camelCase name}}.stories.mdx',

@@ -1,14 +1,14 @@
-import type { LoaderFunction } from '@remix-run/node';
-import splitClient from '~/split.server';
-import { getVisitorIdByRequest } from '~/session.server';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Features } from '~/features';
 import { Hello } from '~/components/Hello';
+import { Features } from '~/features';
+import { getVisitorIdFromRequest } from '~/session.server';
+import splitClient from '~/split.server';
+import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = async ({ request }) => {
   await splitClient.ready();
-  const visitorId = await getVisitorIdByRequest(request);
+  const visitorId = await getVisitorIdFromRequest(request);
   const serverTreatment = splitClient.getTreatment(visitorId, Features.HELLO);
 
   return json({

@@ -1,0 +1,16 @@
+import { screen, cleanup } from '@testing-library/react';
+import { describe, expect, it, afterEach } from 'vitest';
+import { renderWithi18n } from '@test';
+import { {{pascalCase name}} } from './{{pascalCase name}}';
+
+afterEach(() => {
+  cleanup();
+});
+
+describe('{{pascalCase name}}', () => {
+  it('should render as expected', () => {
+    renderWithi18n(<{{pascalCase name}}>Child content</{{pascalCase name}}>);
+    const component = screen.getByTestId('hub-{{kebabCase name}}');
+    expect(component).toBeInTheDocument();
+  });
+});

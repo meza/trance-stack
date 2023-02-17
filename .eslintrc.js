@@ -30,8 +30,17 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2022,
-    project: './tsconfig.json'
+    sourceType: 'module',
+    ecmaVersion: 'latest',
+    ecmaFeatures: {
+      jsx: true,
+    },
+    project: ['./tsconfig.json', './.storybook/tsconfig.json']
+  },
+  settings: {
+    jest: {
+      version: 28,
+    },
   },
   plugins: [
     'json',
@@ -39,6 +48,32 @@ module.exports = {
   ],
   root: true,
   rules: {
+    'import/order': [
+      2,
+      {
+        alphabetize: {
+          caseInsensitive: false,
+          order: 'asc',
+        },
+        groups: [
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index',
+          'type',
+        ],
+        pathGroups: [
+          {
+            pattern: 'react',
+            group: 'external',
+            position: 'before',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['type'],
+      },
+    ],
     'no-continue': 'off',
     'dot-notation': 'error',
     '@typescript-eslint/dot-notation': 'error',

@@ -1,0 +1,1 @@
+export { hasFeature } from './hasFeature';

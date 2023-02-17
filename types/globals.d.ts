@@ -16,3 +16,5 @@ declare global {
     locale: strin;
   }
 }
+
+export {};

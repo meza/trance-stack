@@ -22,3 +22,5 @@ export const Hello = () => {
     <div data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</div>
   );
 };
+
+export default Hello;

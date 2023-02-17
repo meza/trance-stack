@@ -17,14 +17,13 @@ export default async (
   responseHeaders: Headers,
   remixContext: EntryContext
 ) => {
-  const handoffData = JSON.parse(remixContext.serverHandoffString || '{}');
-  // access data from root loader
-  const { locale /* , user, flags, session */ } = handoffData.state.loaderData.root || { locale: 'en' };
+  const locale = remixContext.staticHandlerContext.loaderData.root.locale;
 
   // initialise stuff in parallel
   const [i18nextInstance] = await Promise.all([
     initServerI18n(locale, remixContext)
   ]);
+
   const cookie = await createUserSession(request);
   const isDevelopment = process.env.NODE_ENV === 'development';
 

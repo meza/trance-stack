@@ -1,4 +1,4 @@
-
+import { useEffect } from 'react';
 import { json } from '@remix-run/node';
 import {
   Links,
@@ -8,13 +8,22 @@ import {
   Scripts,
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
 import { remixI18next } from '~/i18n';
+import { defaultNS } from '~/i18n/i18n.config';
 import { getVisitorIdFromRequest } from '~/session.server';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
+
+export const useChangeLanguage = (locale: string) => {
+  const { i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(locale);
+  }, [locale, i18n]);
+};
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -29,6 +38,10 @@ export const links: LinksFunction = () => {
     { rel: 'stylesheet', href: styles },
     { rel: 'icon', href: '/_static/favicon.ico', type: 'image/x-icon' }
   ];
+};
+
+export const handle = {
+  i18n: defaultNS
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -62,8 +75,11 @@ const CookieYes = (props: { isProduction: boolean, token: string }) => {
 const App = () => {
   const { ENV, locale } = useLoaderData<typeof loader>();
 
+  const { i18n } = useTranslation();
+  useChangeLanguage(locale);
+
   return (
-    <html lang="en">
+    <html lang={locale} dir={i18n.dir()}>
       <head>
         <Meta/>
         <Links/>
@@ -91,7 +107,7 @@ const App = () => {
           `
           }}
         />
-        <Outlet context={{ locale: locale }}/>
+        <Outlet context={{ ENV: ENV, locale: locale }}/>
         <ScrollRestoration/>
         <Scripts/>
         <LiveReload/>

@@ -4,10 +4,16 @@ export const supportedLngs = ['en'];
 export const defaultNS = ['translation'];
 export const fallbackLng = 'en';
 
-export const getBaseClientConfig = (): InitOptions => ({
-  supportedLngs: ['en'],
+const baseConfig: InitOptions = {
+  supportedLngs: supportedLngs,
   fallbackLng: fallbackLng,
-  defaultNS: defaultNS,
+  defaultNS: defaultNS
+};
+
+export const getBaseClientConfig = (): InitOptions => ({
+  supportedLngs: baseConfig.supportedLngs,
+  fallbackLng: baseConfig.fallbackLng,
+  defaultNS: baseConfig.defaultNS,
   interpolation: { escapeValue: false },
   react: { useSuspense: false },
   detection: {
@@ -15,3 +21,5 @@ export const getBaseClientConfig = (): InitOptions => ({
     caches: []
   }
 });
+
+export default baseConfig;

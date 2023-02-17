@@ -1,19 +1,75 @@
 import { createCookieSessionStorage } from '@remix-run/node';
-import { describe, vi, it, expect } from 'vitest';
-import { getSessionStorage } from '~/sessionStorage.server';
+import { describe, vi, it, expect, beforeEach, afterEach } from 'vitest';
 
-vi.mock('@remix-run/node', () => {
-  return {
-    createCookieSessionStorage: vi.fn().mockReturnValue('mocked cookie')
-  };
-});
+vi.mock('@remix-run/node');
 
 describe('The session storage', () => {
-  it('return the configured one', () => {
+  const originalEnv = structuredClone(process.env);
+  beforeEach(() => {
+    vi.resetModules();
+    vi.resetAllMocks();
+  });
+
+  afterEach(() => {
+    process.env.SESSION_SECRET = originalEnv.SESSION_SECRET;
+    process.env.NODE_ENV = originalEnv.NODE_ENV;
+  });
+
+  it('returns the configured one', async () => {
+    delete process.env.SESSION_SECRET;
+    process.env.NODE_ENV = 'development';
+    vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
+    const { getSessionStorage } = await import ('~/sessionStorage.server');
     const actual = getSessionStorage();
     expect(actual).toEqual('mocked cookie');
 
+    const cookieSettings = vi.mocked(createCookieSessionStorage).mock.calls[0][0];
+
+    expect(cookieSettings).toMatchInlineSnapshot(`
+      {
+        "cookie": {
+          "httpOnly": true,
+          "maxAge": 60,
+          "name": "__session",
+          "path": "/",
+          "sameSite": "lax",
+          "secrets": [
+            "secret",
+          ],
+          "secure": false,
+        },
+      }
+    `);
+
     getSessionStorage(); //it only calls the mocked function once
     expect(createCookieSessionStorage).toHaveBeenCalledTimes(1);
+  });
+
+  it('configures the cookie correctly', async () => {
+    process.env.SESSION_SECRET = 'also-a-secret';
+    process.env.NODE_ENV = 'production';
+    vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
+    const { getSessionStorage } = await import ('~/sessionStorage.server');
+
+    getSessionStorage();
+
+    const cookieSettings = vi.mocked(createCookieSessionStorage).mock.calls[0][0];
+
+    expect(cookieSettings).toMatchInlineSnapshot(`
+      {
+        "cookie": {
+          "httpOnly": true,
+          "maxAge": 60,
+          "name": "__session",
+          "path": "/",
+          "sameSite": "lax",
+          "secrets": [
+            "also-a-secret",
+          ],
+          "secure": true,
+        },
+      }
+    `);
+
   });
 });

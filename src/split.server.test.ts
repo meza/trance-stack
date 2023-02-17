@@ -1,16 +1,23 @@
 import { SplitFactory } from '@splitsoftware/splitio/server';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@splitsoftware/splitio/server');
 
 describe('The split client', () => {
+  const originalEnv = structuredClone(process.env);
   beforeEach(async () => {
     vi.resetAllMocks();
     vi.resetModules();
   });
 
-  it('set the defaults', async () => {
+  afterEach(() => {
+    process.env.SPLIT_SERVER_TOKEN = originalEnv.SPLIT_SERVER_TOKEN;
+    process.env.NODE_ENV = originalEnv.NODE_ENV;
+  });
 
+  it('set the defaults', async () => {
+    delete process.env.SPLIT_SERVER_TOKEN;
+    process.env.NODE_ENV = 'production';
     vi.mocked(SplitFactory).mockReturnValue({
       client: vi.fn().mockReturnValue('client')
     } as never);
@@ -31,11 +38,8 @@ describe('The split client', () => {
   });
 
   it('set the environments', async () => {
-
-    vi.spyOn(process, 'env', 'get').mockReturnValue({
-      SPLIT_SERVER_TOKEN: 'token',
-      NODE_ENV: 'development'
-    });
+    process.env.SPLIT_SERVER_TOKEN = 'token';
+    process.env.NODE_ENV = 'development';
 
     vi.mocked(SplitFactory).mockReturnValue({
       client: vi.fn().mockReturnValue('client-2')

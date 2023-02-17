@@ -1,13 +1,13 @@
-import { RemixBrowser } from '@remix-run/react';
 import { startTransition, StrictMode, useEffect } from 'react';
-import { hydrateRoot } from 'react-dom/client';
-import mixpanel from 'mixpanel-browser';
-import { initClientI18n } from '~/i18n';
+import { RemixBrowser } from '@remix-run/react';
 import i18next from 'i18next';
+import mixpanel from 'mixpanel-browser';
+import { hydrateRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
+import { initClientI18n } from '~/i18n';
 
 const MixPanel = () => {
-  const { mixpanelToken, isProduction, mixpanelApi, visitorId } = (window as any).ENV;
+  const { mixpanelToken, isProduction, mixpanelApi, visitorId } = window.ENV;
 
   useEffect(() => {
     mixpanel.init(mixpanelToken, {

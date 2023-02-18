@@ -1,4 +1,38 @@
 html {
   background-color: var(--color-secondary);
   color: var(--color-primary);
+  height: 100dvh;
+  margin: 0;
+}
+
+body {
+  align-items: center;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: inherit;
+  justify-items: center;
+  margin: 0;
+}
+
+/**
+ * ----------------------------------------
+ * animation tracking-in-contract
+ * ----------------------------------------
+ */
+@keyframes tracking-in-contract {
+  0% {
+    filter: blur(12px);
+    letter-spacing: 1em;
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0.6;
+  }
+
+  100% {
+    filter: blur(0);
+    letter-spacing: normal;
+    opacity: 1;
+  }
 }

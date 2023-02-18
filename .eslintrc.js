@@ -43,6 +43,7 @@ module.exports = {
     },
   },
   plugins: [
+    'i18next',
     'json',
     '@typescript-eslint'
   ],

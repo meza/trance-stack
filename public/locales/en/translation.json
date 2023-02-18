@@ -1,5 +1,7 @@
 {
+  "hello": "Hello",
+  "world": "World",
   "microcopy": {
-    "helloWorld": "Hello World!"
+    "helloWorld": "$t(hello) $t(world)!"
   }
 }

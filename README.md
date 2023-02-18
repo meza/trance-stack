@@ -1,4 +1,14 @@
-# REPL_APP_NAME
+# TRANCE STACK
+
+## IGNORE THIS README FOR NOW, IT'S OUT OF DATE
+
+All you need to know for now is:
+```sh
+npx pnpm i
+pnpm dev
+```
+
+---
 
 > ### Issues to be aware of
 >

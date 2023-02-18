@@ -1,0 +1,11 @@
+// Vitest Snapshot v1
+
+exports[`The root module > when rendering the app > can expose the app config correctly 1`] = `
+<script
+  dangerouslySetInnerHTML={
+    {
+      "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\"}",
+    }
+  }
+/>
+`;

@@ -1,14 +1,20 @@
+/// <reference types="vite/client" />
 declare global {
+
+  interface AppConfig {
+    hotjarId: string;
+    mixpanelToken: string;
+    mixpanelApi: string;
+    splitToken: string;
+    cookieYesToken: string;
+    isProduction: boolean;
+    visitorId: string;
+  }
+
   interface Window {
-    ENV: {
-      hotjarId: string,
-      mixpanelToken: string,
-      mixpanelApi: string,
-      splitToken: string,
-      cookieYesToken: string,
-      isProduction: string,
-      visitorId: string
-    },
-    locale: string
+    appConfig: AppConfig;
+    locale: strin;
   }
 }
+
+export {};

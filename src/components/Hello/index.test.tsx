@@ -1,7 +1,7 @@
 import { screen, cleanup } from '@testing-library/react';
 import { vi, describe, expect, it, afterEach, beforeEach } from 'vitest';
 import { renderWithi18n } from '@test';
-import { Hello, links } from './Hello';
+import { Hello, links } from './index';
 
 vi.mock('./hello.css', () => ({ default: 'hello.css' }));
 
@@ -17,7 +17,14 @@ describe('Hello component', () => {
   it('should render as expected', () => {
     renderWithi18n(<Hello/>);
     const component = screen.getByTestId('greeting');
-    expect(component).toBeInTheDocument();
+    expect(component).toMatchInlineSnapshot(`
+      <h1
+        class="hello"
+        data-testid="greeting"
+      >
+        Hello World!
+      </h1>
+    `);
   });
 
   it('should link the correct stylesheets', () => {

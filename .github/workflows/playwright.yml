@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up node
-      uses: meza/action-setup-node-npm@main
+      uses: meza/action-setup-node-pnpm@main
       with:
         node-version: latest
         cache-name: 'playwright'

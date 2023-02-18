@@ -19,7 +19,7 @@ _Usage:_
 export const Hello = () => {
   const { t } = useTranslation();
   return (
-    <div data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</div>
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
   );
 };
 

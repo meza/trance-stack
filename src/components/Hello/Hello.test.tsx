@@ -17,7 +17,14 @@ describe('Hello component', () => {
   it('should render as expected', () => {
     renderWithi18n(<Hello/>);
     const component = screen.getByTestId('greeting');
-    expect(component).toBeInTheDocument();
+    expect(component).toMatchInlineSnapshot(`
+      <h1
+        class="hello"
+        data-testid="greeting"
+      >
+        Hello World!
+      </h1>
+    `);
   });
 
   it('should link the correct stylesheets', () => {

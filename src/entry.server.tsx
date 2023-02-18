@@ -4,7 +4,7 @@ import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
 import { createUserSession } from '~/session.server';
-import { addSecurityHeaders } from '~/utils/securityHeaders';
+import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import type { EntryContext } from '@remix-run/node';
 
 export default async (
@@ -32,6 +32,7 @@ export default async (
   responseHeaders.set('Set-Cookie', cookie);
 
   addSecurityHeaders(responseHeaders, isDevelopment);
+  sanitizeHeaders(responseHeaders);
 
   return new Response('<!DOCTYPE html>' + markup, {
     status: responseStatusCode,

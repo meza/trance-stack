@@ -2,9 +2,12 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { hasFeature } from '~/hooks/hasFeature';
-import Root, { loader } from './index';
+import Root, { links, loader } from './index';
 
-vi.mock('~/components/Hello', () => ({ Hello: 'Hello' }));
+vi.mock('~/components/Hello', () => ({
+  Hello: 'Hello',
+  links: () => ['hello-links']
+}));
 vi.mock('~/hooks/hasFeature');
 vi.mock('@remix-run/react');
 vi.mock('@remix-run/node');
@@ -61,5 +64,13 @@ describe('The root route', () => {
         </div>
       `);
     });
+  });
+
+  it('surfaces the links of the underlying components', () => {
+    expect(links()).toMatchInlineSnapshot(`
+      [
+        "hello-links",
+      ]
+    `);
   });
 });

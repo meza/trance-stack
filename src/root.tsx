@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { json } from '@remix-run/node';
 import {
   Links,
@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { Cookieyes } from '~/components/Cookieyes';
 import { Hotjar } from '~/components/Hotjar';
+import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { getVisitorIdFromRequest } from '~/session.server';
@@ -20,13 +21,6 @@ import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
 import type { AppConfig } from '@remix-run/dev';
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
-
-export const useChangeLanguage = (locale: string) => {
-  const { i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(locale);
-  }, [locale, i18n]);
-};
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',

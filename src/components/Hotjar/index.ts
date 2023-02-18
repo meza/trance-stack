@@ -1,0 +1,1 @@
+export { Hotjar } from './Hotjar';

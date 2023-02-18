@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { json } from '@remix-run/node';
 import {
   Links,
@@ -9,6 +9,8 @@ import {
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
+import { Cookieyes } from '~/components/Cookieyes';
+import { Hotjar } from '~/components/Hotjar';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { getVisitorIdFromRequest } from '~/session.server';
@@ -16,6 +18,7 @@ import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
+import type { AppConfig } from '@remix-run/dev';
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
 
 export const useChangeLanguage = (locale: string) => {
@@ -41,7 +44,7 @@ export const links: LinksFunction = () => {
 };
 
 export const handle = {
-  i18n: 'translation'
+  i18n: defaultNS
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -50,7 +53,9 @@ export const loader: LoaderFunction = async ({ request }) => {
     remixI18next.getLocale(request),
     splitClient.ready()
   ]);
+
   splitClient.track(visitorId, 'anonymous', 'page_view');
+
   return json({
     appConfig: {
       hotjarId: process.env.HOTJAR_ID,
@@ -65,16 +70,18 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-const CookieYes = (props: { isProduction: boolean, token: string }) => {
-  if (props.isProduction) {
-    return <script id="cookieyes" type="text/javascript" src={`https://cdn-cookieyes.com/client_data/${props.token}/script.js`}></script>;
-  }
-  return <></>;
+const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `window.appConfig = ${JSON.stringify(props.appConfig)}`
+      }}
+    />
+  );
 };
 
 const App = () => {
   const { appConfig, locale } = useLoaderData<typeof loader>();
-
   const { i18n } = useTranslation();
   useChangeLanguage(locale);
 
@@ -83,30 +90,11 @@ const App = () => {
       <head>
         <Meta/>
         <Links/>
-        <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken}/>
+        <ExposeAppConfig appConfig={appConfig}/>
+        <Cookieyes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken}/>
+        <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId}/>
       </head>
       <body>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.appConfig = ${JSON.stringify(appConfig)}`
-          }}
-        />
-        <script
-          async
-          id="hotjar-tracker"
-          dangerouslySetInnerHTML={{
-            __html: `(function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:window.appConfig.hotjarId,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-          hj('identify', window.appConfig.visitorId);
-          `
-          }}
-        />
         <Outlet context={{ appConfig: appConfig, locale: locale }}/>
         <ScrollRestoration/>
         <Scripts/>

@@ -5,7 +5,7 @@ module.exports = {
   },
   serverBuildTarget: "arc",
   server: "./server.js",
-  ignoredRouteFiles: ["**/.*"],
+  ignoredRouteFiles: ["**/.*", "*.test.tsx"],
   appDirectory: "src"
   // assetsBuildDirectory: "dist",
   // serverBuildPath: "server/index.js",

@@ -11,12 +11,12 @@ const hydrate = () => {
     startTransition(() => {
       hydrateRoot(
         document,
-        <StrictMode>
+        <I18nextProvider i18n={i18next}>
           <Mixpanel/>
-          <I18nextProvider i18n={i18next}>
+          <StrictMode>
             <RemixBrowser/>
-          </I18nextProvider>
-        </StrictMode>
+          </StrictMode>
+        </I18nextProvider>
       );
     });
   });

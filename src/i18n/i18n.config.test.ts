@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, vi, expect } from 'vitest';
-import { supportedLngs } from '~/i18n/i18n.config';
 
 describe('The i18n config', () => {
   const originalEnv = structuredClone(process.env);

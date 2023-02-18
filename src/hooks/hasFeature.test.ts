@@ -2,7 +2,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { hasFeature } from '~/hooks/hasFeature';
 import { getVisitorIdFromRequest } from '~/session.server';
 import splitClient from '~/split.server';
-import type { Features } from '~/features';
 
 vi.mock('~/split.server');
 vi.mock('~/session.server');

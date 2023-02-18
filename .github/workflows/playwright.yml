@@ -22,7 +22,7 @@ jobs:
     - name: Set up test env
       run: mv .env.test .env
     - name: Run Playwright tests
-      run: pnpm exec playwright test
+      run: DEBUG=pw:webserver pnpm exec playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:

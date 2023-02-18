@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Hotjar } from '~/components/Hotjar/Hotjar';
+import { Hotjar } from './index';
 
 describe('Hotjar', () => {
   beforeEach(() => {

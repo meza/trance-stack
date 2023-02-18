@@ -1,9 +1,13 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Hello } from '~/components/Hello';
+import { Hello, links as helloLinks } from '~/components/Hello';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderFunction, LinksFunction } from '@remix-run/node';
+
+export const links: LinksFunction = () => ([
+  ...helloLinks()
+]);
 
 export const loader: LoaderFunction = async ({ request }) => {
   return json({

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import mixpanel from 'mixpanel-browser';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import Mixpanel, { Mixpanel as exportedMixpanel } from '~/components/Mixpanel/Mixpanel';
+import Mixpanel, { Mixpanel as exportedMixpanel } from '~/components/Mixpanel/index';
 
 vi.mock('react');
 vi.mock('mixpanel-browser');

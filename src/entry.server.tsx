@@ -1,15 +1,11 @@
-import { PassThrough } from 'stream';
 import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
-import isbot from 'isbot';
-import { renderToPipeableStream } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
 import { createUserSession } from '~/session.server';
-import { contentSecurityPolicy } from '~/utils/contentSecurityPolicy';
+import { addSecurityHeaders } from '~/utils/securityHeaders';
 import type { EntryContext } from '@remix-run/node';
-
-const ABORT_DELAY = 5000;
 
 export default async (
   request: Request,
@@ -19,7 +15,6 @@ export default async (
 ) => {
   const locale = remixContext.staticHandlerContext.loaderData.root.locale;
   const isDevelopment = process.env.NODE_ENV === 'development';
-  const callbackName = isbot(request.headers.get('user-agent')) ? 'onAllReady' : 'onShellReady';
 
   // initialise stuff in parallel
   const [i18nextInstance, cookie] = await Promise.all([
@@ -27,50 +22,20 @@ export default async (
     createUserSession(request)
   ]);
 
-  return new Promise((resolve, reject) => {
-    let didError = false;
-    const { pipe, abort } = renderToPipeableStream(
-      <I18nextProvider i18n={i18nextInstance}>
-        <RemixServer context={remixContext} url={request.url}/>
-      </I18nextProvider>,
-      {
-        [callbackName]: function () {
-          const body = new PassThrough();
-          const output = new PassThrough();
+  const markup = renderToString(
+    <I18nextProvider i18n={i18nextInstance}>
+      <RemixServer context={remixContext} url={request.url}/>
+    </I18nextProvider>
+  );
 
-          responseHeaders.set('Content-Type', 'text/html');
+  responseHeaders.set('Content-Type', 'text/html');
+  responseHeaders.set('Set-Cookie', cookie);
 
-          // OWASP headers
-          responseHeaders.set('X-Frame-Options', 'SAMEORIGIN');
-          responseHeaders.set(
-            'Content-Security-Policy',
-            contentSecurityPolicy(isDevelopment)
-          );
-          responseHeaders.set('X-Content-Type-Options', 'nosniff');
-          responseHeaders.set('X-Permitted-Cross-Domain-Policies', 'none');
-          responseHeaders.set('Referrer-Policy', 'origin-when-cross-origin');
-          responseHeaders.set('X-XSS-Protection', '0');
-          responseHeaders.set('Set-Cookie', cookie);
+  addSecurityHeaders(responseHeaders, isDevelopment);
 
-          resolve(
-            new Response(output, {
-              status: didError ? 500 : responseStatusCode,
-              headers: responseHeaders
-            })
-          );
-
-          pipe(body).pipe(output);
-        },
-        onShellError: function (err: unknown) {
-          reject(err);
-        },
-        onError: function (error: unknown) {
-          didError = true;
-          console.error(error);
-        }
-      }
-    );
-    setTimeout(abort, ABORT_DELAY);
+  return new Response('<!DOCTYPE html>' + markup, {
+    status: responseStatusCode,
+    headers: responseHeaders
   });
 };
 

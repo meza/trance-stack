@@ -6,21 +6,21 @@ export const links = () => [
 ];
 
 /**
-`import { Hello } from '~/components';`
+ `import { Hello } from '~/components';`
 
-The `Hello` component... (What does the Hello component do?)
+ The `Hello` component... (What does the Hello component do?)
 
-_Usage:_
+ _Usage:_
 
-```jsx
-<Hello/>
-```
-**/
+ ```jsx
+ <Hello/>
+ ```
+ **/
 export const Hello = () => {
   const { t } = useTranslation();
   return (
-    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld', { count: 2 })}</h1>
-  );
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
+);
 };
 
 export default Hello;

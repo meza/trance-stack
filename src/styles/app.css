@@ -13,3 +13,24 @@ body {
   justify-items: center;
   margin: 0;
 }
+
+/**
+ * ----------------------------------------
+ * animation tracking-in-contract
+ * ----------------------------------------
+ */
+@keyframes tracking-in-contract {
+  0% {
+    filter: blur(12px);
+    letter-spacing: 1em;
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.6;
+  }
+  100% {
+    filter: blur(0px);
+    letter-spacing: normal;
+    opacity: 1;
+  }
+}

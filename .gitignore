@@ -21,3 +21,6 @@ sam.yaml
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+/test-results/
+/playwright-report/
+/playwright/.cache/

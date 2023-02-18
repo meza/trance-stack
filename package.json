@@ -4,7 +4,7 @@
   "scripts": {
     "build": "run-s build:css build:remix",
     "build:remix": "remix build",
-    "dev:remix": "cross-env NODE_ENV=development remix watch",
+    "dev:remix": "cross-env NODE_ENV=development remix watch --debug",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox",
     "dev": "run-p dev:remix dev:arc",
     "lint": "run-p \"lint:*\"",

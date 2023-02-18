@@ -24,6 +24,8 @@ jobs:
       run: pnpm exec playwright install --with-deps
     - name: Set up test env
       run: mv .env.test .env
+    - name: Build
+      run: pnpm build
     - name: Run Playwright tests
       run: DEBUG=pw:webserver pnpm exec playwright test
     - uses: actions/upload-artifact@v3

@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - name: Set up node
+      uses: meza/action-setup-node-npm@main
       with:
-        node-version: 16
+        node-version: latest
+        cache-name: 'playwright'
     - name: Install dependencies
       run: pnpm install
     - name: Install Playwright Browsers

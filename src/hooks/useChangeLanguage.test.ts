@@ -13,6 +13,7 @@ describe('useChangeLanguage', () => {
   it('should set the correct dependencies for the useEffect', () => {
     const changeLanguageMock = vi.fn();
     const i18nMock = { changeLanguage: changeLanguageMock };
+    // @ts-ignore - there's something funky going on here with intellij/typescript
     vi.mocked(useTranslation).mockReturnValue({ i18n: i18nMock } as never);
     useChangeLanguage('en');
     const useEffectCalls = vi.mocked(useEffect).mock.calls[0];

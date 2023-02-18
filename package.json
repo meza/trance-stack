@@ -48,9 +48,9 @@
   "devDependencies": {
     "@architect/architect": "^10.7.2",
     "@babel/core": "^7.20.12",
-    "@commitlint/cli": "17.4.3",
-    "@commitlint/config-conventional": "17.4.3",
-    "@commitlint/prompt-cli": "17.4.3",
+    "@commitlint/cli": "17.4.4",
+    "@commitlint/config-conventional": "17.4.4",
+    "@commitlint/prompt-cli": "17.4.4",
     "@meza/adr-tools": "^1.0.10",
     "@remix-run/dev": "^1.13.0",
     "@remix-run/eslint-config": "^1.13.0",

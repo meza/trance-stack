@@ -1,8 +1,11 @@
+import { useLoaderData } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { getVisitorIdFromRequest } from '~/session.server';
 import splitClient from '~/split.server';
-import { handle, links, loader, meta } from './root';
+import app, { ExposeAppConfig, handle, links, loader, meta } from './root';
 
 vi.mock('~/session.server');
 vi.mock('~/i18n');
@@ -10,6 +13,9 @@ vi.mock('~/split.server');
 vi.mock('./styles/app.css', () => ({ default: 'app.css' }));
 vi.mock('./styles/dark.css', () => ({ default: 'dark.css' }));
 vi.mock('./styles/light.css', () => ({ default: 'light.css' }));
+vi.mock('@remix-run/react');
+vi.mock('react-i18next');
+vi.mock('~/hooks/useChangeLanguage');
 
 describe('The root module', () => {
   const originalEnv = structuredClone(process.env);
@@ -130,8 +136,102 @@ describe('The root module', () => {
       expect(getVisitorIdFromRequest).toHaveBeenCalledWith(request);
       expect(remixI18next.getLocale).toHaveBeenCalledWith(request);
       expect(splitClient.ready).toHaveBeenCalled();
-      expect(splitClient.track).toHaveBeenCalledWith('a-visitorId', 'anonymous', 'page_view')
+      expect(splitClient.track).toHaveBeenCalledWith('a-visitorId', 'anonymous', 'page_view');
 
+    });
+  });
+
+  describe('when rendering the app', () => {
+    const appConfig: AppConfig = {
+      hotjarId: 'a-hotjar-id',
+      mixpanelToken: 'a-mixpanel-token',
+      visitorId: 'a-visitor-id',
+      isProduction: true,
+      mixpanelApi: 'a-mixpanel-api',
+      splitToken : 'a-split-token',
+      cookieYesToken: 'a-cookieyes-token'
+    };
+
+    beforeEach(() => {
+      vi.mocked(useLoaderData).mockReturnValue({ appConfig: appConfig, locale: 'en' } as never);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore - weird stuff happening with the useTranslataion mocks
+      vi.mocked(useTranslation).mockReturnValue({ i18n: {
+        language: 'en',
+        dir: () => 'ltr'
+      } } as never);
+      vi.mocked(useChangeLanguage).mockReturnValue();
+    });
+
+    it('renders the app', () => {
+      const markup = app();
+      expect(markup).toMatchInlineSnapshot(`
+        <html
+          dir="ltr"
+          lang="en"
+        >
+          <head>
+            <Meta />
+            <Links />
+            <ExposeAppConfig
+              appConfig={
+                {
+                  "cookieYesToken": "a-cookieyes-token",
+                  "hotjarId": "a-hotjar-id",
+                  "isProduction": true,
+                  "mixpanelApi": "a-mixpanel-api",
+                  "mixpanelToken": "a-mixpanel-token",
+                  "splitToken": "a-split-token",
+                  "visitorId": "a-visitor-id",
+                }
+              }
+            />
+            <Cookieyes
+              isProduction={true}
+              token="a-cookieyes-token"
+            />
+            <Hotjar
+              hotjarId="a-hotjar-id"
+              visitorId="a-visitor-id"
+            />
+          </head>
+          <body>
+            <Outlet
+              context={
+                {
+                  "appConfig": {
+                    "cookieYesToken": "a-cookieyes-token",
+                    "hotjarId": "a-hotjar-id",
+                    "isProduction": true,
+                    "mixpanelApi": "a-mixpanel-api",
+                    "mixpanelToken": "a-mixpanel-token",
+                    "splitToken": "a-split-token",
+                    "visitorId": "a-visitor-id",
+                  },
+                  "locale": "en",
+                }
+              }
+            />
+            <ScrollRestoration />
+            <Scripts />
+            <spy />
+          </body>
+        </html>
+      `);
+    });
+
+    it('can expose the app config correctly', () => {
+      // eslint-disable-next-line new-cap
+      const markup = ExposeAppConfig({ appConfig: appConfig });
+      expect(markup).toMatchInlineSnapshot(`
+        <script
+          dangerouslySetInnerHTML={
+            {
+              "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\"}",
+            }
+          }
+        />
+      `);
     });
   });
 });

@@ -19,7 +19,6 @@ import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
-import type { AppConfig } from '@remix-run/dev';
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
 
 export const meta: MetaFunction = () => ({
@@ -64,7 +63,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
+export const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
   return (
     <script
       dangerouslySetInnerHTML={{

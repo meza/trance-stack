@@ -25,11 +25,13 @@ body {
     letter-spacing: 1em;
     opacity: 0;
   }
+
   40% {
     opacity: 0.6;
   }
+
   100% {
-    filter: blur(0px);
+    filter: blur(0);
     letter-spacing: normal;
     opacity: 1;
   }

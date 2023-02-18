@@ -7,7 +7,7 @@ declare global {
     mixpanelApi: string;
     splitToken: string;
     cookieYesToken: string;
-    isProduction: string;
+    isProduction: boolean;
     visitorId: string;
   }
 

@@ -5,6 +5,7 @@ test('has title', async ({ page }) => {
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/REPL_APP_NAME/);
+  await expect(page).toHaveScreenshot();
 });
 
 test('has hello world', async ({ page }) => {

@@ -20,7 +20,7 @@ export const Hello = () => {
   const { t } = useTranslation();
   return (
     <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
-);
+  );
 };
 
 export default Hello;

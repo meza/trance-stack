@@ -223,15 +223,7 @@ describe('The root module', () => {
     it('can expose the app config correctly', () => {
       // eslint-disable-next-line new-cap
       const markup = ExposeAppConfig({ appConfig: appConfig });
-      expect(markup).toMatchInlineSnapshot(`
-        <script
-          dangerouslySetInnerHTML={
-            {
-              "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\"}",
-            }
-          }
-        />
-      `);
+      expect(markup).toMatchSnapshot();
     });
   });
 });

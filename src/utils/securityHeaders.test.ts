@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { addSecurityHeaders, sanitizeHeaders, securityHeaders } from '~/utils/securityHeaders';
 
-
 describe('securityHeaders', () => {
   beforeEach(() => {
     vi.resetAllMocks();
@@ -16,41 +15,7 @@ describe('securityHeaders', () => {
     expect(headers).toStrictEqual(modifiedHeaders);
     expect(headers).toStrictEqual(existingHeaders);
 
-    expect(headers).toMatchInlineSnapshot(`
-      Headers {
-        Symbol(query): [
-          "content-security-policy",
-          "default-src 'self'; worker-src blob:; script-src 'self' 'unsafe-inline' https://api-eu.mixpanel.com https://api.mixpanel.com https://*.hotjar.com https://*.hotjar.io; connect-src 'self' 'unsafe-inline' https://api-eu.mixpanel.com https://api.mixpanel.com wss://*.hotjar.com https://*.hotjar.com https://*.hotjar.io ws://localhost:2222 ws://localhost:8002; img-src https: data: http:; frame-ancestors 'none'; frame-src https://api-eu.mixpanel.com https://api.mixpanel.com https://*.hotjar.com https://*.hotjar.io; style-src 'self' 'unsafe-inline';",
-          "cross-origin-embedder-policy",
-          "require-corp",
-          "cross-origin-opener-policy",
-          "same-origin",
-          "cross-origin-resource-policy",
-          "same-origin",
-          "origin-agent-cluster",
-          "?1",
-          "permissions-policy",
-          "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-          "referrer-policy",
-          "origin-when-cross-origin",
-          "strict-transport-security",
-          "max-age=15552000; includeSubDomains",
-          "x-content-type-options",
-          "nosniff",
-          "x-dns-prefetch-control",
-          "off",
-          "x-download-options",
-          "noopen",
-          "x-frame-options",
-          "SAMEORIGIN",
-          "x-permitted-cross-domain-policies",
-          "none",
-          "x-xss-protection",
-          "0",
-        ],
-        Symbol(context): null,
-      }
-    `);
+    expect(headers).toMatchSnapshot();
   });
 
   it('sets the correct security headers for prod', () => {
@@ -62,41 +27,7 @@ describe('securityHeaders', () => {
     expect(headers).toStrictEqual(modifiedHeaders);
     expect(headers).toStrictEqual(existingHeaders);
 
-    expect(headers).toMatchInlineSnapshot(`
-      Headers {
-        Symbol(query): [
-          "content-security-policy",
-          "default-src 'self'; worker-src blob:; script-src 'self' 'unsafe-inline' https://api-eu.mixpanel.com https://api.mixpanel.com https://*.hotjar.com https://*.hotjar.io; connect-src 'self' 'unsafe-inline' https://api-eu.mixpanel.com https://api.mixpanel.com wss://*.hotjar.com https://*.hotjar.com https://*.hotjar.io  ; img-src https: data: http:; frame-ancestors 'none'; frame-src https://api-eu.mixpanel.com https://api.mixpanel.com https://*.hotjar.com https://*.hotjar.io; style-src 'self' 'unsafe-inline';",
-          "cross-origin-embedder-policy",
-          "require-corp",
-          "cross-origin-opener-policy",
-          "same-origin",
-          "cross-origin-resource-policy",
-          "same-origin",
-          "origin-agent-cluster",
-          "?1",
-          "permissions-policy",
-          "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-          "referrer-policy",
-          "origin-when-cross-origin",
-          "strict-transport-security",
-          "max-age=15552000; includeSubDomains",
-          "x-content-type-options",
-          "nosniff",
-          "x-dns-prefetch-control",
-          "off",
-          "x-download-options",
-          "noopen",
-          "x-frame-options",
-          "SAMEORIGIN",
-          "x-permitted-cross-domain-policies",
-          "none",
-          "x-xss-protection",
-          "0",
-        ],
-        Symbol(context): null,
-      }
-    `);
+    expect(headers).toMatchSnapshot();
   });
 
   it('removes unwanted headers', () => {

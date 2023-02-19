@@ -1,5 +1,5 @@
 import { SplitFactory } from '@splitsoftware/splitio/server';
-
+console.log({ env: process.env });
 // eslint-disable-next-line new-cap
 const splitFactory = SplitFactory({
   core: {

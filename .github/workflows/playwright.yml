@@ -9,6 +9,7 @@ jobs:
     name: "Playwright Tests"
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    environment: playwright
     steps:
     - uses: actions/checkout@v3
     - name: Set up node
@@ -24,6 +25,14 @@ jobs:
       run: pnpm exec playwright install --with-deps
     - name: Run Playwright tests
       run: DEBUG=pw:webserver pnpm int
+      env:
+        NODE_ENV: development
+        HOTJAR_ID: ${{ secrets.HOTJAR_ID }}
+        SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+        MIXPANEL_API: ${{ env.MIXPANEL_API }}
+        MIXPANEL_TOKEN: ${{ secrets.MIXPANEL_TOKEN }}
+        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        COOKIEYES_TOKEN: ${{ secrets.COOKIEYES_TOKEN }}
     - uses: actions/upload-artifact@v3
       if: always()
       with:

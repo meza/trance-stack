@@ -10,8 +10,6 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - name: 🛑 Cancel Previous Runs
-      uses: styfle/cancel-workflow-action@0.11.0
     - uses: actions/checkout@v3
     - name: Set up node
       uses: meza/action-setup-node-pnpm@main
@@ -23,7 +21,7 @@ jobs:
     - name: Install Playwright Browsers
       run: pnpm exec playwright install --with-deps
     - name: Run Playwright tests
-      run: DEBUG=pw:webserver pnpm exec playwright test
+      run: DEBUG=pw:webserver pnpm int
     - uses: actions/upload-artifact@v3
       if: always()
       with:

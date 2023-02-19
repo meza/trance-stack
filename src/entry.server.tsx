@@ -13,6 +13,7 @@ export default async (
   responseHeaders: Headers,
   remixContext: EntryContext
 ) => {
+  console.log(process.env);
   const locale = remixContext.staticHandlerContext.loaderData.root.locale;
   const isDevelopment = process.env.NODE_ENV === 'development';
 

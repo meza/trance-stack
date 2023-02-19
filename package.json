@@ -17,7 +17,7 @@
     "new:hook": "plop hook",
     "prepare": "lefthook install",
     "report": "vitest --coverage",
-    "xxx": "sleep 15 && curl http://localhost:3000",
+    "xxx": "sleep 5 && curl http://localhost:3000",
     "start": "cross-env NODE_ENV=production arc sandbox -p 3000 --verbose",
     "storybook": "run-s storybook:serve",
     "storybook:serve": "start-storybook -p 6005",

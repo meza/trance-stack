@@ -4,7 +4,7 @@ overrides:
   '@storybook/react-docgen-typescript-plugin': npm:react-docgen-typescript-plugin@1.0.2
 
 specifiers:
-  '@architect/architect': ^10.7.2
+  '@architect/architect': ^10.10.2
   '@aws-sdk/smithy-client': ^3.0.0
   '@aws-sdk/types': ^3.0.0
   '@babel/core': ^7.20.12
@@ -91,6 +91,9 @@ specifiers:
   react-dom: ^18.2.0
   react-i18next: ^12.1.5
   reflect-metadata: ^0.1.13
+  remix-auth: ^3.4.0
+  remix-auth-auth0: ^1.5.1
+  remix-auth-oauth2: ^1.6.0
   remix-i18next: ^5.0.0
   require-from-string: ^2.0.2
   storybook-addon-themes: ^6.1.0
@@ -125,10 +128,13 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-i18next: 12.1.5_iakk3dtjhjpukdoa4oua5khgci
+  remix-auth: 3.4.0_d63rvhf352c2spacj4f73r3m4a
+  remix-auth-auth0: 1.5.1_7nves7pjvcqehnlg2ay4iuteeu
+  remix-auth-oauth2: 1.6.0_7nves7pjvcqehnlg2ay4iuteeu
   remix-i18next: 5.0.0_3vnesj7cz257stp3wtafsheewq
 
 devDependencies:
-  '@architect/architect': 10.10.1_2ucjy4j7ffp7md5nxxlahbacoq
+  '@architect/architect': 10.10.2_2ucjy4j7ffp7md5nxxlahbacoq
   '@babel/core': 7.20.12
   '@commitlint/cli': 17.4.4
   '@commitlint/config-conventional': 17.4.4
@@ -225,19 +231,19 @@ packages:
       '@jridgewell/trace-mapping': 0.3.17
     dev: true
 
-  /@architect/architect/10.10.1_2ucjy4j7ffp7md5nxxlahbacoq:
-    resolution: {integrity: sha512-rHEgyjaRS2XZKCj69kGmH3/k6vh13akHiiClkfQjqQywEZu0GG7wajE7NQvZPzLJP8ec6UaQYUvfG7xUN/Z5Yw==}
+  /@architect/architect/10.10.2_2ucjy4j7ffp7md5nxxlahbacoq:
+    resolution: {integrity: sha512-4jZIbKzCHO6QrsSAm/fPyJwHukZaN6GHyMNbzc/Pf6I1JzcDj+9qCD0FqGRWWC5aNxs8bERy322GmIYK9aGAgw==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
       '@architect/create': 4.1.4
-      '@architect/deploy': 4.3.0
+      '@architect/deploy': 4.3.1
       '@architect/destroy': 3.0.9
       '@architect/env': 3.0.8
       '@architect/hydrate': 3.1.11
       '@architect/inventory': 3.4.2
       '@architect/logs': 4.0.6
-      '@architect/sandbox': 5.5.1_2ucjy4j7ffp7md5nxxlahbacoq
+      '@architect/sandbox': 5.5.2_2ucjy4j7ffp7md5nxxlahbacoq
       '@architect/utils': 3.1.2
       '@aws-sdk/client-apigatewaymanagementapi': 3.188.0
       '@aws-sdk/client-dynamodb': 3.188.0
@@ -278,8 +284,8 @@ packages:
       minimist: 1.2.8
     dev: true
 
-  /@architect/deploy/4.3.0:
-    resolution: {integrity: sha512-U1zcMkfg+5YNofH196ofa2OWpJVUoHOw+JmotlOX5TK+8gSIWGqS4IvgdzbfLy499nDCpVeDLly4lrMbgcBEow==}
+  /@architect/deploy/4.3.1:
+    resolution: {integrity: sha512-L1TVbnYugU+5qfVJB1owNwNkIf08gQSX0Ay63tfAI+2jdCSAezfcQV6eZCK9SbDsGePV0zO0K2sEF3sMR2t6bQ==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -400,8 +406,8 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@architect/sandbox/5.5.1_2ucjy4j7ffp7md5nxxlahbacoq:
-    resolution: {integrity: sha512-KbktE7662RAxlBFzzSbk5rBcsB0HpkQsXxc3CWFCuYQ3ZmoxtUu1b8CBf/PROnUsLvN2X0wJ7QqQCXsY+iKpHg==}
+  /@architect/sandbox/5.5.2_2ucjy4j7ffp7md5nxxlahbacoq:
+    resolution: {integrity: sha512-dNbw+Umm0A4GzA/4u+K5h0H0T/LLy77TnoaZg1Z3MRFuVK5saCbfuP/L4/RZcqnNiTzNJ7/9dsBWI1+hb1uVZw==}
     engines: {node: '>=14'}
     hasBin: true
     dependencies:
@@ -435,7 +441,7 @@ packages:
       server-destroy: 1.0.1
       tree-kill: 1.2.2
       update-notifier-cjs: 5.1.6
-      ws: 8.12.0
+      ws: 8.12.1
     transitivePeerDependencies:
       - '@aws-sdk/signature-v4-crt'
       - '@aws-sdk/smithy-client'
@@ -5581,7 +5587,7 @@ packages:
       util-deprecate: 1.0.2
       watchpack: 2.4.0
       webpack: 4.46.0
-      ws: 8.12.0
+      ws: 8.12.1
       x-default-browser: 0.4.0
     transitivePeerDependencies:
       - '@storybook/mdx2-csf'
@@ -8199,7 +8205,7 @@ packages:
     resolution: {integrity: sha512-xq+q3SRMOxGivLhBNaUdC64hDTQwejJ+H0T/NB1XMtTVEwNTrfFF3gAxiyW0Bu/xWEGhjVKgUcMhCrUy2+uCWg==}
     dependencies:
       base64-js: 1.5.1
-      ieee754: 1.1.13
+      ieee754: 1.2.1
       isarray: 1.0.0
     dev: true
 
@@ -17943,6 +17949,43 @@ packages:
       mdast-squeeze-paragraphs: 4.0.0
     dev: true
 
+  /remix-auth-auth0/1.5.1_7nves7pjvcqehnlg2ay4iuteeu:
+    resolution: {integrity: sha512-p1Fub0vPrgVSenGibm8q6gmm6MSsHWvBrtUE2UM/U1snSMClvBUgOh6lGAhw9hlxLV1A0xA20iMsLAHgPK3pPQ==}
+    peerDependencies:
+      remix-auth: ^3.x
+    dependencies:
+      remix-auth: 3.4.0_d63rvhf352c2spacj4f73r3m4a
+      remix-auth-oauth2: 1.6.0_7nves7pjvcqehnlg2ay4iuteeu
+    transitivePeerDependencies:
+      - '@remix-run/server-runtime'
+      - supports-color
+    dev: false
+
+  /remix-auth-oauth2/1.6.0_7nves7pjvcqehnlg2ay4iuteeu:
+    resolution: {integrity: sha512-HnMgdKn/+LIKHYlbxys14g9cUMGvzMS9mbopAfnntIYWBC8MOfUy6uYyyoWJNqm3HriAE/MiEUaTnlz3B0c7uQ==}
+    peerDependencies:
+      '@remix-run/server-runtime': ^1.0.0
+      remix-auth: ^3.2.2
+    dependencies:
+      '@remix-run/server-runtime': 1.13.0
+      debug: 4.3.4
+      remix-auth: 3.4.0_d63rvhf352c2spacj4f73r3m4a
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /remix-auth/3.4.0_d63rvhf352c2spacj4f73r3m4a:
+    resolution: {integrity: sha512-VRliJo9VRAS4sSYgMjYbi7rYRixPWU2Tb8PFZb06OIj0nONK/1KRzHf2+Y6VGZeIacepLVgan6g2IUJjayE2rQ==}
+    peerDependencies:
+      '@remix-run/react': ^1.0.0
+      '@remix-run/server-runtime': ^1.0.0
+    dependencies:
+      '@remix-run/react': 1.13.0_biqbaboplfbrettd7655fr4n2y
+      '@remix-run/server-runtime': 1.13.0
+      uuid: 8.3.2
+    dev: false
+
   /remix-i18next/5.0.0_3vnesj7cz257stp3wtafsheewq:
     resolution: {integrity: sha512-HB7FjbxdkSDwqMAgVzAb3UTxkzK0mUzRiIvH+GsdoLd6avJVn5Lr4NUs3vLQi9Ez2ufA0QrjGXDEIHBs+26ppA==}
     peerDependencies:
@@ -20384,7 +20427,6 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
-    dev: true
 
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}
@@ -21045,6 +21087,19 @@ packages:
 
   /ws/8.12.0:
     resolution: {integrity: sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dev: true
+
+  /ws/8.12.1:
+    resolution: {integrity: sha512-1qo+M9Ba+xNhPB+YTWUlK6M17brTut5EXbcBaMRN5pH5dFrXz7lzz1ChFSUq3bOUl8yEvSenhHmYUNJxFzdJew==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1

@@ -40,13 +40,12 @@ export const handle = {
   i18n: defaultNS
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const [visitorId, locale] = await Promise.all([
     getVisitorIdFromRequest(request),
     remixI18next.getLocale(request),
     splitClient.ready()
   ]);
-
   splitClient.track(visitorId, 'anonymous', 'page_view');
 
   return json({

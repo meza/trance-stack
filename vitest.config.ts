@@ -9,7 +9,7 @@ const testReporters = ['default'];
 const coverageReporters: CoverageReporter[] = ['text'];
 
 if (!isCi) {
-  // testReporters.push('verbose');
+  // testReporters.push('cobertura');
   coverageReporters.push('html');
 } else {
   testReporters.push('junit');
@@ -35,8 +35,9 @@ export default defineConfig({
     outputFile: 'reports/junit.xml',
     reporters: testReporters,
     coverage: {
-      excludeNodeModules: true,
-      include: ['src/**/*.ts', 'src/**/*.tsx'],
+      // excludeNodeModules: true,
+      src: ['src'],
+      include: ['**/*.ts', '**/*.tsx'],
       exclude: [
         '**/__mocks__/**.*',
         '**/*.d.ts',

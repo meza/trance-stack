@@ -17,7 +17,6 @@ describe('The i18n config', () => {
     const { getBaseClientConfig, supportedLngs, fallbackLng, defaultNS } = configModule;
     expect(getBaseClientConfig()).toMatchInlineSnapshot(`
       {
-        "debug": true,
         "defaultNS": [
           "translation",
         ],
@@ -52,7 +51,6 @@ describe('The i18n config', () => {
     expect(fallbackLng).toMatchInlineSnapshot('"en"');
     expect(baseConfig).toMatchInlineSnapshot(`
       {
-        "debug": true,
         "defaultNS": [
           "translation",
         ],
@@ -62,12 +60,5 @@ describe('The i18n config', () => {
         ],
       }
     `);
-  });
-
-  it('turns off debug mode in production', async () => {
-    process.env.NODE_ENV = 'production';
-    const { default: baseConfig } = await import('~/i18n/i18n.config');
-
-    expect(baseConfig.debug).toBe(false);
   });
 });

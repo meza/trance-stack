@@ -16,7 +16,6 @@ describe('The session storage', () => {
   });
 
   it('returns the configured one', async () => {
-    delete process.env.SESSION_SECRET;
     process.env.NODE_ENV = 'development';
     vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
     const { getSessionStorage } = await import ('~/sessionStorage.server');

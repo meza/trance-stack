@@ -7,12 +7,10 @@ export const fallbackLng = 'en';
 const baseConfig: InitOptions = {
   supportedLngs: supportedLngs,
   fallbackLng: fallbackLng,
-  defaultNS: defaultNS,
-  debug: process.env.NODE_ENV === 'development'
+  defaultNS: defaultNS
 };
 
 export const getBaseClientConfig = (): InitOptions => ({
-  debug: baseConfig.debug,
   supportedLngs: baseConfig.supportedLngs,
   fallbackLng: baseConfig.fallbackLng,
   defaultNS: baseConfig.defaultNS,

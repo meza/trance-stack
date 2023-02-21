@@ -34,7 +34,7 @@ describe('i18next.client', () => {
 
   it('is wired up correctly', async () => {
     vi.mocked(i18next.use).mockReturnValue(i18next);
-
+    vi.stubGlobal('window', { appConfig: { version: '1' } });
     const actual = await init();
     expect(actual).toBe(i18next);
     expect(i18next.use).toHaveBeenCalledTimes(3);
@@ -50,6 +50,7 @@ describe('i18next.client', () => {
           "loadPath": "/_static/locales/{{lng}}/{{ns}}.json?v=1",
         },
         "client": "config",
+        "debug": false,
         "ns": [
           "ns1",
           "ns2",

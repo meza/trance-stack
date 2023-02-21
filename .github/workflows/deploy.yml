@@ -1,0 +1,59 @@
+name: 'Verify & Build'
+
+on:
+  push:
+    branches: [ main, alpha, beta ]
+
+env:
+  LEFTHOOK: 0
+
+jobs:
+  verify:
+    uses: meza/shared-github-workflows/.github/workflows/default-node-pnpm-ci.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      node-version: "latest"
+      junit-report-path: "reports/junit.xml"
+      cobertura-report-path: "reports/**/cobertura-coverage.xml"
+  build:
+    runs-on: 'ubuntu-latest'
+    needs: [ verify ]
+    if: needs.verify.outputs.new-release-published == 'true'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up node
+        uses: meza/action-setup-node-pnpm@main
+        with:
+          node-version: latest
+          cache-name: ${{ needs.verify.outputs.cache-name }}
+      - name: Create envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+          envkey_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          envkey_NODE_ENV: ${{ vars.NODE_ENV }}
+          envkey_HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+          envkey_MIXPANEL_API: ${{ vars.MIXPANEL_API }}
+          envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+          envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+      - name: Set version
+        run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
+      - name: Build
+        run: pnpm build
+      - name: 📦 Deploy Production
+        if: github.ref_name == 'main'
+        run: pnpm exec arc deploy --production --name main -v
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: 📦 Deploy ${{ github.ref_name }}
+        if: github.ref_name != 'main'
+        run: pnpm exec arc deploy --name ${{ github.ref_name }} -v
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: 🚀 Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pnpm release

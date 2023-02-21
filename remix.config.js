@@ -3,6 +3,7 @@ module.exports = {
   future: {
     unstable_postcss: true
   },
+  serverMinify: true,
   serverBuildTarget: "arc",
   server: "./server.js",
   ignoredRouteFiles: ["**/.*", "*.test.tsx"],

@@ -7,7 +7,7 @@ import { getBaseClientConfig } from './i18n.config';
 import type { i18n } from 'i18next';
 
 export default async function init(): Promise<i18n> {
-  const version = 1;
+  const version = window.appConfig.version;
   await i18next
     .use(initReactI18next)
     .use(LanguageDetector)
@@ -17,7 +17,8 @@ export default async function init(): Promise<i18n> {
       ns: getInitialNamespaces(),
       backend: {
         loadPath: `/_static/locales/{{lng}}/{{ns}}.json?v=${version}`
-      }
+      },
+      debug: false
     });
 
   return i18next;

@@ -7,6 +7,8 @@ repl-app-slug
   src server
 
 @static
+prune true
+compression gzip
 
 @aws
 cors *

@@ -52,7 +52,7 @@ export const securityHeaders = (isDev: boolean): Headers => {
   const owaspHeaders = new Headers();
 
   owaspHeaders.set('Content-Security-Policy', contentSecurityPolicy(isDev));
-  owaspHeaders.set('Cross-Origin-Embedder-Policy', 'require-corp');
+  owaspHeaders.set('Cross-Origin-Embedder-Policy', 'same-origin');
   owaspHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
   owaspHeaders.set('Cross-Origin-Resource-Policy', 'same-origin');
   owaspHeaders.set('Origin-Agent-Cluster', '?1');
@@ -86,3 +86,4 @@ export const sanitizeHeaders = (headers: Headers): Headers => {
 
   return headers;
 };
+

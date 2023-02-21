@@ -45,6 +45,7 @@ specifiers:
   '@types/react': ^18.0.25
   '@types/react-dom': ^18.0.8
   '@types/testing-library__jest-dom': ^5.14.5
+  '@types/uuid': ^9.0.0
   '@types/webpack': ^5.28.0
   '@typescript-eslint/eslint-plugin': 5.53.0
   '@typescript-eslint/parser': 5.53.0
@@ -101,6 +102,7 @@ specifiers:
   tsconfig-paths: ^4.1.2
   tsconfig-paths-webpack-plugin: ^4.0.0
   typescript: ^4.9.5
+  uuid: ^9.0.0
   vite: ^4.1.1
   vite-tsconfig-paths: ^4.0.5
   vitest: 0.28.5
@@ -126,6 +128,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-i18next: 12.1.5_iakk3dtjhjpukdoa4oua5khgci
   remix-i18next: 5.0.0_3vnesj7cz257stp3wtafsheewq
+  uuid: 9.0.0
 
 devDependencies:
   '@architect/architect': 10.10.1_2ucjy4j7ffp7md5nxxlahbacoq
@@ -162,6 +165,7 @@ devDependencies:
   '@types/react': 18.0.28
   '@types/react-dom': 18.0.10
   '@types/testing-library__jest-dom': 5.14.5
+  '@types/uuid': 9.0.0
   '@types/webpack': 5.28.0
   '@typescript-eslint/eslint-plugin': 5.53.0_ny4s7qc6yg74faf3d6xty2ofzy
   '@typescript-eslint/parser': 5.53.0_7kw3g6rralp5ps6mg3uyzz6azm
@@ -6548,6 +6552,10 @@ packages:
 
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
+    dev: true
+
+  /@types/uuid/9.0.0:
+    resolution: {integrity: sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==}
     dev: true
 
   /@types/webpack-env/1.18.0:
@@ -20447,6 +20455,11 @@ packages:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
     dev: true
+
+  /uuid/9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}

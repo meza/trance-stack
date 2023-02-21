@@ -23,7 +23,9 @@
     "storybook:build": "run-s build-storybook",
     "test": "run-p test:*",
     "test:unit": "vitest",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "deploy": "arc deploy",
+    "staging": "run-s build \"deploy --staging --name staging --prune\""
   },
   "dependencies": {
     "@aws-sdk/smithy-client": "^3.0.0",
@@ -47,7 +49,7 @@
     "remix-auth": "^3.4.0",
     "remix-auth-auth0": "^1.5.1",
     "remix-i18next": "^5.0.0",
-    "uuidv4": "^6.2.13"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@architect/architect": "^10.10.2",
@@ -84,9 +86,10 @@
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/testing-library__jest-dom": "^5.14.5",
+    "@types/uuid": "^9.0.0",
     "@types/webpack": "^5.28.0",
-    "@typescript-eslint/eslint-plugin": "5.52.0",
-    "@typescript-eslint/parser": "5.52.0",
+    "@typescript-eslint/eslint-plugin": "5.53.0",
+    "@typescript-eslint/parser": "5.53.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "0.28.5",
     "@vitest/ui": "^0.28.0",

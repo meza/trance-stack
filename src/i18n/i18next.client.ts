@@ -17,7 +17,8 @@ export default async function init(): Promise<i18n> {
       ns: getInitialNamespaces(),
       backend: {
         loadPath: `/_static/locales/{{lng}}/{{ns}}.json?v=${version}`
-      }
+      },
+      debug: false
     });
 
   return i18next;

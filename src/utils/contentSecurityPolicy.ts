@@ -12,16 +12,18 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
       'script-src': [
         SELF,
         UNSAFE_INLINE,
-        'https://api-eu.mixpanel.com',
-        'https://api.mixpanel.com',
+        'https://*.cookieyes.com',
+        'https://cdn-cookieyes.com',
+        'https://*.mixpanel.com',
         'https://*.hotjar.com',
         'https://*.hotjar.io'
       ],
       'connect-src': [
         SELF,
         UNSAFE_INLINE,
-        'https://api-eu.mixpanel.com',
-        'https://api.mixpanel.com',
+        'https://*.mixpanel.com',
+        'https://*.cookieyes.com',
+        'https://cdn-cookieyes.com',
         'wss://*.hotjar.com',
         'https://*.hotjar.com',
         'https://*.hotjar.io',
@@ -31,8 +33,9 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
       'img-src': ['https:', DATA, 'http:'],
       'frame-ancestors': [NONE],
       'frame-src': [
-        'https://api-eu.mixpanel.com',
-        'https://api.mixpanel.com',
+        'https://*.mixpanel.com',
+        'https://*.cookieyes.com',
+        'https://cdn-cookieyes.com',
         'https://*.hotjar.com',
         'https://*.hotjar.io'
       ],

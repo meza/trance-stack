@@ -43,13 +43,13 @@ jobs:
         run: pnpm build
       - name: 📦 Deploy Production
         if: github.ref_name == 'main'
-        run: pnpm exec arc deploy --production --name main -t production -v
+        run: pnpm exec arc deploy --production --name main -v
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 📦 Deploy ${{ github.ref_name }}
         if: github.ref_name != 'main'
-        run: pnpm exec arc deploy --name ${{ github.ref_name }} -t ${{ github.ref_name }} -v
+        run: pnpm exec arc deploy --name ${{ github.ref_name }} -v
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

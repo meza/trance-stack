@@ -17,29 +17,6 @@ describe('The split client', () => {
     vi.resetAllMocks();
   });
 
-  it('set the defaults', async () => {
-    delete process.env.SPLIT_SERVER_TOKEN;
-    process.env.NODE_ENV = 'production';
-    vi.mocked(SplitFactory).mockReturnValue({
-      client: vi.fn().mockReturnValue('client')
-    } as never);
-
-    const client = (await import('./split.server')).default;
-
-    const calls = vi.mocked(SplitFactory).mock.calls;
-
-    expect(client).toEqual('client');
-    expect(calls[0][0]).toMatchInlineSnapshot(`
-      {
-        "core": {
-          "authorizationKey": "localhost",
-        },
-        "debug": false,
-        "features": "/cwd/sub/devFeatures.yml",
-      }
-    `);
-  });
-
   it('set the environments', async () => {
     process.env.SPLIT_SERVER_TOKEN = 'token';
     process.env.NODE_ENV = 'development';

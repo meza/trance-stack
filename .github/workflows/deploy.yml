@@ -6,6 +6,7 @@ on:
 
 env:
   LEFTHOOK: 0
+  ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
 
 jobs:
   verify:
@@ -27,16 +28,19 @@ jobs:
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
-      - name: Create envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envkey_SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
-          envkey_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          envkey_NODE_ENV: ${{ vars.NODE_ENV }}
-          envkey_HOTJAR_ID: ${{ vars.HOTJAR_ID }}
-          envkey_MIXPANEL_API: ${{ vars.MIXPANEL_API }}
-          envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
-          envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+      - name: Set environment
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          pnpm exec arc env -e ${{ github.ref_name }} SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
+          pnpm exec arc env -e ${{ github.ref_name }} SESSION_SECRET ${{ secrets.SESSION_SECRET }}
+          pnpm exec arc env -e ${{ github.ref_name }} HOTJAR_ID ${{ vars.HOTJAR_ID }}
+          pnpm exec arc env -e ${{ github.ref_name }} MIXPANEL_API ${{ vars.MIXPANEL_API }}
+          pnpm exec arc env -e ${{ github.ref_name }} MIXPANEL_TOKEN ${{ vars.MIXPANEL_TOKEN }}
+          pnpm exec arc env -e ${{ github.ref_name }} COOKIEYES_TOKEN ${{ vars.COOKIEYES_TOKEN }}
+          pnpm exec arc env -e ${{ github.ref_name }} I18N_DEBUG ${{ github.ref_name == 'main' && 'false' || 'true' }}
+          pnpm exec arc env -e ${{ github.ref_name }} SPLIT_DEBUG ${{ github.ref_name == 'main' && 'false' || 'true' }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: Build

@@ -1,13 +1,15 @@
+import { uuid } from 'uuidv4';
 import { authenticator } from '~/auth.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
 
-export const getVisitorId = (session: Session) => {
+export const getVisitorId = (session: Session, hostname = '') => {
   const existingId = session.get('visitorId');
   if (existingId) {
     return existingId;
   }
-  const newId = crypto.randomUUID();
+  const newId = hostname === 'localhost' ? 'localdev' : uuid();
+  console.log('new visitorId', newId);
   session.set('visitorId', newId);
 
   return newId;
@@ -25,7 +27,8 @@ export const getVisitorIdFromRequest = async (request: Request) => {
     session.set('visitorId', user.id);
     return user.id;
   }
-  return getVisitorId(session);
+  const hostname = new URL(request.url).hostname;
+  return getVisitorId(session, hostname);
 };
 
 export const createUserSession = async (request: Request) => {

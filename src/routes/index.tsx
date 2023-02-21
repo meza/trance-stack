@@ -18,16 +18,17 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
   console.log('ROOT LOADER END', Date.now());
   return json({
-    isHelloEnabled: await hasFeature(request, Features.HELLO)
+    isHelloEnabled: await hasFeature(request, Features.HELLO),
+    isAuthEnabled: await hasFeature(request, Features.AUTH)
   });
 };
 
 export default () => {
-  const { isHelloEnabled } = useLoaderData<typeof loader>();
+  const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
   if (isHelloEnabled) {
     return (<div>
       <Hello/>
-      <Login/>
+      {isAuthEnabled ? <Login/> : null}
     </div>);
   }
   return <div>Goodbye World!</div>;

@@ -93,7 +93,6 @@ specifiers:
   reflect-metadata: ^0.1.13
   remix-auth: ^3.4.0
   remix-auth-auth0: ^1.5.1
-  remix-auth-oauth2: ^1.6.0
   remix-i18next: ^5.0.0
   require-from-string: ^2.0.2
   storybook-addon-themes: ^6.1.0
@@ -104,6 +103,7 @@ specifiers:
   tsconfig-paths: ^4.1.2
   tsconfig-paths-webpack-plugin: ^4.0.0
   typescript: ^4.9.5
+  uuidv4: ^6.2.13
   vite: ^4.1.1
   vite-tsconfig-paths: ^4.0.5
   vitest: 0.28.5
@@ -130,8 +130,8 @@ dependencies:
   react-i18next: 12.1.5_iakk3dtjhjpukdoa4oua5khgci
   remix-auth: 3.4.0_d63rvhf352c2spacj4f73r3m4a
   remix-auth-auth0: 1.5.1_7nves7pjvcqehnlg2ay4iuteeu
-  remix-auth-oauth2: 1.6.0_7nves7pjvcqehnlg2ay4iuteeu
   remix-i18next: 5.0.0_3vnesj7cz257stp3wtafsheewq
+  uuidv4: 6.2.13
 
 devDependencies:
   '@architect/architect': 10.10.2_2ucjy4j7ffp7md5nxxlahbacoq
@@ -6555,6 +6555,10 @@ packages:
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: true
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: false
 
   /@types/webpack-env/1.18.0:
     resolution: {integrity: sha512-56/MAlX5WMsPVbOg7tAxnYvNYMMWr/QJiIp6BxVSW3JJXUVzzOn64qW8TzQyMSqSUFM2+PVI4aUHcHOzIz/1tg==}
@@ -20427,6 +20431,13 @@ packages:
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uuidv4/6.2.13:
+    resolution: {integrity: sha512-AXyzMjazYB3ovL3q051VLH06Ixj//Knx7QnUSi1T//Ie3io6CpsPu9nVMOx5MoLWh6xV0B9J0hIaxungxXUbPQ==}
+    dependencies:
+      '@types/uuid': 8.3.4
+      uuid: 8.3.2
+    dev: false
 
   /uvu/0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}

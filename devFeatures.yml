@@ -1,0 +1,10 @@
+# This file is used to enable/disable features in development mode.
+# It is not used in production.
+# Check the src/features.ts file to see which features are available.
+# Please keep them in alphabetical order.
+
+- auth_enabled:
+    treatment: "on"
+- hello_split:
+    treatment: "on"
+

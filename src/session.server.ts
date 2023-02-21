@@ -4,7 +4,7 @@ import type { Session } from '@remix-run/node';
 
 let id: string;
 
-export const getVisitorId = (session: Session, hostname = '') => {
+export const getVisitorId = (session: Session, hostname: string) => {
   if (id) {
     return id;
   }
@@ -14,7 +14,6 @@ export const getVisitorId = (session: Session, hostname = '') => {
     return existingId;
   }
   const newId = hostname === 'localhost' ? 'localdev' : uuid();
-  console.log('new visitorId', newId);
   session.set('visitorId', newId);
   id = newId;
   return newId;
@@ -27,13 +26,13 @@ export const getSessionFromRequest = async (request: Request) => {
 
 export const getVisitorIdFromRequest = async (request: Request) => {
   const session = await getSessionFromRequest(request);
-  return getVisitorId(session);
+  return getVisitorId(session, new URL(request.url).hostname);
 };
 
 export const createUserSession = async (request: Request) => {
 
   const session = await getSessionFromRequest(request);
-  getVisitorId(session);
+  getVisitorId(session, new URL(request.url).hostname);
 
   return await getSessionStorage().commitSession(session, {
     maxAge: 2147483647 // 31 Dec 2037

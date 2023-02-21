@@ -7,12 +7,14 @@ describe('The split client', () => {
   const originalEnv = structuredClone(process.env);
   beforeEach(async () => {
     vi.resetAllMocks();
+    vi.spyOn(process, 'cwd').mockReturnValue('/cwd/sub/directory');
     vi.resetModules();
   });
 
   afterEach(() => {
     process.env.SPLIT_SERVER_TOKEN = originalEnv.SPLIT_SERVER_TOKEN;
     process.env.NODE_ENV = originalEnv.NODE_ENV;
+    vi.resetAllMocks();
   });
 
   it('set the defaults', async () => {
@@ -33,6 +35,7 @@ describe('The split client', () => {
           "authorizationKey": "localhost",
         },
         "debug": false,
+        "features": "/cwd/sub/devFeatures.yml",
       }
     `);
   });
@@ -55,7 +58,8 @@ describe('The split client', () => {
         "core": {
           "authorizationKey": "token",
         },
-        "debug": true,
+        "debug": false,
+        "features": "/cwd/sub/devFeatures.yml",
       }
     `);
   });

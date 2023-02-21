@@ -1,6 +1,6 @@
-import { SplitFactory } from '@splitsoftware/splitio/server';
 import path from 'node:path';
 import * as process from 'process';
+import { SplitFactory } from '@splitsoftware/splitio/server';
 // eslint-disable-next-line new-cap
 const splitFactory = SplitFactory({
   core: {

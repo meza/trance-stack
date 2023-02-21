@@ -27,9 +27,7 @@
     "storybook:build": "build-storybook",
     "storybook:deploy": "gh-pages -d storybook-static -m 'chore(deploy): storybook to gh-pages'",
     "test": "run-p test:*",
-    "test:unit": "vitest",
-    "deploy": "arc deploy",
-    "staging": "run-s build \"deploy --env staging --name staging --prune\""
+    "test:unit": "vitest"
   },
   "dependencies": {
     "@aws-sdk/smithy-client": "^3.0.0",

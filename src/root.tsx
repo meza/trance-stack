@@ -41,9 +41,10 @@ export const handle = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const [visitorId, locale] = await Promise.all([
+  const [visitorId, locale, packageJson] = await Promise.all([
     getVisitorIdFromRequest(request),
     remixI18next.getLocale(request),
+    import('../package.json'),
     splitClient.ready()
   ]);
 
@@ -57,7 +58,8 @@ export const loader: LoaderFunction = async ({ request }) => {
       splitToken: process.env.SPLIT_CLIENT_TOKEN,
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
-      visitorId: visitorId
+      visitorId: visitorId,
+      version: packageJson.default.version
     },
     locale: locale
   });
@@ -79,7 +81,7 @@ const App = () => {
   useChangeLanguage(locale);
 
   return (
-    <html lang={i18n.language} dir={i18n.dir()}>
+    <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version}>
       <head>
         <Meta/>
         <Links/>

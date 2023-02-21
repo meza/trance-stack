@@ -9,6 +9,7 @@ declare global {
     cookieYesToken: string;
     isProduction: boolean;
     visitorId: string;
+    version: string;
   }
 
   interface Window {

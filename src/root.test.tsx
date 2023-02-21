@@ -101,6 +101,7 @@ describe('The root module', () => {
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
             "splitToken": "a-split-token",
+            "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
           },
           "locale": "en",
@@ -122,6 +123,7 @@ describe('The root module', () => {
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
             "splitToken": "a-split-token",
+            "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
           },
           "locale": "en",
@@ -149,7 +151,8 @@ describe('The root module', () => {
       isProduction: true,
       mixpanelApi: 'a-mixpanel-api',
       splitToken : 'a-split-token',
-      cookieYesToken: 'a-cookieyes-token'
+      cookieYesToken: 'a-cookieyes-token',
+      version: '0.0.0-dev'
     };
 
     beforeEach(() => {
@@ -167,6 +170,7 @@ describe('The root module', () => {
       const markup = app();
       expect(markup).toMatchInlineSnapshot(`
         <html
+          data-version="0.0.0-dev"
           dir="ltr"
           lang="en"
         >
@@ -182,6 +186,7 @@ describe('The root module', () => {
                   "mixpanelApi": "a-mixpanel-api",
                   "mixpanelToken": "a-mixpanel-token",
                   "splitToken": "a-split-token",
+                  "version": "0.0.0-dev",
                   "visitorId": "a-visitor-id",
                 }
               }
@@ -206,6 +211,7 @@ describe('The root module', () => {
                     "mixpanelApi": "a-mixpanel-api",
                     "mixpanelToken": "a-mixpanel-token",
                     "splitToken": "a-split-token",
+                    "version": "0.0.0-dev",
                     "visitorId": "a-visitor-id",
                   },
                   "locale": "en",

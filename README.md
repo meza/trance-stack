@@ -96,3 +96,11 @@ export const links: LinksFunction = () => {
 ```
 
 Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#postcsss) works.
+
+
+### Deployment
+
+#### Custom domains
+
+This stack doesn't manage domain names at all mainly because ARC doesn't either. To find out how to set them up,
+read the [ARC docs](https://arc.codes/docs/en/guides/domains/registrars/route53-and-cloudfront).

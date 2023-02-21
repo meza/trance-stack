@@ -14,7 +14,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     with:
-      test: true
       node-version: "latest"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/coverage/cobertura-coverage.xml"

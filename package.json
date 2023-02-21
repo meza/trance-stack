@@ -7,7 +7,7 @@
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox -p 3000 --verbose",
     "dev": "run-p dev:remix dev:arc",
-    "ci": "run-s build && run-p lint test",
+    "ci": "run-s build && run-p lint report",
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
     "lint:css": "stylelint src/styles/**/*.css",

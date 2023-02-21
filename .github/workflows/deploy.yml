@@ -6,6 +6,7 @@ on:
 
 env:
   LEFTHOOK: 0
+  ARC_ENV: ${{ github.ref_name === 'main' && 'production' || 'staging' }}
 
 jobs:
   verify:
@@ -33,14 +34,14 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
         run: |
-          pnpm exec arc env -e ${{ github.ref_name }} --add SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add SESSION_SECRET ${{ secrets.SESSION_SECRET }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add HOTJAR_ID ${{ vars.HOTJAR_ID }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add MIXPANEL_API ${{ vars.MIXPANEL_API }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add MIXPANEL_TOKEN ${{ vars.MIXPANEL_TOKEN }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add COOKIEYES_TOKEN ${{ vars.COOKIEYES_TOKEN }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add I18N_DEBUG ${{ github.ref_name == 'main' && 'false' || 'true' }}
-          pnpm exec arc env -e ${{ github.ref_name }} --add SPLIT_DEBUG ${{ github.ref_name == 'main' && 'false' || 'true' }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SESSION_SECRET ${{ secrets.SESSION_SECRET }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add HOTJAR_ID ${{ vars.HOTJAR_ID }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add MIXPANEL_API ${{ vars.MIXPANEL_API }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add MIXPANEL_TOKEN ${{ vars.MIXPANEL_TOKEN }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add COOKIEYES_TOKEN ${{ vars.COOKIEYES_TOKEN }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add I18N_DEBUG ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SPLIT_DEBUG ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: Build

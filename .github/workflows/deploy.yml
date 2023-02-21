@@ -6,7 +6,7 @@ on:
 
 env:
   LEFTHOOK: 0
-  ARC_ENV: ${{ github.ref_name === 'main' && 'production' || 'staging' }}
+  ARC_ENV: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
 
 jobs:
   verify:
@@ -32,8 +32,8 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
         run: |
+          pnpm exec arc env -e ${{ env.ARC_ENV }} --add ARC_APP_SECRET ${{ secrets.ARC_APP_SECRET }}
           pnpm exec arc env -e ${{ env.ARC_ENV }} --add SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
           pnpm exec arc env -e ${{ env.ARC_ENV }} --add SESSION_SECRET ${{ secrets.SESSION_SECRET }}
           pnpm exec arc env -e ${{ env.ARC_ENV }} --add HOTJAR_ID ${{ vars.HOTJAR_ID }}

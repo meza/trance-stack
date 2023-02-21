@@ -16,7 +16,7 @@ jobs:
     with:
       node-version: "latest"
       junit-report-path: "reports/junit.xml"
-      cobertura-report-path: "reports/coverage/cobertura-coverage.xml"
+      cobertura-report-path: "reports/coverage/unit/cobertura-coverage.xml"
   build:
     runs-on: 'ubuntu-latest'
     needs: [ verify ]

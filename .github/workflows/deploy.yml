@@ -6,7 +6,6 @@ on:
 
 env:
   LEFTHOOK: 0
-  ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
 
 jobs:
   verify:
@@ -32,6 +31,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
         run: |
           pnpm exec arc env -e ${{ github.ref_name }} SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
           pnpm exec arc env -e ${{ github.ref_name }} SESSION_SECRET ${{ secrets.SESSION_SECRET }}
@@ -49,12 +49,14 @@ jobs:
         if: github.ref_name == 'main'
         run: pnpm exec arc deploy --production --name main -v
         env:
+          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 📦 Deploy ${{ github.ref_name }}
         if: github.ref_name != 'main'
         run: pnpm exec arc deploy --name ${{ github.ref_name }} -v
         env:
+          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 🚀 Release

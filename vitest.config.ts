@@ -11,7 +11,6 @@ const coverageReporters: CoverageReporter[] = ['text'];
 if (!isCi) {
   // testReporters.push('cobertura');
   coverageReporters.push('html');
-  coverageReporters.push('cobertura');
 } else {
   testReporters.push('junit');
   coverageReporters.push('cobertura');

@@ -50,6 +50,7 @@ describe('i18next.client', () => {
           "loadPath": "/_static/locales/{{lng}}/{{ns}}.json?v=1",
         },
         "client": "config",
+        "debug": false,
         "ns": [
           "ns1",
           "ns2",

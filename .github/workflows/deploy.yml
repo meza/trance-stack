@@ -28,36 +28,30 @@ jobs:
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
-      - name: Set environment
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add ARC_APP_SECRET ${{ secrets.ARC_APP_SECRET }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SPLIT_SERVER_TOKEN ${{ secrets.SPLIT_SERVER_TOKEN }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SESSION_SECRET ${{ secrets.SESSION_SECRET }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add HOTJAR_ID ${{ vars.HOTJAR_ID }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add MIXPANEL_API ${{ vars.MIXPANEL_API }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add MIXPANEL_TOKEN ${{ vars.MIXPANEL_TOKEN }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add COOKIEYES_TOKEN ${{ vars.COOKIEYES_TOKEN }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add I18N_DEBUG ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
-          pnpm exec arc env -e ${{ env.ARC_ENV }} --add SPLIT_DEBUG ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: Build
         run: pnpm build
+        env:
+          NODE_ENV: ${{ env.ARC_ENV }}
+          SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+          MIXPANEL_API: ${{ vars.MIXPANEL_API }}
+          MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+          COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+          I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+          SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
       - name: 📦 Deploy Production
         if: github.ref_name == 'main'
         run: pnpm exec arc deploy -e production --production --name main -v
         env:
-          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 📦 Deploy ${{ github.ref_name }}
         if: github.ref_name != 'main'
         run: pnpm exec arc deploy -e staging --name ${{ github.ref_name }} -v
         env:
-          ARC_APP_SECRET: ${{ secrets.ARC_APP_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 🚀 Release

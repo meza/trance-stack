@@ -13,4 +13,4 @@ compression gzip
 @aws
 cors *
 # profile default
-region eu-west-2
+region us-east-1

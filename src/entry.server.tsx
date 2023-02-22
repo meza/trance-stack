@@ -4,7 +4,7 @@ import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
 import { createUserSession } from '~/session.server';
-import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
+import { sanitizeHeaders } from '~/utils/securityHeaders';
 import type { EntryContext } from '@remix-run/node';
 
 export default async (
@@ -14,7 +14,7 @@ export default async (
   remixContext: EntryContext
 ) => {
   const locale = 'en';
-  const isDevelopment = process.env.NODE_ENV === 'development';
+  // const isDevelopment = process.env.NODE_ENV === 'development';
 
   // initialise stuff in parallel
   const [i18nextInstance, cookie] = await Promise.all([
@@ -30,8 +30,9 @@ export default async (
 
   responseHeaders.set('Content-Type', 'text/html');
   responseHeaders.set('Set-Cookie', cookie);
+  responseHeaders.set('Cache-Control', 'public, max-age=60, no-cache="Set-Cookie"');
 
-  addSecurityHeaders(responseHeaders, isDevelopment);
+  //addSecurityHeaders(responseHeaders, isDevelopment);
   sanitizeHeaders(responseHeaders);
 
   return new Response('<!DOCTYPE html>' + markup, {
@@ -49,7 +50,7 @@ export const handleDataRequest = (
     !response.headers.get('Cache-Control')
     && request.method.toLowerCase() === 'get'
   ) {
-    response.headers.set('Cache-Control', 'private, max-age=600');
+    response.headers.set('Cache-Control', 'private, max-age=600, no-cache="Set-Cookie"');
   }
   return response;
 };

@@ -30,7 +30,7 @@ export default async (
 
   responseHeaders.set('Content-Type', 'text/html');
   responseHeaders.set('Set-Cookie', cookie);
-  responseHeaders.set('Cache-Control', 'public, max-age=60, no-cache="Set-Cookie"');
+  responseHeaders.set('Cache-Control', 'private, max-age=61, no-cache="Set-Cookie"');
 
   //addSecurityHeaders(responseHeaders, isDevelopment);
   sanitizeHeaders(responseHeaders);

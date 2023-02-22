@@ -6,7 +6,7 @@ const splitFactory = SplitFactory({
     authorizationKey: process.env.SPLIT_SERVER_TOKEN
   },
   debug: process.env.SPLIT_DEBUG === 'true',
-  features: path.resolve(process.cwd(), '../devFeatures.yml')
+  features: path.resolve(__dirname, '../devFeatures.yml')
 });
 const splitClient = splitFactory.client();
 

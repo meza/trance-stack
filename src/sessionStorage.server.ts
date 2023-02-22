@@ -6,9 +6,9 @@ const sessionStorage = createCookieSessionStorage({
     httpOnly: true,
     maxAge: 60,
     path: '/',
-    sameSite: 'lax',
+    sameSite: 'strict',
     secrets: [process.env.SESSION_SECRET || 'secret'],
-    secure: process.env.NODE_ENV === 'production'
+    secure: true
   }
 });
 

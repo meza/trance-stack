@@ -44,13 +44,13 @@ jobs:
           SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
       - name: 📦 Deploy Production
         if: github.ref_name == 'main'
-        run: pnpm exec arc deploy -e production --production --name main -v
+        run: pnpm exec cdk deploy --all --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 📦 Deploy ${{ github.ref_name }}
         if: github.ref_name != 'main'
-        run: pnpm exec arc deploy -e staging --name ${{ github.ref_name }} -v
+        run: pnpm exec cdk deploy --all --require-approval never --context name=${{ github.ref_name }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

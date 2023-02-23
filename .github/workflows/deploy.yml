@@ -33,6 +33,8 @@ jobs:
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: 📦 Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: 📦 Build
+        run: pnpm build
         env:
           NODE_ENV: ${{ env.ARC_ENV }}
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}

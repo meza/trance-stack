@@ -9,7 +9,7 @@ env:
 
 jobs:
   verify:
-    uses: meza/shared-github-workflows/.github/workflows/default-node-pnpm-ci.yml@main
+    uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
@@ -24,17 +24,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up node
-        uses: meza/action-setup-node-pnpm@main
+        uses: meza/action-setup-node-npm@main
         with:
-          install: false
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
-      - name: 📦 Install dependencies
-        run: pnpm install --frozen-lockfile
       - name: 📦 Build
-        run: pnpm build
+        run: npm run build
         env:
           NODE_ENV: ${{ env.ARC_ENV }}
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
@@ -46,11 +43,11 @@ jobs:
           I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
           SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
       - name: 📦 Deploy ${{ github.ref_name }}
-        run: pnpm deploy:cdk --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+        run: npm run deploy:cdk --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: 🚀 Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm release
+        run: npm run release

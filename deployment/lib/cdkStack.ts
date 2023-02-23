@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { HttpApi, ParameterMapping } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { HttpApi } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import { Duration, Stack } from 'aws-cdk-lib';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -15,7 +15,6 @@ import {
   ViewerProtocolPolicy
 } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { CompositePrincipal, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
@@ -30,16 +29,24 @@ import type { Construct } from 'constructs';
 
 export class CdkStack extends Stack {
   readonly distributionUrlParameterName = '/remix/distribution/url';
-  readonly domainName = 'trance-stack.vsbmeza.com';
-  readonly certificateArn = 'arn:aws:acm:us-east-1:816237403055:certificate/028f6e6d-99c3-493b-92e6-3d17c6f37a48';
+  private finalUrl: string | null = null;
 
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const bucket = new Bucket(this, 'TranceStackBucket');
+    const environmentName = scope.node.tryGetContext('environmentName');
+    const hostedZoneName = scope.node.tryGetContext('hostedZoneName');
+    const domainName = scope.node.tryGetContext('domainName');
+    const certificateArn = scope.node.tryGetContext('certificateArn');
+
+    const certificate = Certificate.fromCertificateArn(this, 'Certificate', certificateArn);
+
+    const formatName = (name: string) => `${id}-${environmentName}-${name}`;
+
+    const bucket = new Bucket(this, formatName('AssetsBucket'));
 
     // eslint-disable-next-line no-new
-    new BucketDeployment(this, 'DeployStaticAssets', {
+    new BucketDeployment(this, formatName('DeployStaticAssets'), {
       sources: [Source.asset(path.join(__dirname, '../../public'))],
       destinationBucket: bucket,
       destinationKeyPrefix: '_static',
@@ -49,7 +56,7 @@ export class CdkStack extends Stack {
       ]
     });
 
-    const fn = new NodejsFunction(this, 'TranceStackRequestHandler', {
+    const fn = new NodejsFunction(this, formatName('RequestHandler'), {
       runtime: Runtime.NODEJS_18_X,
       entry: path.join(__dirname, '../../server/index.js'),
       bundling: {
@@ -60,15 +67,16 @@ export class CdkStack extends Stack {
       tracing: Tracing.ACTIVE
     });
 
-    const integration = new HttpLambdaIntegration('TranceStackHttpLambdaIntegration', fn);
+    const integration = new HttpLambdaIntegration(formatName('kHttpLambdaIntegration'), fn);
 
     const httpApi = new HttpApi(this, 'TranceStackApi', {
       defaultIntegration: integration
     });
 
     const httpApiUrl = `${httpApi.httpApiId}.execute-api.${Stack.of(this).region}.${Stack.of(this).urlSuffix}`;
-    const originRequestPolicy = new OriginRequestPolicy(this, 'TranceStackRequestHandlerPolicy', {
-      originRequestPolicyName: 'website-request-handler',
+
+    const originRequestPolicy = new OriginRequestPolicy(this, formatName('RequestHandlerPolicy'), {
+      originRequestPolicyName: formatName('RequestHandlerPolicy'),
       queryStringBehavior: OriginRequestQueryStringBehavior.all(),
       cookieBehavior: OriginRequestCookieBehavior.all(),
       // https://stackoverflow.com/questions/65243953/pass-query-params-from-cloudfront-to-api-gateway
@@ -77,8 +85,8 @@ export class CdkStack extends Stack {
       )
     });
 
-    const cachePolicy = new CachePolicy(this, 'TranceStackCachePolicy', {
-      cachePolicyName: 'remix-cache-policy',
+    const cachePolicy = new CachePolicy(this, formatName('CachePolicy'), {
+      cachePolicyName: formatName('CachePolicy'),
       defaultTtl: Duration.seconds(86400),
       minTtl: Duration.seconds(0),
       maxTtl: Duration.seconds(31536000),
@@ -98,9 +106,9 @@ export class CdkStack extends Stack {
       viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
     };
 
-    const distribution = new Distribution(this, 'TranceStackCloudFront', {
-      domainNames: [this.domainName],
-      certificate: Certificate.fromCertificateArn(this, 'TranceStackCertificate', this.certificateArn),
+    const distribution = new Distribution(this, 'HUHDistribution', {
+      domainNames: [domainName],
+      certificate: certificate,
       defaultBehavior: {
         compress: true,
         origin: new HttpOrigin(httpApiUrl),
@@ -116,20 +124,28 @@ export class CdkStack extends Stack {
     });
 
     // eslint-disable-next-line no-new
-    new ARecord(this, 'TranceStackAliasRecord', {
-      zone: HostedZone.fromHostedZoneAttributes(this, 'HostedZone', {
-        hostedZoneId: 'Z2UAK2IOFEOI1W',
-        zoneName: 'vsbmeza.com'
+    new ARecord(this, formatName('AliasRecord'), {
+      zone: HostedZone.fromLookup(this, formatName('HostedZone'), {
+        domainName: hostedZoneName
       }),
-      recordName: this.domainName,
+      recordName: domainName,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
     });
 
     // eslint-disable-next-line no-new
-    new StringParameter(this, 'TranceStackDistributionUrlParameter', {
+    new StringParameter(this, formatName('DistributionUrlParameter'), {
       parameterName: this.distributionUrlParameterName,
       stringValue: distribution.distributionDomainName,
       tier: ParameterTier.STANDARD
     });
+
+  }
+
+  getUrl(): string {
+    if (!this.finalUrl) {
+      const url = StringParameter.fromStringParameterName(this, 'ParamNameRequest', this.distributionUrlParameterName);
+      this.finalUrl = `https://${url}`;
+    }
+    return this.finalUrl;
   }
 }

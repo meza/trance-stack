@@ -60,7 +60,8 @@ export class CdkStack extends Stack {
       runtime: Runtime.NODEJS_18_X,
       entry: path.join(__dirname, '../../server/index.js'),
       bundling: {
-        nodeModules: ['@remix-run/architect', 'react', 'react-dom']
+        nodeModules: ['@remix-run/architect', 'react', 'react-dom'],
+        buildArgs: { '--no-frozen-lockfile': '' }
       },
       timeout: Duration.seconds(10),
       logRetention: RetentionDays.THREE_DAYS,

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "run-s build:remix",
     "build:remix": "cross-env INLINE_RUNTIME_CHUNK=false remix build",
-    "deploy:cdk": "cdk deploy --all --require-approval never",
+    "deploy:cdk": "cdk deploy remix-trance-stack-deployment --require-approval never",
     "deploy:prod": "run-s build:remix deploy:cdk",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox -p 3000 --verbose",

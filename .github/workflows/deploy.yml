@@ -6,7 +6,6 @@ on:
 
 env:
   LEFTHOOK: 0
-  ARC_ENV: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}
 
 jobs:
   verify:
@@ -18,7 +17,7 @@ jobs:
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"
   build:
-    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
+    environment: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}
     runs-on: 'ubuntu-latest'
     needs: [ verify ]
     if: needs.verify.outputs.new-release-published == 'true'

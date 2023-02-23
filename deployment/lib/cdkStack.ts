@@ -60,8 +60,21 @@ export class CdkStack extends Stack {
       runtime: Runtime.NODEJS_18_X,
       entry: path.join(__dirname, '../../server/index.js'),
       bundling: {
-        nodeModules: ['@remix-run/architect', 'react', 'react-dom'],
-        buildArgs: { '--no-frozen-lockfile': '' }
+        commandHooks: {
+          beforeBundling: (inputDir: string, _: string) => {
+            return [
+              `cd ${inputDir}`,
+              'pnpm install --no-frozen-lockfile'
+            ];
+          },
+          beforeInstall: () => {
+            return [];
+          },
+          afterBundling: () => {
+            return [];
+          }
+        },
+        nodeModules: ['@remix-run/architect', 'react', 'react-dom']
       },
       timeout: Duration.seconds(10),
       logRetention: RetentionDays.THREE_DAYS,

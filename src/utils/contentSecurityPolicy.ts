@@ -20,7 +20,7 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
       ],
       'connect-src': [
         SELF,
-        // UNSAFE_INLINE,
+        UNSAFE_INLINE,
         'https://*.mixpanel.com',
         'https://*.cookieyes.com',
         'https://cdn-cookieyes.com',

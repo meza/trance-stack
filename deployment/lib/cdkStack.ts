@@ -140,12 +140,4 @@ export class CdkStack extends Stack {
     });
 
   }
-
-  getUrl(): string {
-    if (!this.finalUrl) {
-      const url = StringParameter.fromStringParameterName(this, 'ParamNameRequest', this.distributionUrlParameterName);
-      this.finalUrl = `https://${url}`;
-    }
-    return this.finalUrl;
-  }
 }

@@ -18,6 +18,11 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
       errorOnExist: false,
     }),
     copyFilesPlugin({
+      src: './public/scripts',
+      dest: './public/build/scripts',
+      errorOnExist: false,
+    }),
+    copyFilesPlugin({
       src: './public/favicon.ico',
       dest: './public/build/favicon.ico',
       errorOnExist: false,

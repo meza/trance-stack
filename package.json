@@ -5,7 +5,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "run-s build:remix",
-    "build:remix": "remix build",
+    "build:remix": "cross-env INLINE_RUNTIME_CHUNK=false remix build",
     "deploy:cdk": "cdk deploy --all --require-approval never",
     "deploy:prod": "run-s build:remix deploy:cdk",
     "dev:remix": "cross-env NODE_ENV=development remix watch",

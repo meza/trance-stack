@@ -4,7 +4,7 @@ import { RemixServer } from '@remix-run/react';
 import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
-import { sanitizeHeaders } from '~/utils/securityHeaders';
+import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import type { EntryContext } from '@remix-run/node';
 
 export default async (
@@ -30,7 +30,7 @@ export default async (
   responseHeaders.set('Content-Type', 'text/html');
   responseHeaders.set('Cache-Control', 'no-cache, max-age=0, s-maxage=0');
 
-  //addSecurityHeaders(responseHeaders, isDevelopment);
+  addSecurityHeaders(responseHeaders, process.env.NODE_ENV === 'development');
   sanitizeHeaders(responseHeaders);
 
   return new Response('<!DOCTYPE html>' + markup, {

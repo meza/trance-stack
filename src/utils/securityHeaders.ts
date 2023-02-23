@@ -58,7 +58,7 @@ export const securityHeaders = (isDev: boolean): Headers => {
   owaspHeaders.set('Origin-Agent-Cluster', '?1');
   owaspHeaders.set('Permissions-Policy', 'accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()');
   owaspHeaders.set('Referrer-Policy', 'origin-when-cross-origin');
-  owaspHeaders.set('Strict-Transport-Security', 'max-age=15552000; includeSubDomains');
+  owaspHeaders.set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   owaspHeaders.set('X-Content-Type-Options', 'nosniff');
   owaspHeaders.set('X-DNS-Prefetch-Control', 'off');
   owaspHeaders.set('X-Download-Options', 'noopen');

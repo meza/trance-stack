@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
-import { getVisitorIdFromRequest } from '~/session.server';
+import { createUserSession } from '~/session.server';
 import splitClient from '~/split.server';
 import app, { ExposeAppConfig, handle, links, loader, meta } from './root';
 
@@ -74,7 +74,10 @@ describe('The root module', () => {
 
   describe('when calling the loader', () => {
     beforeEach(() => {
-      vi.mocked(getVisitorIdFromRequest).mockResolvedValue('a-visitorId');
+      vi.mocked(createUserSession).mockResolvedValue({
+        visitorId: 'a-visitorId',
+        cookie: 'a-cookie'
+      });
       vi.mocked(remixI18next.getLocale).mockResolvedValue('en');
       vi.mocked(splitClient.ready).mockResolvedValue();
       vi.mocked(splitClient.track).mockReturnValue(true);
@@ -109,6 +112,12 @@ describe('The root module', () => {
       `);
     });
 
+    it('should set the cookie header', async () => {
+      const request = new Request('https://example.com');
+      const response = await loader({ request: request } as never);
+      expect(response.headers.get('Set-Cookie')).toMatchInlineSnapshot('"a-cookie"');
+    });
+
     it('should return the app config for prod', async () => {
       process.env.NODE_ENV = 'production';
       const request = new Request('https://example.com');
@@ -135,7 +144,7 @@ describe('The root module', () => {
       const request = new Request('https://example.com');
       await loader({ request: request } as never);
 
-      expect(getVisitorIdFromRequest).toHaveBeenCalledWith(request);
+      expect(createUserSession).toHaveBeenCalledWith(request);
       expect(remixI18next.getLocale).toHaveBeenCalledWith(request);
       expect(splitClient.ready).toHaveBeenCalled();
       expect(splitClient.track).toHaveBeenCalledWith('a-visitorId', 'anonymous', 'page_view');

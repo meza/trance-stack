@@ -1,14 +1,16 @@
+import path from 'node:path';
 import { SplitFactory } from '@splitsoftware/splitio/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@splitsoftware/splitio/server');
+vi.mock('node:path');
 
 describe('The split client', () => {
   const originalEnv = structuredClone(process.env);
   beforeEach(async () => {
     vi.resetAllMocks();
-    vi.spyOn(process, 'cwd').mockReturnValue('/cwd/sub/directory');
     vi.resetModules();
+    vi.mocked(path.resolve).mockReturnValue('/cwd/sub/devFeatures.yml');
   });
 
   afterEach(() => {

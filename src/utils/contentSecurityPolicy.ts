@@ -20,7 +20,7 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
       ],
       'connect-src': [
         SELF,
-        UNSAFE_INLINE,
+        // UNSAFE_INLINE,
         'https://*.mixpanel.com',
         'https://*.cookieyes.com',
         'https://cdn-cookieyes.com',
@@ -39,7 +39,10 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://*.hotjar.com',
         'https://*.hotjar.io'
       ],
-      'style-src': [SELF, UNSAFE_INLINE]
+      'style-src': [
+        // UNSAFE_INLINE,
+        SELF
+      ]
     }
   });
 };

@@ -17,6 +17,7 @@ describe('The session storage', () => {
 
   it('returns the configured one', async () => {
     process.env.NODE_ENV = 'development';
+    delete process.env.SESSION_SECRET;
     vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
     const { getSessionStorage } = await import ('~/sessionStorage.server');
     const actual = getSessionStorage();
@@ -28,14 +29,14 @@ describe('The session storage', () => {
       {
         "cookie": {
           "httpOnly": true,
-          "maxAge": 60,
+          "maxAge": 31536000,
           "name": "__session",
           "path": "/",
-          "sameSite": "lax",
+          "sameSite": "strict",
           "secrets": [
             "secret",
           ],
-          "secure": false,
+          "secure": true,
         },
       }
     `);
@@ -58,10 +59,10 @@ describe('The session storage', () => {
       {
         "cookie": {
           "httpOnly": true,
-          "maxAge": 60,
+          "maxAge": 31536000,
           "name": "__session",
           "path": "/",
-          "sameSite": "lax",
+          "sameSite": "strict",
           "secrets": [
             "also-a-secret",
           ],

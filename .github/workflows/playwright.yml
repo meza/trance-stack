@@ -12,12 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up node
-      uses: meza/action-setup-node-pnpm@main
+      uses: meza/action-setup-node-npm@main
       with:
         node-version: latest
         cache-name: 'playwright'
-    - name: Install dependencies
-      run: pnpm install
     - name: Create envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
@@ -29,11 +27,11 @@ jobs:
         envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
         envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
     - name: Build
-      run: pnpm build
+      run: npm run build
     - name: Install Playwright Browsers
-      run: pnpm exec playwright install --with-deps
+      run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: DEBUG=pw:webserver pnpm int
+      run: DEBUG=pw:webserver npm run int
     - uses: actions/upload-artifact@v3
       if: always()
       with:

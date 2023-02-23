@@ -1,9 +1,9 @@
 import { Response } from '@remix-run/node';
+import { cleanup } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { initServerI18n } from '~/i18n';
-import { createUserSession } from '~/session.server';
-import { sanitizeHeaders } from '~/utils/securityHeaders';
+import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import entry, { handleDataRequest } from './entry.server';
 
 vi.mock('~/i18n');
@@ -17,12 +17,13 @@ describe('entry.server', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(initServerI18n).mockResolvedValue('mocked initServerI18n' as never);
-    vi.mocked(createUserSession).mockResolvedValue('mocked createUserSession' as never);
     vi.mocked(renderToString).mockReturnValue('mocked renderToString markup');
   });
 
   afterEach(() => {
     process.env = originalEnv;
+    vi.resetAllMocks();
+    cleanup();
   });
 
   it('should return the markup', async () => {
@@ -63,8 +64,7 @@ describe('entry.server', () => {
     await entry(request, responseCode, responseHeaders, context);
 
     expect(initServerI18n).toHaveBeenCalledWith('en', context);
-    expect(createUserSession).toHaveBeenCalledWith(request);
-    // expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, true);
+    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, true);
     expect(sanitizeHeaders).toHaveBeenCalledWith(responseHeaders);
 
   });
@@ -85,17 +85,15 @@ describe('entry.server', () => {
     } as never;
 
     const actualResponse = await entry(request, responseCode, responseHeaders, context);
-    // expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, false);
+    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, false);
     expect(actualResponse.status).toBe(200);
     expect(await actualResponse.headers).toMatchInlineSnapshot(`
       Headers {
         Symbol(query): [
           "cache-control",
-          "public, max-age=60, no-cache=\\"Set-Cookie\\"",
+          "no-cache, max-age=0, s-maxage=0",
           "content-type",
           "text/html",
-          "set-cookie",
-          "mocked createUserSession",
         ],
         Symbol(context): null,
       }

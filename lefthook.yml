@@ -19,10 +19,10 @@ pre-commit:
   parallel: true
   commands:
     lint:
-      run: pnpm lint
+      run: npm run lint
     test:
-      run: pnpm report
+      run: npm run report
 post-merge:
   commands:
     install-deps-postmerge:
-      run: pnpm install
+      run: npm run install

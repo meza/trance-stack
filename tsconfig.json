@@ -1,5 +1,5 @@
 {
-  "include": ["./*", "src", "test", "types"],
+  "include": ["./*", "src", "test", "types", "deployment"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "isolatedModules": true,
@@ -13,6 +13,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
     "baseUrl": ".",
     "rootDir": ".",
     "paths": {
@@ -25,9 +26,33 @@
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   },
+  "exclude": [
+    "cdk.out"
+  ],
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs"
+      "target": "ES2020",
+      "module": "commonjs",
+      "lib": [
+        "es2020"
+      ],
+      "declaration": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": false,
+      "inlineSourceMap": true,
+      "inlineSources": true,
+      "experimentalDecorators": true,
+      "strictPropertyInitialization": false,
+      "typeRoots": [
+        "./node_modules/@types"
+      ]
     },
     "require": ["reflect-metadata", "tsconfig-paths/register"]
   }

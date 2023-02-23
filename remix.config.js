@@ -1,7 +1,7 @@
 const { withEsbuildOverride } = require('remix-esbuild-override');
 const { environmentPlugin } = require('esbuild-plugin-environment');
 const env = require('esbuild-plugin-env');
-
+const copyFilesPlugin = require('esbuild-copy-static-files');
 
 /**
  * Define callbacks for the arguments of withEsbuildOverride.
@@ -12,6 +12,16 @@ const env = require('esbuild-plugin-env');
  */
 withEsbuildOverride((option /* { isServer, isDev } */) => {
   option.plugins = [
+    copyFilesPlugin({
+      src: './public/locales',
+      dest: './public/build/locales',
+      errorOnExist: false,
+    }),
+    copyFilesPlugin({
+      src: './public/favicon.ico',
+      dest: './public/build/favicon.ico',
+      errorOnExist: false,
+    }),
     env(),
     environmentPlugin(['NODE_ENV',
       'HOTJAR_ID',
@@ -37,12 +47,13 @@ module.exports = {
   future: {
     unstable_postcss: true
   },
-  serverMinify: true,
-  serverBuildTarget: 'arc',
   server: './server.js',
+  serverMinify: true,
   ignoredRouteFiles: ['**/.*', '*.test.tsx'],
-  appDirectory: 'src'
+  appDirectory: 'src',
+  serverBuildDirectory: "server",
+  browserBuildDirectory: "public/build",
   // assetsBuildDirectory: "dist",
-  // serverBuildPath: "server/index.js",
-  // publicPath: "/_static/build/",
+  serverBuildPath: "server/index.js",
+  publicPath: "/_static/build",
 };

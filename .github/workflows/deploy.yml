@@ -26,12 +26,13 @@ jobs:
       - name: Set up node
         uses: meza/action-setup-node-pnpm@main
         with:
+          install: false
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
-      - name: Build
-        run: git diff
+      - name: 📦 Install dependencies
+        run: pnpm install --frozen-lockfile
         env:
           NODE_ENV: ${{ env.ARC_ENV }}
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}

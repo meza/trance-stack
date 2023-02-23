@@ -22,15 +22,11 @@ import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment';
-import { ParameterTier, StringParameter } from 'aws-cdk-lib/aws-ssm';
 import type { StackProps } from 'aws-cdk-lib';
 import type { AddBehaviorOptions } from 'aws-cdk-lib/aws-cloudfront';
 import type { Construct } from 'constructs';
 
 export class CdkStack extends Stack {
-  readonly distributionUrlParameterName = '/remix/distribution/url';
-  private finalUrl: string | null = null;
-
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -131,13 +127,5 @@ export class CdkStack extends Stack {
       recordName: domainName,
       target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
     });
-
-    // eslint-disable-next-line no-new
-    new StringParameter(this, formatName('DistributionUrlParameter'), {
-      parameterName: this.distributionUrlParameterName,
-      stringValue: distribution.distributionDomainName,
-      tier: ParameterTier.STANDARD
-    });
-
   }
 }

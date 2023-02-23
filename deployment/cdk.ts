@@ -5,9 +5,10 @@ import { name, version } from '../package.json';
 import { CdkStack } from './lib/cdkStack';
 
 const app = new cdk.App();
+const envName = app.node.tryGetContext('environmentName');
 
 // eslint-disable-next-line no-new
-new CdkStack(app, `${name}-deployment`, {
+new CdkStack(app, `${name}-${envName}-deployment`, {
   description: `CDK Stack for ${name}, version: ${version}`,
   env: {
     account: process.env.CDK_DEFAULT_ACCOUNT,

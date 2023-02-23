@@ -25,4 +25,4 @@ pre-commit:
 post-merge:
   commands:
     install-deps-postmerge:
-      run: npm run install
+      run: npm install

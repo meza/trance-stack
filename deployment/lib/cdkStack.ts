@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { HttpApi } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { HttpApi, ParameterMapping } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpLambdaIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import { Duration, Stack } from 'aws-cdk-lib';
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager';
@@ -49,10 +49,6 @@ export class CdkStack extends Stack {
       ]
     });
 
-    const lambdaRole = new Role(this, 'TranceStackLambdaRole', {
-      assumedBy: new CompositePrincipal(new ServicePrincipal('lambda.amazonaws.com'))
-    });
-
     const fn = new NodejsFunction(this, 'TranceStackRequestHandler', {
       runtime: Runtime.NODEJS_18_X,
       entry: path.join(__dirname, '../../server/index.js'),
@@ -61,8 +57,7 @@ export class CdkStack extends Stack {
       },
       timeout: Duration.seconds(10),
       logRetention: RetentionDays.THREE_DAYS,
-      tracing: Tracing.ACTIVE,
-      role: lambdaRole
+      tracing: Tracing.ACTIVE
     });
 
     const integration = new HttpLambdaIntegration('TranceStackHttpLambdaIntegration', fn);

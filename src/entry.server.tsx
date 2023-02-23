@@ -1,9 +1,9 @@
+import React from 'react';
 import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
 import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
-import { createUserSession } from '~/session.server';
 import { sanitizeHeaders } from '~/utils/securityHeaders';
 import type { EntryContext } from '@remix-run/node';
 
@@ -17,9 +17,8 @@ export default async (
   // const isDevelopment = process.env.NODE_ENV === 'development';
 
   // initialise stuff in parallel
-  const [i18nextInstance, cookie] = await Promise.all([
-    initServerI18n(locale, remixContext),
-    createUserSession(request)
+  const [i18nextInstance] = await Promise.all([
+    initServerI18n(locale, remixContext)
   ]);
 
   const markup = renderToString(
@@ -29,8 +28,7 @@ export default async (
   );
 
   responseHeaders.set('Content-Type', 'text/html');
-  responseHeaders.set('Set-Cookie', cookie);
-  responseHeaders.set('Cache-Control', 'private, max-age=61, no-cache="Set-Cookie"');
+  responseHeaders.set('Cache-Control', 'no-cache, max-age=0, s-maxage=0');
 
   //addSecurityHeaders(responseHeaders, isDevelopment);
   sanitizeHeaders(responseHeaders);

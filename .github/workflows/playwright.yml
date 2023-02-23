@@ -27,9 +27,9 @@ jobs:
         envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
         envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
     - name: Build
-      run: npm build
+      run: npm run build
     - name: Install Playwright Browsers
-      run: npm exec playwright install --with-deps
+      run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: DEBUG=pw:webserver pnpm int
     - uses: actions/upload-artifact@v3

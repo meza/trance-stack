@@ -40,7 +40,7 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://*.hotjar.io'
       ],
       'style-src': [
-        // UNSAFE_INLINE,
+        UNSAFE_INLINE,
         SELF
       ]
     }

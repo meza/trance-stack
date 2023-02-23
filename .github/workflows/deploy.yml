@@ -31,7 +31,7 @@ jobs:
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: Build
-        run: pnpm build
+        run: git diff
         env:
           NODE_ENV: ${{ env.ARC_ENV }}
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}

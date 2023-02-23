@@ -20,6 +20,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     globals: true,
+    isolate: true,
     environment: 'happy-dom',
     cache: {
       dir: '.cache/.vitest'

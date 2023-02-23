@@ -1,4 +1,5 @@
 import { Response } from '@remix-run/node';
+import { cleanup } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { initServerI18n } from '~/i18n';
@@ -21,6 +22,8 @@ describe('entry.server', () => {
 
   afterEach(() => {
     process.env = originalEnv;
+    vi.resetAllMocks();
+    cleanup();
   });
 
   it('should return the markup', async () => {

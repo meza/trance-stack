@@ -21,6 +21,18 @@ jobs:
       with:
         node-version: latest
         cache-name: destroy-${{ github.ref_name }}
+    - name: 🔨 Build
+      run: npm run build
+      env:
+        NODE_ENV: production
+        SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+        HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+        MIXPANEL_API: ${{ vars.MIXPANEL_API }}
+        MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+        COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+        I18N_DEBUG: 'true'
+        SPLIT_DEBUG: 'true'
     - name: 📦 Destroy ${{ github.ref_name }}
       run: npx cdk destroy remix-trance-stack-ephemeral --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
       env:

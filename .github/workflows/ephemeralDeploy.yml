@@ -8,15 +8,15 @@ on:
 env:
   LEFTHOOK: 0
   GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
-  REF_NAME: ${{ github.event.ref == '' && github.ref_name || github.event.ref }}
+  REF_NAME: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
 
 concurrency:
-  group: ${{ github.event.ref == '' && github.ref_name || github.event.ref }}
+  group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy ${{ github.event.ref == '' && github.ref_name || github.event.ref }} to an ephemeral environment
+    name: Deploy ${{ github.head_ref == '' && github.ref_name || github.head_ref }} to an ephemeral environment
     runs-on: 'ubuntu-latest'
     steps:
       - name: ⏬ Checkout

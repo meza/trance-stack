@@ -8,14 +8,15 @@ on:
 env:
   LEFTHOOK: 0
   GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
+  REF_NAME: ${{ github.event.ref == '' && github.ref_name || github.event.ref }}
 
 concurrency:
-  group: ${{ github.event.ref }}
+  group: ${{ env.REF_NAME }}
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy ${{ github.event.ref }} to an ephemeral environment
+    name: Deploy ${{ env.REF_NAME }} to an ephemeral environment
     runs-on: 'ubuntu-latest'
     steps:
       - name: ⏬ Checkout
@@ -29,12 +30,12 @@ jobs:
         uses: pat-s/always-upload-cache@v3.0.11
         if: always()
         env:
-          cache-name: cdk-${{ github.event.ref }}
+          cache-name: cdk-${{ env.REF_NAME }}
         with:
           path: ./cdk.out
-          key: cdk-${{ github.event.ref }}-${{ hashFiles('cdk.out/manifest.json') }}
+          key: cdk-${{ env.REF_NAME }}-${{ hashFiles('cdk.out/manifest.json') }}
           restore-keys: |
-            cdk-${{ github.event.ref }}-
+            cdk-${{ env.REF_NAME }}-
 
       - name: 🔢 Set version
         run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
@@ -50,8 +51,8 @@ jobs:
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
           I18N_DEBUG: 'true'
           SPLIT_DEBUG: 'true'
-      - name: 📦 Deploy ${{ github.event.ref }}
-        run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ github.event.ref }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+      - name: 📦 Deploy ${{ env.REF_NAME }}
+        run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ env.REF_NAME }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:
           GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

@@ -30,10 +30,12 @@ const run = async () => {
         .addRaw('You can access your API at the following URL: ')
         .addLink(apiName, apiName);
 
-      summary.write().then((finalSummary) => {
+      const finalText = summary.stringify();
+
+      summary.write().then(() => {
         core.endGroup();
         if (github.context.eventName === 'pull_request') {
-          core.info(summary.stringify());
+          core.info(`Final text: ${finalText}`);
           core.startGroup('Deployment summary for a PR');
           const context = github.context;
           const token = process.env.GITHUB_TOKEN || core.getInput('token', { required: true });
@@ -46,7 +48,7 @@ const run = async () => {
             repo: repository,
             // eslint-disable-next-line camelcase
             issue_number: issueNumber,
-            body: finalSummary.stringify()
+            body: finalText
           } as never).then(() => {
             core.endGroup();
           });

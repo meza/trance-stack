@@ -6,6 +6,7 @@ const file = '../deployment.result.json';
 
 // eslint-disable-next-line no-sync
 if (fs.existsSync(file)) {
+  console.log('The github step summary is:', process.env.GITHUB_STEP_SUMMARY);
   import(file).then((outputs) => {
     const typedOutputs: {
       [key: string]: {

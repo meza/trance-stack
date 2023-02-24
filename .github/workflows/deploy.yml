@@ -30,7 +30,7 @@ jobs:
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
-      - name: 📦 Build
+      - name: 🔨 Build
         run: npm run build
         env:
           NODE_ENV: ${{ env.ARC_ENV }}

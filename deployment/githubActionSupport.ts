@@ -20,13 +20,14 @@ const run = async () => {
 
       const stack = Object.keys(outputs)[0];
       const apiName = `https://${typedOutputs[stack].ApiUrl}`;
+      const mnemonic = 'You can access your deployment at the following URL';
 
       const summary = core.summary
-        .addHeading('Deployment details1')
+        .addHeading('Deployment details')
         .addBreak()
         .addRaw(`✅ Your stack: <code>${stack}</code> has been successfully deployed.`)
         .addSeparator()
-        .addRaw('You can access your API at the following URL: ')
+        .addRaw(`${mnemonic}: `)
         .addLink(apiName, apiName);
 
       const finalText = summary.stringify();
@@ -54,7 +55,7 @@ const run = async () => {
           for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, parameters)) {
             // Search each page for the comment
             const comment = comments.find((comment) =>
-              comment.body?.includes('You can access your API at the following URL')
+              comment.body?.includes(mnemonic)
             );
             if (comment) {
               commentId = comment.id.toString();

@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
-      - name: Cache build helpers
+      - name: CDK Cache
         uses: pat-s/always-upload-cache@v3.0.11
         if: always()
         env:

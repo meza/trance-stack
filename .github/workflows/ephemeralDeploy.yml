@@ -28,6 +28,17 @@ jobs:
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
+      - name: Cache build helpers
+        uses: pat-s/always-upload-cache@v3.0.11
+        if: always()
+        env:
+          cache-name: cdk-${{ github.ref_name }}
+        with:
+          path: ./cdk.out
+          key: cdk-${{ github.ref_name }}-${{ hashFiles('cdk.out/manifest.json') }}
+          restore-keys: |
+            cdk-${{ github.ref_name }}-
+
       - name: 🔢 Set version
         run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
       - name: 🔨 Build

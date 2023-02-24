@@ -2,10 +2,11 @@ import './githubEnv';
 import fs from 'node:fs';
 import * as core from '@actions/core';
 
-const file = process.env.GITHUB_STEP_SUMMARY || 'deploymentSummary.md';
+const file = './deployment.result.json';
 
 // eslint-disable-next-line no-sync
 if (fs.existsSync(file)) {
+  core.info('Found deployment result file');
   core.startGroup('Deployment summary');
   import(file).then((outputs) => {
     const typedOutputs: {
@@ -28,4 +29,6 @@ if (fs.existsSync(file)) {
         core.endGroup();
       });
   });
+} else {
+  core.warning('No deployment result file found');
 }

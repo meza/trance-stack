@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   destroy:
+    name: Destroy ${{ github.event.ref }} from an ephemeral environment
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:

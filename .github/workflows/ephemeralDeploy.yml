@@ -2,12 +2,9 @@ name: Ephemeral Deployments
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened, closed]
-  push:
-    branches-ignore:
-      - main
-      - alpha
-      - beta
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
 env:
   LEFTHOOK: 0
   GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
@@ -28,7 +25,7 @@ jobs:
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
-      - name: CDK Cache
+      - name: 🔂 CDK Cache
         uses: pat-s/always-upload-cache@v3.0.11
         if: always()
         env:

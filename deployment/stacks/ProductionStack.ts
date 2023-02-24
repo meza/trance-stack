@@ -15,18 +15,16 @@ import {
   ViewerProtocolPolicy
 } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
-import { Runtime, Tracing } from 'aws-cdk-lib/aws-lambda';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { RetentionDays } from 'aws-cdk-lib/aws-logs';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53';
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment';
+import { RemixApiGateway } from '../lib/Constructs/RemixApiGateway';
+import { RemixDeployment } from '../lib/Constructs/RemixDeployment';
 import type { StackProps } from 'aws-cdk-lib';
 import type { AddBehaviorOptions } from 'aws-cdk-lib/aws-cloudfront';
 import type { Construct } from 'constructs';
 
-export class CdkStack extends Stack {
+export class ProductionStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -39,37 +37,13 @@ export class CdkStack extends Stack {
 
     const formatName = (name: string) => `${id}-${environmentName}-${name}`;
 
-    const bucket = new Bucket(this, formatName('AssetsBucket'));
-
-    // eslint-disable-next-line no-new
-    new BucketDeployment(this, formatName('DeployStaticAssets'), {
-      sources: [Source.asset(path.join(__dirname, '../../public'))],
-      destinationBucket: bucket,
-      destinationKeyPrefix: '_static',
-      cacheControl: [
-        CacheControl.maxAge(Duration.days(365)),
-        CacheControl.sMaxAge(Duration.days(365))
-      ]
+    const remixDeployment = new RemixDeployment(this, formatName('RemixDeployment'), {
+      publicDir: path.join(__dirname, '../../public'),
+      server: path.join(__dirname, '../../server/index.js'),
+      runtime: Runtime.NODEJS_18_X
     });
 
-    const fn = new NodejsFunction(this, formatName('RequestHandler'), {
-      runtime: Runtime.NODEJS_18_X,
-      entry: path.join(__dirname, '../../server/index.js'),
-      bundling: {
-        nodeModules: ['@remix-run/architect', 'react', 'react-dom']
-      },
-      timeout: Duration.seconds(10),
-      logRetention: RetentionDays.THREE_DAYS,
-      tracing: Tracing.ACTIVE
-    });
-
-    const integration = new HttpLambdaIntegration(formatName('kHttpLambdaIntegration'), fn);
-
-    const httpApi = new HttpApi(this, 'TranceStackApi', {
-      defaultIntegration: integration
-    });
-
-    const httpApiUrl = `${httpApi.httpApiId}.execute-api.${Stack.of(this).region}.${Stack.of(this).urlSuffix}`;
+    const api = new RemixApiGateway(this, formatName('RemixApiGateway'), remixDeployment);
 
     const originRequestPolicy = new OriginRequestPolicy(this, formatName('RequestHandlerPolicy'), {
       originRequestPolicyName: formatName('RequestHandlerPolicy'),
@@ -97,7 +71,7 @@ export class CdkStack extends Stack {
       originRequestPolicy: originRequestPolicy
     };
 
-    const assetOrigin = new S3Origin(bucket);
+    const assetOrigin = new S3Origin(remixDeployment.staticBucket().bucket);
     const assetBehaviorOptions = {
       viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
     };
@@ -107,7 +81,7 @@ export class CdkStack extends Stack {
       certificate: certificate,
       defaultBehavior: {
         compress: true,
-        origin: new HttpOrigin(httpApiUrl),
+        origin: new HttpOrigin(api.url()),
         ...requestHandlerBehavior
       },
       priceClass: PriceClass.PRICE_CLASS_ALL,

@@ -42,8 +42,7 @@ export class EphemeralStack extends Stack {
     // eslint-disable-next-line no-new
     new CfnOutput(this, 'ApiUrl', {
       description: 'The URL of the API',
-      value: api.url(),
-      exportName: 'apiUrl'
+      value: api.url()
     });
 
     Tags.of(this).add('ephemeral', 'true');

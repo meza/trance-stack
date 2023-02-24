@@ -13,8 +13,7 @@ export class RemixApiGateway extends Construct {
     const bucket = remixDeployment.staticBucket().bucket;
 
     const executionRole = new Role(this, 'ExecutionRole', {
-      assumedBy: new ServicePrincipal('apigateway.amazonaws.com'),
-      roleName: 'ApiGWExecutionRole'
+      assumedBy: new ServicePrincipal('apigateway.amazonaws.com')
     });
 
     executionRole.addToPolicy(new PolicyStatement({

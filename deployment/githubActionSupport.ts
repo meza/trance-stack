@@ -17,7 +17,7 @@ if (fs.existsSync(file)) {
     } = outputs;
 
     const stack = Object.keys(outputs)[0];
-    const apiName = typedOutputs[stack].ApiUrl;
+    const apiName = `https://${typedOutputs[stack].ApiUrl}`;
 
     core.summary
       .addHeading('Deployment details')

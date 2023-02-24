@@ -1,4 +1,4 @@
-name: 'Verify & Build'
+name: Verify & Build
 
 on:
   push:
@@ -22,13 +22,24 @@ jobs:
     needs: [ verify ]
     if: needs.verify.outputs.new-release-published == 'true'
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up node
+      - name: ⏬ Checkout
+        uses: actions/checkout@v3
+      - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
-      - name: Set version
+      - name: 🔂 CDK Cache
+        uses: pat-s/always-upload-cache@v3.0.11
+        if: always()
+        env:
+          cache-name: cdk-${{ github.ref_name }}
+        with:
+          path: ./cdk.out
+          key: cdk-${{ github.ref_name }}-${{ hashFiles('cdk.out/manifest.json') }}
+          restore-keys: |
+            cdk-${{ github.ref_name }}-
+      - name: 🔢 Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: 🔨 Build
         run: npm run build
@@ -47,7 +58,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: 🚀 Release
+      - name: 🚀 Github Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run release

@@ -1,9 +1,9 @@
-import './githubEnv';
+import './githubEnv'; // for local testing purposes
 import fs from 'node:fs';
 import path from 'node:path';
 import * as core from '@actions/core';
 
-const file = path.resolve('/tmp/deployment.result.json');
+const file = path.resolve(process.argv[2]);
 core.info(`Looking for deployment result file at ${file}`);
 // eslint-disable-next-line no-sync
 if (fs.existsSync(file)) {

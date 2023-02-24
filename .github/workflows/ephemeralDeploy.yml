@@ -48,3 +48,5 @@ jobs:
           GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: ✍️ Publish deployment result
+        run: npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json

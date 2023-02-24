@@ -2,7 +2,7 @@ import './githubEnv';
 import fs from 'node:fs';
 import * as core from '@actions/core';
 
-const file = '../deployment.result.json';
+const file = process.env.GITHUB_STEP_SUMMARY || 'deploymentSummary.md';
 
 // eslint-disable-next-line no-sync
 if (fs.existsSync(file)) {

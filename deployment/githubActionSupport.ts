@@ -35,6 +35,7 @@ const run = async () => {
         core.endGroup();
       });
 
+      console.log({ github: github });
       if (github.context.eventName === 'pull_request') {
         core.startGroup('Deployment summary for a PR');
         const context = github.context;

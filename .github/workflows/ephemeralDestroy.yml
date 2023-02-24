@@ -13,9 +13,11 @@ concurrency:
 
 jobs:
   destroy:
+    name: Destroy ${{ github.event.ref }} from an ephemeral environment
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
+    - run: echo "🚨 Destroying ${{ github.event.ref }} from an ephemeral environment ${{ github.event.ref_name }} 🚨"
     - uses: actions/checkout@v3
     - name: Set up node
       uses: meza/action-setup-node-npm@main

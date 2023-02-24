@@ -28,7 +28,7 @@ export class EphemeralStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const environmentName = scope.node.tryGetContext('environmentName');
+    const environmentName = scope.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-]/g, '-');
     const formatName = (name: string) => `${id}-${environmentName}-${name}`;
 
     const remixDeployment = new RemixDeployment(this, formatName('RemixDeployment'), {

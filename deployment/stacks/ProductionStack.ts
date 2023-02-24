@@ -26,7 +26,7 @@ export class ProductionStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const environmentName = scope.node.tryGetContext('environmentName');
+    const environmentName = scope.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-]/g, '-');
     const hostedZoneName = scope.node.tryGetContext('hostedZoneName');
     const domainName = scope.node.tryGetContext('domainName');
     const certificateArn = scope.node.tryGetContext('certificateArn');

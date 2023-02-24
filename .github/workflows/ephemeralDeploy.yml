@@ -50,6 +50,10 @@ jobs:
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
           I18N_DEBUG: 'true'
           SPLIT_DEBUG: 'true'
+      - uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: meza
       - name: 📦 Deploy ${{ github.ref_name }}
         run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:

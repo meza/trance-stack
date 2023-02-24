@@ -30,31 +30,28 @@ const run = async () => {
         .addRaw('You can access your API at the following URL: ')
         .addLink(apiName, apiName);
 
-      const text = summary.toString();
-
-      summary.write().then(() => {
+      summary.write().then((finalSummary) => {
         core.endGroup();
+        if (github.context.eventName === 'pull_request') {
+          core.info(summary.stringify());
+          core.startGroup('Deployment summary for a PR');
+          const context = github.context;
+          const token = process.env.GITHUB_TOKEN || core.getInput('token', { required: true });
+          const octokit = github.getOctokit(token);
+          const repository = context.repo.repo;
+          const owner = context.repo.owner;
+          const issueNumber = process.env.ISSUE_NUMBER;
+          octokit.rest.issues.createComment({
+            owner: owner,
+            repo: repository,
+            // eslint-disable-next-line camelcase
+            issue_number: issueNumber,
+            body: finalSummary.stringify()
+          } as never).then(() => {
+            core.endGroup();
+          });
+        }
       });
-
-      console.log({ github: github });
-      if (github.context.eventName === 'pull_request') {
-        core.startGroup('Deployment summary for a PR');
-        const context = github.context;
-        const token = process.env.GITHUB_TOKEN || core.getInput('token', { required: true });
-        const octokit = github.getOctokit(token);
-        const repository = context.repo.repo;
-        const owner = context.repo.owner;
-        const issueNumber = process.env.ISSUE_NUMBER;
-        octokit.rest.issues.createComment({
-          owner: owner,
-          repo: repository,
-          // eslint-disable-next-line camelcase
-          issue_number: issueNumber,
-          body: text
-        } as never).then(() => {
-          core.endGroup();
-        });
-      }
     });
   } else {
     core.warning('No deployment result file found');

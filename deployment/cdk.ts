@@ -7,7 +7,7 @@ import { EphemeralStack } from './stacks/EphemeralStack';
 import { ProductionStack } from './stacks/ProductionStack';
 
 const app = new cdk.App();
-const envName = app.node.tryGetContext('environmentName');
+const envName = app.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-_]/g, '');
 
 // eslint-disable-next-line no-new
 new ProductionStack(app, `${name}-deployment`, {

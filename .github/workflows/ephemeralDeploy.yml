@@ -10,17 +10,11 @@ on:
       - beta
 env:
   LEFTHOOK: 0
+  GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
 
 jobs:
-  verify:
-    uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
-    secrets:
-      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    with:
-      node-version: "latest"
-      junit-report-path: "reports/junit.xml"
-      cobertura-report-path: "reports/**/cobertura-coverage.xml"
-  build:
+  deploy:
+    name: Deploy ${{ github.ref_name }} to an ephemeral environment
     runs-on: 'ubuntu-latest'
     needs: [ verify ]
     steps:
@@ -31,7 +25,7 @@ jobs:
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: Set version
-        run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
+        run: npm version --no-git-tag-version ${{ github.ref_name }}-development
       - name: 📦 Build
         run: npm run build
         env:

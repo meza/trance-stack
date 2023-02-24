@@ -2,7 +2,8 @@ import './githubEnv'; // for local testing purposes
 import fs from 'node:fs';
 import path from 'node:path';
 import * as core from '@actions/core';
-import github from '@actions/github';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const github = require('@actions/github');
 
 const run = async () => {
   const file = path.resolve(process.argv[2]);

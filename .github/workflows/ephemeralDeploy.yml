@@ -1,4 +1,4 @@
-name: Ephemeral Deployment of ${{ github.event.ref }}
+name: Ephemeral Deployment
 
 on:
   pull_request:

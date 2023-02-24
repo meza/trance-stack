@@ -1,4 +1,4 @@
-name: Destroy Ephemeral ${{ github.event.ref }}
+name: Destroy Ephemeral Environment
 
 on:
   delete:

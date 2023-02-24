@@ -8,22 +8,21 @@ on:
       - beta
 
 concurrency:
-  group: ${{ github.ref }}
+  group: ${{ github.event.ref }}
   cancel-in-progress: true
 
 jobs:
   destroy:
-    name: Destroy ${{ github.event.ref }} from an ephemeral environment
+    name: 🚨 Destroying ${{ github.event.ref }} from an ephemeral environment 🚨
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-    - run: echo "🚨 Destroying ${{ github.event.ref }} from an ephemeral environment ${{ github.event.ref_name }} 🚨"
     - uses: actions/checkout@v3
     - name: Set up node
       uses: meza/action-setup-node-npm@main
       with:
         node-version: latest
-        cache-name: destroy-${{ github.ref_name }}
+        cache-name: destroy-${{ github.event.ref }}
     - name: 🔨 Build
       run: npm run build
       env:
@@ -37,7 +36,7 @@ jobs:
         I18N_DEBUG: 'true'
         SPLIT_DEBUG: 'true'
     - name: 📦 Destroy ${{ github.ref_name }}
-      run: npx cdk destroy remix-trance-stack-ephemeral --force --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+      run: npx cdk destroy remix-trance-stack-ephemeral --force --require-approval never --context environmentName=${{ github.event.ref }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

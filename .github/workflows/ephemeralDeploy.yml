@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy ${{ env.REF_NAME }} to an ephemeral environment
+    name: Deploy ${{ github.event.ref == '' && github.ref_name || github.event.ref }} to an ephemeral environment
     runs-on: 'ubuntu-latest'
     steps:
       - name: ⏬ Checkout

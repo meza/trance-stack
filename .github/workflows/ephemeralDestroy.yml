@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   destroy:
-    name: 🚨 Destroying ${{ env.REF_NAME }} from an ephemeral environment 🚨
+    name: 🚨 Destroying ${{ github.event.ref == '' && github.ref_name || github.event.ref }} from an ephemeral environment 🚨
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:

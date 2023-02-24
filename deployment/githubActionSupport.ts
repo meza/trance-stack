@@ -2,8 +2,7 @@ import './githubEnv'; // for local testing purposes
 import fs from 'node:fs';
 import path from 'node:path';
 import * as core from '@actions/core';
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const github = require('@actions/github');
+import * as github from '@actions/github';
 
 const run = async () => {
   const file = path.resolve(process.argv[2]);
@@ -23,7 +22,7 @@ const run = async () => {
       const apiName = `https://${typedOutputs[stack].ApiUrl}`;
 
       const summary = core.summary
-        .addHeading('Deployment details')
+        .addHeading('Deployment details1')
         .addBreak()
         .addRaw(`✅ Your stack: <code>${stack}</code> has been successfully deployed.`)
         .addSeparator()
@@ -32,7 +31,7 @@ const run = async () => {
 
       const finalText = summary.stringify();
 
-      summary.write().then(() => {
+      summary.write().then(async () => {
         core.endGroup();
         if (github.context.eventName === 'pull_request') {
           core.info(`Final text: ${finalText}`);
@@ -43,15 +42,46 @@ const run = async () => {
           const repository = context.repo.repo;
           const owner = context.repo.owner;
           const issueNumber = process.env.ISSUE_NUMBER;
-          octokit.rest.issues.createComment({
+          const parameters = {
             owner: owner,
             repo: repository,
             // eslint-disable-next-line camelcase
-            issue_number: issueNumber,
-            body: finalText
-          } as never).then(() => {
-            core.endGroup();
-          });
+            issue_number: issueNumber
+          } as never;
+
+          let commentId = '';
+
+          for await (const { data: comments } of octokit.paginate.iterator(octokit.rest.issues.listComments, parameters)) {
+            // Search each page for the comment
+            const comment = comments.find((comment) =>
+              comment.body?.includes('You can access your API at the following URL')
+            );
+            if (comment) {
+              commentId = comment.id.toString();
+            }
+          }
+
+          if (commentId) {
+            octokit.rest.issues.updateComment({
+              owner: owner,
+              repo: repository,
+              // eslint-disable-next-line camelcase
+              comment_id: commentId,
+              body: finalText
+            } as never).then(() => {
+              core.endGroup();
+            });
+          } else {
+            octokit.rest.issues.createComment({
+              owner: owner,
+              repo: repository,
+              // eslint-disable-next-line camelcase
+              issue_number: issueNumber,
+              body: finalText
+            } as never).then(() => {
+              core.endGroup();
+            });
+          }
         }
       });
     });

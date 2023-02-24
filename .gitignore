@@ -6,6 +6,8 @@
 .cdk.staging
 cdk.out
 cdk.context.json
+deployment.result.json
+deploymentSummary.md
 
 dist
 reports

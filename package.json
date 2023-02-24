@@ -5,8 +5,11 @@
   "sideEffects": false,
   "scripts": {
     "build": "run-s build:remix",
-    "build:remix": "cross-env INLINE_RUNTIME_CHUNK=false remix build",
-    "deploy:cdk": "cdk deploy remix-trance-stack-deployment --require-approval never",
+    "build:remix": "remix build",
+    "delete:ephemeral": "cdk destroy remix-trance-stack-ephemeral --require-approval never --force",
+    "deploy:cdk": "npx cdk deploy remix-trance-stack-deployment --require-approval never -O deployment.result.json",
+    "deploy:ephemeral": "npx cdk deploy remix-trance-stack-ephemeral --require-approval never -O deployment.result.json",
+    "deploy:dev": "run-s build:remix deploy:ephemeral",
     "deploy:prod": "run-s build:remix deploy:cdk",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox -p 3000 --verbose",
@@ -59,6 +62,8 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1",
     "@architect/architect": "^10.7.2",
     "@aws-cdk/aws-apigatewayv2-alpha": "2.66.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.66.0-alpha.0",

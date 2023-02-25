@@ -9,6 +9,7 @@ declare global {
     cookieYesToken: string;
     isProduction: boolean;
     visitorId: string;
+    version: string;
   }
 
   interface Window {
@@ -27,8 +28,9 @@ declare global {
       MIXPANEL_API: string;
       MIXPANEL_TOKEN: string;
       NODE_ENV: string;
-      SESSION_SECRET: string;
+      SESSION_SECRET: string | undefined
       SPLIT_SERVER_TOKEN: string;
+      I18N_DEBUG: string;
     }
   }
 }

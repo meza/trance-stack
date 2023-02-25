@@ -2,7 +2,6 @@ import { startTransition } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
 import { initClientI18n } from '~/i18n';
-
 vi.mock('react');
 vi.mock('react-i18next');
 vi.mock('~/i18n');
@@ -16,17 +15,18 @@ vi.mock('@remix-run/react');
 describe('The Client Entrypoint', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    vi.resetModules();
     vi.useFakeTimers();
     vi.mocked(initClientI18n).mockResolvedValue(undefined as never);
     vi.mocked(startTransition).mockImplementation((callback: CallableFunction) => {
       callback();
     });
-    vi.resetModules();
   });
 
   afterEach(() => {
     // restoring date after each test run
     vi.useRealTimers();
+    vi.resetAllMocks();
   });
 
   it('Should work on Safari', async () => {

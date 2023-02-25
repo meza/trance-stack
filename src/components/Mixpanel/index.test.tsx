@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import mixpanel from 'mixpanel-browser';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import Mixpanel, { Mixpanel as exportedMixpanel } from '~/components/Mixpanel/index';
 
 vi.mock('react');
@@ -8,18 +8,19 @@ vi.mock('mixpanel-browser');
 
 describe('The Mixpanel integration', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
     vi.mocked(useEffect).mockReturnValue();
   });
 
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
   it('Should initialise mixpanel correctly', () => {
-    vi.stubGlobal('window', {
-      appConfig: {
-        mixpanelToken: '123',
-        isProduction: true,
-        mixpanelApi: 'https://api.mixpanel.com',
-        visitorId: '123'
-      }
+    vi.stubGlobal('appConfig', {
+      mixpanelToken: '123',
+      isProduction: true,
+      mixpanelApi: 'https://api.mixpanel.com',
+      visitorId: '123'
     });
 
     expect(Mixpanel).toBe(exportedMixpanel);

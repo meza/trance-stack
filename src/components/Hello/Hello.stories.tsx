@@ -1,4 +1,4 @@
-import { Hello } from './Hello';
+import { Hello } from './index';
 import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 export default {

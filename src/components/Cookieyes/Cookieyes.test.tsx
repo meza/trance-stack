@@ -10,6 +10,7 @@ describe('Cookieyes', () => {
     // eslint-disable-next-line new-cap
     expect(Cookieyes({ isProduction: true, token: '123' })).toMatchInlineSnapshot(`
       <script
+        async={true}
         id="cookieyes"
         src="https://cdn-cookieyes.com/client_data/123/script.js"
         type="text/javascript"
@@ -18,6 +19,7 @@ describe('Cookieyes', () => {
     // eslint-disable-next-line new-cap
     expect(Cookieyes({ isProduction: true, token: 'abc' })).toMatchInlineSnapshot(`
       <script
+        async={true}
         id="cookieyes"
         src="https://cdn-cookieyes.com/client_data/abc/script.js"
         type="text/javascript"

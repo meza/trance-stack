@@ -1,0 +1,64 @@
+name: Ephemeral Deployment
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+env:
+  LEFTHOOK: 0
+  GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
+  REF_NAME: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
+
+concurrency:
+  group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy ${{ github.head_ref == '' && github.ref_name || github.head_ref }} to an ephemeral environment
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: ⏬ Checkout
+        uses: actions/checkout@v3
+      - name: 🔧 Set up node
+        uses: meza/action-setup-node-npm@main
+        with:
+          node-version: latest
+          cache-name: ${{ needs.verify.outputs.cache-name }}
+      - name: 🔂 CDK Cache
+        uses: pat-s/always-upload-cache@v3.0.11
+        if: always()
+        env:
+          cache-name: cdk-${{ env.REF_NAME }}
+        with:
+          path: ./cdk.out
+          key: cdk-${{ env.REF_NAME }}-${{ hashFiles('cdk.out/manifest.json') }}
+          restore-keys: |
+            cdk-${{ env.REF_NAME }}-
+
+      - name: 🔢 Set version
+        run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
+      - name: 🔨 Build
+        run: npm run build
+        env:
+          NODE_ENV: production
+          SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+          MIXPANEL_API: ${{ vars.MIXPANEL_API }}
+          MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+          COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+          I18N_DEBUG: 'true'
+          SPLIT_DEBUG: 'true'
+      - name: 📦 Deploy ${{ env.REF_NAME }}
+        run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ env.REF_NAME }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+        env:
+          GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: ✍️ Publish deployment results
+        run: npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json
+        env:
+          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

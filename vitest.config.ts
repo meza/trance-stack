@@ -9,7 +9,7 @@ const testReporters = ['default'];
 const coverageReporters: CoverageReporter[] = ['text'];
 
 if (!isCi) {
-  // testReporters.push('verbose');
+  // testReporters.push('cobertura');
   coverageReporters.push('html');
 } else {
   testReporters.push('junit');
@@ -20,6 +20,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     globals: true,
+    isolate: true,
     environment: 'happy-dom',
     cache: {
       dir: '.cache/.vitest'

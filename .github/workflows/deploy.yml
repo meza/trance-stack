@@ -1,0 +1,64 @@
+name: Verify & Build
+
+on:
+  push:
+    branches: [ main, alpha, beta ]
+
+env:
+  LEFTHOOK: 0
+
+jobs:
+  verify:
+    uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
+    secrets:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      node-version: "latest"
+      junit-report-path: "reports/junit.xml"
+      cobertura-report-path: "reports/**/cobertura-coverage.xml"
+  build:
+    environment: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}
+    runs-on: 'ubuntu-latest'
+    needs: [ verify ]
+    if: needs.verify.outputs.new-release-published == 'true'
+    steps:
+      - name: ⏬ Checkout
+        uses: actions/checkout@v3
+      - name: 🔧 Set up node
+        uses: meza/action-setup-node-npm@main
+        with:
+          node-version: latest
+          cache-name: ${{ needs.verify.outputs.cache-name }}
+      - name: 🔂 CDK Cache
+        uses: pat-s/always-upload-cache@v3.0.11
+        if: always()
+        env:
+          cache-name: cdk-${{ github.ref_name }}
+        with:
+          path: ./cdk.out
+          key: cdk-${{ github.ref_name }}-${{ hashFiles('cdk.out/manifest.json') }}
+          restore-keys: |
+            cdk-${{ github.ref_name }}-
+      - name: 🔢 Set version
+        run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
+      - name: 🔨 Build
+        run: npm run build
+        env:
+          NODE_ENV: ${{ env.ARC_ENV }}
+          SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+          MIXPANEL_API: ${{ vars.MIXPANEL_API }}
+          MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+          COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+          I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+          SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+      - name: 📦 Deploy ${{ github.ref_name }}
+        run: npx cdk deploy remix-trance-stack-deployment -O deployment.result.json --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: 🚀 Github Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release

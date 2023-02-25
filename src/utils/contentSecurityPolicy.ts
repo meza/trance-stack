@@ -39,7 +39,10 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://*.hotjar.com',
         'https://*.hotjar.io'
       ],
-      'style-src': [SELF, UNSAFE_INLINE]
+      'style-src': [
+        UNSAFE_INLINE,
+        SELF
+      ]
     }
   });
 };

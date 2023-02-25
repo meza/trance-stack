@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { describe, it, vi, expect, beforeEach } from 'vitest';
+import { createUserSession, destroySession, getSessionFromRequest, getVisitorId, getVisitorIdFromRequest } from '~/session.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
 
@@ -7,6 +8,7 @@ vi.mock('~/sessionStorage.server');
 vi.mock('uuid');
 interface LocalTestContext {
   sessionStorage: ReturnType<typeof getSessionStorage>;
+  session: Session;
 }
 
 describe('The session server', () => {
@@ -17,75 +19,38 @@ describe('The session server', () => {
       commitSession: vi.fn(),
       destroySession: vi.fn()
     };
+    context.session = {
+      get: vi.fn(),
+      set: vi.fn()
+    } as never;
     vi.mocked(uuid).mockReturnValue('random-uuid');
     vi.mocked(getSessionStorage).mockReturnValue(context.sessionStorage);
-    vi.resetModules();
   });
 
   describe('When retrieving a visitorID', () => {
-    it('creates a new one if there isn\'t an existing one', async () => {
-      const session = {
-        get: vi.fn(),
-        set: vi.fn()
-      };
-
+    it<LocalTestContext>('creates a new one if there isn\'t an existing one', async ({ session }) => {
       vi.mocked(session.get).mockReturnValueOnce(null);
-      const { getVisitorId } = await import('~/session.server');
       const actual = getVisitorId(session as never as Session, 'example.com');
 
       expect(actual).toEqual('random-uuid'); // comes from the crypto spy above
       expect(session.set).toHaveBeenCalledWith('visitorId', 'random-uuid');
     });
 
-    it('creates a custom one for localhost', async () => {
-      const session = {
-        get: vi.fn(),
-        set: vi.fn()
-      };
-
+    it<LocalTestContext>('creates a custom one for localhost', async ({ session }) => {
       vi.mocked(session.get).mockReturnValueOnce(null);
-      const { getVisitorId } = await import('~/session.server');
       const actual = getVisitorId(session as never as Session, 'localhost');
 
       expect(actual).toEqual('localdev'); // comes from the crypto spy above
       expect(session.set).toHaveBeenCalledWith('visitorId', 'localdev');
     });
 
-    it('returns the existing one from the session', async () => {
-      const session = {
-        get: vi.fn(),
-        set: vi.fn()
-      };
+    it<LocalTestContext>('returns the existing one from the session', async ({ session }) => {
 
       vi.mocked(session.get).mockReturnValueOnce('random-uuid3');
-      const { getVisitorId } = await import('~/session.server');
       const actual = getVisitorId(session as never as Session, 'example.com');
 
       expect(actual).toEqual('random-uuid3'); // returns the new one
       expect(session.set).not.toHaveBeenCalled();
-    });
-
-    describe('when calling the function rapidly', () => {
-      it('returns the same ID', async () => {
-        const session = {
-          get: vi.fn(),
-          set: vi.fn()
-        };
-
-        vi.mocked(session.get).mockReturnValueOnce(null);
-
-        /**
-         * Reset the uuid controller to return different values if it is hit more than once
-         */
-        vi.mocked(uuid).mockReset();
-        vi.mocked(uuid).mockReturnValueOnce('random-uuid-1');
-        vi.mocked(uuid).mockReturnValueOnce('random-uuid-2');
-
-        const { getVisitorId } = await import('~/session.server');
-        const [id1, id2] = [getVisitorId(session as never as Session, 'example.com'), getVisitorId(session as never as Session, 'example.com')];
-
-        expect(id1).toEqual(id2);
-      });
     });
   });
 
@@ -99,7 +64,6 @@ describe('The session server', () => {
 
     vi.mocked(request.headers.get).mockReturnValue('cookievalue');
     vi.mocked(sessionStorage.getSession).mockResolvedValueOnce('session' as never as Session);
-    const { getSessionFromRequest } = await import('~/session.server');
     const actual = await getSessionFromRequest(request as never as Request);
 
     expect(actual).toEqual('session');
@@ -108,39 +72,28 @@ describe('The session server', () => {
 
   });
 
-  it<LocalTestContext>('can get a visitorId from a request', async ({ sessionStorage }) => {
+  it<LocalTestContext>('can get a visitorId from a request', async ({ sessionStorage, session }) => {
     const request = {
       url: 'https://example.com/something',
       headers: {
         get: vi.fn()
       }
-    };
-
-    const session = {
-      get: vi.fn(),
-      set: vi.fn()
     };
 
     vi.mocked(sessionStorage.getSession).mockResolvedValueOnce(session as never as Session);
     vi.mocked(session.get).mockReturnValue('random-uuid3');
 
-    const { getVisitorIdFromRequest } = await import('~/session.server');
     const actual = await getVisitorIdFromRequest(request as never as Request);
 
     expect(actual).toEqual('random-uuid3');
   });
 
-  it<LocalTestContext>('can create a user session', async ({ sessionStorage }) => {
+  it<LocalTestContext>('can create a user session', async ({ sessionStorage, session }) => {
     const request = {
       url: 'https://example.com/something',
       headers: {
         get: vi.fn()
       }
-    };
-
-    const session = {
-      get: vi.fn(),
-      set: vi.fn()
     };
 
     vi.mocked(request.headers.get).mockReturnValue('cookievalue');
@@ -148,23 +101,18 @@ describe('The session server', () => {
     vi.mocked(sessionStorage.commitSession).mockResolvedValueOnce('newcookievalue' as never as string);
     vi.mocked(session.get).mockReturnValue(null);
 
-    const { createUserSession } = await import('~/session.server');
     const actual = await createUserSession(request as never as Request);
 
-    expect(actual).toEqual('newcookievalue');
+    expect(actual).toEqual({
+      cookie: 'newcookievalue',
+      visitorId: 'random-uuid'
+    });
     expect(request.headers.get).toHaveBeenCalledWith('Cookie');
     expect(sessionStorage.getSession).toHaveBeenCalledWith('cookievalue');
-    expect(sessionStorage.commitSession).toHaveBeenCalledWith(session, {
-      maxAge: 2147483647
-    });
+    expect(sessionStorage.commitSession).toHaveBeenCalledWith(session);
   });
 
-  it<LocalTestContext>('can destroy a session', async ({ sessionStorage }) => {
-    const session = {
-      get: vi.fn(),
-      set: vi.fn()
-    };
-    const { destroySession } = await import('~/session.server');
+  it<LocalTestContext>('can destroy a session', async ({ sessionStorage, session }) => {
     destroySession(session as never as Session);
     expect(sessionStorage.destroySession).toHaveBeenCalledWith(session);
   });

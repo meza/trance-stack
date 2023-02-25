@@ -16,6 +16,7 @@ concurrency:
 
 jobs:
   deploy:
+    if: github.actor != 'renovate[bot]'
     name: Deploy ${{ github.head_ref == '' && github.ref_name || github.head_ref }} to an ephemeral environment
     runs-on: 'ubuntu-latest'
     steps:

@@ -21,7 +21,6 @@ export const getSessionFromRequest = async (request: Request) => {
 export const getVisitorIdFromRequest = async (request: Request) => {
   // const user = await authenticatorX.isAuthenticated(request);
   const session = await getSessionFromRequest(request);
-  console.log({ userSession: session.get('user') });
   // if (user) {
   //   session.set('visitorId', user.id);
   //   return user.id;

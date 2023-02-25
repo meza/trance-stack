@@ -10,7 +10,7 @@ export interface Auth0RemixOptions {
   audience?: string;
   organization?: string;
   session: {
-    sessionStorage?: SessionStorage;
+    sessionStorage: SessionStorage;
     userDataKey?: string;
   }
 }

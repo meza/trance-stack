@@ -1,6 +1,5 @@
-import { json, redirect } from '@remix-run/node';
+import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { getUser } from '~/auth.server';
 import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
 import { Features } from '~/features';
@@ -12,15 +11,7 @@ export const links: LinksFunction = () => ([
 ]);
 
 export const loader: LoaderFunction = async ({ request }) => {
-  console.log('INDEX LOADER START', Date.now());
   const isAuth = await hasFeature(request, Features.AUTH);
-  if (isAuth) {
-    const user = await getUser(request);
-    if (user) {
-      throw redirect('/dashboard');
-    }
-  }
-  console.log('ROOT LOADER END', Date.now());
   return json({
     isHelloEnabled: await hasFeature(request, Features.HELLO),
     isAuthEnabled: isAuth

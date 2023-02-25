@@ -36,31 +36,35 @@ export class Auth0RemixServer {
   private readonly clientSecret: string;
   private readonly callbackURL: string;
   private readonly scope: string[];
-  private readonly audience?: string;
+  private readonly audience: string;
   private readonly organization?: string;
   private readonly authorizationURL: string;
   private readonly tokenURL: string;
   private readonly failedLoginRedirect: string;
   private readonly openIDConfigurationURL: string;
   private readonly jwksURL: string;
-  private readonly sessionStorage: SessionStorage | null;
+  private readonly sessionStorage: SessionStorage;
   private readonly userDataKey: string;
+  private forceLogin: boolean;
+  private jwks: ReturnType<typeof jose.createRemoteJWKSet>;
 
-  constructor(auth0RemixOptions: Auth0RemixOptions) {
+  constructor(auth0RemixOptions: Auth0RemixOptions, forceLogin = false) {
+    this.forceLogin = forceLogin;
     this.domain = auth0RemixOptions.domain;
     this.clientID = auth0RemixOptions.clientID;
     this.clientSecret = auth0RemixOptions.clientSecret;
     this.callbackURL = auth0RemixOptions.callbackURL;
     this.scope = auth0RemixOptions.scope || ['openid', 'profile', 'email'];
-    this.audience = auth0RemixOptions.audience;
     this.organization = auth0RemixOptions.organization;
-    this.authorizationURL = `https://${this.domain}/authorize`;
-    this.tokenURL = `https://${this.domain}/oauth/token`;
     this.failedLoginRedirect = auth0RemixOptions.failedLoginRedirect;
-    this.openIDConfigurationURL = `https://${this.domain}/.well-known/openid-configuration`;
-    this.jwksURL = `https://${this.domain}/.well-known/jwks.json`;
-    this.sessionStorage = auth0RemixOptions.session.sessionStorage || null;
+    this.sessionStorage = auth0RemixOptions.session.sessionStorage;
     this.userDataKey = auth0RemixOptions.session.userDataKey || 'user';
+    this.tokenURL = `https://${this.domain}/oauth/token`;
+    this.authorizationURL = `https://${this.domain}/authorize`;
+    this.jwksURL = `https://${this.domain}/.well-known/jwks.json`;
+    this.audience = auth0RemixOptions.audience || `https://${this.domain}/api/v2/`;
+    this.openIDConfigurationURL = `https://${this.domain}/.well-known/openid-configuration`;
+    this.jwks = jose.createRemoteJWKSet(new URL(this.jwksURL));
   }
 
   public authorize = async () => {
@@ -70,8 +74,9 @@ export class Auth0RemixServer {
     authorizationURL.searchParams.set('client_id', this.clientID);
     authorizationURL.searchParams.set('redirect_uri', this.callbackURL);
     authorizationURL.searchParams.set('scope', this.scope.join(' '));
-    if (this.audience) {
-      authorizationURL.searchParams.set('audience', this.audience);
+    authorizationURL.searchParams.set('audience', this.audience);
+    if (this.forceLogin) {
+      authorizationURL.searchParams.set('prompt', 'login');
     }
     if (this.organization) {
       authorizationURL.searchParams.set('organization', this.organization);
@@ -103,7 +108,7 @@ export class Auth0RemixServer {
     const headers: HeadersInit = {};
     if (this.sessionStorage) {
       const cookie = request.headers.get('Cookie');
-      const session = this.sessionStorage.getSession(cookie);
+      const session = await this.sessionStorage.getSession(cookie);
       if (isSession(session)) {
         session.set(this.userDataKey, user);
         headers['Set-Cookie'] = await this.sessionStorage.commitSession(session);
@@ -159,7 +164,10 @@ export class Auth0RemixServer {
 
     if (options.onSuccessRedirect) {
       const headers = await this.saveUserCredentials(request, userData);
-      throw redirect(options.onSuccessRedirect, headers);
+      console.log('Would redirect to', options.onSuccessRedirect, 'with headers', headers);
+      throw redirect(options.onSuccessRedirect, {
+        headers: headers
+      });
     }
 
     return userData;
@@ -175,33 +183,22 @@ export class Auth0RemixServer {
     });
   };
 
-  private getCredentials = async (userData? : UserCredentials): Promise<UserCredentials> => {
-    let credentials: UserCredentials;
-    if (!userData && !this.sessionStorage) {
-      throw new Error('No userData provided and no session storage configured.');
-    }
-
-    if (!userData && this.sessionStorage) {
-      const session = this.sessionStorage.getSession();
-      if (isSession(session)) {
-        credentials = session.get(this.userDataKey);
-      }
-    }
-
-    if (userData) {
-      credentials = userData;
-    } else {
-      throw redirect(this.failedLoginRedirect);
-    }
-
+  private getCredentials = async (request: Request): Promise<UserCredentials> => {
+    const cookie = request.headers.get('Cookie');
+    const session = await this.sessionStorage.getSession(cookie);
+    const credentials = session.get(this.userDataKey);
     return credentials;
   };
 
-  public getUser = async (userData?: UserCredentials): Promise<UserProfile> => {
-    const credentials = await this.getCredentials(userData);
-    const jwks = jose.createRemoteJWKSet(new URL(this.jwksURL));
+  public getUser = async (request: Request): Promise<UserProfile> => {
+    const credentials = await this.getCredentials(request);
     try {
-      const { payload: data } = await jwtVerify(credentials.idToken, jwks, {
+
+      // const { payload: accessTokenData } = await jwtVerify(credentials.accessToken, this.jwks, {
+      //   issuer: `https://${this.domain}/`,
+      //   audience: this.audience
+      // });
+      const { payload: data } = await jwtVerify(credentials.idToken, this.jwks, {
         issuer: `https://${this.domain}/`,
         audience: this.clientID
       });

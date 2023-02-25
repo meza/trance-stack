@@ -6,7 +6,7 @@ const sessionStorage = createCookieSessionStorage({
     httpOnly: true,
     maxAge: 31536000,
     path: '/',
-    sameSite: 'strict',
+    sameSite: 'lax', // important for authentication to work properly
     secrets: [process.env.SESSION_SECRET || 'secret'],
     secure: true
   }

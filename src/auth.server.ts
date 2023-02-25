@@ -1,14 +1,9 @@
-import { isSession, redirect } from '@remix-run/node';
-import { Authenticator } from 'remix-auth';
-import { Auth0Strategy } from 'remix-auth-auth0';
-import { destroySession, getSessionFromRequest } from '~/session.server';
+import { redirect } from '@remix-run/node';
+import { Auth0RemixServer } from '~/lib/auth0-remix/Auth0Remix.server';
+import { getSessionFromRequest } from '~/session.server';
 import { getSessionStorage } from '~/sessionStorage.server';
-import type { Session } from '@remix-run/node';
-import type { Auth0Profile } from 'remix-auth-auth0';
+import type { UserCredentials } from '~/lib/auth0-remix/Auth0RemixTypes';
 const DOMAIN = 'http://localhost:3000';
-// Create an instance of the authenticator, pass a generic with what your
-// strategies will return and will be stored in the session
-export const authenticator = new Authenticator<Auth0Profile>(getSessionStorage());
 
 /** IDEAL WOULD BE TO USE THIS
 const authenticator = new Auth0Auth({
@@ -16,8 +11,7 @@ const authenticator = new Auth0Auth({
   callbackURL: `${DOMAIN}/auth/callback`,
   clientID: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
-  domain: process.env.AUTH0_DOMAIN,
-  onLogin: async ({ accessToken, refreshToken, extraParams, profile }) -> {}
+  domain: process.env.AUTH0_DOMAIN
 });
 
 authenticator.authenticate(request); // this would redirect to the auth0 login page
@@ -30,34 +24,32 @@ authenticator.logout(request, {redirectTo: DOMAIN}); // this would log the user 
 
  **/
 
-const auth0Strategy = new Auth0Strategy(
-  {
-    callbackURL: `${DOMAIN}/auth/callback`,
-    clientID: process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    domain: process.env.AUTH0_DOMAIN
-  },
-  async ({ accessToken, refreshToken, extraParams, profile }) => {
-    // Get the user data from your DB or API using the tokens and profile
-    return profile;
+export const authenticator = new Auth0RemixServer({
+  clientID: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  domain: process.env.AUTH0_DOMAIN,
+  callbackURL: `${DOMAIN}/auth/callback`,
+  failedLoginRedirect: '/',
+  session: {
+    sessionStorage: getSessionStorage()
   }
-);
+});
 
-authenticator.use(auth0Strategy);
-authenticator.logout = async (
-  request: Request | Session,
-  options: { redirectTo: string }
-): Promise<never> => {
-  const session = isSession(request) ? request : await getSessionFromRequest(request);
+export interface GetUserProps {
+  failureRedirect?: string;
+  successRedirect?: string;
+}
 
-  const logoutURL = new URL('https://' + process.env.AUTH0_DOMAIN + '/v2/logout');
-
-  logoutURL.searchParams.set('client_id', process.env.AUTH0_CLIENT_ID);
-  logoutURL.searchParams.set('returnTo', options.redirectTo);
-
-  throw redirect(logoutURL.toString(), {
-    headers: {
-      'Set-Cookie': await destroySession(session)
+export const getUser = async (request: Request, props?: GetUserProps) => {
+  const session = await getSessionFromRequest(request);
+  console.log({ session: session.get('user') });
+  if (!session || !session.has('user')) {
+    if (props?.failureRedirect) {
+      throw redirect(props.failureRedirect);
     }
-  });
+    return null;
+  }
+
+  const userData: UserCredentials = session.get('user');
+  return await authenticator.getUser(userData);
 };

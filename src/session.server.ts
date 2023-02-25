@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { authenticator } from '~/auth.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
 
@@ -20,12 +19,13 @@ export const getSessionFromRequest = async (request: Request) => {
 };
 
 export const getVisitorIdFromRequest = async (request: Request) => {
-  const user = await authenticator.isAuthenticated(request);
+  // const user = await authenticatorX.isAuthenticated(request);
   const session = await getSessionFromRequest(request);
-  if (user) {
-    session.set('visitorId', user.id);
-    return user.id;
-  }
+  console.log({ userSession: session.get('user') });
+  // if (user) {
+  //   session.set('visitorId', user.id);
+  //   return user.id;
+  // }
   const hostname = new URL(request.url).hostname;
   return getVisitorId(session, hostname);
 };
@@ -39,4 +39,8 @@ export const createUserSession = async (request: Request) => {
 
 export const destroySession = async (session: Session) => {
   return getSessionStorage().destroySession(session);
+};
+
+export const commitSession = async (session: Session) => {
+  return getSessionStorage().commitSession(session);
 };

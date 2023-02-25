@@ -1,9 +1,8 @@
 import { authenticator } from '~/auth.server';
-import type { LoaderFunction } from '@remix-run/node';
+import type { ActionFunction } from '@remix-run/node';
 
-export const loader: LoaderFunction = ({ request }) => {
-  return authenticator.authenticate('auth0', request, {
-    successRedirect: '/',
-    failureRedirect: '/login'
+export const action: ActionFunction = async ({ request }) => {
+  await authenticator.handleCallback(request, {
+    onSuccessRedirect: '/dashboard'
   });
 };

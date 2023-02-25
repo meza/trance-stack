@@ -4,8 +4,8 @@
 
 All you need to know for now is:
 ```sh
-npx pnpm i
-pnpm dev
+npm install
+npm run dev
 ```
 
 ---

@@ -160,7 +160,7 @@ export class Auth0RemixServer {
     try {
 
       await jwtVerify(credentials.accessToken, this.jwks, {
-        issuer: new URL(this.domain).hostname,
+        issuer: this.domain + '/',
         audience: this.clientCredentials.audience
       });
 

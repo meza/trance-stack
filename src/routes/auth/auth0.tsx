@@ -5,5 +5,6 @@ import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 export const loader: LoaderFunction = () => redirect('/login');
 
 export const action: ActionFunction = () => {
-  return authenticator.authorize();
+  const forceLogin = false;
+  return authenticator.authorize(forceLogin);
 };

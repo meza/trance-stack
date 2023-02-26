@@ -1,145 +1,99 @@
-import { isSession, redirect } from '@remix-run/node';
+import { redirect } from '@remix-run/node';
 import * as jose from 'jose';
 import { jwtVerify } from 'jose';
-import type { SessionStorage, AppLoadContext } from '@remix-run/node';
+import { ensureDomain } from './lib/ensureDomainFormat';
+import { getCredentials, saveUserToSession } from './lib/session';
+import { transformUserData } from './lib/transformUserData';
+import type { Auth0RemixOptions, ClientCredentials, HandleCallbackOptions, SessionStore, UserCredentials, UserProfile } from './Auth0RemixTypes';
+import type { AppLoadContext } from '@remix-run/node';
 import type { JOSEError } from 'jose/dist/types/util/errors';
-import type { Auth0RemixOptions, UserCredentials, UserProfile } from '~/lib/auth0-remix/Auth0RemixTypes';
 
 /**
  * Use cases:
  * - no internal session handling
  * - allowing the user to deal with the id token on their own
- * - deal with the refresh token outside of the session IF rotation isn't enabled
+ * - deal with the refresh token outside the session IF rotation isn't enabled
  * - mfa
  */
 
-interface Auth0UserProfile {
-  sub: string;
-  name: string;
-  given_name: string;
-  family_name: string;
-  middle_name: string;
-  nickname: string;
-  preferred_username: string;
-  profile: string;
-  picture: string;
-  website: string;
-  email: string;
-  email_verified: boolean;
-  gender: string;
-  birthdate: string;
-  zoneinfo: string;
-  locale: string;
-  phone_number: string;
-  phone_number_verified: boolean;
-  address: {
-    country: string;
-  },
-  updated_at: string;
-  [key: string]: string | boolean | number | object;
+interface Auth0Urls {
+  authorizationURL: string;
+  openIDConfigurationURL: string;
+  jwksURL: string;
+  userProfileUrl: string;
+  tokenURL: string;
 }
 
 export class Auth0RemixServer {
   private readonly domain: string;
-  private readonly clientID: string;
-  private readonly clientSecret: string;
-  private readonly callbackURL: string;
-  private readonly scope: string[];
-  private readonly audience: string;
-  private readonly organization?: string;
-  private readonly authorizationURL: string;
-  private readonly tokenURL: string;
-  private readonly failedLoginRedirect: string;
-  private readonly openIDConfigurationURL: string;
-  private readonly jwksURL: string;
-  private readonly sessionStorage: SessionStorage;
-  private readonly userDataKey: string;
-  private readonly forceLogin: boolean;
-  private readonly jwks: ReturnType<typeof jose.createRemoteJWKSet>;
   private readonly refreshTokenRotationEnabled: boolean;
-  private readonly userProfileUrl: string;
+  private readonly callbackURL: string;
+  private readonly failedLoginRedirect: string;
+  private readonly jwks: ReturnType<typeof jose.createRemoteJWKSet>;
+  private readonly clientCredentials: ClientCredentials;
+  private readonly session: SessionStore;
+  private readonly auth0Urls: Auth0Urls;
 
-  constructor(auth0RemixOptions: Auth0RemixOptions, forceLogin = false) {
-    this.forceLogin = forceLogin;
-    this.domain = auth0RemixOptions.domain;
-    this.clientID = auth0RemixOptions.clientID;
-    this.clientSecret = auth0RemixOptions.clientSecret;
-    this.callbackURL = auth0RemixOptions.callbackURL;
+  constructor(auth0RemixOptions: Auth0RemixOptions) {
+    this.domain = ensureDomain(auth0RemixOptions.clientDetails.domain);
+
+    /**
+     * Refresh token rotation allows us to store the refresh tokens in the user's session.
+     * It is off by default because it requires an explicit setup in Auth0.
+     *
+     * @see https://auth0.com/docs/tokens/refresh-tokens/refresh-token-rotation
+     * @see https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/#Refresh-Token-Rotation
+     */
     this.refreshTokenRotationEnabled = auth0RemixOptions.refreshTokenRotationEnabled || false;
-    this.scope = auth0RemixOptions.scope || [
+
+    this.failedLoginRedirect = auth0RemixOptions.failedLoginRedirect;
+    this.callbackURL = auth0RemixOptions.callbackURL;
+
+    this.clientCredentials = {
+      clientID: auth0RemixOptions.clientDetails.clientID,
+      clientSecret: auth0RemixOptions.clientDetails.clientSecret,
+      audience: auth0RemixOptions.clientDetails.audience || `${this.domain}/api/v2/`,
+      organization: auth0RemixOptions.clientDetails.organization
+    };
+    this.session = {
+      store: auth0RemixOptions.session.store,
+      key: auth0RemixOptions.session.key || 'user'
+    };
+    this.auth0Urls = {
+      tokenURL: `${this.domain}/oauth/token`,
+      userProfileUrl: `${this.domain}/userinfo`,
+      authorizationURL: `${this.domain}/authorize`,
+      jwksURL: `${this.domain}/.well-known/jwks.json`,
+      openIDConfigurationURL: `${this.domain}/.well-known/openid-configuration`
+    };
+
+    this.jwks = jose.createRemoteJWKSet(new URL(this.auth0Urls.jwksURL));
+  }
+
+  public authorize = async (forceLogin = false) => {
+    const scope = [
       'offline_access', // required for refresh token
       'openid', // required for id_token and the /userinfo api endpoint
       'profile',
       'email'];
-    this.organization = auth0RemixOptions.organization;
-    this.failedLoginRedirect = auth0RemixOptions.failedLoginRedirect;
-    this.sessionStorage = auth0RemixOptions.session.sessionStorage;
-    this.userDataKey = auth0RemixOptions.session.userDataKey || 'user';
-    this.tokenURL = `https://${this.domain}/oauth/token`;
-    this.userProfileUrl = `https://${this.domain}/userinfo`;
-    this.authorizationURL = `https://${this.domain}/authorize`;
-    this.jwksURL = `https://${this.domain}/.well-known/jwks.json`;
-    this.audience = auth0RemixOptions.audience || `https://${this.domain}/api/v2/`;
-    this.openIDConfigurationURL = `https://${this.domain}/.well-known/openid-configuration`;
-    this.jwks = jose.createRemoteJWKSet(new URL(this.jwksURL));
-  }
-
-  public authorize = async () => {
-    const authorizationURL = new URL(this.authorizationURL);
+    const authorizationURL = new URL(this.auth0Urls.authorizationURL);
     authorizationURL.searchParams.set('response_type', 'code');
     authorizationURL.searchParams.set('response_mode', 'form_post');
-    authorizationURL.searchParams.set('client_id', this.clientID);
+    authorizationURL.searchParams.set('client_id', this.clientCredentials.clientID);
     authorizationURL.searchParams.set('redirect_uri', this.callbackURL);
-    authorizationURL.searchParams.set('scope', this.scope.join(' '));
-    authorizationURL.searchParams.set('audience', this.audience);
-    if (this.forceLogin) {
+    authorizationURL.searchParams.set('scope', scope.join(' '));
+    authorizationURL.searchParams.set('audience', this.clientCredentials.audience);
+    if (forceLogin) {
       authorizationURL.searchParams.set('prompt', 'login');
     }
-    if (this.organization) {
-      authorizationURL.searchParams.set('organization', this.organization);
+    if (this.clientCredentials.organization) {
+      authorizationURL.searchParams.set('organization', this.clientCredentials.organization);
     }
 
     throw redirect(authorizationURL.toString());
   };
 
-  private transformUserData = (data: Auth0UserProfile): UserProfile => {
-    const renameKeys = (obj: {[key: string]: string | boolean | number | object}) => {
-      const keys = Object.keys(obj);
-      keys.forEach(key => {
-        const newKey = key.replace(/_(\w)/g, (match, p1) => p1.toUpperCase());
-        if (newKey !== key) {
-          obj[newKey] = obj[key];
-          delete obj[key];
-        }
-        if (typeof obj[newKey] === 'object') {
-          renameKeys(obj[newKey] as {[key: string]: string | boolean | number | object});
-        }
-      });
-    };
-    renameKeys(data);
-
-    return structuredClone(data) as unknown as UserProfile;
-  };
-
-  private saveUserCredentials = async (request: Request, user: UserCredentials) => {
-    const headers: HeadersInit = {};
-    if (this.sessionStorage) {
-      const cookie = request.headers.get('Cookie');
-      const session = await this.sessionStorage.getSession(cookie);
-      if (isSession(session)) {
-        session.set(this.userDataKey, user);
-        headers['Set-Cookie'] = await this.sessionStorage.commitSession(session);
-      }
-    } else {
-      console.warn('No session storage configured. User credentials will not be persisted.');
-    }
-
-    return headers;
-  };
-
-  public handleCallback = async (request: Request, options: {
-    onSuccessRedirect?: string;
-  }): Promise<never | UserCredentials> => {
+  public handleCallback = async (request: Request, options: HandleCallbackOptions): Promise<never | UserCredentials> => {
     const formData = await request.formData();
     const code = formData.get('code') as string;
 
@@ -150,12 +104,12 @@ export class Auth0RemixServer {
 
     const body = new URLSearchParams();
     body.set('grant_type', 'authorization_code');
-    body.set('client_id', this.clientID);
-    body.set('client_secret', this.clientSecret);
+    body.set('client_id', this.clientCredentials.clientID);
+    body.set('client_secret', this.clientCredentials.clientSecret);
     body.set('code', code);
     body.set('redirect_uri', this.callbackURL);
 
-    const response = await fetch(this.tokenURL, {
+    const response = await fetch(this.auth0Urls.tokenURL, {
       headers: { 'content-type' : 'application/x-www-form-urlencoded' },
       method: 'POST',
       body: body.toString()
@@ -183,7 +137,7 @@ export class Auth0RemixServer {
     // callUserIdTokenCallback(data.id_token)
 
     if (options.onSuccessRedirect) {
-      const headers = await this.saveUserCredentials(request, userData);
+      const headers = await saveUserToSession(request, userData, this.session);
       throw redirect(options.onSuccessRedirect, {
         headers: headers
       });
@@ -193,7 +147,7 @@ export class Auth0RemixServer {
   };
 
   public logout = async (redirectTo: string, headers?: HeadersInit) => {
-    const logoutURL = new URL(`https://${this.domain}/v2/logout`);
+    const logoutURL = new URL(`${this.domain}/v2/logout`);
     logoutURL.searchParams.set('client_id', process.env.AUTH0_CLIENT_ID);
     logoutURL.searchParams.set('returnTo', redirectTo);
     throw redirect(logoutURL.toString(), {
@@ -201,11 +155,36 @@ export class Auth0RemixServer {
     });
   };
 
-  private getCredentials = async (request: Request): Promise<UserCredentials> => {
-    const cookie = request.headers.get('Cookie');
-    const session = await this.sessionStorage.getSession(cookie);
-    const credentials = session.get(this.userDataKey);
-    return credentials;
+  public getUser = async (request: Request, context: AppLoadContext): Promise<UserProfile> => {
+    const credentials = await getCredentials(request, this.session);
+    try {
+
+      await jwtVerify(credentials.accessToken, this.jwks, {
+        issuer: this.domain,
+        audience: this.clientCredentials.audience
+      });
+
+      return await this.getUserProfile(credentials);
+
+    } catch (error) {
+      if ((error as JOSEError).code === 'ERR_JWT_EXPIRED') {
+        if (!context.refresh) {
+          context.refresh = this.refreshCredentials(credentials);
+          const result = (await context.refresh) as UserCredentials;
+          const headers = await saveUserToSession(request, result, this.session);
+          throw redirect(request.url, {
+            headers: headers
+          });
+        }
+
+        await context.refresh;
+        return await this.getUser(request, context);
+
+      }
+
+      console.error('Failed to verify JWT', error);
+      throw redirect(this.failedLoginRedirect);
+    }
   };
 
   private refreshCredentials = async (credentials: UserCredentials): Promise<UserCredentials> => {
@@ -215,11 +194,11 @@ export class Auth0RemixServer {
 
     const body = new URLSearchParams();
     body.set('grant_type', 'refresh_token');
-    body.set('client_id', this.clientID);
-    body.set('client_secret', this.clientSecret);
+    body.set('client_id', this.clientCredentials.clientID);
+    body.set('client_secret', this.clientCredentials.clientSecret);
     body.set('refresh_token', credentials.refreshToken);
 
-    const response = await fetch(this.tokenURL, {
+    const response = await fetch(this.auth0Urls.tokenURL, {
       headers: { 'content-type' : 'application/x-www-form-urlencoded' },
       method: 'POST',
       body: body.toString()
@@ -249,7 +228,7 @@ export class Auth0RemixServer {
   };
 
   private getUserProfile = async (credentials: UserCredentials): Promise<UserProfile> => {
-    const response = await fetch(this.userProfileUrl, {
+    const response = await fetch(this.auth0Urls.userProfileUrl, {
       headers: {
         Authorization: `Bearer ${credentials.accessToken}`
       }
@@ -261,38 +240,6 @@ export class Auth0RemixServer {
     }
 
     const data = await response.json();
-    return this.transformUserData(data);
-  };
-
-  public getUser = async (request: Request, context: AppLoadContext): Promise<UserProfile> => {
-    const credentials = await this.getCredentials(request);
-    try {
-
-      await jwtVerify(credentials.accessToken, this.jwks, {
-        issuer: `https://${this.domain}/`,
-        audience: this.audience
-      });
-
-      return await this.getUserProfile(credentials);
-
-    } catch (error) {
-      if ((error as JOSEError).code === 'ERR_JWT_EXPIRED') {
-        if (!context.refresh) {
-          context.refresh = this.refreshCredentials(credentials);
-          const result = (await context.refresh) as UserCredentials;
-          const headers = await this.saveUserCredentials(request, result);
-          throw redirect('/dashboard', {
-            headers: headers
-          });
-        }
-
-        await context.refresh;
-        return await this.getUser(request, context);
-
-      }
-
-      console.error('Failed to verify JWT', error);
-      throw redirect(this.failedLoginRedirect);
-    }
+    return transformUserData(data);
   };
 }

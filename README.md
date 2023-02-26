@@ -19,7 +19,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
 - [x] [Storybook](https://storybook.js.org) for component development
 - [x] [Cookieyes](cookieyes.com) for cookie consent
 - [x] [Split](https://split.io) for feature flags\
-- [x] [Auth0](https://auth0.com/ for authentication
+- [x] [Auth0](https://auth0.com/) for authentication
 - [x] Good security practices with CSP and sensible auth processes
 - [x] Automatic dependency updates with Renovate
 - [ ] Analytics Integrations
@@ -30,7 +30,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
 - [ ] Fully documented
 - [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally (might not happen, kinda buggy rn)
 
-## IGNORE THIS README FOR NOW, IT'S OUT OF DATE
+## IGNORE THIS README BELOW FOR NOW, IT'S OUT OF DATE
 
 All you need to know for now is:
 ```sh

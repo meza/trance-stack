@@ -10,7 +10,7 @@ export const links: LinksFunction = () => ([
   ...helloLinks()
 ]);
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const isAuth = await hasFeature(request, Features.AUTH);
   return json({
     isHelloEnabled: await hasFeature(request, Features.HELLO),

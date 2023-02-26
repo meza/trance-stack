@@ -5,7 +5,7 @@ import Logout from '~/components/Logout';
 import type { LoaderFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = async ({ request, context }) => {
-  const user = await authenticator.getUser(request);
+  const user = await authenticator.getUser(request, context);
   return json({
     user: user
   });

@@ -6,6 +6,7 @@ export interface Auth0RemixOptions {
   clientSecret: string;
   callbackURL: string;
   failedLoginRedirect: string;
+  refreshTokenRotationEnabled?: boolean;
   scope?: string[];
   audience?: string;
   organization?: string;
@@ -17,8 +18,7 @@ export interface Auth0RemixOptions {
 
 export interface UserCredentials {
   accessToken: string;
-  idToken: string;
-  refreshToken: string;
+  refreshToken?: string;
   expiresIn: number;
   expiresAt: number;
   lastRefreshed: number;

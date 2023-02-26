@@ -7,7 +7,8 @@ export const authenticator = new Auth0RemixServer({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   domain: process.env.AUTH0_DOMAIN,
   callbackURL: `${DOMAIN}/auth/callback`,
-  failedLoginRedirect: '/logout',
+  refreshTokenRotationEnabled: true,
+  failedLoginRedirect: '/',
   session: {
     sessionStorage: getSessionStorage()
   }

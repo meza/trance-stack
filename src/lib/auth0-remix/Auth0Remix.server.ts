@@ -1,8 +1,17 @@
 import { isSession, redirect } from '@remix-run/node';
 import * as jose from 'jose';
 import { jwtVerify } from 'jose';
-import type { SessionStorage } from '@remix-run/node';
+import type { SessionStorage, AppLoadContext } from '@remix-run/node';
+import type { JOSEError } from 'jose/dist/types/util/errors';
 import type { Auth0RemixOptions, UserCredentials, UserProfile } from '~/lib/auth0-remix/Auth0RemixTypes';
+
+/**
+ * Use cases:
+ * - no internal session handling
+ * - allowing the user to deal with the id token on their own
+ * - deal with the refresh token outside of the session IF rotation isn't enabled
+ * - mfa
+ */
 
 interface Auth0UserProfile {
   sub: string;
@@ -45,8 +54,10 @@ export class Auth0RemixServer {
   private readonly jwksURL: string;
   private readonly sessionStorage: SessionStorage;
   private readonly userDataKey: string;
-  private forceLogin: boolean;
-  private jwks: ReturnType<typeof jose.createRemoteJWKSet>;
+  private readonly forceLogin: boolean;
+  private readonly jwks: ReturnType<typeof jose.createRemoteJWKSet>;
+  private readonly refreshTokenRotationEnabled: boolean;
+  private readonly userProfileUrl: string;
 
   constructor(auth0RemixOptions: Auth0RemixOptions, forceLogin = false) {
     this.forceLogin = forceLogin;
@@ -54,12 +65,18 @@ export class Auth0RemixServer {
     this.clientID = auth0RemixOptions.clientID;
     this.clientSecret = auth0RemixOptions.clientSecret;
     this.callbackURL = auth0RemixOptions.callbackURL;
-    this.scope = auth0RemixOptions.scope || ['openid', 'profile', 'email'];
+    this.refreshTokenRotationEnabled = auth0RemixOptions.refreshTokenRotationEnabled || false;
+    this.scope = auth0RemixOptions.scope || [
+      'offline_access', // required for refresh token
+      'openid', // required for id_token and the /userinfo api endpoint
+      'profile',
+      'email'];
     this.organization = auth0RemixOptions.organization;
     this.failedLoginRedirect = auth0RemixOptions.failedLoginRedirect;
     this.sessionStorage = auth0RemixOptions.session.sessionStorage;
     this.userDataKey = auth0RemixOptions.session.userDataKey || 'user';
     this.tokenURL = `https://${this.domain}/oauth/token`;
+    this.userProfileUrl = `https://${this.domain}/userinfo`;
     this.authorizationURL = `https://${this.domain}/authorize`;
     this.jwksURL = `https://${this.domain}/.well-known/jwks.json`;
     this.audience = auth0RemixOptions.audience || `https://${this.domain}/api/v2/`;
@@ -144,9 +161,6 @@ export class Auth0RemixServer {
       body: body.toString()
     });
 
-    console.log('response', response);
-    console.log('requestBody', body.toString());
-
     if (!response.ok) {
       console.error('Failed to get token from Auth0');
       throw redirect(this.failedLoginRedirect);
@@ -155,16 +169,21 @@ export class Auth0RemixServer {
     const data = await response.json();
     const userData = {
       accessToken: data.access_token,
-      idToken: data.id_token,
-      refreshToken: data.refresh_token,
       expiresIn: data.expires_in,
       lastRefreshed: Date.now(),
       expiresAt: Date.now() + data.expires_in * 1000
-    };
+    } as UserCredentials;
+
+    if (this.refreshTokenRotationEnabled) {
+      userData.refreshToken = data.refresh_token;
+    } else {
+      // callUserRefreshTokenCallback(userData.refreshToken)
+    }
+
+    // callUserIdTokenCallback(data.id_token)
 
     if (options.onSuccessRedirect) {
       const headers = await this.saveUserCredentials(request, userData);
-      console.log('Would redirect to', options.onSuccessRedirect, 'with headers', headers);
       throw redirect(options.onSuccessRedirect, {
         headers: headers
       });
@@ -177,7 +196,6 @@ export class Auth0RemixServer {
     const logoutURL = new URL(`https://${this.domain}/v2/logout`);
     logoutURL.searchParams.set('client_id', process.env.AUTH0_CLIENT_ID);
     logoutURL.searchParams.set('returnTo', redirectTo);
-
     throw redirect(logoutURL.toString(), {
       headers: headers
     });
@@ -190,20 +208,89 @@ export class Auth0RemixServer {
     return credentials;
   };
 
-  public getUser = async (request: Request): Promise<UserProfile> => {
+  private refreshCredentials = async (credentials: UserCredentials): Promise<UserCredentials> => {
+    if (!credentials.refreshToken) {
+      throw new Error('No refresh token found within the credentials.');
+    }
+
+    const body = new URLSearchParams();
+    body.set('grant_type', 'refresh_token');
+    body.set('client_id', this.clientID);
+    body.set('client_secret', this.clientSecret);
+    body.set('refresh_token', credentials.refreshToken);
+
+    const response = await fetch(this.tokenURL, {
+      headers: { 'content-type' : 'application/x-www-form-urlencoded' },
+      method: 'POST',
+      body: body.toString()
+    });
+
+    if (!response.ok) {
+      console.error('Failed to refresh token from Auth0');
+      throw redirect(this.failedLoginRedirect);
+    }
+    const data = await response.json();
+    const userData = {
+      accessToken: data.access_token,
+      expiresIn: data.expires_in,
+      lastRefreshed: Date.now(),
+      expiresAt: Date.now() + data.expires_in * 1000
+    } as UserCredentials;
+
+    if (this.refreshTokenRotationEnabled) {
+      userData.refreshToken = data.refresh_token || credentials.refreshToken;
+    } else {
+      // callUserRefreshTokenCallback(userData.refreshToken)
+    }
+
+    // callUserIdTokenCallback(data.id_token)
+
+    return userData;
+  };
+
+  private getUserProfile = async (credentials: UserCredentials): Promise<UserProfile> => {
+    const response = await fetch(this.userProfileUrl, {
+      headers: {
+        Authorization: `Bearer ${credentials.accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      console.error('Failed to get user profile from Auth0');
+      throw redirect(this.failedLoginRedirect);
+    }
+
+    const data = await response.json();
+    return this.transformUserData(data);
+  };
+
+  public getUser = async (request: Request, context: AppLoadContext): Promise<UserProfile> => {
     const credentials = await this.getCredentials(request);
     try {
 
-      // const { payload: accessTokenData } = await jwtVerify(credentials.accessToken, this.jwks, {
-      //   issuer: `https://${this.domain}/`,
-      //   audience: this.audience
-      // });
-      const { payload: data } = await jwtVerify(credentials.idToken, this.jwks, {
+      await jwtVerify(credentials.accessToken, this.jwks, {
         issuer: `https://${this.domain}/`,
-        audience: this.clientID
+        audience: this.audience
       });
-      return this.transformUserData(data as Auth0UserProfile);
+
+      return await this.getUserProfile(credentials);
+
     } catch (error) {
+      if ((error as JOSEError).code === 'ERR_JWT_EXPIRED') {
+        if (!context.refresh) {
+          context.refresh = this.refreshCredentials(credentials);
+          const result = (await context.refresh) as UserCredentials;
+          const headers = await this.saveUserCredentials(request, result);
+          throw redirect('/dashboard', {
+            headers: headers
+          });
+        }
+
+        await context.refresh;
+        return await this.getUser(request, context);
+
+      }
+
       console.error('Failed to verify JWT', error);
       throw redirect(this.failedLoginRedirect);
     }

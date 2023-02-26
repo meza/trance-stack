@@ -40,7 +40,7 @@ export const handle = {
   i18n: defaultNS
 };
 
-export const loader: LoaderFunction = async ({ request, context }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const [locale, packageJson, cookieData] = await Promise.all([
     remixI18next.getLocale(request),
     import('../package.json'),

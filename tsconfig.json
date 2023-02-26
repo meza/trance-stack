@@ -3,6 +3,7 @@
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "isolatedModules": true,
+    "noImplicitAny": true,
     "esModuleInterop": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",

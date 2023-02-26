@@ -2,8 +2,6 @@ import { authenticator } from '~/auth.server';
 import { destroySession, getSessionFromRequest } from '~/session.server';
 import type { ActionFunction } from '@remix-run/node';
 
-export { loader } from '~/routes/login';
-
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSessionFromRequest(request);
 
@@ -11,3 +9,5 @@ export const action: ActionFunction = async ({ request }) => {
     'Set-Cookie': await destroySession(session)
   });
 };
+
+export const loader = action;

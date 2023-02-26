@@ -21,7 +21,7 @@ export class EphemeralStack extends Stack {
 
     const api = new RemixApiGateway(this, formatName('RemixApiGateway'), remixDeployment);
 
-    remixDeployment.setApiUrl(api.url());
+    remixDeployment.setApiUrl(`https://${api.url()}`);
 
     // eslint-disable-next-line no-new
     new CfnOutput(this, 'ApiUrl', {

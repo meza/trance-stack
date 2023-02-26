@@ -9,7 +9,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
   - [x] Using AWS Lambda + Api Gateway + Cloud Front for production builds
   - [x] Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
 - [x] [GitHub Actions](https://github.com/features/actions) for a full CI steup
-- [ ] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
+- [x] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
 - [x] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
 - [x] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
 - [x] End-to-End testing with [Playwright](https://playwright.dev/docs/intro)
@@ -21,6 +21,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
 - [x] [Split](https://split.io) for feature flags\
 - [x] [Auth0](https://auth0.com/ for authentication
 - [x] Good security practices with CSP and sensible auth processes
+- [x] Automatic dependency updates with Renovate
 - [ ] Analytics Integrations
   - [x] Mixpanel
   - [x] Hotjar

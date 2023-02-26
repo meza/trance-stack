@@ -29,7 +29,7 @@ jobs:
     - name: 🔨 Build
       run: npm run build
       env:
-        AUTH0_DOMAIN_NAME: ${{ secrets.AUTH0_DOMAIN_NAME }}
+        AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
         AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
         AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
         NODE_ENV: production

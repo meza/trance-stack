@@ -8,7 +8,7 @@ export const authenticator = new Auth0RemixServer({
     clientID: process.env.AUTH0_CLIENT_ID,
     clientSecret: process.env.AUTH0_CLIENT_SECRET
   },
-  callbackURL: `${DOMAIN}/auth/callback`,
+  callbackURL: 'https://cssemgcw0b.execute-api.us-east-1.amazonaws.com/auth/callback',
   refreshTokenRotationEnabled: true,
   failedLoginRedirect: '/',
   session: {

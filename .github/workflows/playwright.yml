@@ -17,7 +17,7 @@ jobs:
     - name: Create envfile
       uses: SpicyPizza/create-envfile@v1.3
       with:
-        envkey_AUTH0_DOMAIN_NAME: ${{ secrets.AUTH0_DOMAIN_NAME }}
+        envkey_AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
         envkey_AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
         envkey_AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
         envkey_SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}

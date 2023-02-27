@@ -1,6 +1,36 @@
 # TRANCE STACK
 
-## IGNORE THIS README FOR NOW, IT'S OUT OF DATE
+Don't use this yet, it's under _heavy_ development. It's coming soon though
+
+## What's planned for the stack
+
+- [x] i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
+- [x] [AWS deployment](https://aws.com) with [CDK](https://docs.aws.amazon.com/cdk/index.html)
+  - [x] Using AWS Lambda + Api Gateway + Cloud Front for production builds
+  - [x] Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
+- [x] [GitHub Actions](https://github.com/features/actions) for a full CI steup
+- [x] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
+- [x] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
+- [x] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
+- [x] End-to-End testing with [Playwright](https://playwright.dev/docs/intro)
+- [x] Linting with [ESLint](https://eslint.org)
+- [x] Static Types with [TypeScript](https://typescriptlang.org)
+- [x] NPM for package management
+- [x] [Storybook](https://storybook.js.org) for component development
+- [x] [Cookieyes](cookieyes.com) for cookie consent
+- [x] [Split](https://split.io) for feature flags\
+- [x] [Auth0](https://auth0.com/) for authentication
+- [x] Good security practices with CSP and sensible auth processes
+- [x] Automatic dependency updates with Renovate
+- [ ] Analytics Integrations
+  - [x] Mixpanel
+  - [x] Hotjar
+  - [ ] Google Analytics 3
+- [ ] Fully tested
+- [ ] Fully documented
+- [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally (might not happen, kinda buggy rn)
+
+## IGNORE THIS README BELOW FOR NOW, IT'S OUT OF DATE
 
 All you need to know for now is:
 ```sh
@@ -21,22 +51,6 @@ Learn more about [Remix Stacks](https://remix.run/stacks).
 ```
 npx create-remix --template meza/trace-stack
 ```
-
-## What's planned for the stack
-
-- [ ] i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
-- [x] [AWS deployment](https://aws.com) with [Architect](https://arc.codes/)
-- [ ] [GitHub Actions](https://github.com/features/actions) for deploy on merge to production and staging environments
-- [ ] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
-- [ ] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
-- [ ] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- [x] Linting with [ESLint](https://eslint.org)
-- [x] Static Types with [TypeScript](https://typescriptlang.org)
-- [x] PNPM for package management
-- [x] [Storybook](https://storybook.js.org) for component development
-- [x] [Cookieyes](cookieyes.com) for cookie consent
-- [x] [Split](https://split.io) for feature flags
-- [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally
 
 ---
 

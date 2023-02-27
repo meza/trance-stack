@@ -1,0 +1,28 @@
+// Vitest Snapshot v1
+
+exports[`The Dashboard Route > prioritises the givenName over name 1`] = `
+<div>
+  Dashboard for 
+  test-given-name
+   - 
+  <Logout />
+</div>
+`;
+
+exports[`The Dashboard Route > prioritises the nickname over anything 1`] = `
+<div>
+  Dashboard for 
+  test-nickname
+   - 
+  <Logout />
+</div>
+`;
+
+exports[`The Dashboard Route > uses the name if nothing else is present 1`] = `
+<div>
+  Dashboard for 
+  test-name
+   - 
+  <Logout />
+</div>
+`;

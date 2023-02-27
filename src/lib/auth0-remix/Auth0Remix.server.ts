@@ -1,6 +1,5 @@
 import { redirect } from '@remix-run/node';
 import * as jose from 'jose';
-import { jwtVerify } from 'jose';
 import { ensureDomain } from './lib/ensureDomainFormat';
 import { getCredentials, saveUserToSession } from './lib/session';
 import { transformUserData } from './lib/transformUserData';
@@ -9,11 +8,13 @@ import type { AppLoadContext } from '@remix-run/node';
 import type { JOSEError } from 'jose/dist/types/util/errors';
 
 /**
- * Use cases:
- * - no internal session handling
- * - allowing the user to deal with the id token on their own
- * - deal with the refresh token outside the session IF rotation isn't enabled
- * - mfa
+ * left to consider:
+ * - [ ] utilise the STATE parameter to prevent CSRF
+ * - [ ] failed things should remove the user from the session
+ * - [ ] see if we can handle the callback while maintaining the session from before the login
+ * - [ ] create the callbacks for the id token and the refresh tokens
+ * - [ ] opt out of the session handling
+ * - [ ] enable register with passing ?screen_hint=signup to the authorize endpoint
  */
 
 interface Auth0Urls {
@@ -70,7 +71,7 @@ export class Auth0RemixServer {
     this.jwks = jose.createRemoteJWKSet(new URL(this.auth0Urls.jwksURL));
   }
 
-  public authorize = async (forceLogin = false) => {
+  public authorize(forceLogin = false) {
     const scope = [
       'offline_access', // required for refresh token
       'openid', // required for id_token and the /userinfo api endpoint
@@ -91,9 +92,9 @@ export class Auth0RemixServer {
     }
 
     throw redirect(authorizationURL.toString());
-  };
+  }
 
-  public handleCallback = async (request: Request, options: HandleCallbackOptions): Promise<never | UserCredentials> => {
+  public async handleCallback(request: Request, options: HandleCallbackOptions): Promise<never | UserCredentials> {
     const formData = await request.formData();
     const code = formData.get('code') as string;
 
@@ -144,22 +145,28 @@ export class Auth0RemixServer {
     }
 
     return userData;
-  };
+  }
 
-  public logout = async (redirectTo: string, headers?: HeadersInit) => {
+  public logout(redirectTo: string, headers?: HeadersInit) {
     const logoutURL = new URL(`${this.domain}/v2/logout`);
     logoutURL.searchParams.set('client_id', process.env.AUTH0_CLIENT_ID);
     logoutURL.searchParams.set('returnTo', redirectTo);
     throw redirect(logoutURL.toString(), {
       headers: headers
     });
-  };
+  }
 
-  public getUser = async (request: Request, context: AppLoadContext): Promise<UserProfile> => {
+  public async getUser(request: Request, context: AppLoadContext): Promise<UserProfile> {
     const credentials = await getCredentials(request, this.session);
+
+    if (!credentials) {
+      console.error('No credentials found');
+      throw redirect(this.failedLoginRedirect);
+    }
+
     try {
 
-      await jwtVerify(credentials.accessToken, this.jwks, {
+      await jose.jwtVerify(credentials.accessToken, this.jwks, {
         issuer: this.domain + '/',
         audience: this.clientCredentials.audience
       });
@@ -185,11 +192,12 @@ export class Auth0RemixServer {
       console.error('Failed to verify JWT', error);
       throw redirect(this.failedLoginRedirect);
     }
-  };
+  }
 
-  private refreshCredentials = async (credentials: UserCredentials): Promise<UserCredentials> => {
+  private async refreshCredentials(credentials: UserCredentials): Promise<UserCredentials> {
     if (!credentials.refreshToken) {
-      throw new Error('No refresh token found within the credentials.');
+      console.error('No refresh token found within the credentials.');
+      throw redirect(this.failedLoginRedirect);
     }
 
     const body = new URLSearchParams();
@@ -217,7 +225,7 @@ export class Auth0RemixServer {
     } as UserCredentials;
 
     if (this.refreshTokenRotationEnabled) {
-      userData.refreshToken = data.refresh_token || credentials.refreshToken;
+      userData.refreshToken = data.refresh_token;
     } else {
       // callUserRefreshTokenCallback(userData.refreshToken)
     }
@@ -225,9 +233,9 @@ export class Auth0RemixServer {
     // callUserIdTokenCallback(data.id_token)
 
     return userData;
-  };
+  }
 
-  private getUserProfile = async (credentials: UserCredentials): Promise<UserProfile> => {
+  private async getUserProfile(credentials: UserCredentials): Promise<UserProfile> {
     const response = await fetch(this.auth0Urls.userProfileUrl, {
       headers: {
         Authorization: `Bearer ${credentials.accessToken}`
@@ -241,5 +249,5 @@ export class Auth0RemixServer {
 
     const data = await response.json();
     return transformUserData(data);
-  };
+  }
 }

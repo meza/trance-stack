@@ -20,7 +20,6 @@ import styles from './styles/app.css';
 import darkStyles from './styles/dark.css';
 import lightStyles from './styles/light.css';
 import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
-import { deepLog } from '~/utils/deepLog';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -41,12 +40,7 @@ export const handle = {
   i18n: defaultNS
 };
 
-export const loader: LoaderFunction = async ({ request, context }) => {
-  console.log('ROOT LOADER BOOTING');
-  deepLog({ context });
-  console.log('setting context');
-  context.something = 'something';
-
+export const loader: LoaderFunction = async ({ request }) => {
   const [locale, packageJson, cookieData] = await Promise.all([
     remixI18next.getLocale(request),
     import('../package.json'),

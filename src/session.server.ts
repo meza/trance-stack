@@ -39,7 +39,3 @@ export const createUserSession = async (request: Request) => {
 export const destroySession = async (session: Session) => {
   return getSessionStorage().destroySession(session);
 };
-
-export const commitSession = async (session: Session) => {
-  return getSessionStorage().commitSession(session);
-};

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import { transformUserData } from '~/lib/auth0-remix/lib/transformUserData';
 import type { Auth0UserProfile } from '~/lib/auth0-remix/Auth0RemixTypes';
 

@@ -16,6 +16,7 @@ describe('The Client Entrypoint', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.resetModules();
+    vi.useRealTimers();
     vi.useFakeTimers();
     vi.mocked(initClientI18n).mockResolvedValue(undefined as never);
     vi.mocked(startTransition).mockImplementation((callback: CallableFunction) => {

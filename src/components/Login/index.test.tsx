@@ -25,6 +25,21 @@ describe('The Login component', () => {
 
   it('should render as expected', async () => {
     const component = renderWithi18n(<Login />);
-    expect(component.asFragment()).toMatchInlineSnapshot();
+    expect(component.asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          class="centered-button"
+        >
+          <form
+            action="/auth/auth0"
+            method="post"
+          >
+            <button>
+              Login
+            </button>
+          </form>
+        </div>
+      </DocumentFragment>
+    `);
   });
 });

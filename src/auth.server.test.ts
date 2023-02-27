@@ -1,8 +1,8 @@
+import { Auth0RemixServer } from 'auth0-remix-server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Auth0RemixServer } from '~/lib/auth0-remix/Auth0Remix.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 
-vi.mock('~/lib/auth0-remix/Auth0Remix.server');
+vi.mock('auth0-remix-server');
 vi.mock('~/sessionStorage.server', () => {
   return { getSessionStorage: vi.fn() };
 });

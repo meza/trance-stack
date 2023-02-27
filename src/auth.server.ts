@@ -1,4 +1,4 @@
-import { Auth0RemixServer } from '~/lib/auth0-remix/Auth0Remix.server';
+import { Auth0RemixServer } from 'auth0-remix-server';
 import { getSessionStorage } from '~/sessionStorage.server';
 
 export const authenticator = new Auth0RemixServer({

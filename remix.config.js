@@ -49,7 +49,7 @@ module.exports = {
   },
   server: './server.js',
   serverMinify: true,
-  ignoredRouteFiles: ['**/__snapshots__/**', '**/.*', '*.test.tsx', '*.test.ts'],
+  ignoredRouteFiles: ['**/__snapshots__/**', '**/.*', '**/*.test.tsx', '**/*.test.ts'],
   appDirectory: 'src',
   serverBuildDirectory: "server",
   browserBuildDirectory: "public/build",

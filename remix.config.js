@@ -34,7 +34,6 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
       'AUTH0_DOMAIN',
       'AUTH0_CLIENT_ID',
       'AUTH0_CLIENT_SECRET',
-      'APP_DOMAIN',
       'I18N_DEBUG',
       'SPLIT_DEBUG']),
     ...option.plugins

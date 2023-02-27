@@ -4,20 +4,20 @@ import { describe, vi, it, expect, beforeEach, afterEach } from 'vitest';
 vi.mock('@remix-run/node');
 
 describe('The session storage', () => {
-  const originalEnv = structuredClone(process.env);
   beforeEach(() => {
     vi.resetModules();
     vi.resetAllMocks();
   });
 
   afterEach(() => {
-    process.env.SESSION_SECRET = originalEnv.SESSION_SECRET;
-    process.env.NODE_ENV = originalEnv.NODE_ENV;
+    vi.unstubAllEnvs();
+    vi.resetAllMocks();
   });
 
   it('returns the configured one', async () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
     delete process.env.SESSION_SECRET;
+    console.log(process.env.SESSION_SECRET);
     vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
     const { getSessionStorage } = await import ('~/sessionStorage.server');
     const actual = getSessionStorage();
@@ -32,7 +32,7 @@ describe('The session storage', () => {
           "maxAge": 31536000,
           "name": "__session",
           "path": "/",
-          "sameSite": "strict",
+          "sameSite": "lax",
           "secrets": [
             "secret",
           ],
@@ -46,8 +46,8 @@ describe('The session storage', () => {
   });
 
   it('configures the cookie correctly', async () => {
-    process.env.SESSION_SECRET = 'also-a-secret';
-    process.env.NODE_ENV = 'production';
+    vi.stubEnv('NODE_ENV', 'production');
+    vi.stubEnv('SESSION_SECRET', 'also-a-secret');
     vi.mocked(createCookieSessionStorage).mockReturnValue('mocked cookie' as never);
     const { getSessionStorage } = await import ('~/sessionStorage.server');
 
@@ -62,7 +62,7 @@ describe('The session storage', () => {
           "maxAge": 31536000,
           "name": "__session",
           "path": "/",
-          "sameSite": "strict",
+          "sameSite": "lax",
           "secrets": [
             "also-a-secret",
           ],

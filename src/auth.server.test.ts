@@ -1,0 +1,49 @@
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Auth0RemixServer } from '~/lib/auth0-remix/Auth0Remix.server';
+import { getSessionStorage } from '~/sessionStorage.server';
+
+vi.mock('~/lib/auth0-remix/Auth0Remix.server');
+vi.mock('~/sessionStorage.server', () => {
+  return { getSessionStorage: vi.fn() };
+});
+
+describe('The auth server', () => {
+  beforeEach(() => {
+    vi.resetAllMocks();
+    vi.resetModules();
+    vi.mocked(getSessionStorage).mockReturnValue('mocked session storage' as never);
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+    vi.unstubAllEnvs();
+  });
+
+  it('initializes the auth server correctly', async () => {
+    vi.stubEnv('APP_DOMAIN', 'https://example.com');
+    vi.stubEnv('AUTH0_DOMAIN', 'https://auth0.for.example.com');
+    vi.stubEnv('AUTH0_CLIENT_ID', '3242567gfderg');
+    vi.stubEnv('AUTH0_CLIENT_SECRET', '9087tuygkhijoo');
+
+    const { authenticator } = await import ('~/auth.server');
+
+    const authServerCall = vi.mocked(Auth0RemixServer).mock.calls[0][0];
+    expect(authServerCall).toMatchInlineSnapshot(`
+      {
+        "callbackURL": "https://example.com/auth/callback",
+        "clientDetails": {
+          "clientID": "3242567gfderg",
+          "clientSecret": "9087tuygkhijoo",
+          "domain": "https://auth0.for.example.com",
+        },
+        "failedLoginRedirect": "/",
+        "refreshTokenRotationEnabled": true,
+        "session": {
+          "store": "mocked session storage",
+        },
+      }
+    `);
+
+    expect(authenticator).toEqual(vi.mocked(Auth0RemixServer).mock.instances[0]);
+  });
+});

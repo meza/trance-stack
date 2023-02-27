@@ -19,8 +19,14 @@ export const getSessionFromRequest = async (request: Request) => {
 };
 
 export const getVisitorIdFromRequest = async (request: Request) => {
+  // const user = await authenticatorX.isAuthenticated(request);
   const session = await getSessionFromRequest(request);
-  return getVisitorId(session, new URL(request.url).hostname);
+  // if (user) {
+  //   session.set('visitorId', user.id);
+  //   return user.id;
+  // }
+  const hostname = new URL(request.url).hostname;
+  return getVisitorId(session, hostname);
 };
 
 export const createUserSession = async (request: Request) => {

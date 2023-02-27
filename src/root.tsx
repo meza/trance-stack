@@ -47,7 +47,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     createUserSession(request),
     splitClient.ready()
   ]);
-
   splitClient.track(cookieData.visitorId, 'anonymous', 'page_view');
 
   return json({

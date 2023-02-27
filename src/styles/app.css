@@ -14,6 +14,12 @@ body {
   margin: 0;
 }
 
+.centered-button {
+  animation: slide-in-fwd-center 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.6s both;
+  text-align: center;
+}
+
+
 /**
  * ----------------------------------------
  * animation tracking-in-contract
@@ -36,3 +42,21 @@ body {
     opacity: 1;
   }
 }
+
+/**
+ * ----------------------------------------
+ * animation slide-in-fwd-center
+ * ----------------------------------------
+ */
+@keyframes slide-in-fwd-center {
+  0% {
+    opacity: 0;
+    transform: translateZ(-1400px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+

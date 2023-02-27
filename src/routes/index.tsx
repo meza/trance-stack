@@ -1,6 +1,7 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { Hello, links as helloLinks } from '~/components/Hello';
+import Login from '~/components/Login';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
 import type { LoaderFunction, LinksFunction } from '@remix-run/node';
@@ -9,16 +10,21 @@ export const links: LinksFunction = () => ([
   ...helloLinks()
 ]);
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const isAuth = await hasFeature(request, Features.AUTH);
   return json({
-    isHelloEnabled: await hasFeature(request, Features.HELLO)
+    isHelloEnabled: await hasFeature(request, Features.HELLO),
+    isAuthEnabled: isAuth
   });
 };
 
 export default () => {
-  const { isHelloEnabled } = useLoaderData<typeof loader>();
+  const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
   if (isHelloEnabled) {
-    return <Hello/>;
+    return (<div>
+      <Hello/>
+      {isAuthEnabled ? <Login/> : null}
+    </div>);
   }
   return <div>Goodbye World!</div>;
 };

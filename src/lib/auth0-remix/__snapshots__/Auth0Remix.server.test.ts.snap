@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`Auth0Remix.server > handling the callback token exchange > when there is a code in the exchange > redirects to the failed login url if the token exchange fails 2`] = `
+{
+  "body": "grant_type=authorization_code&client_id=clientId&client_secret=clientSecret&code=test-code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth0%2Fcallback",
+  "headers": {
+    "content-type": "application/x-www-form-urlencoded",
+  },
+  "method": "POST",
+}
+`;
+
+exports[`Auth0Remix.server > logging out > calls the correct url 1`] = `"https://test.domain.com/v2/logout?client_id=undefined&returnTo=http%3A%2F%2Flocalhost%3A3000%2Flogout"`;
+
+exports[`Auth0Remix.server > logging out > includes the headers supplied 1`] = `"https://test.domain.com/v2/logout?client_id=undefined&returnTo=http%3A%2F%2Flocalhost%3A3000%2Flogout-with-headers"`;
+
+exports[`Auth0Remix.server > the authorization process > adds the organisation if needed 1`] = `"https://test.domain.com/authorize?response_type=code&response_mode=form_post&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth0%2Fcallback&scope=offline_access+openid+profile+email&audience=https%3A%2F%2Ftest.domain.com%2Fapi%2Fv2%2F&organization=test-org"`;
+
+exports[`Auth0Remix.server > the authorization process > forces the login if asked 1`] = `"https://test.domain.com/authorize?response_type=code&response_mode=form_post&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth0%2Fcallback&scope=offline_access+openid+profile+email&audience=https%3A%2F%2Ftest.domain.com%2Fapi%2Fv2%2F&prompt=login"`;
+
+exports[`Auth0Remix.server > the authorization process > redirects to the authorization endpoint 1`] = `"https://test.domain.com/authorize?response_type=code&response_mode=form_post&client_id=clientId&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth0%2Fcallback&scope=offline_access+openid+profile+email&audience=https%3A%2F%2Ftest.domain.com%2Fapi%2Fv2%2F"`;

@@ -18,13 +18,12 @@ vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
 
 describe('The root module', () => {
-  const originalEnv = structuredClone(process.env);
   beforeEach(() => {
     vi.resetAllMocks();
   });
 
   afterEach(() => {
-    process.env = originalEnv;
+    vi.unstubAllEnvs();
   });
 
   it('should have a consistent meta function', () => {
@@ -82,12 +81,12 @@ describe('The root module', () => {
       vi.mocked(splitClient.ready).mockResolvedValue();
       vi.mocked(splitClient.track).mockReturnValue(true);
 
-      process.env.NODE_ENV = 'development';
-      process.env.HOTJAR_ID = 'a-hotjar-id';
-      process.env.MIXPANEL_TOKEN = 'a-mixpanel-token';
-      process.env.MIXPANEL_API = 'a-mixpanel-api';
-      process.env.SPLIT_CLIENT_TOKEN = 'a-split-token';
-      process.env.COOKIEYES_TOKEN = 'a-cookieyes-token';
+      vi.stubEnv('NODE_ENV', 'development');
+      vi.stubEnv('HOTJAR_ID', 'a-hotjar-id');
+      vi.stubEnv('MIXPANEL_TOKEN', 'a-mixpanel-token');
+      vi.stubEnv('MIXPANEL_API', 'a-mixpanel-api');
+      vi.stubEnv('SPLIT_CLIENT_TOKEN', 'a-split-token');
+      vi.stubEnv('COOKIEYES_TOKEN', 'a-cookieyes-token');
 
     });
 
@@ -119,7 +118,7 @@ describe('The root module', () => {
     });
 
     it('should return the app config for prod', async () => {
-      process.env.NODE_ENV = 'production';
+      vi.stubEnv('NODE_ENV', 'production');
       const request = new Request('https://example.com');
       const response = await loader({ request: request } as never);
       const data = await response.json();

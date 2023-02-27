@@ -3,5 +3,8 @@
   "world": "World",
   "microcopy": {
     "helloWorld": "$t(hello) $t(world)!"
-  }
+  },
+  "login": "Login",
+  "register": "Sign Up",
+  "logout": "Logout"
 }

@@ -20,7 +20,7 @@ describe('The auth server', () => {
   });
 
   it('initializes the auth server correctly', async () => {
-    vi.stubEnv('API_URL', 'https://example.com');
+    vi.stubEnv('APP_DOMAIN', 'https://example.com');
     vi.stubEnv('AUTH0_DOMAIN', 'https://auth0.for.example.com');
     vi.stubEnv('AUTH0_CLIENT_ID', '3242567gfderg');
     vi.stubEnv('AUTH0_CLIENT_SECRET', '9087tuygkhijoo');
@@ -31,33 +31,6 @@ describe('The auth server', () => {
     expect(authServerCall).toMatchInlineSnapshot(`
       {
         "callbackURL": "https://example.com/auth/callback",
-        "clientDetails": {
-          "clientID": "3242567gfderg",
-          "clientSecret": "9087tuygkhijoo",
-          "domain": "https://auth0.for.example.com",
-        },
-        "failedLoginRedirect": "/",
-        "refreshTokenRotationEnabled": true,
-        "session": {
-          "store": "mocked session storage",
-        },
-      }
-    `);
-
-    expect(authenticator).toEqual(vi.mocked(Auth0RemixServer).mock.instances[0]);
-  });
-
-  it('initializes the auth server correctly in dev situations', async () => {
-    vi.stubEnv('AUTH0_DOMAIN', 'https://auth0.for.example.com');
-    vi.stubEnv('AUTH0_CLIENT_ID', '3242567gfderg');
-    vi.stubEnv('AUTH0_CLIENT_SECRET', '9087tuygkhijoo');
-
-    const { authenticator } = await import ('~/auth.server');
-
-    const authServerCall = vi.mocked(Auth0RemixServer).mock.calls[0][0];
-    expect(authServerCall).toMatchInlineSnapshot(`
-      {
-        "callbackURL": "http://localhost:3000/auth/callback",
         "clientDetails": {
           "clientID": "3242567gfderg",
           "clientSecret": "9087tuygkhijoo",

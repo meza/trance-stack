@@ -40,6 +40,6 @@ export class RemixDeployment extends Construct {
   }
 
   setApiUrl(apiUrl: string) {
-    this.lambdaFunction.lambda().addEnvironment('API_URL', apiUrl);
+    this.lambdaFunction.lambda().addEnvironment('APP_DOMAIN', apiUrl);
   }
 }

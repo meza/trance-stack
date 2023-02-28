@@ -1,0 +1,61 @@
+---
+name: Feature Request
+description: Suggest an idea for this project
+labels:
+  - feature
+body:
+  - type: checkboxes
+    id: existing
+    attributes:
+      label: I have checked for similar
+      description: Others might have had the same idea as you did. Please make sure to
+        search on the
+        [issues](https://github.com/meza/trance-stack/issues?q=is%3Aissue+label%3Afeature+)
+        page first.
+      options:
+        - label: I have searched for my issue and did not find it
+          required: true
+  - type: checkboxes
+    id: genuine
+    attributes:
+      label: Not a bug
+      description: If this is just a question or a bug report, please go and choose
+        the correct category [from
+        here](https://github.com/meza/trance-stack/issues/new/choose)
+        instead filing a feature request.
+      options:
+        - label: I swear this is an actual feature request
+          required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Why would you like this feature? What is the motivation behind it?
+        What problem does it solve?
+      placeholder: A clear and concise description of what the problem is
+      value: I'm always frustrated when [...]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What?
+      description: What would you like to happen?
+      placeholder: A clear and concise description of what you want to happen.
+      value: I think it would be great if [...]
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Any alternatives?
+      description: Describe alternatives you've considered?
+      placeholder: A clear and concise description of any alternative solutions or
+        features you've considered.
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?
+      description: Add any other context or screenshots about the feature request here.
+      placeholder: There's a similar solution in this other software I know and I
+        think you should check it out ...

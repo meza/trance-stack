@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions, Sharing ideas, Other support
+    url: https://github.com/meza/trance-stack/discussions
+    about: Check out the community discussions.

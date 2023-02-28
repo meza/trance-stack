@@ -1,20 +1,11 @@
 {
+  "extends": "../tsconfig.json",
   "include": ["**/*"],
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "commonjs",
-    "jsx": "react-jsx",
     "moduleResolution": "node",
     "target": "es5",
     "rootDir": "../",
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "allowJs": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true,
-    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["../src/*"],
@@ -22,12 +13,6 @@
       "@test/*": ["../test/*"],
       "@styles": ["../src/styles/"],
       "@styles/*": ["../src/styles/*"]
-    }
-  },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs",
-      "target": "es5"
     }
   }
 }

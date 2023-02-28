@@ -1,21 +1,24 @@
+import { Meta } from '@storybook/blocks';
+
 <Meta title="Utilities/Analytics/Hotjar"/>
 
-# Hotjar
+<h1>Hotjar</h1>
 
 We use [Hotjar](https://www.hotjar.com/) to record user behavior and feedback on our website.
 Hotjar is a tool that we use to better understand our users’ needs and experience.
 
-## Usage:
 
-### Parameters
+<h2>Usage:</h2>
+<h3>Parameters</h3>
 
 - `hotjarId`: The ID of the Hotjar project
 - `visitorId`: The arbitrary ID of the visitor (userId, email, etc.)
 
-### Example
 
-```jsx
+<h3>Example</h3>
+
+~~~jsx
 import { Hotjar } from '~/components/Hotjar';
 
 <Hotjar hotjarId={'12345'} visitorId={'abcdef'}/>
-```
+~~~

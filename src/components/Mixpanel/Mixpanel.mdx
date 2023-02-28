@@ -1,0 +1,26 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Analytics/Mixpanel"/>
+
+<h1>Mixpanel</h1>
+
+We use Mixpanel to track user behavior and events.
+This allows us to better understand how our users interact with our products and how we can improve them.
+
+<h2>Usage</h2>
+
+The mixpanel component depends on the `window.appConfig` object to have a few properties set:
+
+- `mixpanelToken` - The token for the mixpanel project
+- `isProduction` - Whether the app is running in production mode or not (typically `NODE_ENV === 'production'`)
+- `mixpanelApi` - The API endpoint for mixpanel
+- `visitorId` - The ID of the current visitor
+
+<h3>Example</h3>
+
+~~~jsx
+import { Mixpanel } from '~/components/Mixpanel';
+
+<Mixpanel />
+
+~~~

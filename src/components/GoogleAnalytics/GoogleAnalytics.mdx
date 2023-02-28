@@ -1,0 +1,21 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Utilities/Analytics/GoogleAnalytics"/>
+
+<h1>Google Analytics 4</h1>
+
+We use [GA4](https://support.google.com/analytics/answer/10089681?hl=en) to record user behavior and feedback on our website.
+
+<h2>Usage:</h2>
+<h3>Parameters</h3>
+
+- `googleAnalyticsId`: The ID of the GA4 measurement
+- `visitorId`: The arbitrary ID of the visitor (userId, email, etc.)
+
+<h3>Example</h3>
+
+~~~jsx
+import { GoogleAnalytics } from '~/components/GoogleAnalytics';
+
+<GoogleAnalytics googleAnalyticsId={'12345'}/>
+~~~

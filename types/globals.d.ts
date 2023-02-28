@@ -2,6 +2,7 @@
 declare global {
 
   interface AppConfig {
+    googleAnalyticsId: string;
     hotjarId: string;
     mixpanelToken: string;
     mixpanelApi: string;
@@ -24,6 +25,7 @@ declare global {
       AUTH0_CLIENT_SECRET: string;
       AUTH0_DOMAIN: string;
       COOKIEYES_TOKEN: string;
+      GOOGLE_ANALYTICS_ID: string;
       HOTJAR_ID: string;
       MIXPANEL_API: string;
       MIXPANEL_TOKEN: string;

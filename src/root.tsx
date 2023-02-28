@@ -10,6 +10,7 @@ import {
 } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { Cookieyes } from '~/components/Cookieyes';
+import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
@@ -51,6 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 
   return json({
     appConfig: {
+      googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
       hotjarId: process.env.HOTJAR_ID,
       mixpanelToken: process.env.MIXPANEL_TOKEN,
       mixpanelApi: process.env.MIXPANEL_API,
@@ -72,7 +74,7 @@ export const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
   return (
     <script
       dangerouslySetInnerHTML={{
-        __html: `window.appConfig = ${JSON.stringify(props.appConfig)}`
+        __html: `window.appConfig = ${JSON.stringify(props.appConfig)}` //typed in the ../types/global.d.ts
       }}
     />
   );
@@ -90,6 +92,7 @@ const App = () => {
         <Links/>
         <ExposeAppConfig appConfig={appConfig}/>
         <Cookieyes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken}/>
+        <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId}/>
       </head>
       <body>

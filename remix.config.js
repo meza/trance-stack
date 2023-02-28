@@ -25,6 +25,7 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
     env(),
     environmentPlugin(['NODE_ENV',
       'HOTJAR_ID',
+      'GOOGLE_ANALYTICS_ID',
       'SPLIT_SERVER_TOKEN',
       'SPLIT_CLIENT_TOKEN',
       'MIXPANEL_API',

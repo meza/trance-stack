@@ -22,12 +22,13 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
 - [x] [Auth0](https://auth0.com/) for authentication
 - [x] Good security practices with CSP and sensible auth processes
 - [x] Automatic dependency updates with Renovate
-- [ ] Analytics Integrations
+- [x] Analytics Integrations
   - [x] Mixpanel
   - [x] Hotjar
-  - [ ] Google Analytics 4
-- [ ] Fully tested
+  - [x] Google Analytics 4
+- [x] Fully tested
 - [ ] Fully documented
+- [ ] Remix.Init setup for customizing the stack
 - [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally (might not happen, kinda buggy rn)
 
 ## IGNORE THIS README BELOW FOR NOW, IT'S OUT OF DATE

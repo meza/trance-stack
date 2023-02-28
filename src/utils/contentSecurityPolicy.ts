@@ -16,6 +16,8 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://cdn-cookieyes.com',
         'https://*.mixpanel.com',
         'https://*.hotjar.com',
+        'https://*.googletagmanager.com',
+        'https://*.google-analytics.com',
         'https://*.hotjar.io'
       ],
       'connect-src': [
@@ -24,6 +26,8 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://*.mixpanel.com',
         'https://*.cookieyes.com',
         'https://cdn-cookieyes.com',
+        'https://*.googletagmanager.com',
+        'https://*.google-analytics.com',
         'wss://*.hotjar.com',
         'https://*.hotjar.com',
         'https://*.hotjar.io',
@@ -36,6 +40,8 @@ export const contentSecurityPolicy = (isDevelopment: boolean): string => {
         'https://*.mixpanel.com',
         'https://*.cookieyes.com',
         'https://cdn-cookieyes.com',
+        'https://*.googletagmanager.com',
+        'https://*.google-analytics.com',
         'https://*.hotjar.com',
         'https://*.hotjar.io'
       ],

@@ -1,26 +1,40 @@
 interface HotjarProps {
   hotjarId: string;
   visitorId: string;
+  nonce?: string;
 }
 
 export const Hotjar = (props: HotjarProps) => {
   const { hotjarId, visitorId } = props;
+
+  const inputProps: {nonce?: string} = {};
+  if (props.nonce) {
+    inputProps.nonce = props.nonce;
+  }
+  const hotjarVersion = 6;
+  const debug = process.env.NODE_ENV === 'development';
+
   return (
-    <script
-      async
-      id={'hotjar-tracker'}
-      dangerouslySetInnerHTML={{
-        __html: `(function(h,o,t,j,a,r){
+    <>
+      <script
+        {...inputProps}
+        async
+        id={'hotjar-init'}
+        dangerouslySetInnerHTML={{
+          __html: `(function(h){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:'${hotjarId}',hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+            h._hjSettings={hjid:'${hotjarId}',hjsv:${hotjarVersion},hjdebug:${debug}};
+          })(window);
           hj('identify', '${visitorId}');
           `
-      }}
-    />
+        }}
+      />
+      <script
+        {...inputProps}
+        async
+        id={'hotjar-script'}
+        src={`https://static.hotjar.com/c/hotjar-${hotjarId}.js?sv=${hotjarVersion}`}
+      />
+    </>
   );
 };

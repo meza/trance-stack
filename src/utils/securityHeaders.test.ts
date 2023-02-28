@@ -6,23 +6,10 @@ describe('securityHeaders', () => {
     vi.resetAllMocks();
   });
 
-  it('sets the correct security headers for dev', () => {
-    const isDev = true;
+  it('sets the correct security headers', () => {
     const existingHeaders = new Headers();
-    const headers = securityHeaders(isDev);
-    const modifiedHeaders = addSecurityHeaders(existingHeaders, isDev);
-
-    expect(headers).toStrictEqual(modifiedHeaders);
-    expect(headers).toStrictEqual(existingHeaders);
-
-    expect(headers).toMatchSnapshot();
-  });
-
-  it('sets the correct security headers for prod', () => {
-    const isDev = false;
-    const existingHeaders = new Headers();
-    const headers = securityHeaders(isDev);
-    const modifiedHeaders = addSecurityHeaders(existingHeaders, isDev);
+    const headers = securityHeaders('noncevalue');
+    const modifiedHeaders = addSecurityHeaders(existingHeaders, 'noncevalue');
 
     expect(headers).toStrictEqual(modifiedHeaders);
     expect(headers).toStrictEqual(existingHeaders);

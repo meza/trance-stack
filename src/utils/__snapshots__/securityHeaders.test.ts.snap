@@ -1,46 +1,10 @@
 // Vitest Snapshot v1
 
-exports[`securityHeaders > sets the correct security headers for dev 1`] = `
+exports[`securityHeaders > sets the correct security headers 1`] = `
 Headers {
   Symbol(query): [
     "content-security-policy",
-    "default-src 'self'; worker-src blob:; script-src 'self' 'unsafe-inline' https://*.cookieyes.com https://cdn-cookieyes.com https://*.mixpanel.com https://*.hotjar.com https://*.googletagmanager.com https://*.google-analytics.com https://*.hotjar.io; connect-src 'self' 'unsafe-inline' https://*.mixpanel.com https://*.cookieyes.com https://cdn-cookieyes.com https://*.googletagmanager.com https://*.google-analytics.com wss://*.hotjar.com https://*.hotjar.com https://*.hotjar.io ws://localhost:2222 ws://localhost:8002; img-src https: data: http:; frame-ancestors 'none'; frame-src https://*.mixpanel.com https://*.cookieyes.com https://cdn-cookieyes.com https://*.googletagmanager.com https://*.google-analytics.com https://*.hotjar.com https://*.hotjar.io; style-src 'unsafe-inline' 'self';",
-    "cross-origin-embedder-policy",
-    "same-origin",
-    "cross-origin-opener-policy",
-    "same-origin",
-    "cross-origin-resource-policy",
-    "same-origin",
-    "origin-agent-cluster",
-    "?1",
-    "permissions-policy",
-    "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-    "referrer-policy",
-    "origin-when-cross-origin",
-    "strict-transport-security",
-    "max-age=31536000; includeSubDomains",
-    "x-content-type-options",
-    "nosniff",
-    "x-dns-prefetch-control",
-    "off",
-    "x-download-options",
-    "noopen",
-    "x-frame-options",
-    "SAMEORIGIN",
-    "x-permitted-cross-domain-policies",
-    "none",
-    "x-xss-protection",
-    "0",
-  ],
-  Symbol(context): null,
-}
-`;
-
-exports[`securityHeaders > sets the correct security headers for prod 1`] = `
-Headers {
-  Symbol(query): [
-    "content-security-policy",
-    "default-src 'self'; worker-src blob:; script-src 'self' 'unsafe-inline' https://*.cookieyes.com https://cdn-cookieyes.com https://*.mixpanel.com https://*.hotjar.com https://*.googletagmanager.com https://*.google-analytics.com https://*.hotjar.io; connect-src 'self' 'unsafe-inline' https://*.mixpanel.com https://*.cookieyes.com https://cdn-cookieyes.com https://*.googletagmanager.com https://*.google-analytics.com wss://*.hotjar.com https://*.hotjar.com https://*.hotjar.io  ; img-src https: data: http:; frame-ancestors 'none'; frame-src https://*.mixpanel.com https://*.cookieyes.com https://cdn-cookieyes.com https://*.googletagmanager.com https://*.google-analytics.com https://*.hotjar.com https://*.hotjar.io; style-src 'unsafe-inline' 'self';",
+    "script-src 'nonce-noncevalue' 'strict-dynamic'; object-src 'none'; base-uri 'none';",
     "cross-origin-embedder-policy",
     "same-origin",
     "cross-origin-opener-policy",

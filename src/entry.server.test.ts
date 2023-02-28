@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import { Response } from '@remix-run/node';
 import { cleanup } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
@@ -11,6 +12,7 @@ vi.mock('~/session.server');
 vi.mock('~/utils/securityHeaders');
 vi.mock('@remix-run/react');
 vi.mock('react-dom/server');
+vi.mock('node:crypto');
 
 describe('entry.server', () => {
   const originalEnv = structuredClone(process.env);
@@ -18,6 +20,7 @@ describe('entry.server', () => {
     vi.resetAllMocks();
     vi.mocked(initServerI18n).mockResolvedValue('mocked initServerI18n' as never);
     vi.mocked(renderToString).mockReturnValue('mocked renderToString markup');
+    vi.mocked(crypto.randomBytes).mockReturnValue('mocked nonce' as never);
   });
 
   afterEach(() => {
@@ -64,7 +67,7 @@ describe('entry.server', () => {
     await entry(request, responseCode, responseHeaders, context);
 
     expect(initServerI18n).toHaveBeenCalledWith('en', context);
-    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, true);
+    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, 'mocked nonce');
     expect(sanitizeHeaders).toHaveBeenCalledWith(responseHeaders);
 
   });
@@ -85,7 +88,7 @@ describe('entry.server', () => {
     } as never;
 
     const actualResponse = await entry(request, responseCode, responseHeaders, context);
-    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, false);
+    expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, 'mocked nonce');
     expect(actualResponse.status).toBe(200);
     expect(await actualResponse.headers).toMatchInlineSnapshot(`
       Headers {

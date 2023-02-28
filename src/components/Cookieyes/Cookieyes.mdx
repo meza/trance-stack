@@ -8,9 +8,14 @@ We use Cookieyes to manage cookie consent. This is a third party service that we
 You can read more about how they use your data in their [privacy policy](https://cookieyes.com/privacy-policy/).
 
 <h2>Usage</h2>
+<h3>Parameters</h3>
+
+- `isProduction`: Is the app in production mode?
+- `token`: The cookieyes token
+- `nonce`: The nonce for the script tag
 
  ~~~jsx
 import Cookieyes from '~/components/Cookieyes';
 
-<Cookieyes isProduction={true} token={abc123}/>
+<Cookieyes isProduction={true} token={'abc123'} nonce={'pinoihnrgoire'}/>
  ~~~

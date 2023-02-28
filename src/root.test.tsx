@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -16,6 +17,7 @@ vi.mock('./styles/light.css', () => ({ default: 'light.css' }));
 vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
+vi.mock('react');
 
 describe('The root module', () => {
   beforeEach(() => {
@@ -179,6 +181,7 @@ describe('The root module', () => {
     });
 
     it('renders the app', () => {
+      vi.mocked(useContext).mockReturnValue('mocked-nonce');
       const markup = app();
       expect(markup).toMatchInlineSnapshot(`
         <html
@@ -203,17 +206,21 @@ describe('The root module', () => {
                   "visitorId": "a-visitor-id",
                 }
               }
+              nonce="mocked-nonce"
             />
             <Cookieyes
               isProduction={true}
+              nonce="mocked-nonce"
               token="a-cookieyes-token"
             />
             <GoogleAnalytics
               googleAnalyticsId="ga-id"
+              nonce="mocked-nonce"
               visitorId="a-visitor-id"
             />
             <Hotjar
               hotjarId="a-hotjar-id"
+              nonce="mocked-nonce"
               visitorId="a-visitor-id"
             />
           </head>
@@ -236,9 +243,15 @@ describe('The root module', () => {
                 }
               }
             />
-            <ScrollRestoration />
-            <Scripts />
-            <spy />
+            <ScrollRestoration
+              nonce="mocked-nonce"
+            />
+            <Scripts
+              nonce="mocked-nonce"
+            />
+            <spy
+              nonce="mocked-nonce"
+            />
           </body>
         </html>
       `);

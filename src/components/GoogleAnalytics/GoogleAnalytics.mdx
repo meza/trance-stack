@@ -11,11 +11,12 @@ We use [GA4](https://support.google.com/analytics/answer/10089681?hl=en) to reco
 
 - `googleAnalyticsId`: The ID of the GA4 measurement
 - `visitorId`: The arbitrary ID of the visitor (userId, email, etc.)
+- `nonce`: The nonce for the script tag
 
 <h3>Example</h3>
 
 ~~~jsx
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 
-<GoogleAnalytics googleAnalyticsId={'12345'}/>
+<GoogleAnalytics googleAnalyticsId={'12345'} visitorId={'fvev34'} nonce={'rewpu8y9'}/>
 ~~~

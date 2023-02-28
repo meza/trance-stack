@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import React from 'react';
 import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
@@ -5,6 +6,7 @@ import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
 import { initServerI18n } from '~/i18n';
 import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
+import { NonceContext } from './components/NonceContext';
 import type { EntryContext } from '@remix-run/node';
 
 export default async (
@@ -13,6 +15,7 @@ export default async (
   responseHeaders: Headers,
   remixContext: EntryContext
 ) => {
+  const cspNonce = crypto.randomBytes(16).toString('hex');
   const locale = 'en';
   // const isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -22,15 +25,17 @@ export default async (
   ]);
 
   const markup = renderToString(
-    <I18nextProvider i18n={i18nextInstance}>
-      <RemixServer context={remixContext} url={request.url}/>
-    </I18nextProvider>
+    <NonceContext.Provider value={cspNonce}>
+      <I18nextProvider i18n={i18nextInstance}>
+        <RemixServer context={remixContext} url={request.url}/>
+      </I18nextProvider>
+    </NonceContext.Provider>
   );
 
   responseHeaders.set('Content-Type', 'text/html');
   responseHeaders.set('Cache-Control', 'no-cache, max-age=0, s-maxage=0');
 
-  addSecurityHeaders(responseHeaders, process.env.NODE_ENV === 'development');
+  addSecurityHeaders(responseHeaders, cspNonce);
   sanitizeHeaders(responseHeaders);
 
   return new Response('<!DOCTYPE html>' + markup, {

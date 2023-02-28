@@ -10,51 +10,63 @@ describe('Hotjar', () => {
     // eslint-disable-next-line new-cap
     expect(Hotjar({
       hotjarId: '123',
-      visitorId: 'abc'
+      visitorId: 'abc',
+      nonce: 'a-nonce'
     })).toMatchInlineSnapshot(`
-      <script
-        async={true}
-        dangerouslySetInnerHTML={
-          {
-            "__html": "(function(h,o,t,j,a,r){
+      <React.Fragment>
+        <script
+          async={true}
+          dangerouslySetInnerHTML={
+            {
+              "__html": "(function(h){
                   h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                  h._hjSettings={hjid:'123',hjsv:6};
-                  a=o.getElementsByTagName('head')[0];
-                  r=o.createElement('script');r.async=1;
-                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                  a.appendChild(r);
-                })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+                  h._hjSettings={hjid:'123',hjsv:6,hjdebug:false};
+                })(window);
                 hj('identify', 'abc');
                 ",
+            }
           }
-        }
-        id="hotjar-tracker"
-      />
+          id="hotjar-init"
+          nonce="a-nonce"
+        />
+        <script
+          async={true}
+          id="hotjar-script"
+          nonce="a-nonce"
+          src="https://static.hotjar.com/c/hotjar-123.js?sv=6"
+        />
+      </React.Fragment>
     `);
 
     // eslint-disable-next-line new-cap
     expect(Hotjar({
-      hotjarId: '567',
-      visitorId: 'xyz'
+      hotjarId: '324123',
+      visitorId: 'ewfwfec',
+      nonce: 'a-nonce2'
     })).toMatchInlineSnapshot(`
-      <script
-        async={true}
-        dangerouslySetInnerHTML={
-          {
-            "__html": "(function(h,o,t,j,a,r){
+      <React.Fragment>
+        <script
+          async={true}
+          dangerouslySetInnerHTML={
+            {
+              "__html": "(function(h){
                   h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                  h._hjSettings={hjid:'567',hjsv:6};
-                  a=o.getElementsByTagName('head')[0];
-                  r=o.createElement('script');r.async=1;
-                  r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                  a.appendChild(r);
-                })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-                hj('identify', 'xyz');
+                  h._hjSettings={hjid:'324123',hjsv:6,hjdebug:false};
+                })(window);
+                hj('identify', 'ewfwfec');
                 ",
+            }
           }
-        }
-        id="hotjar-tracker"
-      />
+          id="hotjar-init"
+          nonce="a-nonce2"
+        />
+        <script
+          async={true}
+          id="hotjar-script"
+          nonce="a-nonce2"
+          src="https://static.hotjar.com/c/hotjar-324123.js?sv=6"
+        />
+      </React.Fragment>
     `);
   });
 });

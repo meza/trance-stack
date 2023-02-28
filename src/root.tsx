@@ -1,4 +1,5 @@
 import React from 'react';
+import { useContext } from 'react';
 import { json } from '@remix-run/node';
 import {
   Links,
@@ -12,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { Cookieyes } from '~/components/Cookieyes';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
+import { NonceContext } from '~/components/NonceContext';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
@@ -70,9 +72,10 @@ export const loader: LoaderFunction = async ({ request }) => {
   });
 };
 
-export const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
+export const ExposeAppConfig = (props: {appConfig: AppConfig, nonce?: string}) => {
   return (
     <script
+      nonce={props.nonce}
       dangerouslySetInnerHTML={{
         __html: `window.appConfig = ${JSON.stringify(props.appConfig)}` //typed in the ../types/global.d.ts
       }}
@@ -81,6 +84,7 @@ export const ExposeAppConfig = (props: {appConfig: AppConfig}) => {
 };
 
 const App = () => {
+  const nonce = useContext(NonceContext);
   const { appConfig, locale } = useLoaderData<typeof loader>();
   const { i18n } = useTranslation();
   useChangeLanguage(locale);
@@ -90,16 +94,16 @@ const App = () => {
       <head>
         <Meta/>
         <Links/>
-        <ExposeAppConfig appConfig={appConfig}/>
-        <Cookieyes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken}/>
-        <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId}/>
-        <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId}/>
+        <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
+        <Cookieyes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
+        <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
+        <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>
       <body>
         <Outlet context={{ appConfig: appConfig, locale: locale }}/>
-        <ScrollRestoration/>
-        <Scripts/>
-        <LiveReload/>
+        <ScrollRestoration nonce={nonce}/>
+        <Scripts nonce={nonce}/>
+        <LiveReload nonce={nonce}/>
       </body>
     </html>
   );

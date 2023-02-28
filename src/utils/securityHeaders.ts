@@ -48,10 +48,10 @@ const headersToClear = {
   ]
 };
 
-export const securityHeaders = (isDev: boolean): Headers => {
+export const securityHeaders = (nonce: string): Headers => {
   const owaspHeaders = new Headers();
 
-  owaspHeaders.set('Content-Security-Policy', contentSecurityPolicy(isDev));
+  owaspHeaders.set('Content-Security-Policy', contentSecurityPolicy(nonce));
   owaspHeaders.set('Cross-Origin-Embedder-Policy', 'same-origin');
   owaspHeaders.set('Cross-Origin-Opener-Policy', 'same-origin');
   owaspHeaders.set('Cross-Origin-Resource-Policy', 'same-origin');
@@ -69,8 +69,8 @@ export const securityHeaders = (isDev: boolean): Headers => {
   return owaspHeaders;
 };
 
-export const addSecurityHeaders = (headers: Headers, isDev: boolean): Headers => {
-  const owaspHeaders = securityHeaders(isDev);
+export const addSecurityHeaders = (headers: Headers, nonce: string): Headers => {
+  const owaspHeaders = securityHeaders(nonce);
 
   owaspHeaders.forEach((value, key) => {
     headers.set(key, value);

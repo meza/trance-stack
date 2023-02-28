@@ -17,10 +17,11 @@ describe('Cookieyes', () => {
       />
     `);
     // eslint-disable-next-line new-cap
-    expect(Cookieyes({ isProduction: true, token: 'abc' })).toMatchInlineSnapshot(`
+    expect(Cookieyes({ isProduction: true, token: 'abc', nonce: 'a-nonce' })).toMatchInlineSnapshot(`
       <script
         async={true}
         id="cookieyes"
+        nonce="a-nonce"
         src="https://cdn-cookieyes.com/client_data/abc/script.js"
         type="text/javascript"
       />

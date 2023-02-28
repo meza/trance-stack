@@ -25,7 +25,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
 - [ ] Analytics Integrations
   - [x] Mixpanel
   - [x] Hotjar
-  - [ ] Google Analytics 3
+  - [ ] Google Analytics 4
 - [ ] Fully tested
 - [ ] Fully documented
 - [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally (might not happen, kinda buggy rn)

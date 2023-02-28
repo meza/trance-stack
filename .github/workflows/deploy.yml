@@ -48,6 +48,7 @@ jobs:
           AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
           AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
           NODE_ENV: ${{ env.ARC_ENV }}
+          GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           HOTJAR_ID: ${{ vars.HOTJAR_ID }}

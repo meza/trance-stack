@@ -8,7 +8,7 @@ export const Hotjar = (props: HotjarProps) => {
   return (
     <script
       async
-      id="hotjar-tracker"
+      id={'hotjar-tracker'}
       dangerouslySetInnerHTML={{
         __html: `(function(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};

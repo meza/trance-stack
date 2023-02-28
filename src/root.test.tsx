@@ -82,6 +82,7 @@ describe('The root module', () => {
       vi.mocked(splitClient.track).mockReturnValue(true);
 
       vi.stubEnv('NODE_ENV', 'development');
+      vi.stubEnv('GOOGLE_ANALYTICS_ID', 'ga-id');
       vi.stubEnv('HOTJAR_ID', 'a-hotjar-id');
       vi.stubEnv('MIXPANEL_TOKEN', 'a-mixpanel-token');
       vi.stubEnv('MIXPANEL_API', 'a-mixpanel-api');
@@ -98,6 +99,7 @@ describe('The root module', () => {
         {
           "appConfig": {
             "cookieYesToken": "a-cookieyes-token",
+            "googleAnalyticsId": "ga-id",
             "hotjarId": "a-hotjar-id",
             "isProduction": false,
             "mixpanelApi": "a-mixpanel-api",
@@ -126,6 +128,7 @@ describe('The root module', () => {
         {
           "appConfig": {
             "cookieYesToken": "a-cookieyes-token",
+            "googleAnalyticsId": "ga-id",
             "hotjarId": "a-hotjar-id",
             "isProduction": true,
             "mixpanelApi": "a-mixpanel-api",
@@ -154,6 +157,7 @@ describe('The root module', () => {
   describe('when rendering the app', () => {
     const appConfig: AppConfig = {
       hotjarId: 'a-hotjar-id',
+      googleAnalyticsId: 'ga-id',
       mixpanelToken: 'a-mixpanel-token',
       visitorId: 'a-visitor-id',
       isProduction: true,
@@ -189,6 +193,7 @@ describe('The root module', () => {
               appConfig={
                 {
                   "cookieYesToken": "a-cookieyes-token",
+                  "googleAnalyticsId": "ga-id",
                   "hotjarId": "a-hotjar-id",
                   "isProduction": true,
                   "mixpanelApi": "a-mixpanel-api",
@@ -203,6 +208,10 @@ describe('The root module', () => {
               isProduction={true}
               token="a-cookieyes-token"
             />
+            <GoogleAnalytics
+              googleAnalyticsId="ga-id"
+              visitorId="a-visitor-id"
+            />
             <Hotjar
               hotjarId="a-hotjar-id"
               visitorId="a-visitor-id"
@@ -214,6 +223,7 @@ describe('The root module', () => {
                 {
                   "appConfig": {
                     "cookieYesToken": "a-cookieyes-token",
+                    "googleAnalyticsId": "ga-id",
                     "hotjarId": "a-hotjar-id",
                     "isProduction": true,
                     "mixpanelApi": "a-mixpanel-api",

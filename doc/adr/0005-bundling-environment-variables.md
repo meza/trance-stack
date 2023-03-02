@@ -6,6 +6,8 @@ Date: 2023-02-22
 
 Accepted
 
+Amended By [9. No more need to bundle environment variables](0009-no-more-need-to-bundle-environment-variables.md)
+
 ## Context
 
 Architect allows us to define environment variables using AWS SSM Parameter Store.

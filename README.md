@@ -4,111 +4,192 @@
 >
 > **This stack is typescript and NPM only for now.**
 >
-> The NPM requirement comes from the github actions scripts. I will make it possible to use both pnpm and yarn soon but it
+> The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon but it
 ? requires a bit more time and I would love to get feedback on the stack until then.
 
+## Quick Start
+
+Create your project with the stack
 ```bash
-npx create-remix@latest --template meza/trance-stack
+npx create-remix@latest --template meza/trance-stack my-app
 ```
 
----
-
-## What's planned for the stack
-
-- [x] i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
-- [x] [AWS deployment](https://aws.com) with [CDK](https://docs.aws.amazon.com/cdk/index.html)
-  - [x] Using AWS Lambda + Api Gateway + Cloud Front for production builds
-  - [x] Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
-- [x] [GitHub Actions](https://github.com/features/actions) for a full CI steup
-- [x] [Semantic Release](https://github.com/semantic-release/semantic-release) for version control
-- [x] [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages
-- [x] Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- [x] End-to-End testing with [Playwright](https://playwright.dev/docs/intro)
-- [x] Linting with [ESLint](https://eslint.org)
-- [x] Static Types with [TypeScript](https://typescriptlang.org)
-- [x] NPM for package management
-- [x] [Storybook](https://storybook.js.org) for component development
-- [x] [Cookieyes](cookieyes.com) for cookie consent
-- [x] [Split](https://split.io) for feature flags\
-- [x] [Auth0](https://auth0.com/) for authentication
-- [x] Good security practices with CSP and sensible auth processes
-- [x] Automatic dependency updates with Renovate
-- [x] Analytics Integrations
-  - [x] Mixpanel
-  - [x] Hotjar
-  - [x] Google Analytics 4
-- [x] Fully tested
-- [ ] Fully documented
-- [x] Remix.Init setup for customizing the stack
-
-## IGNORE THIS README BELOW FOR NOW, IT'S OUT OF DATE
-
-All you need to know for now is:
-```sh
-npm install
+Once it's done, go into the newly created directory and start the dev server
+```bash
 npm run dev
 ```
 
+Please make sure that you go through the initialisation steps of the create-remix script.
+
+If for whatever reason it didn't run, execute the following commands:
+
+```bash
+npm i && remix init
+```
+
 ---
 
-> ### Issues to be aware of
+## What is this stack?
+
+This is a [Remix](https://remix.run) stack that offers _a_ way to ship production ready remix applications.
+It is constructed in an opinionated way and is meant to be used as a starting point for your own remix projects.
+You can modify it to your liking and use it as a base for your own remix projects.
+
+## What's included
+
+- Good security practices with CSP and sensible auth processes
+- i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
+- [Auth0](https://auth0.com/) for authentication
+- [Split](https://split.io) for feature flags
+- [Cookieyes](cookieyes.com) for cookie consent
+- Analytics Integrations
+  - [Mixpanel](https://mixpanel.com)
+  - [Hotjar](https://hotjar.com)
+  - [Google Analytics v4](https://analytics.google.com)
+- Static Types with [TypeScript](https://typescriptlang.org)
+- Linting with [ESLint](https://eslint.org)
+- Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
+- End-to-End testing with [Playwright](https://playwright.dev/docs/intro)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
+- [Semantic Release](https://github.com/semantic-release/semantic-release) for automatic release management
+- [Storybook v7](https://storybook.js.org) for component development
+- NPM for package management (for now. Will have support for yarn and pnpm soon)
+- [GitHub Actions](https://github.com/features/actions) for a full CI setup
+- [AWS deployment](https://aws.com) with [CDK](https://docs.aws.amazon.com/cdk/index.html) via GitHub Actions
+  - Using AWS Lambda + Api Gateway + Cloud Front for production builds
+  - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
+- Automatic dependency updates with [Renovate](https://renovatebot.com)
+
+## Getting Started
+
+In order to fully use this stack, you will need to have a few things set up first.
+
+> **warning**
+> This README isn't trying to teach you how to use these services, please refer to the services' documentation for that.
+
+The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
+find removal instructions at every step so don't worry if you're not a fan of a particular service.
+
+> #### But... why?
 >
-> - https://github.com/storybookjs/storybook/issues/19055#issuecomment-1327944959
-
-![The Remix Trance Stack](https://armadamusic.imgix.net/news/Trance-Music.jpg?auto=format&crop=focalpoint&fit=cover&w=1200)
-
-Learn more about [Remix Stacks](https://remix.run/stacks).
-
-```
-npx create-remix --template meza/trace-stack
-```
-
----
-
-> ## A note on lockfiles
+> We've been using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+> throughout the development of the stack so if you ever find yourself wondering why we've chosen a particular service or
+> implementation, you can check the [ADR](./doc/adr/decisions.md) page for more information.
 >
-> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
-> dependencies are used when creating a new project.
+> We highly encourage you to keep on adding your own decisions. It's a great way to document the historical context of your
+> project, and it's a great way to share your knowledge with the rest of the team.
+>
+> We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
+> should be able to use it right away.
 
----
+### Environment
 
-Not a fan of bits of the stack? Fork it, change it, and use `npx create-remix --template your/repo`! Make it your own.
+If you went through the init script of the stack, you should have a `.env` file in the root of your project.
+If for some reason you don't, you can copy the `.env.example` file and rename it to `.env`.
 
-## Development
-
-### Setup
-
-This stack uses [pnpm](https://pnpm.io/) for package management. If you don't have it installed, you can install it
-with:
-
-```sh
-npmx pnpm i
+```bash
+cp .env.example .env
 ```
 
-In order to make thing work locally, create a file called `.env` in the root of the project and add the following:
+This file contains all the variables you will need to set for the entire stack to function as is.
 
-```sh
-NODE_ENV=development
+The `APP_DOMAIN` should generally stay the same. It's the domain that your application will be served from. This variable
+will also be set by the deployment scripts, so you don't need to worry about it.
+
+The `NODE_ENV` variable is used to determine which environment you're running the application in. It seems like ARC has a
+hard time figuring it out on its own, so we've set it up to be set manually. If all goes well, it won't be needed for long.
+
+### GitHub Settings
+
+> **note**
+> The stack is meant to be used with GitHub Actions. If you're not familiar with GitHub Actions, you can read more about it
+> [here](https://docs.github.com/en/actions).
+
+You need to do a few things to make sure GitHub Actions can work with your project.
+
+#### Workflow permissions
+
+First, head over to https://github.com/meza/trance-stack/settings/actions and under the `Workflow permissions`
+section, make sure it's on the `Read and write permissions` option.
+
+Without this, the deployment scripts won't be able to create the necessary GitHub releases.
+
+#### Environments
+
+> **note**
+> We use GitHub environments to manage the different stages of our application. You can read more about them
+>[here](https://docs.github.com/en/actions/deployment/targeting-different-environments).
+
+GitHub environments are great to control the environment variables that are used in your workflows.
+
+For now, go to https://github.com/meza/trance-stack/settings/variables/actions and create the following environments:
+- `Production`
+- `Staging`
+- `Ephemeral`
+
+These are referred to in [the deployment workflow](./.github/workflows/deploy.yml) for example with the `environment` key.
+The `Ephemeral` environment is used for feature branches and pull requests and is referenced in the [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
+
+
+### Authentication with Auth0
+
+The stack uses [Auth0 for authentication](./doc/adr/0010-authentication-is-done-by-auth0.md).
+You will need to create an account with them and [set up an application](https://auth0.com/docs/get-started/auth0-overview/create-applications).
+
+When creating your new application, make sure to set the following settings:
+1. The application type should be `Regular Web Applications`
+2. Ignore the Quick Start section
+3. Go to Settings and copy the `Domain` and `Client ID` and `Client Secret` and paste them in the `.env` file
+4. Set the Token Endpoint Authentication Method to `Post`
+5. Go to the `Allowed Callback URLs` section and add `http://localhost:3000/auth/callback`
+6. Go to the `Allowed Logout URLs` section and add `http://localhost:3000`
+7. Go to the `Allowed Web Origins` section and add `http://localhost:3000`
+8. Go to the `Allowed Origins (CORS)` section and add `http://localhost:3000`
+9. Go to the `Refresh Token Rotation` section and enable it and with that, you also have to enable the `Absolute Expiration`
+   option.
+
+#### Adding the Auth0 variables to GitHub
+
+Now that you have your Auth0 variables, you will need to add them to the GitHub environments you created above.
+
+Go to https://github.com/meza/trance-stack/settings/secrets/actions and add the Auth0 secrets with the same name as the
+variables in the `.env` file.
+
+You can set custom values for every environment if you want to. For example, you can set the `AUTH0_DOMAIN` to
+`dev-123456.eu.auth0.com` for the `Staging` environment and `prod-123456.eu.auth0.com` for the `Production` environment.
+
+But for the sake of simplicity, you can just set the same values only once in the main Actions secrets page and it will
+be used for all environments.
+
+#### Enabling the Auth0 integration for feature branche/PR deployments
+
+If you want to enable the Auth0 integration for feature branch/PR deployments, you will need to do a few extra steps.
+Since the feature branch/PR deployments are ephemeral, they will have a different domain name every time they are
+deployed. This means that you will need to add the domain name to the `Allowed Callback URLs` and `Allowed Logout URLs`
+
+To make this painless, we can use the `*` wildcard in the domain name. This will allow any domain name to be used.
+
+During the initial setup above, you have added `http://localhost:3000` in a few places.
+You will need to add `,https://*.execute-api.us-east-1.amazonaws.com` to the same places.
+
+For example, the Allowed Callback URLs section should look like this:
+
+```text
+http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.com/auth/callback
 ```
 
-### Running
+> **warning**
+>
+> The `*` wildcard will allow you to use as wide of a domain name as you would like to. This however comes at the cost
+> of security. We would highly recommend creating an alternative tennant on Auth0 for your feature branch/PR deployments.
 
-- Start the dev server:
-
-```sh
-pnpm dev
-```
 
 ### CSS
 
-We're using vanilla CSS with PostCSS for the stack.
-You can add your own CSS files to the `<projectRoot>/styles` directory.
-They will be automagically picked up and transformed by PostCSS.
+This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
+import CSS files directly into your components.
 
-PostCSS writes the transformed CSS files into the `src/styles` directory and this is where you should import them
-from in your components.
-
-With Remix, you need to include these styles in the links function of your routes.
+Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
 
 ```js
 import styles from './styles/app.css';
@@ -123,24 +204,17 @@ export const links: LinksFunction = () => {
 Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#postcsss) works.
 
 
-### Deployment
 
-#### Repository Secrets
+---
 
-- ARC_APP_SECRET
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-- SESSION_SECRET
-- SPLIT_SERVER_TOKEN
+<!-- stack-only -->
 
-#### Repository Variables
+### Development of the stack itself (delete everything below when using this for an app)
 
-- COOKIEYES_TOKEN
-- HOTJAR_ID
-- MIXPANEL_API
-- MIXPANEL_TOKEN
+---
 
-#### Custom domains
-
-This stack doesn't manage domain names at all mainly because ARC doesn't either. To find out how to set them up,
-read the [ARC docs](https://arc.codes/docs/en/guides/domains/registrars/route53-and-cloudfront).
+> **note**
+>A note on lockfiles
+>
+> Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
+> dependencies are used when creating a new project.

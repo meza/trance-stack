@@ -4,7 +4,7 @@ Date: 2023-02-14
 
 ## Status
 
-Accepted
+Superseded by [6. Stack it is](0006-stack-it-is.md)
 
 ## Context
 

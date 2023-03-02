@@ -37,10 +37,10 @@ You can modify it to your liking and use it as a base for your own remix project
 ## What's included
 
 - Good security practices with CSP and sensible auth processes
-- i18n with [rexmix-i18n](https://github.com/sergiodxa/remix-i18next)
+- i18n with [i18next](https://www.i18next.com/) and its remix integration [rexmix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
-- [Cookieyes](cookieyes.com) for cookie consent
+- [Cookieyes](https://cookieyes.com) for cookie consent
 - Analytics Integrations
   - [Mixpanel](https://mixpanel.com)
   - [Hotjar](https://hotjar.com)
@@ -48,13 +48,13 @@ You can modify it to your liking and use it as a base for your own remix project
 - Static Types with [TypeScript](https://typescriptlang.org)
 - Linting with [ESLint](https://eslint.org)
 - Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- End-to-End testing with [Playwright](https://playwright.dev/docs/intro)
+- End-to-End testing with [Playwright](https://playwright.dev)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
 - [Semantic Release](https://github.com/semantic-release/semantic-release) for automatic release management
 - [Storybook v7](https://storybook.js.org) for component development
-- NPM for package management (for now. Will have support for yarn and pnpm soon)
+- [NPM](https://docs.npmjs.com/) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
 - [GitHub Actions](https://github.com/features/actions) for a full CI setup
-- [AWS deployment](https://aws.com) with [CDK](https://docs.aws.amazon.com/cdk/index.html) via GitHub Actions
+- [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
   - Using AWS Lambda + Api Gateway + Cloud Front for production builds
   - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
 - Automatic dependency updates with [Renovate](https://renovatebot.com)
@@ -206,7 +206,7 @@ The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You wi
 When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
 to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
 
-![Cookieyes Instructions](/doc/images/cookieyes.png)
+![Cookieyes Instructions](./doc/images/cookieyes.png)
 
 You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
 name as the one in the `.env` file.

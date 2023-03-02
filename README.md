@@ -230,8 +230,7 @@ name as the one in the `.env` file.
 1. Delete the `COOKIEYES_TOKEN` variable from the `.env` file and GitHub variables.
 2. Delete the `src/components/Cookieyes` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-4. Delete the `<Cookieyes ... />` component from the `src/root.tsx` file.
-5. Follow the compilation errors to remove all the code that uses the `Cookieyes` component.
+4. Delete the `<Cookieyes ... />` component and its import from the `src/root.tsx` file.
 
 ### Google Analytics 4 integration
 
@@ -252,8 +251,7 @@ name as the one in the `.env` file.
 1. Delete the `GOOGLE_ANALYTICS_ID` variable from the `.env` file and GitHub variables.
 2. Delete the `src/components/GoogleAnalytics` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-4. Delete the `<GoogleAnalytics ... />` component from the `src/root.tsx` file.
-5. Follow the compilation errors to remove all the code that uses the `GoogleAnalytics` component.
+4. Delete the `<GoogleAnalytics ... />` component and its import from the `src/root.tsx` file.
 
 ### CSS
 

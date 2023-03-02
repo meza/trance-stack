@@ -451,6 +451,12 @@ export default () => {
 Here all elements of the page are wrapped in a feature flag. The `Hello` component will only be rendered if the `HELLO`
 feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
 
+Don't worry about using `hasFeature` a lot in your code. Split caches the results of the feature flags, so it's not a
+performance issue. Split works with streaming data and will check for changes in the feature flags every minute by default.
+
+You can check all the available options in the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
+and then set them as you wish in the `src/split.server.ts` file.
+
 Before we continue, let's talk about the difference between production and local development.
 
 #### Production

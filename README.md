@@ -1,6 +1,19 @@
 # TRANCE STACK [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://meza.github.io/trance-stack/)
 
-Don't use this yet, it's under _heavy_ development. It's coming soon though
+{% note %}
+
+**This stack is typescript and NPM only for now.**
+
+The NPM requirement comes from the github actions scripts. I will make it possible to use both pnpm and yarn soon but it
+requires a bit more time and I would love to get feedback on the stack until then.
+
+%{ endnote %}
+
+```bash
+npx create-remix@latest --template meza/trance-stack
+```
+
+---
 
 ## What's planned for the stack
 
@@ -28,8 +41,7 @@ Don't use this yet, it's under _heavy_ development. It's coming soon though
   - [x] Google Analytics 4
 - [x] Fully tested
 - [ ] Fully documented
-- [ ] Remix.Init setup for customizing the stack
-- [ ] [act](https://github.com/nektos/act) to test GitHub Actions locally (might not happen, kinda buggy rn)
+- [x] Remix.Init setup for customizing the stack
 
 ## IGNORE THIS README BELOW FOR NOW, IT'S OUT OF DATE
 

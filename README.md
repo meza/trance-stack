@@ -130,6 +130,16 @@ For now, go to https://github.com/meza/trance-stack/settings/variables/actions a
 These are referred to in [the deployment workflow](./.github/workflows/deploy.yml) for example with the `environment` key.
 The `Ephemeral` environment is used for feature branches and pull requests and is referenced in the [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
 
+#### Variables vs. Secrets
+
+Some configuration values are sensitive while others are not. For example, the `COOKIEYES_TOKEN` is not sensitive, but the
+`AUTH0_CLIENT_SECRET` is.
+This mainly comes from the fact that some of these values will be embedded into the html of your application, and be visible
+to everyone.
+
+> **warning** Please double check the documentation of the services to ensure you're setting them up correctly.
+>
+> The application won't work properly if you add a secret as a variable or a variable as a secret.
 
 ### Authentication with Auth0
 
@@ -183,6 +193,20 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 > The `*` wildcard will allow you to use as wide of a domain name as you would like to. This however comes at the cost
 > of security. We would highly recommend creating an alternative tennant on Auth0 for your feature branch/PR deployments.
 
+### CookieYes integration
+
+The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and
+[set up a cookie banner](https://www.cookieyes.com/category/documentation/getting-started/).
+
+When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
+to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
+
+![Cookieyes Instructions](/doc/images/cookieyes.png)
+
+You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+name as the one in the `.env` file.
+
+> **warning** The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
 
 ### CSS
 

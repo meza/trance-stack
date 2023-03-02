@@ -13,6 +13,7 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     with:
+      command: install
       node-version: "latest"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"
@@ -27,6 +28,7 @@ jobs:
       - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
+          command: install
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache
@@ -37,8 +39,6 @@ jobs:
         with:
           path: ./cdk.out
           key: cdk-${{ github.ref_name }}-${{ hashFiles('cdk.out/manifest.json') }}
-          restore-keys: |
-            cdk-${{ github.ref_name }}-
       - name: 🔢 Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: 🔨 Build

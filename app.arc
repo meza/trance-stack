@@ -1,5 +1,5 @@
 @app
-repl-app-slug
+remix-trance-stack
 
 @http
 /*

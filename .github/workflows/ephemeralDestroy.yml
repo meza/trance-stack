@@ -24,6 +24,7 @@ jobs:
     - name: Set up node
       uses: meza/action-setup-node-npm@main
       with:
+        command: install
         node-version: latest
         cache-name: destroy-${{ github.event.ref }}
     - name: 🔨 Build

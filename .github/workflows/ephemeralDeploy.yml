@@ -12,7 +12,7 @@ env:
 
 concurrency:
   group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -25,19 +25,14 @@ jobs:
       - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
+          command: install
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache
-        uses: pat-s/always-upload-cache@v3.0.11
-        if: always()
-        env:
-          cache-name: cdk-${{ env.REF_NAME }}
+        uses: actions/cache@v3
         with:
           path: ./cdk.out
-          key: cdk-${{ env.REF_NAME }}-${{ hashFiles('cdk.out/manifest.json') }}
-          restore-keys: |
-            cdk-${{ env.REF_NAME }}-
-
+          key: cdk-${{ env.REF_NAME }}-${{ hashFiles('deployment/**/*.ts') }}
       - name: 🔢 Set version
         run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
       - name: 🔨 Build

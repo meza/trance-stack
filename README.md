@@ -103,6 +103,8 @@ will also be set by the deployment scripts, so you don't need to worry about it.
 The `NODE_ENV` variable is used to determine which environment you're running the application in. It seems like ARC has a
 hard time figuring it out on its own, so we've set it up to be set manually. If all goes well, it won't be needed for long.
 
+The `SESSION_SECRET` variable is used to encrypt the session cookies. It should be a long, random string.
+
 ### GitHub Settings
 
 > **Note**

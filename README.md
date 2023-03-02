@@ -82,7 +82,7 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 > We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
 > should be able to use it right away.
 
-> **warning**
+> **Warning**
 > This README isn't trying to teach you how to use these services, please refer to the services' documentation for that.
 
 

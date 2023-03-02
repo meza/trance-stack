@@ -217,7 +217,9 @@ The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You wi
 When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
 to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
 
-![CookieYes Instructions](./doc/images/cookieyes.png)
+<p align="center">
+  <img src="./doc/images/cookieyes.png" alt="CookieYes Instructions" />
+</p>
 
 You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
 name as the one in the `.env` file.
@@ -252,6 +254,27 @@ name as the one in the `.env` file.
 2. Delete the `src/components/GoogleAnalytics` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
 4. Delete the `<GoogleAnalytics ... />` component and its import from the `src/root.tsx` file.
+
+### Hotjar integration
+
+The stack uses [Hotjar](https://www.hotjar.com) for heatmaps and user recordings. You will need to create an account with them
+and set up a new site.
+
+When you have your site set up, head to https://insights.hotjar.com/site/list and copy the ID of your site and paste
+set the `HOTJAR_ID` variable in the `.env` file.
+
+You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+name as the one in the `.env` file.
+
+> **Warning**
+> The `HOTJAR_ID` is **set as a variable** for the actions.
+
+#### Removing the Hotjar integration from the application
+
+1. Delete the `HOTJAR_ID` variable from the `.env` file and GitHub variables.
+2. Delete the `src/components/Hotjar` directory.
+3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
+4. Delete the `<Hotjar ... />` component and its import from the `src/root.tsx` file.
 
 ### CSS
 

@@ -314,6 +314,31 @@ names as the one in the `.env` file.
 4. Delete the `<Mixpanel ... />` component and its import from the `src/entry.client.tsx` file.
 5. Run `vitest --run --update` to update the snapshots.
 
+### Split integration
+
+The stack uses [Split](https://split.io) for feature flags. You will need to create an account with them
+and set up a new project.
+
+When you have your project set up, head to the workspace settings > API Keys section.
+We're only unterested in the server-side keys. Copy the `API Key` and paste it
+set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
+
+Go to https://github.com/meza/trance-stack/settings/secrets/actions and add the Auth0 secrets with the same name as the
+variables in the `.env` file.
+
+> **Warning**
+> The `SPLIT_SERVER_TOKEN` is **set as a secret** for the actions.
+
+#### Removing the Split integration from the application
+
+1. Delete the `SPLIT_SERVER_TOKEN` variable from the `.env` file and GitHub secrets.
+2. Delete the following files:
+   1. `src/split.server.ts` and the `src/split.server.test.ts`
+   2. `src/feature.ts` and the `src/feature.test.ts`
+   3. `devFeatures.yml` (from the project root)
+3. Follow the compilation errors to remove all the code that uses the feature flags.
+4. Run `vitest --run --update` to update the snapshots.
+
 ### CSS
 
 This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to

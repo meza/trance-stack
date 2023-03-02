@@ -233,6 +233,7 @@ name as the one in the `.env` file.
 2. Delete the `src/components/Cookieyes` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
 4. Delete the `<Cookieyes ... />` component and its import from the `src/root.tsx` file.
+5. Run `vitest --run --update` to update the snapshots.
 
 ### Google Analytics 4 integration
 
@@ -254,6 +255,7 @@ name as the one in the `.env` file.
 2. Delete the `src/components/GoogleAnalytics` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
 4. Delete the `<GoogleAnalytics ... />` component and its import from the `src/root.tsx` file.
+5. Run `vitest --run --update` to update the snapshots.
 
 ### Hotjar integration
 
@@ -275,6 +277,40 @@ name as the one in the `.env` file.
 2. Delete the `src/components/Hotjar` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
 4. Delete the `<Hotjar ... />` component and its import from the `src/root.tsx` file.
+5. Run `vitest --run --update` to update the snapshots.
+
+### Mixpanel integration
+
+The stack uses [Mixpanel](https://mixpanel.com) for analytics. You will need to create an account with them
+and set up a new project.
+
+When you have your project set up, head to project settings and copy the `Project Token` and paste it
+set the `MIXPANEL_TOKEN` variable in the `.env` file.
+
+Mixpanel allows you to choose the region where your data is stored. You can find the API endpoint for your region in the
+[documentation](https://help.mixpanel.com/hc/en-us/articles/360039135652-Data-Residency-in-EU).
+
+You also need to set the `MIXPANEL_API` variable. This is the API endpoint that the stack will use to send events to Mixpanel.
+There is no default value to this because you should understand how you're dealing with data residency.
+
+The values for the `MIXPANEL_API` variable are:
+- `https://api-eu.mixpanel.com/` - for the European Union
+- `https://api.mixpanel.com/` - for the rest of the world
+
+
+You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+names as the one in the `.env` file.
+
+> **Warning**
+> The `MIXPANEL_TOKEN` and the `MIXPANEL_API` are **set as a variable** for the actions.
+
+#### Removing the Mixpanel integration from the application
+
+1. Delete the `MIXPANEL_TOKEN` and `MIXPANEL_API` variables from the `.env` file and GitHub variables.
+2. Delete the `src/components/Mixpanel` directory.
+3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
+4. Delete the `<Mixpanel ... />` component and its import from the `src/entry.client.tsx` file.
+5. Run `vitest --run --update` to update the snapshots.
 
 ### CSS
 

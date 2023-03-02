@@ -202,6 +202,13 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 > The `*` wildcard will allow you to use as wide of a domain name as you would like to. This however comes at the cost
 > of security. We would highly recommend creating an alternative tenant on Auth0 for your feature branch/PR deployments.
 
+#### Removing the Auth0 integration from the application
+
+1. Delete the `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID` and `AUTH0_CLIENT_SECRET` variables from the `.env` file and GitHub secrets.
+2. Delete the `src/auth.server.ts` and the `src/auth.server.test.ts` files.
+3. Delete the `auth0-remix-server` dependency from the `package.json` file.
+4. Follow the compilation errors to remove all the code that uses the `auth0-remix-server` dependency.
+
 ### CookieYes integration
 
 The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and

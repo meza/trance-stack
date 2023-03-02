@@ -25,7 +25,7 @@ jobs:
       - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
-          command: install --no-package-lock
+          command: install
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache

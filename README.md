@@ -57,7 +57,7 @@ You can modify it to your liking and use it as a base for your own remix project
 - [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
   - Using AWS Lambda + Api Gateway + Cloud Front for production builds
   - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
-- Automatic dependency updates with [Renovate](https://renovatebot.com)
+- Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
 
 ## Getting Started
 

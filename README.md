@@ -62,7 +62,9 @@ You can modify it to your liking and use it as a base for your own remix project
 
 ## Getting Started
 
-> **note** Read this documentation on your own project's repository. It will contain links relevant to you as
+> **Note**
+>
+> Read this documentation on your own project's repository. It will contain links relevant to you as
 > the init script will replace the links in this README with the ones customized to your project.
 
 In order to fully use this stack, you will need to have a few things set up first.
@@ -105,7 +107,8 @@ hard time figuring it out on its own, so we've set it up to be set manually. If 
 
 ### GitHub Settings
 
-> **note**
+> **Note**
+>
 > The stack is meant to be used with GitHub Actions. If you're not familiar with GitHub Actions, you can read more about it
 > [here](https://docs.github.com/en/actions).
 
@@ -120,7 +123,8 @@ Without this, the deployment scripts won't be able to create the necessary GitHu
 
 #### Environments
 
-> **note**
+> **Note**
+>
 > We use GitHub environments to manage the different stages of our application. You can read more about them
 >[here](https://docs.github.com/en/actions/deployment/targeting-different-environments).
 
@@ -241,8 +245,9 @@ Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#p
 
 ---
 
-> **note**
->A note on lockfiles
+> **Note**
+>
+>A note on lockfiles.
 >
 > Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
 > dependencies are used when creating a new project.

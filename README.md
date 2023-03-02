@@ -173,10 +173,10 @@ variables in the `.env` file.
 You can set custom values for every environment if you want to. For example, you can set the `AUTH0_DOMAIN` to
 `dev-123456.eu.auth0.com` for the `Staging` environment and `prod-123456.eu.auth0.com` for the `Production` environment.
 
-But for the sake of simplicity, you can just set the same values only once in the main Actions secrets page and it will
+But for the sake of simplicity, you can just set the same values only once in the main Actions secrets page, and it will
 be used for all environments.
 
-#### Enabling the Auth0 integration for feature branche/PR deployments
+#### Enabling the Auth0 integration for feature branch/PR deployments
 
 If you want to enable the Auth0 integration for feature branch/PR deployments, you will need to do a few extra steps.
 Since the feature branch/PR deployments are ephemeral, they will have a different domain name every time they are

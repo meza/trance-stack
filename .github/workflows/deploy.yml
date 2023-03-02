@@ -39,8 +39,6 @@ jobs:
         with:
           path: ./cdk.out
           key: cdk-${{ github.ref_name }}-${{ hashFiles('cdk.out/manifest.json') }}
-          restore-keys: |
-            cdk-${{ github.ref_name }}-
       - name: 🔢 Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: 🔨 Build

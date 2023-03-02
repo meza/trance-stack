@@ -33,9 +33,6 @@ jobs:
         with:
           path: ./cdk.out
           key: cdk-${{ env.REF_NAME }}-${{ hashFiles('deployment/**/*.ts') }}
-          restore-keys: |
-            cdk-${{ env.REF_NAME }}-
-
       - name: 🔢 Set version
         run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
       - name: 🔨 Build

@@ -346,6 +346,10 @@ variables in the `.env` file.
 The authentication is done via the [auth0-remix-server](https://github.com/meza/auth0-remix-server) package.
 The README file in that package has all the information you need to understand how it works.
 
+### Conventional Commits & Automated Semantic Versioning
+
+### Dependency Version Updates
+
 ### Feature Flags
 
 Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
@@ -424,9 +428,6 @@ disabled. [Read more about treatments](https://docs.split.io/reference/treatment
 > Unfortunately there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
 > and the Splits in your split.io workspace in sync. You will have to do this manually.
 
-
-### Deployment
-
 ### I18N - Internationalization
 
 ### CSS
@@ -448,7 +449,17 @@ export const links: LinksFunction = () => {
 
 Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#postcsss) works.
 
+### Deployment
 
+#### CDK
+
+#### GitHub Actions
+
+### Storybook
+
+### Playwright
+
+### Unit Testing
 
 ---
 

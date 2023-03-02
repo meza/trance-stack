@@ -1,13 +1,11 @@
 # TRANCE STACK [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://meza.github.io/trance-stack/)
 
-{% note %}
-
-**This stack is typescript and NPM only for now.**
-
-The NPM requirement comes from the github actions scripts. I will make it possible to use both pnpm and yarn soon but it
-requires a bit more time and I would love to get feedback on the stack until then.
-
-%{ endnote %}
+> **Warning**
+>
+> **This stack is typescript and NPM only for now.**
+>
+> The NPM requirement comes from the github actions scripts. I will make it possible to use both pnpm and yarn soon but it
+? requires a bit more time and I would love to get feedback on the stack until then.
 
 ```bash
 npx create-remix@latest --template meza/trance-stack

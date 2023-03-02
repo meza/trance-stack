@@ -214,6 +214,8 @@ name as the one in the `.env` file.
 > **Warning**
 > The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
 
+
+
 ### CSS
 
 This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
@@ -226,7 +228,7 @@ import styles from './styles/app.css';
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: lightStyles }
+    { rel: 'stylesheet', href: styles }
   ];
 };
 ```

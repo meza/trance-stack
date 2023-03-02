@@ -1,5 +1,5 @@
 @app
-REPL_APP_SLUG
+remix-trance-stack
 
 @http
 /*

@@ -339,6 +339,96 @@ variables in the `.env` file.
 3. Follow the compilation errors to remove all the code that uses the feature flags.
 4. Run `vitest --run --update` to update the snapshots.
 
+## How to use ... ?
+
+### Authentication
+
+The authentication is done via the [auth0-remix-server](https://github.com/meza/auth0-remix-server) package.
+The README file in that package has all the information you need to understand how it works.
+
+### Feature Flags
+
+Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
+It enables you to decouple the release of new code from the release of new features. [Read more](https://www.split.io/product/feature-flags/)
+
+Let's look at an example which is in the `src/routes/index.tsx` file
+
+```tsx
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const isAuth = await hasFeature(request, Features.AUTH);
+  return json({
+    isHelloEnabled: await hasFeature(request, Features.HELLO),
+    isAuthEnabled: isAuth
+  });
+};
+
+export default () => {
+  const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
+  if (isHelloEnabled) {
+    return (<div>
+      <Hello/>
+      {isAuthEnabled ? <Login/> : null}
+    </div>);
+  }
+  return <div>Goodbye World!</div>;
+};
+```
+
+Here all elements of the page are wrapped in a feature flag. The `Hello` component will only be rendered if the `HELLO`
+feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
+
+Before we continue, let's talk about the difference between production and local development.
+
+#### Production
+
+When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your Split.
+You also need to manage all your flags (or splits as they're called in Split) in the Split Workspace dashboard.
+
+Always use the Splits of your workspace as the source of truth.
+
+#### The `features.ts` file
+
+The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this file
+in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
+
+```ts
+// <project_root>/src/features.ts
+export enum Features {
+  AUTH = 'auth_enabled', // the name of the split from the split.io workspace
+  HELLO = 'hello_split'
+}
+```
+
+Having this allows us to reference the features in our code without having to worry about typos.
+
+#### Local development
+
+When you're developing locally, you can set the `SPLIT_SERVER_TOKEN` variable to `localhost`.
+This sets split into a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
+and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the project root.
+
+```yml
+# <project_root>/devFeatures.yml
+
+- auth_enabled:
+    treatment: "on"
+- hello_split:
+    treatment: "on"
+```
+
+This file is a list of all the features that you have in your application. The `treatment` property determines if the
+feature is enabled or not. If the treatment is set to `on`, the feature is enabled. If it's set to `off`, the feature is
+disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on` and `off`.
+
+> **Warning**
+> Unfortunately there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
+> and the Splits in your split.io workspace in sync. You will have to do this manually.
+
+
+### Deployment
+
+### I18N - Internationalization
+
 ### CSS
 
 This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to

@@ -4,7 +4,7 @@
 > **This stack is typescript and NPM only for now.**
 >
 > The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon but it
-? requires a bit more time and I would love to get feedback on the stack until then.
+> requires a bit more time and I would love to get feedback on the stack until then.
 
 ## Quick Start
 
@@ -18,7 +18,7 @@ Once it's done, go into the newly created directory and start the dev server
 npm run dev
 ```
 
-Please make sure that you go through the initialisation steps of the create-remix script.
+Please make sure that you go through the initialization steps of the create-remix script.
 
 If for whatever reason it didn't run, execute the following commands:
 

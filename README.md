@@ -1,7 +1,6 @@
 # TRANCE STACK [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://meza.github.io/trance-stack/)
 
 > **Warning**
->
 > **This stack is typescript and NPM only for now.**
 >
 > The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon but it
@@ -63,7 +62,6 @@ You can modify it to your liking and use it as a base for your own remix project
 ## Getting Started
 
 > **Note**
->
 > Read this documentation on your own project's repository. It will contain links relevant to you as
 > the init script will replace the links in this README with the ones customized to your project.
 
@@ -108,7 +106,6 @@ hard time figuring it out on its own, so we've set it up to be set manually. If 
 ### GitHub Settings
 
 > **Note**
->
 > The stack is meant to be used with GitHub Actions. If you're not familiar with GitHub Actions, you can read more about it
 > [here](https://docs.github.com/en/actions).
 
@@ -124,7 +121,6 @@ Without this, the deployment scripts won't be able to create the necessary GitHu
 #### Environments
 
 > **Note**
->
 > We use GitHub environments to manage the different stages of our application. You can read more about them
 >[here](https://docs.github.com/en/actions/deployment/targeting-different-environments).
 
@@ -145,7 +141,8 @@ Some configuration values are sensitive while others are not. For example, the `
 This mainly comes from the fact that some of these values will be embedded into the html of your application, and be visible
 to everyone.
 
-> **warning** Please double-check the documentation of the services to ensure you're setting them up correctly.
+> **Warning**
+> Please double-check the documentation of the services to ensure you're setting them up correctly.
 >
 > The application won't work properly if you add a secret as a variable or a variable as a secret.
 
@@ -196,7 +193,7 @@ For example, the Allowed Callback URLs section should look like this:
 http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.com/auth/callback
 ```
 
-> **warning**
+> **Warning**
 >
 > The `*` wildcard will allow you to use as wide of a domain name as you would like to. This however comes at the cost
 > of security. We would highly recommend creating an alternative tennant on Auth0 for your feature branch/PR deployments.
@@ -214,7 +211,8 @@ to copy the code following the `client_data/` in the script src and paste it in 
 You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
 name as the one in the `.env` file.
 
-> **warning** The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
+> **Warning**
+> The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
 
 ### CSS
 

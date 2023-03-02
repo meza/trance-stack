@@ -325,7 +325,7 @@ The stack uses [Split](https://split.io) for feature flags. You will need to cre
 and set up a new project.
 
 When you have your project set up, head to the workspace settings > API Keys section.
-We're only unterested in the server-side keys. Copy the `API Key` and paste it
+We're only interested in the server-side keys. Copy the `API Key` and paste it
 set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
 
 Go to https://github.com/meza/trance-stack/settings/secrets/actions and add the Auth0 secrets with the same name as the
@@ -352,6 +352,71 @@ The authentication is done via the [auth0-remix-server](https://github.com/meza/
 The README file in that package has all the information you need to understand how it works.
 
 ### Conventional Commits & Automated Semantic Versioning
+
+The stack uses [Conventional Commits](https://www.conventionalcommits.org/en) to automatically determine the next
+version of the package. It uses the [semantic-release](https://semantic-release.gitbook.io/semantic-release) package to
+automate the versioning and release process.
+
+The functionality is controlled by the `<project_root>/.releaserc.json` file.
+Since the projects that are created from this stack are most likely aren't going to be npm libraries, the npm publishing
+plugin is not included in the configuration.
+
+To effectively use conventional commits, you need to understand the following basic principle:
+
+**Your commit messages determine if a new deployment happens to production.**
+
+Messages that trigger builds are:
+- `fix: ...` - fixes a bug
+- `feat: ...` - adds a new feature
+
+Messages that don't trigger new versions (therefore builds) are:
+- `docs: ...` - changes to the documentation
+- `chore: ...` - changes to the build process or auxiliary tools and libraries such as documentation generation
+- `refactor: ...` - code changes that neither fixes a bug nor adds a feature
+- `style: ...` - changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+- `test: ...` - adding missing tests or correcting existing tests
+- `ci: ...` - changes to the CI configuration files and scripts
+- `perf: ...` - a code change that improves performance
+
+### Branching Strategy with Semantic Versioning
+
+We will talk about how the deployment works in the [Deployment](#deployment) section. For now, let's look at how the
+branching strategy works with the versioning.
+
+There are 3 main branches:
+- `main` - this is the main branch. It is the branch that is deployed to production.
+- `beta` - this is the branch that is deployed to the beta (Staging) environment.
+- `alpha` - this is the branch that is deployed to the alpha (Staging) environment.
+
+When you push to the `main` branch, a new version is released to production. The version is determined by the commit messages
+and every commit that is pushed to the `main` branch will trigger a new version.
+
+When you push to the `alpha` or `beta` branch, a new [Pre-release](https://semantic-release.gitbook.io/semantic-release/usage/workflow-configuration#pre-release-branches)
+version is created. This allows you to iterate on features for an upcoming release and not worry about bumping the version
+number every time you push a commit that introduces a new feature or a fix.
+
+For example if you have a `1.0.0` version in production, and you push a commit to the `alpha` branch, the version will be
+`1.1.0-alpha.0`. If you push another commit to the `alpha` branch, the version will be `1.1.0-alpha.1` and so on.
+
+When you merge a pull request from the `alpha` or `beta` branch to the `main` branch, all the changes in those branches
+will be collected and bundled into a single release. To follow the example above, if you have a `1.0.0` version in production,
+and merge the `alpha` branch with its `1.1.0-alpha.1` version, your newly created version on production will be `1.1.0`.
+
+#### Linting
+
+We use [commitlint](https://commitlint.js.org/#/) to lint the commit messages. The configuration is in the
+`package.json` file.
+The linting happens whenever you make a commit. If the commit message doesn't follow the conventional commits format,
+the commit will fail.
+
+The linting itself is triggered by [lefthook](#lefthook)
+
+#### Which version am I running?
+
+The version of the app is sent into the `<html data-version="...">` attribute. You can use this to determine which version
+of the app is running on any given environment.
+
+
 
 ### Dependency Version Updates
 
@@ -465,6 +530,8 @@ Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#p
 ### Playwright
 
 ### Unit Testing
+
+### Lefthook
 
 ---
 

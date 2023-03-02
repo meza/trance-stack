@@ -62,10 +62,10 @@ You can modify it to your liking and use it as a base for your own remix project
 
 ## Getting Started
 
-In order to fully use this stack, you will need to have a few things set up first.
+> **notice** Read this documentation on your own project's repository. It will contain links relevant to you as
+> the init script will replace the links in this README with the ones customized to your project.
 
-> **warning**
-> This README isn't trying to teach you how to use these services, please refer to the services' documentation for that.
+In order to fully use this stack, you will need to have a few things set up first.
 
 The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
 find removal instructions at every step so don't worry if you're not a fan of a particular service.
@@ -81,6 +81,10 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 >
 > We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
 > should be able to use it right away.
+
+> **warning**
+> This README isn't trying to teach you how to use these services, please refer to the services' documentation for that.
+
 
 ### Environment
 
@@ -137,7 +141,7 @@ Some configuration values are sensitive while others are not. For example, the `
 This mainly comes from the fact that some of these values will be embedded into the html of your application, and be visible
 to everyone.
 
-> **warning** Please double check the documentation of the services to ensure you're setting them up correctly.
+> **warning** Please double-check the documentation of the services to ensure you're setting them up correctly.
 >
 > The application won't work properly if you add a secret as a variable or a variable as a secret.
 

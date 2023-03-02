@@ -3,7 +3,7 @@
 > **Warning**
 > **This stack is typescript and NPM only for now.**
 >
-> The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon but it
+> The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon, but it
 > requires a bit more time and I would love to get feedback on the stack until then.
 
 ## Quick Start
@@ -37,7 +37,7 @@ You can modify it to your liking and use it as a base for your own remix project
 ## What's included
 
 - Good security practices with CSP and sensible auth processes
-- i18n with [i18next](https://www.i18next.com/) and its remix integration [rexmix-i18next](https://github.com/sergiodxa/remix-i18next)
+- i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
 - [CookieYes](https://cookieyes.com) for cookie consent
@@ -138,7 +138,7 @@ The `Ephemeral` environment is used for feature branches and pull requests and i
 
 Some configuration values are sensitive while others are not. For example, the `COOKIEYES_TOKEN` is not sensitive, but the
 `AUTH0_CLIENT_SECRET` is.
-This mainly comes from the fact that some of these values will be embedded into the html of your application, and be visible
+This mainly comes from the fact that some of these values will be embedded into the html of your application and be visible
 to everyone.
 
 > **Warning**
@@ -186,6 +186,10 @@ To make this painless, we can use the `*` wildcard in the domain name. This will
 
 During the initial setup above, you have added `http://localhost:3000` in a few places.
 You will need to add `,https://*.execute-api.us-east-1.amazonaws.com` to the same places.
+_(Note the comma at the beginning. Domains need to be separated by commas)_
+
+> **Note**
+> You will need to replace the `us-east-1` part with the region you're using. By default, the stack uses `us-east-1`.
 
 For example, the Allowed Callback URLs section should look like this:
 
@@ -214,6 +218,19 @@ name as the one in the `.env` file.
 > **Warning**
 > The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
 
+### Google Analytics 4 integration
+
+The stack uses [Google Analytics v4](https://analytics.google.com) for analytics. You will need to create an account with them
+and [set up a property](https://support.google.com/analytics/answer/1008015?hl=en).
+
+When you are done setting up your property, you will need to copy the `Measurement ID` of your Data Stream and paste
+set the `GOOGLE_ANALYTICS_ID` variable in the `.env` file.
+
+You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+name as the one in the `.env` file.
+
+> **Warning**
+> The `GOOGLE_ANALYTICS_ID` is **set as a variable** for the actions.
 
 
 ### CSS

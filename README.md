@@ -40,7 +40,7 @@ You can modify it to your liking and use it as a base for your own remix project
 - i18n with [i18next](https://www.i18next.com/) and its remix integration [rexmix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
-- [Cookieyes](https://cookieyes.com) for cookie consent
+- [CookieYes](https://cookieyes.com) for cookie consent
 - Analytics Integrations
   - [Mixpanel](https://mixpanel.com)
   - [Hotjar](https://hotjar.com)
@@ -132,7 +132,7 @@ For now, go to https://github.com/meza/trance-stack/settings/variables/actions a
 - `Ephemeral`
 
 These are referred to in [the deployment workflow](./.github/workflows/deploy.yml) for example with the `environment` key.
-The `Ephemeral` environment is used for feature branches and pull requests and is referenced in the [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
+The `Ephemeral` environment is used for feature branches and pull requests and is referenced in [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
 
 #### Variables vs. Secrets
 
@@ -196,7 +196,7 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 > **Warning**
 >
 > The `*` wildcard will allow you to use as wide of a domain name as you would like to. This however comes at the cost
-> of security. We would highly recommend creating an alternative tennant on Auth0 for your feature branch/PR deployments.
+> of security. We would highly recommend creating an alternative tenant on Auth0 for your feature branch/PR deployments.
 
 ### CookieYes integration
 
@@ -206,7 +206,7 @@ The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You wi
 When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
 to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
 
-![Cookieyes Instructions](./doc/images/cookieyes.png)
+![CookieYes Instructions](./doc/images/cookieyes.png)
 
 You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
 name as the one in the `.env` file.

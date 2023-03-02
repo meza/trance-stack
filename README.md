@@ -207,8 +207,7 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 1. Delete the `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID` and `AUTH0_CLIENT_SECRET` variables from the `.env` file and GitHub secrets.
 2. Delete the `src/auth.server.ts` and the `src/auth.server.test.ts` files.
 3. Delete the `auth0-remix-server` dependency from the `package.json` file.
-4. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-5. Follow the compilation errors to remove all the code that uses the `auth0-remix-server` dependency.
+4. Follow the compilation errors to remove all the code that uses the `auth0-remix-server` dependency.
 
 ### CookieYes integration
 
@@ -228,10 +227,10 @@ name as the one in the `.env` file.
 
 #### Removing the CookieYes integration from the application
 
-1. Delete the `COOKIEYES_TOKEN` variable from the `.env` file and GitHub secrets.
+1. Delete the `COOKIEYES_TOKEN` variable from the `.env` file and GitHub variables.
 2. Delete the `src/components/Cookieyes` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-4. Delete the `<Cookieyes />` component from the `src/root.tsx` file.
+4. Delete the `<Cookieyes ... />` component from the `src/root.tsx` file.
 5. Follow the compilation errors to remove all the code that uses the `Cookieyes` component.
 
 ### Google Analytics 4 integration
@@ -248,6 +247,13 @@ name as the one in the `.env` file.
 > **Warning**
 > The `GOOGLE_ANALYTICS_ID` is **set as a variable** for the actions.
 
+#### Removing the Google Analytics 4 integration from the application
+
+1. Delete the `GOOGLE_ANALYTICS_ID` variable from the `.env` file and GitHub variables.
+2. Delete the `src/components/GoogleAnalytics` directory.
+3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
+4. Delete the `<GoogleAnalytics ... />` component from the `src/root.tsx` file.
+5. Follow the compilation errors to remove all the code that uses the `GoogleAnalytics` component.
 
 ### CSS
 

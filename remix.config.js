@@ -15,12 +15,12 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
     copyFilesPlugin({
       src: './public/locales',
       dest: './public/build/locales',
-      errorOnExist: false,
+      errorOnExist: false
     }),
     copyFilesPlugin({
       src: './public/favicon.ico',
       dest: './public/build/favicon.ico',
-      errorOnExist: false,
+      errorOnExist: false
     }),
     env(),
     environmentPlugin(['NODE_ENV',
@@ -53,7 +53,6 @@ module.exports = {
   appDirectory: 'src',
   serverBuildDirectory: "server",
   browserBuildDirectory: "public/build",
-  // assetsBuildDirectory: "dist",
   serverBuildPath: "server/index.js",
   publicPath: "/_static/build",
 };

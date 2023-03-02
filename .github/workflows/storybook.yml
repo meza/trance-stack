@@ -25,6 +25,7 @@ jobs:
       - name: Set up node
         uses: meza/action-setup-node-npm@main
         with:
+          command: install --no-package-lock
           node-version: latest
           cache-name: storybook
       - name: Build Storybook

@@ -1,5 +1,5 @@
 @app
-repl-app-slug
+REPL_APP_SLUG
 
 @http
 /*

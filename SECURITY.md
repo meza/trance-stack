@@ -7,4 +7,4 @@ There will be limited support for major versions going forward but please upgrad
 
 ## Reporting a Vulnerability
 
-To report a Vulnerability, please open an issue in the [issue tracker](https://github.com/meza/auth0-remix-server/issues).
+To report a Vulnerability, please open an issue in the [issue tracker](https://github.com/meza/trance-stack/issues).

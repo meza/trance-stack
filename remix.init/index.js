@@ -102,24 +102,24 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
         return getAppName(answers.appSlug);
       }
     },
-    {
-      type: 'confirm',
-      name: 'useAWS',
-      message: `${chalk.cyan('Do you want to use AWS?')} ${chalk.white('This will add an AWS deployment workflow to your app.')}`,
-      default: true
-    },
-    {
-      type: 'confirm',
-      name: 'useGithub',
-      message: `${chalk.cyan('Do you want to use GitHub?')} ${chalk.white('This will add a GitHub Actions workflow to your app.')}`,
-      default: true
-    },
+    // {
+    //   type: 'confirm',
+    //   name: 'useAWS',
+    //   message: `${chalk.cyan('Do you want to use AWS?')} ${chalk.white('This will add an AWS deployment workflow to your app.')}`,
+    //   default: true
+    // },
+    // {
+    //   type: 'confirm',
+    //   name: 'useGithub',
+    //   message: `${chalk.cyan('Do you want to use GitHub?')} ${chalk.white('This will add a GitHub Actions workflow to your app.')}`,
+    //   default: true
+    // },
     {
       type: 'input',
       name: 'githubUsername',
       message: `${chalk.cyan('What is your GitHub username?')} ${chalk.white('This will be used to construct a repo URL for your app.')}`,
-      default: username,
-      when: (answers) => answers.useGithub
+      default: username
+      // when: (answers) => answers.useGithub
     },
     {
       type: 'input',
@@ -127,8 +127,8 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
       message: `${chalk.cyan('What is the name of your GitHub repo?')} ${chalk.white('This will be used in the github related documentation/policies.')}`,
       default: (answers) => {
         return `https://github.com/${answers.githubUsername}/${answers.appSlug}`;
-      },
-      when: (answers) => answers.useGithub
+      }
+      // when: (answers) => answers.useGithub
     },
     {
       name: 'validate',
@@ -160,13 +160,13 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
     path.join(rootDirectory, '.gitignore')
   );
 
-  if (!answers.useAWS) {
-    filesToDelete.push(awsPath);
-  }
-
-  if (!answers.useGithub) {
-    filesToDelete.push(githubPath);
-  }
+  // if (!answers.useAWS) {
+  //   filesToDelete.push(awsPath);
+  // }
+  //
+  // if (!answers.useGithub) {
+  //   filesToDelete.push(githubPath);
+  // }
 
   if (answers.validate) {
     console.log(

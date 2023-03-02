@@ -12,7 +12,7 @@ env:
 
 concurrency:
   group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:

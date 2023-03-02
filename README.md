@@ -62,7 +62,7 @@ You can modify it to your liking and use it as a base for your own remix project
 
 ## Getting Started
 
-> **notice** Read this documentation on your own project's repository. It will contain links relevant to you as
+> **note** Read this documentation on your own project's repository. It will contain links relevant to you as
 > the init script will replace the links in this README with the ones customized to your project.
 
 In order to fully use this stack, you will need to have a few things set up first.

@@ -120,6 +120,11 @@ section, make sure it's on the `Read and write permissions` option.
 
 Without this, the deployment scripts won't be able to create the necessary GitHub releases.
 
+#### Pages
+
+Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set to `Github Actions`.
+This will allow us to deploy the project's storybook to GitHub Pages.
+
 #### Environments
 
 > **Note**

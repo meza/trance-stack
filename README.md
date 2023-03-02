@@ -296,8 +296,8 @@ You also need to set the `MIXPANEL_API` variable. This is the API endpoint that 
 There is no default value to this because you should understand how you're dealing with data residency.
 
 The values for the `MIXPANEL_API` variable are:
-- `https://api-eu.mixpanel.com/` - for the European Union
-- `https://api.mixpanel.com/` - for the rest of the world
+- `https://api-eu.mixpanel.com` - for the European Union
+- `https://api.mixpanel.com` - for the rest of the world
 
 
 You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable

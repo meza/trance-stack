@@ -120,6 +120,22 @@ section, make sure it's on the `Read and write permissions` option.
 
 Without this, the deployment scripts won't be able to create the necessary GitHub releases.
 
+#### Branch Protection
+
+Next, head over to https://github.com/meza/trance-stack/settings/branches and add a few branch protection rules.
+- main
+- alpha
+- beta
+
+These are the branches that will be used for the different stages of the application. You can set the settings of these
+branches however you like, but there's one setting that you need to make sure is unchecked: `Allow deletions`.
+
+<p align="center">
+  <img src="./doc/images/gihtub-branch-protection.png" alt="Branch Protection" />
+</p>
+
+We use this later in the [Deployment](#deployment) section to prevent named environments from being deleted.
+
 #### Pages
 
 Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set to `Github Actions`.
@@ -133,7 +149,7 @@ This will allow us to deploy the project's storybook to GitHub Pages.
 
 GitHub environments are great to control the environment variables that are used in your workflows.
 
-For now, go to https://github.com/meza/trance-stack/settings/variables/actions and create the following environments:
+For now, go to https://github.com/meza/trance-stack/settings/environments and create the following environments:
 - `Production`
 - `Staging`
 - `Ephemeral`
@@ -164,7 +180,7 @@ First, navigate to https://github.com/apps/renovate and click on the Install but
   <img src="./doc/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
 </p>
 
-On the following screen, we recommend selecting "All repositories" to make life easier but you can configure it to only
+On the following screen, we recommend selecting "All repositories" to make life easier, but you can configure it to only
 work on the repository you're currently in.
 
 <p align="center">
@@ -192,7 +208,7 @@ When creating your new application, make sure to set the following settings:
 
 Now that you have your Auth0 variables, you will need to add them to the GitHub environments you created above.
 
-Go to https://github.com/meza/trance-stack/settings/secrets/actions and add the Auth0 secrets with the same name as the
+Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
 variables in the `.env` file.
 
 You can set custom values for every environment if you want to. For example, you can set the `AUTH0_DOMAIN` to
@@ -246,7 +262,7 @@ to copy the code following the `client_data/` in the script src and paste it in 
   <img src="./doc/images/cookieyes.png" alt="CookieYes Instructions" />
 </p>
 
-You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+You will also have to go to the [variables settings][gh-variables] and add the same variable
 name as the one in the `.env` file.
 
 > **Warning**
@@ -268,7 +284,7 @@ and [set up a property](https://support.google.com/analytics/answer/1008015?hl=e
 When you are done setting up your property, you will need to copy the `Measurement ID` of your Data Stream and paste
 set the `GOOGLE_ANALYTICS_ID` variable in the `.env` file.
 
-You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+You will also have to go to the [variables settings][gh-variables] and add the same variable
 name as the one in the `.env` file.
 
 > **Warning**
@@ -290,7 +306,7 @@ and set up a new site.
 When you have your site set up, head to https://insights.hotjar.com/site/list and copy the ID of your site and paste
 set the `HOTJAR_ID` variable in the `.env` file.
 
-You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+You will also have to go to the [variables settings][gh-variables] and add the same variable
 name as the one in the `.env` file.
 
 > **Warning**
@@ -323,7 +339,7 @@ The values for the `MIXPANEL_API` variable are:
 - `https://api.mixpanel.com` - for the rest of the world
 
 
-You will also have to go to https://github.com/meza/trance-stack/settings/variables/actions and add the same variable
+You will also have to go to the [variables settings][gh-variables] and add the same variable
 names as the one in the `.env` file.
 
 > **Warning**
@@ -346,7 +362,7 @@ When you have your project set up, head to the workspace settings > API Keys sec
 We're only interested in the server-side keys. Copy the `API Key` and paste it
 set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
 
-Go to https://github.com/meza/trance-stack/settings/secrets/actions and add the Auth0 secrets with the same name as the
+Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
 variables in the `.env` file.
 
 > **Warning**
@@ -804,9 +820,208 @@ PostCSS will take care of the rest automagically.
 
 ### Deployment
 
-#### CDK
+One of the main focuses of this stack was to create a deployment strategy that is a good starting point for anyone
+building from this stack.
+
+We use a combination of [GitHub Actions](#github-actions) and [AWS CDK](#cdk) to deploy the application to both the
+production-like and ephemeral environments.
+
+#### Ephemeral Environments
+
+Ephemeral environments are environments that are created on-demand and destroyed when they are no longer needed.
+We use these for feature branches and pull requests.
+
+They are automatically created for pull requests, but you will have to manually trigger one if you just want to deploy
+a feature branch.
+
+##### Manual Ephemeral Deployment
+
+Navigate to https://github.com/meza/trance-stack/actions/workflows/ephemeralDeploy.yml and click the "Run workflow" button.
+
+<p align="center">
+  <img src="./doc/images/github-run-workflow.png" alt="Run workflow button" />
+</p>
+
+Once you have chosen a branch, it will start building the application and deploying it to the ephemeral environment.
+
+When the process is finished, it will publish a summary to the run's Summay Dashboard with the link to the deployed
+application. It will look something like this:
+
+<p align="center">
+  <img src="./doc/images/github-deployment-details.png" alt="Run workflow summary" />
+</p>
+
+##### Pull Request Ephemeral Deployment
+
+When you create a pull request, GitHub Actions will automatically create an ephemeral environment for you and the
+deployment link will be added to the pull request as a comment.
+
+#### Production-like Environments
+
+Production-like environments are environments that are created once and then updated when the application is updated.
+
+The branch `main` is considered to be the production branch while `alpha` and `beta` are considered to be staging.
+
+This is decided in the `deploy.yml` file:
+
+```yaml
+  build:
+    environment: ${{ github.ref_name == 'main' && 'Production' || 'Staging' }}
+```
+
+The `Production` and `Staging` words here directly reference the [GitHub Environments](#environments) that we have
+configured.
+
+**Warning** This means that both the `alpha` and `beta` branches will be deployed to the `Staging` environment.
+
+This was done for convenience with the stack but you are highly encouraged to change this to suit your needs.
+Maybe add a separate `alpha` environment?
+
+> **Note**
+> Remember that the GitHub Environments hold the environment variables used for that given workflow. This means that you
+> can set a different `APP_URL` for each environment among other things like a separate Auth0 tenant.
 
 #### GitHub Actions
+
+GitHub Actions respond to various events in the repository's lifecycle.
+The diagram below shows the flow of the deployment process.
+
+```mermaid
+flowchart TD
+    F1 -.->|Manual Trigger| F
+
+    subgraph Push
+        A[Push] --> D{Is Protected Branch?}
+
+        D -->|Yes| H{Is it the 'main' branch?}
+        D -->|No| F1[Offer Manual Ephemeral Deployment]
+        H -->|Yes| I1{{Deploy to Production}}
+        H -->|No| I2{{Deploy to Staging}}
+
+        I1 --> J1[Create Github Release]
+        H -->|Yes| J2[Deploy Storybook]
+        I2 --> J1
+    end
+    subgraph Pull Request
+        B[Pull Request] --> F{{Ephemeral Deployment}}
+    end
+
+    subgraph Cleanup
+        C[Delete Branch] --> X{{Destroy Deployment Stack}}
+    end
+```
+
+The hexagonal nodes are processes which are executed by [CDK](#cdk) while the others are handled with GitHub Actions.
+
+#### CDK
+
+[AWS Cloud Development Kit (CDK)](https://docs.aws.amazon.com/cdk/index.html) is an open-source software development
+framework to define cloud infrastructure in code and provision it through AWS CloudFormation.
+
+> **Note**
+> If you are interested in why we chose CDK, check out [the relevant ADR](./doc/adr/0008-use-aws-cdk-for-deployments.md)
+
+The majority of the infrastructure is defined in the `deployment` directory. The `delpoyment/lib` directory contains the
+custom [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) that are used to build the infrastructure.
+
+
+##### Environment Variables
+
+In order to deploy the application, you will need to set the following environment variables:
+
+| [Variable][gh-variables] | [Secret][gh-secrets]  |
+|--------------------------|-----------------------|
+|                          | AWS_ACCESS_KEY_ID     |
+|                          | AWS_CERT_ARN          |
+|                          | AWS_SECRET_ACCESS_KEY |
+| AWS_DOMAIN NAME          |                       |
+| AWS_HOSTED_ZONE_NAME     |                       |
+
+###### Local Environments
+
+If you want to deploy the application locally, you will need to set the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+environment variables only.
+
+##### The deployment directory
+
+The `deployment/stacks` directory contains the actual stacks that are deployed to AWS. Their naming should be self-explanatory.
+We have one for the `Ephemeral` environment and one for the `Production` environment.
+
+If you examine either of the deployment files, you will notice that the deployment is basically
+a single command:
+
+```bash
+ npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json \
+ --require-approval never \
+ --context environmentName=${{ env.REF_NAME }} \
+ --context domainName=${{ vars.AWS_DOMAIN_NAME }} \
+ --context certificateArn=${{ secrets.AWS_CERT_ARN }} \
+ --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+```
+
+The difference between the ephemeral and the production deployments is the name of the stack.
+It can be either `remix-trance-stack-ephemeral` or `remix-trance-stack-production`.
+
+##### The context variables
+
+The context variables are used to pass information to the CDK stack.
+
+| Variable          | Description                                                                                                  | Example                                                                          |
+|-------------------|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| `environmentName` | The name of the environment. This is used to create derive the name of every single resource created on AWS. | feature1                                                                         |
+| `domainName`      | The domain name of the application.                                                                          | trance-stack.vsbmeza.com                                                         |
+| `certificateArn`  | The ARN of the certificate used for the application.                                                         | arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012 |
+| `hostedZoneName`  | The name of the hosted zone used for the application.                                                        | vsbmeza.com                                                                      |
+
+> The `domainName`, `certificateArn` and `hostedZoneName` are only used for Production deployments.
+
+**Note**
+Even though some context variables are only used for production deployments, they are still passed to the
+ephemeral deployment. This is because the CDK stack is the same for both environments and the evaluation of the
+context variables is done at runtime.
+For ephemeral deployments you can have an empty string for the `domainName`, `certificateArn` and `hostedZoneName`.
+
+##### Deploying from your local machine
+
+We advise you to use the GitHub Actions to deploy the application. However, if you want to deploy from your local machine,
+you can do so by running the same command as the deployment scripts would.
+
+**Warning**
+Don't forget to run `npm run build` before deploying.
+
+You can define the context variables either on the command line or you can use the `<root_directory>/cdk.context.json` file.
+
+```json
+{
+  "environmentName": "localdev",
+  "domainName": "trance-stack.example.com",
+  "hostedZoneName": "example.com",
+  "certificateArn": "arn:aws:acm:region:123456789012:certificate/12345678-1234-1234-1234-123456789012"
+}
+```
+
+##### The githubActionSupport
+
+Let's talk about the `githubActionSupport.ts` file.
+
+This file uses the GitHub Actions toolkit to allow us to report back with the deployment URL to the GitHub Actions/Pull Request.
+
+The reason it's a bit more complex than it needs to be is because we don't want to publish a PR comment every time we
+deploy the same branch. Since the URL won't change for a branch that's already deployed, there is no need to spam the PR.
+
+This posed a challenge of finding an existing deployment comment and updating it instead of creating a new one.
+
+###### Testing the GitHub support locally
+
+If for whatever reason you would like to get a local output of the GitHub Actions support, you can do so by running the
+following command:
+
+```bash
+npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json
+```
+This requires you to have a `deployment.result.json` file in the `/tmp` directory. You can get this file by running the
+[deployment command locally](#deploying-from-your-local-machine).
+
 
 ### Storybook
 
@@ -816,6 +1031,9 @@ PostCSS will take care of the rest automagically.
 
 ### Lefthook
 
+
+[gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
+[gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions
 
 ---
 

@@ -10,7 +10,7 @@ const app = new cdk.App();
 const envName = app.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-]/g, '-');
 
 // eslint-disable-next-line no-new
-new ProductionStack(app, `${name}-deployment`, {
+new ProductionStack(app, `${name}-production`, {
   description: `CDK Stack for ${name}, version: ${version}`,
   stackName: `${name}-${envName}`,
   analyticsReporting: true,

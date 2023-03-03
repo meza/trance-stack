@@ -607,14 +607,17 @@ If you don't want to use i18n, you can remove it from your project. You will hav
 > There are some great tips about organising your translations in the
 > [i18n Readme file](./src/i18n/README.md).
 
-### CSS
+### Styling / CSS
 
-This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
-import CSS files directly into your components.
+We use regular stylesheets in this stack which means a combination of [Shared Component Styles](#shared-component-styles)
+and [Surfacing Styling](#surfacing-styling).
 
-Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
+#### Shared Component Styles
 
-```js
+The shared component styles live in the `src/styles` directory. They are imported in the routes that use them.
+
+```ts
+// src/root.tsx
 import styles from './styles/app.css';
 
 export const links: LinksFunction = () => {
@@ -624,7 +627,69 @@ export const links: LinksFunction = () => {
 };
 ```
 
-Read more about how [CSS in Remix](https://remix.run/docs/en/v1/guides/styling#postcsss) works.
+The styles that are uniform across the entire application are loaded from the `src/root.tsx` file while the styles that are
+specific to a single route are loaded from the route itself.
+
+These are all additive, so you can have a single stylesheet that is loaded on every route via the `root.tsx`, and then
+additional stylesheets that are loaded on specific routes.
+
+If you need a component-specific stylesheet, you can use the [Surfacing Styling](#surfacing-styling) method.
+
+#### Surfacing Styling
+
+To have local styles per component, we use is [Surfacing Styling](https://remix.run/docs/en/main/guides/styling#surfacing-styles).
+
+> _Because these are not routes, and therefore not associated with a URL segment, Remix doesn't know when to prefetch,
+> load, or unload the styles. We need to "surface" the links up to the routes that use the components_
+
+This solution is a bit more complex, but it allows us to have styles that are only loaded when the component is loaded.
+
+Take the `Hello` component as an example:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import styles from './hello.css';
+
+export const links = () => [
+  { rel: 'stylesheet', href: styles }
+];
+
+export const Hello = () => {
+  const { t } = useTranslation();
+  return (
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
+  );
+};
+
+export default Hello;
+```
+
+Notice that it imports the `hello.css` file. This file is located in the same directory as the component.
+It also has a `links` export that returns the stylesheet link.
+
+In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the components.
+You can see an example of this in the `src/routes/index.tsx` file:
+
+```tsx
+import { Hello, links as helloLinks } from '~/components/Hello';
+
+export const links: LinksFunction = () => ([
+  ...helloLinks()
+]);
+```
+We import the `links` export from the `Hello` component and add it to the `links` export of the `index.tsx` route.
+
+Yes, this is more complicated than it should be but with the rapid development of Remix, we hope that this will be
+simplified in the future.
+
+#### PostCSS
+This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
+import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
+
+Our PostCSS configuration is located in the `postcss.config.js` file, and it gets applied every single time Remix builds
+the application.
+This means that you don't have to think about prefixes or other browser-specific CSS features. Just write your CSS and
+PostCSS will take care of the rest automagically.
 
 ### Deployment
 

@@ -1095,6 +1095,42 @@ npm run int
 
 ### Unit Testing
 
+We use [Vitest](https://vitest.dev/) as the unit testing framework.
+If you're unfamiliar with Vitest, fear not, its interface is very similar to Jest and you will have no issues getting started.
+
+The main configuration file of Vitest is located at `<root_directory>/vitest.config.ts`.
+
+There has been quite a few deliberate decisions made here, so let's go through them.
+
+#### Test reporters
+
+We use different reporters depending on the environment. In the CI environment, we output `junit` and `cobertura` reports
+which then get published to the GitHub Actions Summary or as a Pull Request comment.
+On your local machine, we use the `html` reporter for coverage and a default text reporter for the test results.
+
+In both cases we also print out a textual representation of the coverage report.
+
+All the test reporting goes into the `<root_directory>/reports` directory.
+
+#### Setup files
+
+If you look closely, you can see that we have a `setupFiles` section which calls the
+`<root_directory>/vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
+It installs the `@testing-library/jest-dom` package and a few necessary Remix internals.
+
+#### Threads
+
+While the promise of threads might sound appealing, switching them on drastically reduces the speed of
+vitest. This is a known issue, and we're waiting for it to be fixed.
+
+#### Coverage
+
+The stack comes with 100%+ coverage to cover edge cases. We know that this isn't everyone's cup of tea,
+so you can remove the `statements`, `branches`, `lines` and `functions` sections from the `coverage`
+configuration object if you want to.
+
+Alternatively, you can modify the `report` script in the `package.json` file to remove the `--coverage` flag.
+
 ### Lefthook
 
 ### Storybook

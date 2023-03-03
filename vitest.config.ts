@@ -46,7 +46,7 @@ export default defineConfig({
         '**/*.test.tsx',
         '**/*.stories.mdx',
         '**/*.stories.tsx',
-        'test/**.*',
+        'test/**.*'
       ],
       all: true,
       reportsDirectory: './reports/coverage/unit',

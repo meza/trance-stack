@@ -1,8 +1,10 @@
 {
-  "hello": "Hello",
-  "world": "World",
   "microcopy": {
-    "helloWorld": "$t(hello) $t(world)!"
+    "helloWorld": "Hello World!",
+    "goodBye": "Goodbye World!"
+  },
+  "dashboard": {
+     "for": "Dashboard for {{ name }}"
   },
   "login": "Login",
   "register": "Sign Up",

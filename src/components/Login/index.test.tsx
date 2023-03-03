@@ -35,7 +35,7 @@ describe('The Login component', () => {
             method="post"
           >
             <button>
-              Login
+              login
             </button>
           </form>
         </div>

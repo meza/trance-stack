@@ -1,8 +1,10 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { cleanup } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { renderWithi18n } from '@test';
 import { authenticator } from '~/auth.server';
-import dashboard, { loader } from '~/routes/dashboard';
+import Dashboard, { loader } from '~/routes/dashboard';
 
 vi.mock('@remix-run/node');
 vi.mock('@remix-run/react');
@@ -18,6 +20,10 @@ vi.mock('~/auth.server', () => {
 describe('The Dashboard Route', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   it('returns the user from the auth service', async () => {
@@ -40,7 +46,8 @@ describe('The Dashboard Route', () => {
       }
     } as never);
 
-    expect(dashboard()).toMatchSnapshot();
+    const comp = renderWithi18n(<Dashboard />);
+    expect(comp.asFragment()).toMatchSnapshot();
   });
 
   it('prioritises the givenName over name', () => {
@@ -51,7 +58,8 @@ describe('The Dashboard Route', () => {
       }
     } as never);
 
-    expect(dashboard()).toMatchSnapshot();
+    const comp = renderWithi18n(<Dashboard />);
+    expect(comp.asFragment()).toMatchSnapshot();
   });
 
   it('uses the name if nothing else is present', () => {
@@ -61,6 +69,7 @@ describe('The Dashboard Route', () => {
       }
     } as never);
 
-    expect(dashboard()).toMatchSnapshot();
+    const comp = renderWithi18n(<Dashboard />);
+    expect(comp.asFragment()).toMatchSnapshot();
   });
 });

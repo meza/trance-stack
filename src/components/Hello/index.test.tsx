@@ -22,7 +22,7 @@ describe('Hello component', () => {
         class="hello"
         data-testid="greeting"
       >
-        Hello World!
+        microcopy.helloWorld
       </h1>
     `);
   });

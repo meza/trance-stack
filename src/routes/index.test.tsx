@@ -1,11 +1,13 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { cleanup } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { renderWithi18n } from '@test';
 import { hasFeature } from '~/hooks/hasFeature';
 import Root, { links, loader } from './index';
 
 vi.mock('~/components/Hello', () => ({
-  Hello: 'Hello',
+  Hello: () => '<Hello />',
   links: () => ['hello-links']
 }));
 vi.mock('~/hooks/hasFeature');
@@ -16,6 +18,10 @@ describe('The index route', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(json).mockImplementation((input) => input as never);
+  });
+
+  afterEach(() => {
+    cleanup();
   });
 
   describe('when the hello feature is enabled', () => {
@@ -36,11 +42,13 @@ describe('The index route', () => {
     });
 
     it('should render the hello component', async () => {
-      // eslint-disable-next-line new-cap
-      expect(Root()).toMatchInlineSnapshot(`
-        <div>
-          <Hello />
-        </div>
+      const comp = renderWithi18n(<Root />);
+      expect(comp.asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div>
+            <hello />
+          </div>
+        </DocumentFragment>
       `);
     });
   });
@@ -54,12 +62,16 @@ describe('The index route', () => {
     });
 
     it('should render the login component', async () => {
-      // eslint-disable-next-line new-cap
-      expect(Root()).toMatchInlineSnapshot(`
-        <div>
-          <Hello />
-          <Login />
-        </div>
+      const comp = renderWithi18n(<Root />);
+      expect(comp.asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div>
+            <hello />
+            <div
+              class="centered-button"
+            />
+          </div>
+        </DocumentFragment>
       `);
     });
   });
@@ -83,11 +95,13 @@ describe('The index route', () => {
     });
 
     it('should render the goodbye component', async () => {
-      // eslint-disable-next-line new-cap
-      expect(Root()).toMatchInlineSnapshot(`
-        <div>
-          Goodbye World!
-        </div>
+      const comp = renderWithi18n(<Root />);
+      expect(comp.asFragment()).toMatchInlineSnapshot(`
+        <DocumentFragment>
+          <div>
+            microcopy.goodBye
+          </div>
+        </DocumentFragment>
       `);
     });
   });

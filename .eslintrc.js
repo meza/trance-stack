@@ -11,7 +11,8 @@ module.exports = {
     'plugin:security/recommended',
     'plugin:@typescript-eslint/recommended',
     '@remix-run/eslint-config',
-    '@remix-run/eslint-config/node'
+    '@remix-run/eslint-config/node',
+    'plugin:i18next/recommended'
   ],
   overrides: [
     {

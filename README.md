@@ -506,6 +506,107 @@ disabled. [Read more about treatments](https://docs.split.io/reference/treatment
 
 ### I18N - Internationalization
 
+We're using i18next for internationalization. You can read more about it in the [i18next documentation](https://www.i18next.com/).
+To integrate it with Remix, we're using the [remix-i18next](https://github.com/sergiodxa/remix-i18next) package and our setup
+is based on the remix-i18next Readme file.
+
+You can find the i18n configuration in the `src/i18n` directory. The `i18n.config.ts` file contains the configuration for
+the defaults of i18next. The `i18n.server.ts` file contains the configuration for the server side while the `i18n.client.ts`
+file contains the configuration for the client side.
+
+The only deviation we have from the remix-i18next sample setup is that we're actually bundling the translations into the
+server package. This is done in the `src/i18n/i18n.server.ts` file.
+
+```ts
+await i18nextInstance.init({
+      debug: process.env.I18N_DEBUG === 'true',
+      ...baseConfig,
+      lng: locale,
+      ns: remixI18next.getRouteNamespaces(remixContext),
+      // The sample setup in remix-i18next
+      //backend: {
+      //  loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+      //},
+      resources: {
+        en: {
+          translation: en
+        }
+      }
+    });
+```
+We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) environment, we have one single file as the
+handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file systems,
+it would make deployments more complicated and the function would become incompatible with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
+
+Therefore instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
+
+This does mean that when you add a new locale, you will have to add it to the resources in the `i18n.server.ts` file.
+
+#### Using translations
+
+To use translations in your application, you can use the `useTranslation` hook from the `react-i18next` package.
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+export const Hello = () => {
+  const { t } = useTranslation();
+  return (
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
+  );
+};
+```
+
+You can also [pass in variables](https://www.i18next.com/translation-function/interpolation#working-with-data-models) to the translations. This helps the translators to create more context-sensitive translations.
+
+Take this example from the initial logged in Dashboard of the application:
+```tsx
+export default () => {
+  const { t } = useTranslation();
+  const { user } = useLoaderData<typeof loader>();
+  return (<>
+    <div>{t('dashboard.for', { name: user.nickname || user.givenName || user.name })}<br/><Logout/></div>
+  </>);
+};
+```
+
+Here we pass in the `name` variable to the translation. This means that the location of where the name appears in the final
+text can be different in different languages. For example, in one context we could say "Dashboard for John!" and in another context
+we could say "John's dashboard!".
+
+The translation file in our dashboard's case looks like this:
+
+```json
+{
+  "dashboard": {
+    "for": "Dashboard for {{ name }}"
+  }
+}
+```
+
+#### Adding a new locale
+
+To add a new locale, you will have to do the following:
+
+1. Add the new locale to the `<project_root>/public/locales` folder. Follow the example of the existing locale(s)
+2. Add the new locale to the `resources` object in the `i18n.server.ts` file.
+3. Add the new locale to the `supportedLngs` array in the `i18n.config.ts` file.
+
+#### Removing i18n from your project
+
+If you don't want to use i18n, you can remove it from your project. You will have to do the following:
+
+1. Remove the `i18n` folder from the `src` directory
+2. Remove the `locales` folder from the `public` directory
+3. Run `npm remove i18next i18next* *i18next`
+4. Remove the `<<I18nextProvider ...>` from both the `src/entry.server.tsx` and `src/entry.client.tsx` files
+5. Follow the compilation errors and remove any remaining references to i18n
+
+> **Note**
+>
+> There are some great tips about organising your translations in the
+> [i18n Readme file](./src/i18n/README.md).
+
 ### CSS
 
 This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to

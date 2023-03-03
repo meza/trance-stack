@@ -32,7 +32,7 @@ describe('The Logout component', () => {
           method="post"
         >
           <button>
-            Logout
+            logout
           </button>
         </form>
       </DocumentFragment>

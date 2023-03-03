@@ -1,5 +1,6 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
+import { useTranslation } from 'react-i18next';
 import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
 import { Features } from '~/features';
@@ -19,6 +20,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 };
 
 export default () => {
+  const { t } = useTranslation();
   const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
   if (isHelloEnabled) {
     return (<div>
@@ -26,5 +28,5 @@ export default () => {
       {isAuthEnabled ? <Login/> : null}
     </div>);
   }
-  return <div>Goodbye World!</div>;
+  return <div>{t('translation:microcopy.goodBye')}</div>;
 };

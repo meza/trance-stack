@@ -1,5 +1,5 @@
 import { themes } from '@storybook/theming';
-import i18n from '@test/i18next';
+import i18n from '@test/i18nextForTests';
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {

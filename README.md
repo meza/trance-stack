@@ -1038,7 +1038,60 @@ This requires you to have a `deployment.result.json` file in the `/tmp` director
 
 The results will be added to the `<project_root>/deploymentSummary.md` file.
 
-### Playwright
+### Playwright - End-to-end testing
+
+We use Playwright for our end-to-end tests. Playwright is a successor to Cypress and Puppeteer. It's maintained by
+Microsoft and is a cross-browser testing tool. It's also a lot faster than Cypress.
+
+Learn more about Playwright [here](https://playwright.dev/docs/intro).
+
+#### Installing Playwright dependencies
+
+Playwright requires a few dependencies to be installed in order to run locally. You can install them by running the
+following command:
+
+```bash
+npx playwright install
+```
+
+#### Configuring Playwright
+
+The tests are located in the `tests/e2e` directory. Feel free to change the directory structure to your liking.
+If you do so, don't forget to update the test location in the `<root_directory>/playwright.config.ts` file.
+
+```ts
+export default defineConfig({
+  testDir: './tests/e2e', // <-- Update this
+```
+
+**You do not need to start the dev server before running the tests.**
+
+Playwright will start the dev server for you. It is configured in the `<root_directory>/playwright.config.ts` file right
+at the bottom:
+
+```ts
+  /* Run your local dev server before starting the tests */
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000',
+    timeout: 1 * 60 * 1000,
+    reuseExistingServer: !process.env.CI
+  }
+```
+
+#### Running the tests
+
+##### Playwright on GitFub Actions
+
+Every time you open a pull request to the `main` branch, the tests will be run on GitHub Actions.
+
+##### Playwright locally
+
+You can run the tests locally by running the following command:
+
+```bash
+npm run int
+```
 
 ### Unit Testing
 

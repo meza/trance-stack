@@ -1,9 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { getPackageManagerCommand } from './utils/get-package-manager-command.js';
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv

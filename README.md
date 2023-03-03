@@ -810,6 +810,7 @@ Yes, this is more complicated than it should be but with the rapid development o
 simplified in the future.
 
 #### PostCSS
+
 This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
 import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
 
@@ -872,7 +873,8 @@ This is decided in the `deploy.yml` file:
 The `Production` and `Staging` words here directly reference the [GitHub Environments](#environments) that we have
 configured.
 
-**Warning** This means that both the `alpha` and `beta` branches will be deployed to the `Staging` environment.
+> **Warning**
+> This means that both the `alpha` and `beta` branches will be deployed to the `Staging` environment.
 
 This was done for convenience with the stack but you are highly encouraged to change this to suit your needs.
 Maybe add a separate `alpha` environment?
@@ -975,19 +977,19 @@ The context variables are used to pass information to the CDK stack.
 
 > The `domainName`, `certificateArn` and `hostedZoneName` are only used for Production deployments.
 
-**Note**
-Even though some context variables are only used for production deployments, they are still passed to the
-ephemeral deployment. This is because the CDK stack is the same for both environments and the evaluation of the
-context variables is done at runtime.
-For ephemeral deployments you can have an empty string for the `domainName`, `certificateArn` and `hostedZoneName`.
+> **Note**
+> Even though some context variables are only used for production deployments, they are still passed to the
+> ephemeral deployment. This is because the CDK stack is the same for both environments and the evaluation of the
+> context variables is done at runtime.
+> For ephemeral deployments you can have an empty string for the `domainName`, `certificateArn` and `hostedZoneName`.
 
 ##### Deploying from your local machine
 
 We advise you to use the GitHub Actions to deploy the application. However, if you want to deploy from your local machine,
 you can do so by running the same command as the deployment scripts would.
 
-**Warning**
-Don't forget to run `npm run build` before deploying.
+> **Warning**
+> Don't forget to run `npm run build` before deploying.
 
 You can define the context variables either on the command line or you can use the `<root_directory>/cdk.context.json` file.
 

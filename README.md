@@ -416,9 +416,73 @@ The linting itself is triggered by [lefthook](#lefthook)
 The version of the app is sent into the `<html data-version="...">` attribute. You can use this to determine which version
 of the app is running on any given environment.
 
-
-
 ### Dependency Version Updates
+
+### Typescript Paths
+
+The stack uses [Typescript Paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
+This means that instead of messy relative paths in the imports, we can use handy aliases.
+
+We have the following paths defined by default:
+
+- `~` - the `src` folder
+- `@styles` - the `src/styles` folder
+- `@test` - the `test` folder
+
+This means that no matter where you are in the file tree, you can always reference the `src` folder with the `~` alias.
+
+```ts
+import Hello from '~/components/Hello';
+import appStyles from '@styles/app.css';
+import { renderWithi18n } from '@test';
+```
+Feel free to add your own paths in the `tsconfig.json` file.
+
+Common ones that you might want to add are:
+
+- `@components` - the `src/components` folder
+- `@routes` - the `src/routes` folder
+- `@hooks` - the `src/hooks` folder
+
+We have chosen not to add those because `~/hooks` and `@hooks` are not that different to warrant extra settings.
+
+#### Issues with Typescript Paths
+
+Unfortunately typescript paths are somewhat esoteric and support across tools can be spotty.
+
+##### Vitest
+Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts` file.
+It both requires the [vite-tsconfig-paths](https://www.npmjs.com/package/vite-tsconfig-paths) plugin and in some cases
+you need to manually add the path to the `resolve.alias` array.
+
+```ts
+// vite.config.ts
+resolve: {
+  alias: {
+    '~': path.resolve(__dirname, './src')
+  }
+}
+```
+
+##### Storybook
+
+Storybook also needs to be told to respect the typescript paths. We use the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
+to tell the storybook webpack config to respect the paths.
+
+We add it to the `webpackFinal` function in the `<project_root>/.storybook/main.ts` file.
+
+```ts
+webpackFinal: async config => {
+  config.plugins?.push(new DefinePlugin({
+    __DEV__: process.env.NODE_ENV !== 'production'
+  }));
+  if (config.resolve) {
+    config.resolve.plugins = config.resolve.plugins || [];
+    config.resolve.plugins.push(new TsconfigPathsPlugin()); // <--- this line
+  }
+  return config;
+}
+```
 
 ### Feature Flags
 
@@ -704,6 +768,7 @@ PostCSS will take care of the rest automagically.
 ### Unit Testing
 
 ### Lefthook
+
 
 ---
 

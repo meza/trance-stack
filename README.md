@@ -1051,7 +1051,7 @@ Playwright requires a few dependencies to be installed in order to run locally. 
 following command:
 
 ```bash
-npx playwright install
+npx playwright install --with-deps
 ```
 
 #### Configuring Playwright

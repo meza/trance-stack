@@ -20,7 +20,7 @@
     "lint:css": "stylelint src/styles/**/*.css",
     "lint:eslint": "eslint --ext .ts,.tsx,.json src",
     "lint:typecheck": "tsc",
-    "playwright:install": "playwright install",
+    "playwright:install": "playwright install --with-deps",
     "postinstall": "remix-esbuild-override",
     "prepare": "lefthook install 1>/dev/null 2>/dev/null || true",
     "release": "semantic-release",

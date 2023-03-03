@@ -1104,6 +1104,10 @@ The main configuration file of Vitest is located at `<root_directory>/vitest.con
 
 There has been quite a few deliberate decisions made here, so let's go through them.
 
+#### Globals: true
+
+The globals are off by default but to get `js-dom` to work with vitest, they need to be on.
+
 #### Test reporters
 
 We use different reporters depending on the environment. In the CI environment, we output `junit` and `cobertura` reports
@@ -1118,7 +1122,23 @@ All the test reporting goes into the `<root_directory>/reports` directory.
 
 If you look closely, you can see that we have a `setupFiles` section which calls the
 `<root_directory>/vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
-It installs the `@testing-library/jest-dom` package and a few necessary Remix internals.
+It installs the `@testing-library/jest-dom` package.
+
+Since Remix relies on browser APIs such as fetch that are not natively available in Node.js you may find that your unit
+tests fail without these globals when running with some tools.
+
+If you need to add more globals, you can do so in the `<root_directory>/vitest.setup.ts` file.
+
+Simply add:
+
+```ts
+import { installGlobals } from '@remix-run/node';
+
+// This installs globals such as "fetch", "Response", "Request" and "Headers".
+installGlobals();
+```
+
+Read about this more [here](https://remix.run/docs/en/1.14.0/other-api/node#polyfills);
 
 #### Threads
 

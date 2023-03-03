@@ -169,6 +169,11 @@ to everyone.
 >
 > The application won't work properly if you add a secret as a variable or a variable as a secret.
 
+### Setup for continuous deployment
+
+The deployment processes are described in the [Deployment](#deployment) section but to get you started, please
+create the environment variables and secrets defined in the [environment variables](#environment-variables) section.
+
 ### Renovate bot setup
 
 The stack uses [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
@@ -378,7 +383,11 @@ variables in the `.env` file.
 3. Follow the compilation errors to remove all the code that uses the feature flags.
 4. Run `vitest --run --update` to update the snapshots.
 
+---
+
 ## How to use ... ?
+
+This section dives deeper into the concepts present in the stack.
 
 ### Authentication
 
@@ -845,7 +854,7 @@ Navigate to https://github.com/meza/trance-stack/actions/workflows/ephemeralDepl
 
 Once you have chosen a branch, it will start building the application and deploying it to the ephemeral environment.
 
-When the process is finished, it will publish a summary to the run's Summay Dashboard with the link to the deployed
+When the process is finished, it will publish a summary to the run's Summary Dashboard with the link to the deployed
 application. It will look something like this:
 
 <p align="center">
@@ -876,7 +885,7 @@ configured.
 > **Warning**
 > This means that both the `alpha` and `beta` branches will be deployed to the `Staging` environment.
 
-This was done for convenience with the stack but you are highly encouraged to change this to suit your needs.
+This was done for convenience with the stack, but you are highly encouraged to change this to suit your needs.
 Maybe add a separate `alpha` environment?
 
 > **Note**
@@ -923,7 +932,7 @@ framework to define cloud infrastructure in code and provision it through AWS Cl
 > **Note**
 > If you are interested in why we chose CDK, check out [the relevant ADR](./doc/adr/0008-use-aws-cdk-for-deployments.md)
 
-The majority of the infrastructure is defined in the `deployment` directory. The `delpoyment/lib` directory contains the
+The majority of the infrastructure is defined in the `deployment` directory. The `deployment/lib` directory contains the
 custom [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) that are used to build the infrastructure.
 
 
@@ -931,13 +940,16 @@ custom [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) th
 
 In order to deploy the application, you will need to set the following environment variables:
 
-| [Variable][gh-variables] | [Secret][gh-secrets]  |
-|--------------------------|-----------------------|
-|                          | AWS_ACCESS_KEY_ID     |
-|                          | AWS_CERT_ARN          |
-|                          | AWS_SECRET_ACCESS_KEY |
-| AWS_DOMAIN NAME          |                       |
-| AWS_HOSTED_ZONE_NAME     |                       |
+| [Variable][gh-variables] | [Secret][gh-secrets]  | Description                                               |
+|--------------------------|-----------------------|-----------------------------------------------------------|
+|                          | AWS_ACCESS_KEY_ID     | The AWS access key ID used to deploy the application.     |
+|                          | AWS_CERT_ARN          | The ARN of the certificate used for the domain.           |
+|                          | AWS_SECRET_ACCESS_KEY | The AWS secret access key used to deploy the application. |
+| AWS_DOMAIN NAME          |                       | The final domain name of the application.                 |
+| AWS_HOSTED_ZONE_NAME     |                       | The name of the hosted zone in Route53.                   |
+
+If you came here from the top of the document, [go back to where you were](#setup-for-continuous-deployment) and
+continue from there.
 
 ###### Local Environments
 
@@ -1024,8 +1036,7 @@ npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.r
 This requires you to have a `deployment.result.json` file in the `/tmp` directory. You can get this file by running the
 [deployment command locally](#deploying-from-your-local-machine).
 
-
-### Storybook
+The results will be added to the `<project_root>/deploymentSummary.md` file.
 
 ### Playwright
 
@@ -1033,6 +1044,7 @@ This requires you to have a `deployment.result.json` file in the `/tmp` director
 
 ### Lefthook
 
+### Storybook
 
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions

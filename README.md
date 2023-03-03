@@ -1081,7 +1081,7 @@ at the bottom:
 
 #### Running the tests
 
-##### Playwright on GitFub Actions
+##### Playwright on GitHub Actions
 
 Every time you open a pull request to the `main` branch, the tests will be run on GitHub Actions.
 
@@ -1092,6 +1092,8 @@ You can run the tests locally by running the following command:
 ```bash
 npm run int
 ```
+
+The reports will go to the `<root_directory>/reports/e2e` directory.
 
 ### Unit Testing
 

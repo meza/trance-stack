@@ -153,6 +153,24 @@ to everyone.
 >
 > The application won't work properly if you add a secret as a variable or a variable as a secret.
 
+### Renovate bot setup
+
+The stack uses [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
+To take advantage of it, you will need to install the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
+
+First, navigate to https://github.com/apps/renovate and click on the Install button.
+
+<p align="center">
+  <img src="./doc/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
+</p>
+
+On the following screen, we recommend selecting "All repositories" to make life easier but you can configure it to only
+work on the repository you're currently in.
+
+<p align="center">
+  <img src="./doc/images/renovate-github-app-choose-repos.png" alt="Select which repositories to use Renovate on"/>
+</p>
+
 ### Authentication with Auth0
 
 The stack uses [Auth0 for authentication](./doc/adr/0010-authentication-is-done-by-auth0.md).
@@ -417,6 +435,35 @@ The version of the app is sent into the `<html data-version="...">` attribute. Y
 of the app is running on any given environment.
 
 ### Dependency Version Updates
+
+The stack uses [Renovate](https://www.mend.io/free-developer-tools/renovate) to automatically update the dependencies.
+The configuration is in the `<project_root>/.github/renovate.json` file.
+
+By default, it is configured to update the dependencies according to some basic rules:
+
+#### Runtime dependencies
+
+> Runtime dependencies are the `dependencies` section in the `package.json` file
+
+Runtime dependencies are the libraries we use to run the application. This also means that security and bug fixes are
+important for these dependencies.
+
+We want to update these dependencies as soon as possible, so we have the following configuration:
+
+- `minor and patch versions` - create a pull request with a `fix: ` prefix in the commit message and merge automatically if possible
+- `major versions` - create a pull request with a `fix: ` prefix in the commit message and do NOT merge automatically
+
+#### Development dependencies
+
+> Development dependencies are the `devDependencies` section in the `package.json` file
+
+Development dependencies are the libraries we use to develop the application. This means that we don't need to release
+a new version of the app when we update these dependencies.
+
+We still want to update these dependencies as soon as possible, so we have the following configuration:
+
+- `minor and patch versions` - create a pull request with a `chore: ` prefix in the commit message and merge automatically if possible
+- `major versions` - create a pull request with a `chore: ` prefix in the commit message and do NOT merge automatically
 
 ### Typescript Paths
 

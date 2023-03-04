@@ -13,7 +13,28 @@ Create your project with the stack
 npx create-remix@latest --template meza/trance-stack my-app
 ```
 
-Once it's done, go into the newly created directory and start the dev server
+The setup process will ask you for a GitHub repository name.
+If you don't have one, don't worry, you can create it after the setup process.
+
+Once it's done, go into the newly created directory and add your git remote
+
+```bash
+cd my-app && \
+git init  && \
+git add .  && \
+git commit -m "chore: first commit"  && \
+git branch -M main  && \
+git remote add origin https://github.com/meza/trance-stack.git
+```
+
+Make sure that lefthook is set up. Unfortunately it can only be set up once you have an active git repository.
+```bash
+npx lefthook install
+```
+
+> More about lefthook [here](#lefthook)
+
+Now start the dev server
 ```bash
 npm run dev
 ```
@@ -1154,6 +1175,13 @@ configuration object if you want to.
 Alternatively, you can modify the `report` script in the `package.json` file to remove the `--coverage` flag.
 
 ### Lefthook
+
+The commit validation and the automatic dependency installation is done by [Lefthook](https://github.com/evilmartians/lefthook)
+
+The configuration file is at `<project_root>/.lefthook.yml`.
+You can see all the commands that happen and the git hooks they are attached to.
+
+If running all the tests at every commit is too much, you can always set it to happen on pre-push instead.
 
 ### Storybook
 

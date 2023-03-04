@@ -1185,6 +1185,46 @@ If running all the tests at every commit is too much, you can always set it to h
 
 ### Storybook
 
+We use [Storybook V7](https://storybook.js.org/releases/7.0) with Webpack 5.
+Remix is still a bit behind in terms of Storybook support, so we had to do a few things to get it to work.
+
+> **Warning**
+> Storybook 7 brings some fundamental changes to how Storybook works.
+> It is **HIGHLY** encouraged that you read the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700)
+> to see what changed. Things that you are used to might not work the same way anymore.
+
+There is an [ongoing discussion](https://github.com/remix-run/remix/discussions/2481) within the Remix community
+about how to best solve this issue.
+
+This stack doesn't include the remixStub yet, but it might change soon.
+
+> If you know how to configure it properly, please open a PR.
+
+#### Running Storybook
+
+You can run Storybook by running the following command:
+
+```bash
+npm run storybook
+```
+
+If you're looking for inspiration on how to organise your stories, you can check out the
+[Telekom Scale project](https://telekom.github.io/scale/?path=/docs/scale-design-system--page)
+
+#### Publishing Storybook
+
+Remember when we set up [Pages](#pages) at the beginning?
+
+Storybook automatically gets published to GitHub Pages when you push to the `main` branch.
+
+This is done via the `<project_root>/.github/workflows/storybook.yml` workflow.
+
+##### Accessing the published Storybook
+
+Right at the top of this README, you can see a badge linking to the published Storybook.
+
+
+
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions
 

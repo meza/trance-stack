@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useLoaderData } from '@remix-run/react';
-import { cleanup, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { createUserSession } from '~/session.server';
@@ -35,11 +35,6 @@ vi.mock('@sentry/remix', () => ({
 describe('The root module', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-  });
-
-  afterEach(() => {
-    vi.unstubAllEnvs();
-    cleanup();
   });
 
   it('should have a consistent meta function', () => {

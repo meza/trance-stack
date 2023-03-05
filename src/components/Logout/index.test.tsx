@@ -1,5 +1,4 @@
-import { cleanup } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
 import Logout from './index';
 import type { PropsWithChildren } from 'react';
@@ -17,10 +16,6 @@ vi.mock('@remix-run/react', () => ({
 describe('The Logout component', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('should render as expected', async () => {

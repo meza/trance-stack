@@ -1,16 +1,11 @@
 import { createCookieSessionStorage } from '@remix-run/node';
-import { describe, vi, it, expect, beforeEach, afterEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@remix-run/node');
 
 describe('The session storage', () => {
   beforeEach(() => {
     vi.resetModules();
-    vi.resetAllMocks();
-  });
-
-  afterEach(() => {
-    vi.unstubAllEnvs();
     vi.resetAllMocks();
   });
 

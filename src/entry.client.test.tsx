@@ -1,7 +1,7 @@
 import { startTransition } from 'react';
 import * as Sentry from '@sentry/remix';
 import { hydrateRoot } from 'react-dom/client';
-import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { initClientI18n } from '~/i18n';
 
 vi.mock('react');
@@ -34,14 +34,6 @@ describe('The Client Entrypoint', () => {
         version: '0.1.2-dev'
       }
     });
-  });
-
-  afterEach(() => {
-    // restoring date after each test run
-    vi.useRealTimers();
-    vi.resetAllMocks();
-    vi.unstubAllEnvs();
-    vi.unstubAllGlobals();
   });
 
   it('Should initialise Sentry', async () => {

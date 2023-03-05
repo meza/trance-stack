@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticator } from '~/auth.server';
 import { action, loader } from '~/routes/logout';
 import { destroySession, getSessionFromRequest } from '~/session.server';
@@ -16,10 +16,6 @@ describe('The Logout route', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(authenticator.logout).mockResolvedValue({} as never);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
   });
 
   it('should expose the same function for the loader and action', () => {

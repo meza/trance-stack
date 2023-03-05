@@ -1,9 +1,8 @@
 import { createInstance } from 'i18next';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getBaseClientConfig } from './i18n.config';
 
 describe('The i18next server module', () => {
-  const originalEnv = structuredClone(process.env);
   beforeEach(() => {
     vi.resetAllMocks();
     vi.resetModules();
@@ -25,10 +24,6 @@ describe('The i18next server module', () => {
     }));
 
     vi.mocked(getBaseClientConfig).mockReturnValue({ 'client': 'config' } as never);
-  });
-
-  afterEach(() => {
-    process.env = originalEnv;
   });
 
   it('didn\'t change unexpectedly', async () => {
@@ -87,7 +82,7 @@ describe('The i18next server module', () => {
     use.mockReturnValue(ci);
     init.mockResolvedValue({} as never);
 
-    process.env.I18N_DEBUG = 'true';
+    vi.stubEnv('I18N_DEBUG', 'true');
     const initUnderTest = (await import('./i18next.server')).default;
     const actual = await initUnderTest('en', {} as never);
 

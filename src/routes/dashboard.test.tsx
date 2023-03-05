@@ -1,6 +1,5 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { cleanup } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
 import { authenticator } from '~/auth.server';
@@ -20,10 +19,6 @@ vi.mock('~/auth.server', () => {
 describe('The Dashboard Route', () => {
   beforeEach(() => {
     vi.resetAllMocks();
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   it('returns the user from the auth service', async () => {

@@ -1,6 +1,5 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { cleanup } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
 import { hasFeature } from '~/hooks/hasFeature';
@@ -18,10 +17,6 @@ describe('The index route', () => {
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(json).mockImplementation((input) => input as never);
-  });
-
-  afterEach(() => {
-    cleanup();
   });
 
   describe('when the hello feature is enabled', () => {

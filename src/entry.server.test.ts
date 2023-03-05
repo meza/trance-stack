@@ -1,8 +1,7 @@
 import crypto from 'node:crypto';
 import { Response } from '@remix-run/node';
-import { cleanup } from '@testing-library/react';
 import { renderToString } from 'react-dom/server';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { initServerI18n } from '~/i18n';
 import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import entry, { handleDataRequest } from './entry.server';
@@ -15,18 +14,11 @@ vi.mock('react-dom/server');
 vi.mock('node:crypto');
 
 describe('entry.server', () => {
-  const originalEnv = structuredClone(process.env);
   beforeEach(() => {
     vi.resetAllMocks();
     vi.mocked(initServerI18n).mockResolvedValue('mocked initServerI18n' as never);
     vi.mocked(renderToString).mockReturnValue('mocked renderToString markup');
     vi.mocked(crypto.randomBytes).mockReturnValue('mocked nonce' as never);
-  });
-
-  afterEach(() => {
-    process.env = originalEnv;
-    vi.resetAllMocks();
-    cleanup();
   });
 
   it('should return the markup', async () => {
@@ -50,7 +42,8 @@ describe('entry.server', () => {
   });
 
   it('should initialise things correctly', async () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
+
     const request = new Request('https://example.com');
     const responseCode = 200;
     const responseHeaders = new Headers();
@@ -73,7 +66,8 @@ describe('entry.server', () => {
   });
 
   it('should return the correct headers', async () => {
-    process.env.NODE_ENV = 'production';
+    vi.stubEnv('NODE_ENV', 'production');
+
     const request = new Request('https://example.com');
     const responseCode = 200;
     const responseHeaders = new Headers();

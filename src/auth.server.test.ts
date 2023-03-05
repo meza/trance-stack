@@ -1,5 +1,5 @@
 import { Auth0RemixServer } from 'auth0-remix-server';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { getSessionStorage } from '~/sessionStorage.server';
 
 vi.mock('auth0-remix-server');
@@ -12,11 +12,6 @@ describe('The auth server', () => {
     vi.resetAllMocks();
     vi.resetModules();
     vi.mocked(getSessionStorage).mockReturnValue('mocked session storage' as never);
-  });
-
-  afterEach(() => {
-    vi.resetAllMocks();
-    vi.unstubAllEnvs();
   });
 
   it('initializes the auth server correctly', async () => {

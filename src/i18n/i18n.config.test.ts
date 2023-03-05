@@ -1,17 +1,12 @@
-import { afterEach, beforeEach, describe, vi, expect } from 'vitest';
+import { beforeEach, describe, expect, vi } from 'vitest';
 
 describe('The i18n config', () => {
-  const originalEnv = structuredClone(process.env);
   beforeEach(() => {
     vi.resetModules();
   });
 
-  afterEach(() => {
-    process.env.NODE_ENV = originalEnv.NODE_ENV;
-  });
-
   it('should not change unintentionally', async () => {
-    process.env.NODE_ENV = 'development';
+    vi.stubEnv('NODE_ENV', 'development');
     const configModule = await import('~/i18n/i18n.config');
     const baseConfig = configModule.default;
     const { getBaseClientConfig, supportedLngs, fallbackLng, defaultNS } = configModule;

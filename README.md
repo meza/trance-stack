@@ -1195,7 +1195,11 @@ All the test reporting goes into the `<root_directory>/reports` directory.
 
 If you look closely, you can see that we have a `setupFiles` section which calls the
 `<root_directory>/vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
-It installs the `@testing-library/jest-dom` package.
+It installs the `@testing-library/jest-dom` package and sets up a universal `afterEach` hook to clean up after the tests.
+
+This might not be to everyone's liking so feel free to change it. Just remember that if you remove the global
+`afterEach` hook, you will need to clean up after the tests yourself so make sure to run `npm run ci` and see what
+broke.
 
 Since Remix relies on browser APIs such as fetch that are not natively available in Node.js you may find that your unit
 tests fail without these globals when running with some tools.

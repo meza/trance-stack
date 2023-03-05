@@ -57,6 +57,7 @@ jobs:
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
           I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
           SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
       - name: 📦 Deploy ${{ github.ref_name }}
         run: npx cdk deploy remix-trance-stack-production -O deployment.result.json --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:

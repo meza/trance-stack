@@ -50,6 +50,7 @@ jobs:
           MIXPANEL_API: ${{ vars.MIXPANEL_API }}
           MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
           I18N_DEBUG: 'true'
           SPLIT_DEBUG: 'true'
       - name: 📦 Deploy ${{ env.REF_NAME }}

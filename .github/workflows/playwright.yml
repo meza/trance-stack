@@ -28,6 +28,7 @@ jobs:
         envkey_MIXPANEL_API: ${{ vars.MIXPANEL_API }}
         envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
         envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+        envkey_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     - name: Build
       run: npm run build
     - name: Install Playwright Browsers

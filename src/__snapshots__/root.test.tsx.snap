@@ -25,7 +25,6 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
         window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
       </script>
       <script
-        async=""
         id="cookieyes"
         nonce="mocked-nonce"
         src="https://cdn-cookieyes.com/client_data/a-cookieyes-token/script.js"

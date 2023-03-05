@@ -1,0 +1,12 @@
+// Vitest Snapshot v1
+
+exports[`The Client Entrypoint > Should work on Other Browsers 1`] = `
+<I18nextProvider
+  i18n="i18next"
+>
+  <Mixpanel />
+  <UNDEFINED>
+    <RemixBrowser />
+  </UNDEFINED>
+</I18nextProvider>
+`;

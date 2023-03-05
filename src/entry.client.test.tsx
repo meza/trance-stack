@@ -49,7 +49,6 @@ describe('The Client Entrypoint', () => {
     expect(vi.mocked(Sentry.init)).toHaveBeenCalledOnce();
     expect(vi.mocked(Sentry.init).mock.calls[0][0]).toMatchInlineSnapshot(`
       {
-        "debug": true,
         "dsn": "sentryDsn",
         "integrations": [
           BrowserTracing {},
@@ -77,15 +76,6 @@ describe('The Client Entrypoint', () => {
     expect(vi.mocked(hydrateRoot)).toHaveBeenCalledOnce();
     const hydrateRootCalls = vi.mocked(hydrateRoot).mock.calls[0];
     expect(hydrateRootCalls[0]).toEqual(document);
-    expect(hydrateRootCalls[1]).toMatchInlineSnapshot(`
-      <I18nextProvider
-        i18n="i18next"
-      >
-        <Mixpanel />
-        <UNDEFINED>
-          <RemixBrowser />
-        </UNDEFINED>
-      </I18nextProvider>
-    `);
+    expect(hydrateRootCalls[1]).toMatchSnapshot();
   });
 });

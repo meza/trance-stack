@@ -8,7 +8,6 @@ import { Mixpanel } from '~/components/Mixpanel';
 import { initClientI18n } from '~/i18n';
 
 Sentry.init({
-  debug: true,
   dsn: window.appConfig.sentryDsn,
   release: window.appConfig.sentryRelease,
   tracesSampleRate: 1,

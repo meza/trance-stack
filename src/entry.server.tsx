@@ -9,6 +9,15 @@ import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import { NonceContext } from './components/NonceContext';
 import type { EntryContext } from '@remix-run/node';
 
+// @see https://github.com/getsentry/sentry-javascript/issues/7332
+// Cannot use Sentry in server entry file because of this issue
+//
+// Sentry.init({
+//   debug: true,
+//   dsn: process.env.SENTRY_DSN,
+//   tracesSampleRate: 1
+// });
+
 export default async (
   request: Request,
   responseStatusCode: number,

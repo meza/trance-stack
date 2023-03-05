@@ -23,7 +23,8 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
       errorOnExist: false
     }),
     env(),
-    environmentPlugin(['NODE_ENV',
+    environmentPlugin([
+      'NODE_ENV',
       'HOTJAR_ID',
       'GOOGLE_ANALYTICS_ID',
       'SPLIT_SERVER_TOKEN',
@@ -36,7 +37,9 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
       'AUTH0_CLIENT_ID',
       'AUTH0_CLIENT_SECRET',
       'I18N_DEBUG',
-      'SPLIT_DEBUG']),
+      'SPLIT_DEBUG',
+      'SENTRY_DSN',
+    ]),
     ...option.plugins
   ]
   return option;

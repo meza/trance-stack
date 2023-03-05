@@ -61,6 +61,7 @@ You can modify it to your liking and use it as a base for your own remix project
 - i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
+- [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
 - [CookieYes](https://cookieyes.com) for cookie consent
 - Analytics Integrations
   - [Mixpanel](https://mixpanel.com)
@@ -274,7 +275,7 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 1. Delete the `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID` and `AUTH0_CLIENT_SECRET` variables from the `.env` file and GitHub secrets.
 2. Delete the `src/auth.server.ts` and the `src/auth.server.test.ts` files.
 3. Delete the `auth0-remix-server` dependency from the `package.json` file.
-4. Follow the compilation errors to remove all the code that uses the `auth0-remix-server` dependency.
+4. Follow the compilation and test errors to remove all the code that uses the `auth0-remix-server` dependency.
 
 ### CookieYes integration
 
@@ -401,8 +402,59 @@ variables in the `.env` file.
    1. `src/split.server.ts` and the `src/split.server.test.ts`
    2. `src/feature.ts` and the `src/feature.test.ts`
    3. `devFeatures.yml` (from the project root)
-3. Follow the compilation errors to remove all the code that uses the feature flags.
+3. Follow the compilation and test errors to remove all the code that uses the feature flags.
 4. Run `vitest --run --update` to update the snapshots.
+
+### Sentry integration
+
+The stack uses [Sentry](https://sentry.io) for error reporting. You will need to create an account with them
+and set up a new project.
+
+When you have your project set up, head to the project settings and copy the `DSN` and paste it
+set the `SENTRY_DSN` variable in the `.env` file.
+
+You will also have to go to the [variables settings][gh-variables] and add the same variable
+name as the one in the `.env` file.
+
+Next, head over to https://sentry.io/settings/account/api/auth-tokens/ and create a new token.
+You will need `project:releases` and `project:read` permissions.
+
+Once you have the token, go to the [secrets settings][gh-secrets] and add
+
+- `SENTRY_AUTH_TOKEN` - the token you just created
+- `SENTRY_ORG` - the organization slug
+- `SENTRY_PROJECT` - the project slug
+
+We will be using these to send the source maps to Sentry so that the errors are properly mapped to the source code.
+
+The deployment script will automatically upload the source maps to Sentry and then remove them locally so they don't get
+uploaded to the environments.
+
+#### How to find the DSN
+
+First, Go to the project settings
+
+<p align="center">
+  <img src="./doc/images/sentry-settings.png" alt="Sentry Settings Icon" />
+</p>
+
+Then on the sidebar, click on the `Client Keys (DSN)`
+
+<p align="center">
+  <img src="./doc/images/sentry-sidebar.png" alt="Sentry Client Keys Icon" />
+</p>
+
+Finally, copy the `DSN` value
+
+#### Removing the Sentry integration from the application
+
+1. Delete the `SENTRY_DSN` variable from the `.env` file and GitHub variables.
+2. Run `npm remove @sentry/*` to remove all the sentry packages.
+3. Remove the `sentryDsn` from the `appConfig` and the `SENTRY_DSN` from the `ProcessEnv` type in the `src/types/global.d.ts` file.
+4. On the very bottom of the `src/root.tsx` file, replace the `withSentry(App)` with `App`.
+5. Remove the `Sentry.init` call from the `src/entry.client.tsx` and the `src/entry.server.tsx` files.
+6. Follow the compilation and test errors to remove all the code that uses Sentry.
+7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
 
 ---
 

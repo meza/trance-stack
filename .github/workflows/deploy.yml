@@ -42,7 +42,7 @@ jobs:
       - name: 🔢 Set version
         run: npm version --no-git-tag-version ${{ needs.verify.outputs.new-release-version }}
       - name: 🔨 Build
-        run: npm run build
+        run: npm run build -- --sourcemap
         env:
           AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
           AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
@@ -57,6 +57,15 @@ jobs:
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
           I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
           SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+      - name: Sentry Sourcemaps
+        run: npx sentry-upload-sourcemaps --release ${{ needs.verify.outputs.new-release-version }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      - name: Remove Sourcemaps from the deployment
+        run: rm -rf ./public/**/*.map ./build/**/*.map
       - name: 📦 Deploy ${{ github.ref_name }}
         run: npx cdk deploy remix-trance-stack-production -O deployment.result.json --require-approval never --context environmentName=${{ github.ref_name }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:

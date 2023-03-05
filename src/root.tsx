@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration, useLoaderData
 } from '@remix-run/react';
+import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
 import { Cookieyes } from '~/components/Cookieyes';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
@@ -62,7 +63,9 @@ export const loader: LoaderFunction = async ({ request }) => {
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: cookieData.visitorId,
-      version: packageJson.default.version
+      version: packageJson.default.version,
+      sentryRelease: `${packageJson.default.name}@${packageJson.default.version}`,
+      sentryDsn: process.env.SENTRY_DSN
     },
     locale: locale
   }, {
@@ -109,4 +112,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default withSentry(App);

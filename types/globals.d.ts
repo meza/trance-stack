@@ -11,11 +11,13 @@ declare global {
     isProduction: boolean;
     visitorId: string;
     version: string;
+    sentryDsn: string;
+    sentryRelease: string;
   }
 
   interface Window {
     appConfig: AppConfig;
-    locale: strin;
+    locale: string;
   }
 
   namespace NodeJS {
@@ -33,6 +35,7 @@ declare global {
       SESSION_SECRET: string | undefined
       SPLIT_SERVER_TOKEN: string;
       I18N_DEBUG: string;
+      SENTRY_DSN: string;
     }
   }
 }

@@ -1,12 +1,13 @@
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from '@remix-run/react';
+import { cleanup, render } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { createUserSession } from '~/session.server';
 import splitClient from '~/split.server';
-import app, { ExposeAppConfig, handle, links, loader, meta } from './root';
+import App, { ExposeAppConfig, handle, links, loader, meta } from './root';
 
 vi.mock('~/session.server');
 vi.mock('~/i18n');
@@ -18,6 +19,18 @@ vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
 vi.mock('react');
+vi.mock('@sentry/remix', () => ({
+  withSentry: (Component: React.FC) => {
+    return () => {
+      return (
+        <>
+          {'mock sentry wrapper'}
+          <Component />
+        </>
+      );
+    };
+  }
+}));
 
 describe('The root module', () => {
   beforeEach(() => {
@@ -26,6 +39,7 @@ describe('The root module', () => {
 
   afterEach(() => {
     vi.unstubAllEnvs();
+    cleanup();
   });
 
   it('should have a consistent meta function', () => {
@@ -106,6 +120,7 @@ describe('The root module', () => {
             "isProduction": false,
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
+            "sentryRelease": "remix-trance-stack@0.0.0-dev",
             "splitToken": "a-split-token",
             "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
@@ -135,6 +150,7 @@ describe('The root module', () => {
             "isProduction": true,
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
+            "sentryRelease": "remix-trance-stack@0.0.0-dev",
             "splitToken": "a-split-token",
             "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
@@ -166,7 +182,9 @@ describe('The root module', () => {
       mixpanelApi: 'a-mixpanel-api',
       splitToken : 'a-split-token',
       cookieYesToken: 'a-cookieyes-token',
-      version: '0.0.0-dev'
+      version: '0.0.0-dev',
+      sentryDsn: 'a-sentry-dsn',
+      sentryRelease: 'a-sentry-release'
     };
 
     beforeEach(() => {
@@ -182,79 +200,14 @@ describe('The root module', () => {
 
     it('renders the app', () => {
       vi.mocked(useContext).mockReturnValue('mocked-nonce');
-      const markup = app();
-      expect(markup).toMatchInlineSnapshot(`
-        <html
-          data-version="0.0.0-dev"
-          dir="ltr"
-          lang="en"
-        >
-          <head>
-            <Meta />
-            <Links />
-            <ExposeAppConfig
-              appConfig={
-                {
-                  "cookieYesToken": "a-cookieyes-token",
-                  "googleAnalyticsId": "ga-id",
-                  "hotjarId": "a-hotjar-id",
-                  "isProduction": true,
-                  "mixpanelApi": "a-mixpanel-api",
-                  "mixpanelToken": "a-mixpanel-token",
-                  "splitToken": "a-split-token",
-                  "version": "0.0.0-dev",
-                  "visitorId": "a-visitor-id",
-                }
-              }
-              nonce="mocked-nonce"
-            />
-            <Cookieyes
-              isProduction={true}
-              nonce="mocked-nonce"
-              token="a-cookieyes-token"
-            />
-            <GoogleAnalytics
-              googleAnalyticsId="ga-id"
-              nonce="mocked-nonce"
-              visitorId="a-visitor-id"
-            />
-            <Hotjar
-              hotjarId="a-hotjar-id"
-              nonce="mocked-nonce"
-              visitorId="a-visitor-id"
-            />
-          </head>
-          <body>
-            <Outlet
-              context={
-                {
-                  "appConfig": {
-                    "cookieYesToken": "a-cookieyes-token",
-                    "googleAnalyticsId": "ga-id",
-                    "hotjarId": "a-hotjar-id",
-                    "isProduction": true,
-                    "mixpanelApi": "a-mixpanel-api",
-                    "mixpanelToken": "a-mixpanel-token",
-                    "splitToken": "a-split-token",
-                    "version": "0.0.0-dev",
-                    "visitorId": "a-visitor-id",
-                  },
-                  "locale": "en",
-                }
-              }
-            />
-            <ScrollRestoration
-              nonce="mocked-nonce"
-            />
-            <Scripts
-              nonce="mocked-nonce"
-            />
-            <spy
-              nonce="mocked-nonce"
-            />
-          </body>
-        </html>
-      `);
+      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+        // There is a DOM Nesting Validation error because we're rendering
+        // the entire html in a test environment. We don't care about that error
+      });
+      const markup = render(<App />);
+      errorSpy.mockReset();
+      expect(markup.asFragment()).toMatchSnapshot();
+      expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();
     });
 
     it('can expose the app config correctly', () => {

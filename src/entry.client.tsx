@@ -1,10 +1,27 @@
-import React, { startTransition, StrictMode } from 'react';
-import { RemixBrowser } from '@remix-run/react';
+import React, { startTransition, StrictMode, useEffect } from 'react';
+import { RemixBrowser, useLocation, useMatches } from '@remix-run/react';
+import * as Sentry from '@sentry/remix';
 import i18next from 'i18next';
 import { hydrateRoot } from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 import { Mixpanel } from '~/components/Mixpanel';
 import { initClientI18n } from '~/i18n';
+
+Sentry.init({
+  debug: true,
+  dsn: window.appConfig.sentryDsn,
+  release: window.appConfig.sentryRelease,
+  tracesSampleRate: 1,
+  integrations: [
+    new Sentry.BrowserTracing({
+      routingInstrumentation: Sentry.remixRouterInstrumentation(
+        useEffect,
+        useLocation,
+        useMatches
+      )
+    })
+  ]
+});
 
 const hydrate = () => {
   initClientI18n().then(() => {

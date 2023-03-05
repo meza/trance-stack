@@ -4,8 +4,69 @@ exports[`The root module > when rendering the app > can expose the app config co
 <script
   dangerouslySetInnerHTML={
     {
-      "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"googleAnalyticsId\\":\\"ga-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\",\\"version\\":\\"0.0.0-dev\\"}",
+      "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"googleAnalyticsId\\":\\"ga-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\",\\"version\\":\\"0.0.0-dev\\",\\"sentryDsn\\":\\"a-sentry-dsn\\",\\"sentryRelease\\":\\"a-sentry-release\\"}",
     }
   }
 />
+`;
+
+exports[`The root module > when rendering the app > renders the app 1`] = `
+<DocumentFragment>
+  mock sentry wrapper
+  <html
+    data-version="0.0.0-dev"
+    dir="ltr"
+    lang="en"
+  >
+    <head>
+      <script
+        nonce="mocked-nonce"
+      >
+        window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn","sentryRelease":"a-sentry-release"}
+      </script>
+      <script
+        async=""
+        id="cookieyes"
+        nonce="mocked-nonce"
+        src="https://cdn-cookieyes.com/client_data/a-cookieyes-token/script.js"
+        type="text/javascript"
+      />
+      <script
+        async=""
+        nonce="mocked-nonce"
+        src="https://www.googletagmanager.com/gtag/js?id=ga-id"
+      />
+      <script
+        id="google-analytics"
+        nonce="mocked-nonce"
+      >
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'ga-id', {
+          'user_id': 'a-visitor-id'
+        });
+      </script>
+      <script
+        async=""
+        id="hotjar-init"
+        nonce="mocked-nonce"
+      >
+        (function(h){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
+          })(window);
+          hj('identify', 'a-visitor-id');
+          
+      </script>
+      <script
+        async=""
+        id="hotjar-script"
+        nonce="mocked-nonce"
+        src="https://static.hotjar.com/c/hotjar-a-hotjar-id.js?sv=6"
+      />
+    </head>
+    <body />
+  </html>
+</DocumentFragment>
 `;

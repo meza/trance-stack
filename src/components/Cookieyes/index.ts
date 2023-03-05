@@ -1,1 +1,0 @@
-export { Cookieyes } from './Cookieyes';

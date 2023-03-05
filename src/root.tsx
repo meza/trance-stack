@@ -11,7 +11,7 @@ import {
 } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
-import { Cookieyes } from '~/components/Cookieyes';
+import { CookieYes } from '~/components/CookieYes';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
@@ -97,7 +97,7 @@ const App = () => {
         <Meta/>
         <Links/>
         <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-        <Cookieyes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
+        <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>

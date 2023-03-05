@@ -12,6 +12,20 @@ const getAppName = (appSlug) => {
     .replace(/([a-z])([A-Z])/g, '$1 $2'); // split camel case words with spaces
 };
 
+const cleanUpDeploymentScripts = async (rootDirectory) => {
+  //remove all lines with "command: install" in all the yml files in the .github/workflows directory
+  //as that is only necessary for the lockfile-less installations
+
+  const workflowsPath = path.join(rootDirectory, '.github/workflows');
+  const workflows = await fs.readdir(workflowsPath);
+  for (const workflow of workflows) {
+    const workflowPath = path.join(workflowsPath, workflow);
+    const contents = await fs.readFile(workflowPath, 'utf-8');
+    const newContents = contents.split('\n').filter((line) => !line.includes('command: install')).join('\n');
+    await fs.writeFile(workflowPath, newContents, 'utf-8');
+  }
+};
+
 const replaceInFile = async (file, replacements) => {
   return fs.readFile(file, 'utf-8').then((contents) => {
     const githubSlug = replacements.githubRepo.replace(`https://github.com/${replacements.githubUsername}/`, '');
@@ -150,15 +164,17 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
     await replaceInFile(file, answers);
   }));
 
-  await fs.copyFile(
-    envExamplePath,
-    envPath
-  );
-
-  await fs.copyFile(
-    path.join(rootDirectory, 'remix.init', 'gitignore'),
-    path.join(rootDirectory, '.gitignore')
-  );
+  await Promise.all([
+    cleanUpDeploymentScripts(rootDirectory),
+    fs.copyFile(
+      envExamplePath,
+      envPath
+    ),
+    fs.copyFile(
+      path.join(rootDirectory, 'remix.init', 'gitignore'),
+      path.join(rootDirectory, '.gitignore')
+    )
+  ]);
 
   // if (!answers.useAWS) {
   //   filesToDelete.push(awsPath);

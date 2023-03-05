@@ -53,6 +53,14 @@ jobs:
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
           I18N_DEBUG: 'true'
           SPLIT_DEBUG: 'true'
+      - name: Sentry Source Maps
+        run: npx sentry-upload-sourcemaps
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      - name: Remove Sourcemaps from the deployment
+        run: rm -rf ./public/**/*.map ./build/**/*.map
       - name: 📦 Deploy ${{ env.REF_NAME }}
         run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ env.REF_NAME }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
         env:

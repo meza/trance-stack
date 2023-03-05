@@ -416,6 +416,19 @@ set the `SENTRY_DSN` variable in the `.env` file.
 You will also have to go to the [variables settings][gh-variables] and add the same variable
 name as the one in the `.env` file.
 
+Next, head over to https://sentry.io/settings/account/api/auth-tokens/ and create a new token.
+
+Once you have the token, go to the [secrets settings][gh-secrets] and add
+
+- `SENTRY_AUTH_TOKEN` - the token you just created
+- `SENTRY_ORG` - the organization slug
+- `SENTRY_PROJECT` - the project slug
+
+We will be using these to send the source maps to Sentry so that the errors are properly mapped to the source code.
+
+The deployment script will automatically upload the source maps to Sentry and then remove them locally so they don't get
+uploaded to the environments.
+
 #### How to find the DSN
 
 First, Go to the project settings
@@ -440,6 +453,7 @@ Finally, copy the `DSN` value
 4. On the very bottom of the `src/root.tsx` file, replace the `withSentry(App)` with `App`.
 5. Remove the `Sentry.init` call from the `src/entry.client.tsx` and the `src/entry.server.tsx` files.
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
+7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Source Maps` step.
 
 ---
 

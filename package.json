@@ -4,8 +4,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "run-s build:remix",
-    "build:remix": "remix build --sourcemap",
+    "build": "remix build",
     "delete:ephemeral": "cdk destroy remix-trance-stack-ephemeral --require-approval never --force",
     "deploy:cdk": "npx cdk deploy remix-trance-stack-deployment --require-approval never -O deployment.result.json",
     "deploy:ephemeral": "npx cdk deploy remix-trance-stack-ephemeral --require-approval never -O deployment.result.json",

@@ -31,7 +31,7 @@ describe('The Client Entrypoint', () => {
     vi.stubGlobal('window', {
       appConfig: {
         sentryDsn: 'sentryDsn',
-        sentryRelease: 'sentryRelease'
+        version: '0.1.2-dev'
       }
     });
   });
@@ -53,7 +53,7 @@ describe('The Client Entrypoint', () => {
         "integrations": [
           BrowserTracing {},
         ],
-        "release": "sentryRelease",
+        "release": "0.1.2-dev",
         "tracesSampleRate": 1,
       }
     `);

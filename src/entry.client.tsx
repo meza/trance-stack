@@ -9,7 +9,7 @@ import { initClientI18n } from '~/i18n';
 
 Sentry.init({
   dsn: window.appConfig.sentryDsn,
-  release: window.appConfig.sentryRelease,
+  release: window.appConfig.version,
   tracesSampleRate: 1,
   integrations: [
     new Sentry.BrowserTracing({

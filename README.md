@@ -417,6 +417,7 @@ You will also have to go to the [variables settings][gh-variables] and add the s
 name as the one in the `.env` file.
 
 Next, head over to https://sentry.io/settings/account/api/auth-tokens/ and create a new token.
+You will need `project:releases` and `project:read` permissions.
 
 Once you have the token, go to the [secrets settings][gh-secrets] and add
 
@@ -453,7 +454,7 @@ Finally, copy the `DSN` value
 4. On the very bottom of the `src/root.tsx` file, replace the `withSentry(App)` with `App`.
 5. Remove the `Sentry.init` call from the `src/entry.client.tsx` and the `src/entry.server.tsx` files.
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
-7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Source Maps` step.
+7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
 
 ---
 

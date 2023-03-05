@@ -12,7 +12,6 @@ declare global {
     visitorId: string;
     version: string;
     sentryDsn: string;
-    sentryRelease: string;
   }
 
   interface Window {

@@ -120,7 +120,6 @@ describe('The root module', () => {
             "isProduction": false,
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
-            "sentryRelease": "remix-trance-stack@0.0.0-dev",
             "splitToken": "a-split-token",
             "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
@@ -150,7 +149,6 @@ describe('The root module', () => {
             "isProduction": true,
             "mixpanelApi": "a-mixpanel-api",
             "mixpanelToken": "a-mixpanel-token",
-            "sentryRelease": "remix-trance-stack@0.0.0-dev",
             "splitToken": "a-split-token",
             "version": "0.0.0-dev",
             "visitorId": "a-visitorId",
@@ -183,8 +181,7 @@ describe('The root module', () => {
       splitToken : 'a-split-token',
       cookieYesToken: 'a-cookieyes-token',
       version: '0.0.0-dev',
-      sentryDsn: 'a-sentry-dsn',
-      sentryRelease: 'a-sentry-release'
+      sentryDsn: 'a-sentry-dsn'
     };
 
     beforeEach(() => {

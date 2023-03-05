@@ -37,7 +37,7 @@ jobs:
       - name: 🔢 Set version
         run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
       - name: 🔨 Build
-        run: npm run build
+        run: npm run build -- --sourcemap
         env:
           NODE_ENV: production
           AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
@@ -53,8 +53,8 @@ jobs:
           SENTRY_DSN: ${{ vars.SENTRY_DSN }}
           I18N_DEBUG: 'true'
           SPLIT_DEBUG: 'true'
-      - name: Sentry Source Maps
-        run: npx sentry-upload-sourcemaps
+      - name: Sentry Sourcemaps
+        run: npx sentry-upload-sourcemaps --release 0.0.0-ephemeral.${{ github.run_number }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: ${{ secrets.SENTRY_ORG }}

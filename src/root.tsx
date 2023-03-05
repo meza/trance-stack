@@ -64,7 +64,6 @@ export const loader: LoaderFunction = async ({ request }) => {
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: cookieData.visitorId,
       version: packageJson.default.version,
-      sentryRelease: `${packageJson.default.name}@${packageJson.default.version}`,
       sentryDsn: process.env.SENTRY_DSN
     },
     locale: locale

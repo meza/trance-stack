@@ -1275,7 +1275,39 @@ This is done via the `<project_root>/.github/workflows/storybook.yml` workflow.
 
 Right at the top of this README, you can see a badge linking to the published Storybook.
 
+### Environment variables
 
+Environment variables are probably the biggest pain-point in the maintenance of this stack.
+You have to add them to GitHub, add them to the deploy scripts and add them to the `.env` file.
+
+We're working on a solution to this, but for now, you have to do it manually.
+
+#### Adding a new environment variable checklist:
+
+Add the variable to...
+-
+- [ ] the `.env` file
+- [ ] the `.env.example` script. **This is very important**
+- [ ] the `.github/workflows/deploy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/ephemeralDeploy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/ephemeralDestroy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/playwright.yml` script to the `Create Envfile` section
+
+#### Bundling environment variables
+
+We bundle most of the environment variables into the server bundle. To understand why,
+read [the relevant adr](./doc/adr/0005-bundling-environment-variables.md), and [it's addendum](./doc/adr/0009-no-more-need-to-bundle-environment-variables.md).
+
+The important thing to know is that what gets budled is decided by reading the `.env.example` file and taking its
+keys.
+
+You can prevent certain keys to get bundled by adding them to the deny list in the `remix.config.js` file.
+
+```js
+  const doNotBundleEnv = [
+    'APP_DOMAIN' // deny list for the environmentPlugin
+  ]
+```
 
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions

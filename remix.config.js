@@ -1,7 +1,10 @@
 const { withEsbuildOverride } = require('remix-esbuild-override');
 const { environmentPlugin } = require('esbuild-plugin-environment');
 const env = require('esbuild-plugin-env');
+const fs = require('node:fs');
 const copyFilesPlugin = require('esbuild-copy-static-files');
+var ConfigIniParser = require("config-ini-parser").ConfigIniParser;
+
 
 /**
  * Define callbacks for the arguments of withEsbuildOverride.
@@ -11,6 +14,16 @@ const copyFilesPlugin = require('esbuild-copy-static-files');
  * @return {EsbuildOption} - You must return the updated option
  */
 withEsbuildOverride((option /* { isServer, isDev } */) => {
+
+  const doNotBundleEnv = [
+    'APP_DOMAIN' // deny list for the environmentPlugin
+  ]
+
+  const envFile = fs.readFileSync('./.env.example', 'utf-8');
+  const envFileLines = envFile.split('\n');
+  const envFileKeys = envFileLines.map(line => line.split('=')[0]);
+  const keysToBundle = envFileKeys.filter(key => !doNotBundleEnv.includes(key));
+
   option.plugins = [
     copyFilesPlugin({
       src: './public/locales',
@@ -23,23 +36,7 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
       errorOnExist: false
     }),
     env(),
-    environmentPlugin([
-      'NODE_ENV',
-      'HOTJAR_ID',
-      'GOOGLE_ANALYTICS_ID',
-      'SPLIT_SERVER_TOKEN',
-      'SPLIT_CLIENT_TOKEN',
-      'MIXPANEL_API',
-      'MIXPANEL_TOKEN',
-      'SESSION_SECRET',
-      'COOKIEYES_TOKEN',
-      'AUTH0_DOMAIN',
-      'AUTH0_CLIENT_ID',
-      'AUTH0_CLIENT_SECRET',
-      'I18N_DEBUG',
-      'SPLIT_DEBUG',
-      'SENTRY_DSN',
-    ]),
+    environmentPlugin(keysToBundle),
     ...option.plugins
   ]
   return option;

@@ -208,7 +208,7 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 > **Note**
 > We've been using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 > throughout the development of the project so if you ever find yourself wondering why we've chosen a particular service or
-> implementation, you can check the [ADR](./doc/adr/decisions.md) page for more information.
+> implementation, you can check the [ADR](./docs/adr/decisions.md) page for more information.
 >
 > We highly encourage you to keep on adding your own decisions. It's a great way to document the historical context of your
 > project, and it's a great way to share your knowledge with the rest of the team.
@@ -262,7 +262,7 @@ These are the branches that will be used for the different stages of the applica
 branches however you like, but there's one setting that you need to make sure is unchecked: `Allow deletions`.
 
 <p align="center">
-  <img src="./doc/images/gihtub-branch-protection.png" alt="Branch Protection" />
+  <img src="./docs/images/gihtub-branch-protection.png" alt="Branch Protection" />
 </p>
 
 We use this later in the [Deployment](#deployment) section to prevent named environments from being deleted.
@@ -307,7 +307,7 @@ create the environment variables and secrets defined in the [environment variabl
 
 ### Authentication with Auth0
 
-We use [Auth0 for authentication](./doc/adr/0010-authentication-is-done-by-auth0.md).
+We use [Auth0 for authentication](./docs/adr/0010-authentication-is-done-by-auth0.md).
 You will need to create an account with them and [set up an application](https://auth0.com/docs/get-started/auth0-overview/create-applications).
 
 When creating your new application, make sure to set the following settings:
@@ -377,7 +377,7 @@ When you are prompted with installation instructions or navigate to https://app.
 to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
 
 <p align="center">
-  <img src="./doc/images/cookieyes.png" alt="CookieYes Instructions" />
+  <img src="./docs/images/cookieyes.png" alt="CookieYes Instructions" />
 </p>
 
 You will also have to go to the [variables settings][gh-variables] and add the same variable
@@ -479,14 +479,14 @@ To take advantage of it, you will need to install the [Renovate GitHub App](http
 First, navigate to https://github.com/apps/renovate and click on the Install button.
 
 <p align="center">
-  <img src="./doc/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
+  <img src="./docs/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
 </p>
 
 On the following screen, we recommend selecting "All repositories" to make life easier, but you can configure it to only
 work on the repository you're currently in.
 
 <p align="center">
-  <img src="./doc/images/renovate-github-app-choose-repos.png" alt="Select which repositories to use Renovate on"/>
+  <img src="./docs/images/renovate-github-app-choose-repos.png" alt="Select which repositories to use Renovate on"/>
 </p>
 
 ### Sentry integration
@@ -526,13 +526,13 @@ uploaded to the environments.
 First, Go to the project settings
 
 <p align="center">
-  <img src="./doc/images/sentry-settings.png" alt="Sentry Settings Icon" />
+  <img src="./docs/images/sentry-settings.png" alt="Sentry Settings Icon" />
 </p>
 
 Then on the sidebar, click on the `Client Keys (DSN)`
 
 <p align="center">
-  <img src="./doc/images/sentry-sidebar.png" alt="Sentry Client Keys Icon" />
+  <img src="./docs/images/sentry-sidebar.png" alt="Sentry Client Keys Icon" />
 </p>
 
 Finally, copy the `DSN` value
@@ -728,7 +728,7 @@ a feature branch.
 Navigate to https://github.com/meza/trance-stack/actions/workflows/ephemeralDeploy.yml and click the "Run workflow" button.
 
 <p align="center">
-  <img src="./doc/images/github-run-workflow.png" alt="Run workflow button" />
+  <img src="./docs/images/github-run-workflow.png" alt="Run workflow button" />
 </p>
 
 Once you have chosen a branch, it will start building the application and deploying it to the ephemeral environment.
@@ -737,7 +737,7 @@ When the process is finished, it will publish a summary to the run's Summary Das
 application. It will look something like this:
 
 <p align="center">
-  <img src="./doc/images/github-deployment-details.png" alt="Run workflow summary" />
+  <img src="./docs/images/github-deployment-details.png" alt="Run workflow summary" />
 </p>
 
 ##### Pull Request Ephemeral Deployment
@@ -810,7 +810,7 @@ The hexagonal nodes are processes which are executed by [CDK](#cdk) while the ot
 framework to define cloud infrastructure in code and provision it through AWS CloudFormation.
 
 > **Note**
-> If you are interested in why we chose CDK, check out [the relevant ADR](./doc/adr/0008-use-aws-cdk-for-deployments.md)
+> If you are interested in why we chose CDK, check out [the relevant ADR](./docs/adr/0008-use-aws-cdk-for-deployments.md)
 
 The majority of the infrastructure is defined in the `deployment` directory. The `deployment/lib` directory contains the
 custom [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) that are used to build the infrastructure.
@@ -939,7 +939,7 @@ Add the variable to...
 #### Bundling environment variables
 
 We bundle most of the environment variables into the server bundle. To understand why,
-read [the relevant adr](./doc/adr/0005-bundling-environment-variables.md), and [it's addendum](./doc/adr/0009-no-more-need-to-bundle-environment-variables.md).
+read [the relevant adr](./docs/adr/0005-bundling-environment-variables.md), and [it's addendum](./docs/adr/0009-no-more-need-to-bundle-environment-variables.md).
 
 The important thing to know is that what gets budled is decided by reading the `.env.example` file and taking its
 keys.

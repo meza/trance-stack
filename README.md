@@ -635,7 +635,7 @@ and merge the `alpha` branch with its `1.1.0-alpha.1` version, your newly create
 
 ```mermaid
 ---
-title: branching and versioning
+title: Branching & Versioning
 ---
 %%{title: '', init: {'theme': 'base', 'gitGraph': {'rotateCommitLabel': true}} }%%
 gitGraph

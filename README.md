@@ -204,7 +204,7 @@ create the environment variables and secrets defined in the [environment variabl
 
 ### Renovate bot setup
 
-The stack uses [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
+We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
 To take advantage of it, you will need to install the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
 
 First, navigate to https://github.com/apps/renovate and click on the Install button.
@@ -222,7 +222,7 @@ work on the repository you're currently in.
 
 ### Authentication with Auth0
 
-The stack uses [Auth0 for authentication](./doc/adr/0010-authentication-is-done-by-auth0.md).
+We use [Auth0 for authentication](./doc/adr/0010-authentication-is-done-by-auth0.md).
 You will need to create an account with them and [set up an application](https://auth0.com/docs/get-started/auth0-overview/create-applications).
 
 When creating your new application, make sure to set the following settings:
@@ -263,7 +263,7 @@ You will need to add `,https://*.execute-api.us-east-1.amazonaws.com` to the sam
 _(Note the comma at the beginning. Domains need to be separated by commas)_
 
 > **Note**
-> You will need to replace the `us-east-1` part with the region you're using. By default, the stack uses `us-east-1`.
+> You will need to replace the `us-east-1` part with the region you're using.
 
 For example, the Allowed Callback URLs section should look like this:
 
@@ -285,7 +285,7 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 
 ### CookieYes integration
 
-The stack uses [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and
+We use [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and
 [set up a cookie banner](https://www.cookieyes.com/category/documentation/getting-started/).
 
 When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
@@ -311,7 +311,7 @@ name as the one in the `.env` file.
 
 ### Google Analytics 4 integration
 
-The stack uses [Google Analytics v4](https://analytics.google.com) for analytics. You will need to create an account with them
+We use [Google Analytics v4](https://analytics.google.com) for analytics. You will need to create an account with them
 and [set up a property](https://support.google.com/analytics/answer/1008015?hl=en).
 
 When you are done setting up your property, you will need to copy the `Measurement ID` of your Data Stream and paste
@@ -333,7 +333,7 @@ name as the one in the `.env` file.
 
 ### Hotjar integration
 
-The stack uses [Hotjar](https://www.hotjar.com) for heatmaps and user recordings. You will need to create an account with them
+We use [Hotjar](https://www.hotjar.com) for heatmaps and user recordings. You will need to create an account with them
 and set up a new site.
 
 When you have your site set up, head to https://insights.hotjar.com/site/list and copy the ID of your site and paste
@@ -355,7 +355,7 @@ name as the one in the `.env` file.
 
 ### Mixpanel integration
 
-The stack uses [Mixpanel](https://mixpanel.com) for analytics. You will need to create an account with them
+We use [Mixpanel](https://mixpanel.com) for analytics. You will need to create an account with them
 and set up a new project.
 
 When you have your project set up, head to project settings and copy the `Project Token` and paste it
@@ -388,7 +388,7 @@ names as the one in the `.env` file.
 
 ### Split integration
 
-The stack uses [Split](https://split.io) for feature flags. You will need to create an account with them
+We use [Split](https://split.io) for feature flags. You will need to create an account with them
 and set up a new project.
 
 When you have your project set up, head to the workspace settings > API Keys section.
@@ -413,7 +413,7 @@ variables in the `.env` file.
 
 ### Sentry integration
 
-The stack uses [Sentry](https://sentry.io) for error reporting. You will need to create an account with them
+We use [Sentry](https://sentry.io) for error reporting. You will need to create an account with them
 and set up a new project.
 
 When you have your project set up, head to the project settings and copy the `DSN` and paste it
@@ -475,7 +475,7 @@ The README file in that package has all the information you need to understand h
 
 ### Conventional Commits & Automated Semantic Versioning
 
-The stack uses [Conventional Commits](https://www.conventionalcommits.org/en) to automatically determine the next
+We use [Conventional Commits](https://www.conventionalcommits.org/en) to automatically determine the next
 version of the package. It uses the [semantic-release](https://semantic-release.gitbook.io/semantic-release) package to
 automate the versioning and release process.
 
@@ -540,7 +540,7 @@ of the app is running on any given environment.
 
 ### Dependency Version Updates
 
-The stack uses [Renovate](https://www.mend.io/free-developer-tools/renovate) to automatically update the dependencies.
+We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to automatically update the dependencies.
 The configuration is in the `<project_root>/.github/renovate.json` file.
 
 By default, it is configured to update the dependencies according to some basic rules:
@@ -571,7 +571,7 @@ We still want to update these dependencies as soon as possible, so we have the f
 
 ### Typescript Paths
 
-The stack uses [Typescript Paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
+We use [Typescript Paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
 This means that instead of messy relative paths in the imports, we can use handy aliases.
 
 We have the following paths defined by default:
@@ -824,7 +824,7 @@ If you don't want to use i18n, you can remove it from your project. You will hav
 
 ### Styling / CSS
 
-We use regular stylesheets in this stack which means a combination of [Shared Component Styles](#shared-component-styles)
+We use regular stylesheets in this project which means a combination of [Shared Component Styles](#shared-component-styles)
 and [Surfacing Styling](#surfacing-styling).
 
 #### Shared Component Styles
@@ -899,7 +899,7 @@ simplified in the future.
 
 #### PostCSS
 
-This stack uses [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
+We use [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
 import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
 
 Our PostCSS configuration is located in the `postcss.config.js` file, and it gets applied every single time Remix builds
@@ -908,10 +908,10 @@ This means that you don't have to think about prefixes or other browser-specific
 PostCSS will take care of the rest automagically.
 
 ### Deployment
-
+<!-- initremove:begin -->
 One of the main focuses of this stack was to create a deployment strategy that is a good starting point for anyone
 building from this stack.
-
+<!-- initremove:end -->
 We use a combination of [GitHub Actions](#github-actions) and [AWS CDK](#cdk) to deploy the application to both the
 production-like and ephemeral environments.
 
@@ -963,9 +963,10 @@ configured.
 
 > **Warning**
 > This means that both the `alpha` and `beta` branches will be deployed to the `Staging` environment.
-
+<!-- initremove:begin -->
 This was done for convenience with the stack, but you are highly encouraged to change this to suit your needs.
 Maybe add a separate `alpha` environment?
+<!-- initremove:end -->
 
 > **Note**
 > Remember that the GitHub Environments hold the environment variables used for that given workflow. This means that you
@@ -1258,7 +1259,7 @@ Remix is still a bit behind in terms of Storybook support, so we had to do a few
 There is an [ongoing discussion](https://github.com/remix-run/remix/discussions/2481) within the Remix community
 about how to best solve this issue.
 
-This stack doesn't include the remixStub yet, but it might change soon.
+This code doesn't include the remixStub yet, but it might change soon.
 
 > If you know how to configure it properly, please open a PR.
 
@@ -1287,7 +1288,7 @@ Right at the top of this README, you can see a badge linking to the published St
 
 ### Environment variables
 
-Environment variables are probably the biggest pain-point in the maintenance of this stack.
+Environment variables are probably the biggest pain-point in the maintenance of this project.
 You have to add them to GitHub, add them to the deploy scripts and add them to the `.env` file.
 
 We're working on a solution to this, but for now, you have to do it manually.

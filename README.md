@@ -1186,12 +1186,12 @@ npx playwright install --with-deps
 
 #### Configuring Playwright
 
-The tests are located in the `tests/e2e` directory. Feel free to change the directory structure to your liking.
+The tests are located in the `playwright/e2e` directory. Feel free to change the directory structure to your liking.
 If you do so, don't forget to update the test location in the `playwright.config.ts` file.
 
 ```ts
 export default defineConfig({
-  testDir: './tests/e2e', // <-- Update this
+  testDir: './playwright/e2e', // <-- Update this
 ```
 
 **You do not need to start the dev server before running the tests.**

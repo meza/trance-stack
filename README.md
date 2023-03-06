@@ -43,6 +43,9 @@ Now start the dev server
 npm run dev
 ```
 
+Now this has set you up with a default remix application. It won't function well until you complete the setup process.
+You can find the instructions for that [here](#getting-started)
+
 ---
 <!-- initremove:end -->
 ## What's included
@@ -104,13 +107,13 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 >
 > **Note**
 > We've been using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
-> throughout the development of the stack so if you ever find yourself wondering why we've chosen a particular service or
+> throughout the development of the project so if you ever find yourself wondering why we've chosen a particular service or
 > implementation, you can check the [ADR](./doc/adr/decisions.md) page for more information.
 >
 > We highly encourage you to keep on adding your own decisions. It's a great way to document the historical context of your
 > project, and it's a great way to share your knowledge with the rest of the team.
 >
-> We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
+> We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the dependencies, so you
 > should be able to use it right away.
 
 

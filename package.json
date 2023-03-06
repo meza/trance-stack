@@ -31,7 +31,7 @@
     "clean:remix": "rimraf public/build server/index.js server/node_modules remix.init/node_modules",
     "clean:deployments": "rimraf deployment.result.json deploymentSummary.md cdk.out .cdk.staging",
     "clean:node": "rimraf node_modules",
-    "int": "playwright testUtils",
+    "int": "playwright test",
     "lint": "run-p \"lint:*\"",
     "lint:css": "stylelint src/styles/**/*.css",
     "lint:eslint": "eslint --ext .ts,.tsx,.json src",

@@ -24,13 +24,14 @@
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "dev:arc": "cross-env NODE_ENV=development arc sandbox -p 3000",
     "dev": "run-p dev:remix dev:arc",
-    "ci": "run-s build && run-p lint report",
+    "ci": "run-s build && run-p lint report cpd",
     "clean": "run-p clean:basics clean:remix clean:deployments",
     "clean:all": "run-s clean:basics clean:remix clean:deployments clean:node",
     "clean:basics": "rimraf .cache storybook-static reports",
     "clean:remix": "rimraf public/build server/index.js server/node_modules remix.init/node_modules",
     "clean:deployments": "rimraf deployment.result.json deploymentSummary.md cdk.out .cdk.staging",
     "clean:node": "rimraf node_modules",
+    "cpd": "jscpd",
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
     "lint:css": "stylelint src/styles/**/*.css",
@@ -97,6 +98,8 @@
     "@commitlint/config-conventional": "17.4.4",
     "@commitlint/prompt-cli": "17.4.4",
     "@evilmartians/lefthook": "^1.3.3",
+    "@jscpd/badge-reporter": "^3.4.5",
+    "@jscpd/html-reporter": "^3.5.3",
     "@meza/adr-tools": "^1.0.10",
     "@playwright/test": "^1.30.0",
     "@remix-run/dev": "^1.13.0",
@@ -156,6 +159,7 @@
     "eslint-plugin-storybook": "^0.6.10",
     "happy-dom": "^8.4.0",
     "is-ci": "^3.0.1",
+    "jscpd": "^3.5.3",
     "jsdom": "^21.1.0",
     "npm-run-all": "^4.1.5",
     "npmignore": "^0.3.0",
@@ -212,6 +216,16 @@
         100
       ]
     }
+  },
+  "jscpd": {
+    "output": "./reports/jscpd",
+    "pattern": "src/**/*.{js,jsx,ts,tsx}",
+    "threshold": 0.1,
+    "reporters": ["html", "console", "badge", "markdown"],
+    "ignore": ["**/__snapshots__/**", "**/*.test.(tsx|ts)"],
+    "absolute": true,
+    "gitignore": true,
+    "exitCode": 1
   },
   "engines": {
     "node": ">=18"

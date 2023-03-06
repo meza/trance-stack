@@ -42,7 +42,6 @@
     "prepare": "lefthook install 1>/dev/null 2>/dev/null || true",
     "release": "semantic-release",
     "report": "vitest --coverage",
-    "start": "cross-env NODE_ENV=production arc sandbox -p 3000",
     "storybook": "run-s storybook:serve",
     "storybook:serve": "storybook dev -p 6005",
     "storybook:build": "storybook build",

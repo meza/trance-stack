@@ -98,12 +98,26 @@ npm run dev
 
 3. Go through the [Getting Started](#getting-started) section to set up the local and deployment environments
 
+### Notable npm scripts
+
+- `npm run ci` - run the same verification scripts that are run on CI
+- `npm run clean` - removes all generated files
+- `npm run clean:all` - removes all generated files and all the node_modules directories
+- `npm run dev` - Starts the dev server
+- `npm run deploy:dev` - Deploys the application to an ephemeral environment
+- `npm run deploy:prod` - Deploys the application to production _(you probably should never use this one locally)_
+- `npm run int` - Runs the Playwright integration tests
+- `npm run report` - Runs all the things that generate reports for you (coverage, cpd, loc, etc)
+- `npm run storybook` - Starts the storybook server
+- `npm run validate` - Runs both the CI tests and the integration tests
+
 ## Table Of Contents
 <!-- TOC -->
 <!-- initremove:begin -->
   * [What's included](#whats-included)
   * [Using the stack](#using-the-stack)<!-- initremove:end -->
   * [Quickstart](#quickstart)
+    * [Notable npm scripts](#notable-npm-scripts)
   * [Table Of Contents](#table-of-contents)
   * [Getting Started](#getting-started)
     * [Environment](#environment)

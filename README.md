@@ -641,24 +641,24 @@ title: branching and versioning
 gitGraph
     commit id: "v1.0.0"
     branch feature order: 2
-    branch beta order: 1
+    branch alpha order: 1
     checkout feature
     commit id: "fix: x"
     commit id: "fix: y"
-    checkout beta
-    merge feature id: "v1.0.1-beta.1"
+    checkout alpha
+    merge feature id: "v1.0.1-alpha.1"
     checkout feature
     commit id: "fix: z"
-    checkout beta
-    merge feature id: "v1.0.1-beta.2"
+    checkout alpha
+    merge feature id: "v1.0.1-alpha.2"
     checkout feature
     commit id: "feat: added something cool"
     commit id: "fix: fixed a mistake"
     commit id: "refactor: refactored the tests"
-    checkout beta
-    merge feature id: "v1.1.0-beta.1"
+    checkout alpha
+    merge feature id: "v1.1.0-alpha.1"
     checkout main
-    merge beta id: "v1.1.0"
+    merge alpha id: "v1.1.0"
 ```
 
 #### Linting

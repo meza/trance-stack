@@ -3,6 +3,17 @@
   "name": "remix-trance-stack",
   "private": true,
   "sideEffects": false,
+  "publishConfig": {
+    "ignore": [
+      "*.ts",
+      "!*.d.ts",
+      ".cdk.staging",
+      "cdk.out",
+      "cdk.context.json",
+      "deployment.result.json",
+      "deploymentSummary.md"
+    ]
+  },
   "scripts": {
     "build": "remix build",
     "delete:ephemeral": "cdk destroy remix-trance-stack-ephemeral --require-approval never --force",
@@ -27,6 +38,7 @@
     "lint:typecheck": "tsc",
     "playwright:install": "playwright install --with-deps",
     "postinstall": "remix-esbuild-override",
+    "prepack": "npmignore --auto",
     "prepare": "lefthook install 1>/dev/null 2>/dev/null || true",
     "release": "semantic-release",
     "report": "vitest --coverage",
@@ -147,6 +159,7 @@
     "is-ci": "^3.0.1",
     "jsdom": "^21.1.0",
     "npm-run-all": "^4.1.5",
+    "npmignore": "^0.3.0",
     "postcss": "^8.4.21",
     "postcss-advanced-variables": "^3.0.1",
     "postcss-cli": "^10.1.0",

@@ -167,6 +167,7 @@ npm run dev
       * [Adding a new locale](#adding-a-new-locale)
       * [Removing i18n from your project](#removing-i18n-from-your-project)
     * [Lefthook](#lefthook)
+    * [NPMIgnore - automated](#npmignore---automated)
     * [Playwright - End-to-end testing](#playwright---end-to-end-testing)
       * [Installing Playwright dependencies](#installing-playwright-dependencies)
       * [Configuring Playwright](#configuring-playwright)
@@ -1145,6 +1146,13 @@ The configuration file is at `.lefthook.yml`.
 You can see all the commands that happen and the git hooks they are attached to.
 
 If running all the tests at every commit is too much, you can always set it to happen on pre-push instead.
+
+### NPMIgnore - automated
+
+In case you would ever want to publish your project to NPM (which you shouldn't), you can use the [npmignore](https://www.npmjs.com/package/npmignore) package to
+automatically generate an `.npmignore` file. This file will be generated based on the `.gitignore` file.
+
+There is a basic ignore configuration in the `package.json` file's `publishConfig` section.
 
 ### Playwright - End-to-end testing
 

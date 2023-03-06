@@ -100,7 +100,11 @@ npm run dev
 
 ## Table Of Contents
 <!-- TOC -->
+<!-- initremove:begin -->
+  * [What's included](#whats-included)
+  * [Using the stack](#using-the-stack)<!-- initremove:end -->
   * [Quickstart](#quickstart)
+  * [Table Of Contents](#table-of-contents)
   * [Getting Started](#getting-started)
     * [Environment](#environment)
     * [GitHub Settings](#github-settings)
@@ -110,7 +114,6 @@ npm run dev
       * [Environments](#environments)
       * [Variables vs. Secrets](#variables-vs-secrets)
     * [Setup for continuous deployment](#setup-for-continuous-deployment)
-    * [Renovate bot setup](#renovate-bot-setup)
     * [Authentication with Auth0](#authentication-with-auth0)
       * [Adding the Auth0 variables to GitHub](#adding-the-auth0-variables-to-github)
       * [Enabling the Auth0 integration for feature branch/PR deployments](#enabling-the-auth0-integration-for-feature-branchpr-deployments)
@@ -123,36 +126,21 @@ npm run dev
       * [Removing the Hotjar integration from the application](#removing-the-hotjar-integration-from-the-application)
     * [Mixpanel integration](#mixpanel-integration)
       * [Removing the Mixpanel integration from the application](#removing-the-mixpanel-integration-from-the-application)
-    * [Split integration](#split-integration)
-      * [Removing the Split integration from the application](#removing-the-split-integration-from-the-application)
+    * [Renovate bot setup](#renovate-bot-setup)
     * [Sentry integration](#sentry-integration)
       * [How to find the DSN](#how-to-find-the-dsn)
       * [Removing the Sentry integration from the application](#removing-the-sentry-integration-from-the-application)
+    * [Split integration](#split-integration)
+      * [Removing the Split integration from the application](#removing-the-split-integration-from-the-application)
   * [How to use ... ?](#how-to-use--)
     * [Authentication](#authentication)
-    * [Conventional Commits & Automated Semantic Versioning](#conventional-commits--automated-semantic-versioning)
+    * [Automated Semantic Versioning](#automated-semantic-versioning)
     * [Branching Strategy with Semantic Versioning](#branching-strategy-with-semantic-versioning)
       * [Linting](#linting)
       * [Which version am I running?](#which-version-am-i-running)
     * [Dependency Version Updates](#dependency-version-updates)
       * [Runtime dependencies](#runtime-dependencies)
       * [Development dependencies](#development-dependencies)
-    * [Typescript Paths](#typescript-paths)
-      * [Issues with Typescript Paths](#issues-with-typescript-paths)
-        * [Vitest](#vitest)
-        * [Storybook](#storybook)
-    * [Feature Flags](#feature-flags)
-      * [Production](#production)
-      * [The `features.ts` file](#the-featurests-file)
-      * [Local development](#local-development)
-    * [I18N - Internationalization](#i18n---internationalization)
-      * [Using translations](#using-translations)
-      * [Adding a new locale](#adding-a-new-locale)
-      * [Removing i18n from your project](#removing-i18n-from-your-project)
-    * [Styling / CSS](#styling--css)
-      * [Shared Component Styles](#shared-component-styles)
-      * [Surfacing Styling](#surfacing-styling)
-      * [PostCSS](#postcss)
     * [Deployment](#deployment)
       * [Ephemeral Environments](#ephemeral-environments)
         * [Manual Ephemeral Deployment](#manual-ephemeral-deployment)
@@ -167,26 +155,44 @@ npm run dev
         * [Deploying from your local machine](#deploying-from-your-local-machine)
         * [The githubActionSupport](#the-githubactionsupport)
           * [Testing the GitHub support locally](#testing-the-github-support-locally)
+    * [Environment variables](#environment-variables-1)
+      * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist-)
+      * [Bundling environment variables](#bundling-environment-variables)
+    * [Feature Flags](#feature-flags)
+      * [Production](#production)
+      * [The `features.ts` file](#the-featurests-file)
+      * [Local development](#local-development)
+    * [I18N - Internationalization](#i18n---internationalization)
+      * [Using translations](#using-translations)
+      * [Adding a new locale](#adding-a-new-locale)
+      * [Removing i18n from your project](#removing-i18n-from-your-project)
+    * [Lefthook](#lefthook)
     * [Playwright - End-to-end testing](#playwright---end-to-end-testing)
       * [Installing Playwright dependencies](#installing-playwright-dependencies)
       * [Configuring Playwright](#configuring-playwright)
       * [Running the tests](#running-the-tests)
         * [Playwright on GitHub Actions](#playwright-on-github-actions)
         * [Playwright locally](#playwright-locally)
+    * [Storybook](#storybook)
+      * [Running Storybook](#running-storybook)
+      * [Publishing Storybook](#publishing-storybook)
+        * [Accessing the published Storybook](#accessing-the-published-storybook)
+    * [Styling / CSS](#styling--css)
+      * [Shared Component Styles](#shared-component-styles)
+      * [Surfacing Styling](#surfacing-styling)
+      * [PostCSS](#postcss)
+    * [Typescript Paths](#typescript-paths)
+      * [Issues with Typescript Paths](#issues-with-typescript-paths)
+        * [Vitest](#vitest)
+        * [Storybook](#storybook-1)
     * [Unit Testing](#unit-testing)
       * [Globals: true](#globals--true)
       * [Test reporters](#test-reporters)
       * [Setup files](#setup-files)
       * [Threads](#threads)
-      * [Coverage](#coverage)
-    * [Lefthook](#lefthook)
-    * [Storybook](#storybook-1)
-      * [Running Storybook](#running-storybook)
-      * [Publishing Storybook](#publishing-storybook)
-        * [Accessing the published Storybook](#accessing-the-published-storybook)
-    * [Environment variables](#environment-variables-1)
-      * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist-)
-      * [Bundling environment variables](#bundling-environment-variables)
+      * [Coverage](#coverage)<!-- initremove:begin -->
+    * [Development of the stack itself](#development-of-the-stack-itself)
+<!-- initremove:end -->
 <!-- TOC -->
 
 ## Getting Started
@@ -297,24 +303,6 @@ to everyone.
 
 The deployment processes are described in the [Deployment](#deployment) section but to get you started, please
 create the environment variables and secrets defined in the [environment variables](#environment-variables) section.
-
-### Renovate bot setup
-
-We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
-To take advantage of it, you will need to install the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
-
-First, navigate to https://github.com/apps/renovate and click on the Install button.
-
-<p align="center">
-  <img src="./doc/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
-</p>
-
-On the following screen, we recommend selecting "All repositories" to make life easier, but you can configure it to only
-work on the repository you're currently in.
-
-<p align="center">
-  <img src="./doc/images/renovate-github-app-choose-repos.png" alt="Select which repositories to use Renovate on"/>
-</p>
 
 ### Authentication with Auth0
 
@@ -482,35 +470,28 @@ names as the one in the `.env` file.
 4. Delete the `<Mixpanel ... />` component and its import from the `src/entry.client.tsx` file.
 5. Run `vitest --run --update` to update the snapshots.
 
-### Split integration
+### Renovate bot setup
 
-We use [Split](https://split.io) for feature flags. You will need to create an account with them
-and set up a new project.
+We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
+To take advantage of it, you will need to install the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
 
-When you have your project set up, head to the workspace settings > API Keys section.
-We're only interested in the server-side keys. Copy the `API Key` and paste it
-set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
+First, navigate to https://github.com/apps/renovate and click on the Install button.
 
-Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
-variables in the `.env` file.
+<p align="center">
+  <img src="./doc/images/renovate-github-app-install.png" alt="Renovate GitHub App install button"/>
+</p>
 
-> **Warning**
-> The `SPLIT_SERVER_TOKEN` is **set as a secret** for the actions.
+On the following screen, we recommend selecting "All repositories" to make life easier, but you can configure it to only
+work on the repository you're currently in.
 
-#### Removing the Split integration from the application
-
-1. Delete the `SPLIT_SERVER_TOKEN` variable from the `.env` file and GitHub secrets.
-2. Delete the following files:
-   1. `src/split.server.ts` and the `src/split.server.test.ts`
-   2. `src/feature.ts` and the `src/feature.test.ts`
-   3. `devFeatures.yml` (from the project root)
-3. Follow the compilation and test errors to remove all the code that uses the feature flags.
-4. Run `vitest --run --update` to update the snapshots.
+<p align="center">
+  <img src="./doc/images/renovate-github-app-choose-repos.png" alt="Select which repositories to use Renovate on"/>
+</p>
 
 ### Sentry integration
 
 > **Note**
-> Due to compatibility issues with Architect, the server-side instrumentation of Sentry is not
+> Due to4 compatibility issues with Architect, the server-side instrumentation of Sentry is not
 > working for now.
 > Keep an eye on [this issue](https://github.com/getsentry/sentry-javascript/issues/6062) for
 > updates.
@@ -565,6 +546,31 @@ Finally, copy the `DSN` value
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
 7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
 
+### Split integration
+
+We use [Split](https://split.io) for feature flags. You will need to create an account with them
+and set up a new project.
+
+When you have your project set up, head to the workspace settings > API Keys section.
+We're only interested in the server-side keys. Copy the `API Key` and paste it
+set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
+
+Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
+variables in the `.env` file.
+
+> **Warning**
+> The `SPLIT_SERVER_TOKEN` is **set as a secret** for the actions.
+
+#### Removing the Split integration from the application
+
+1. Delete the `SPLIT_SERVER_TOKEN` variable from the `.env` file and GitHub secrets.
+2. Delete the following files:
+  1. `src/split.server.ts` and the `src/split.server.test.ts`
+  2. `src/feature.ts` and the `src/feature.test.ts`
+  3. `devFeatures.yml` (from the project root)
+3. Follow the compilation and test errors to remove all the code that uses the feature flags.
+4. Run `vitest --run --update` to update the snapshots.
+
 ---
 
 ## How to use ... ?
@@ -576,7 +582,7 @@ This section dives deeper into the concepts present in the stack.
 The authentication is done via the [auth0-remix-server](https://github.com/meza/auth0-remix-server) package.
 The README file in that package has all the information you need to understand how it works.
 
-### Conventional Commits & Automated Semantic Versioning
+### Automated Semantic Versioning
 
 We use [Conventional Commits](https://www.conventionalcommits.org/en) to automatically determine the next
 version of the package. It uses the [semantic-release](https://semantic-release.gitbook.io/semantic-release) package to
@@ -671,344 +677,6 @@ We still want to update these dependencies as soon as possible, so we have the f
 
 - `minor and patch versions` - create a pull request with a `chore: ` prefix in the commit message and merge automatically if possible
 - `major versions` - create a pull request with a `chore: ` prefix in the commit message and do NOT merge automatically
-
-### Typescript Paths
-
-We use [Typescript Paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
-This means that instead of messy relative paths in the imports, we can use handy aliases.
-
-We have the following paths defined by default:
-
-- `~` - the `src` folder
-- `@styles` - the `src/styles` folder
-- `@test` - the `test` folder
-
-This means that no matter where you are in the file tree, you can always reference the `src` folder with the `~` alias.
-
-```ts
-import Hello from '~/components/Hello';
-import appStyles from '@styles/app.css';
-import { renderWithi18n } from '@test';
-```
-Feel free to add your own paths in the `tsconfig.json` file.
-
-Common ones that you might want to add are:
-
-- `@components` - the `src/components` folder
-- `@routes` - the `src/routes` folder
-- `@hooks` - the `src/hooks` folder
-
-We have chosen not to add those because `~/hooks` and `@hooks` are not that different to warrant extra settings.
-
-#### Issues with Typescript Paths
-
-Unfortunately typescript paths are somewhat esoteric and support across tools can be spotty.
-
-##### Vitest
-Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts` file.
-It both requires the [vite-tsconfig-paths](https://www.npmjs.com/package/vite-tsconfig-paths) plugin and in some cases
-you need to manually add the path to the `resolve.alias` array.
-
-```ts
-// vite.config.ts
-resolve: {
-  alias: {
-    '~': path.resolve(__dirname, './src')
-  }
-}
-```
-
-##### Storybook
-
-Storybook also needs to be told to respect the typescript paths. We use the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
-to tell the storybook webpack config to respect the paths.
-
-We add it to the `webpackFinal` function in the `<project_root>/.storybook/main.ts` file.
-
-```ts
-webpackFinal: async config => {
-  config.plugins?.push(new DefinePlugin({
-    __DEV__: process.env.NODE_ENV !== 'production'
-  }));
-  if (config.resolve) {
-    config.resolve.plugins = config.resolve.plugins || [];
-    config.resolve.plugins.push(new TsconfigPathsPlugin()); // <--- this line
-  }
-  return config;
-}
-```
-
-### Feature Flags
-
-Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
-It enables you to decouple the release of new code from the release of new features. [Read more](https://www.split.io/product/feature-flags/)
-
-Let's look at an example which is in the `src/routes/index.tsx` file
-
-```tsx
-export const loader: LoaderFunction = async ({ request, context }) => {
-  const isAuth = await hasFeature(request, Features.AUTH);
-  return json({
-    isHelloEnabled: await hasFeature(request, Features.HELLO),
-    isAuthEnabled: isAuth
-  });
-};
-
-export default () => {
-  const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
-  if (isHelloEnabled) {
-    return (<div>
-      <Hello/>
-      {isAuthEnabled ? <Login/> : null}
-    </div>);
-  }
-  return <div>Goodbye World!</div>;
-};
-```
-
-Here all elements of the page are wrapped in a feature flag. The `Hello` component will only be rendered if the `HELLO`
-feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
-
-Don't worry about using `hasFeature` a lot in your code. Split caches the results of the feature flags, so it's not a
-performance issue. Split works with streaming data and will check for changes in the feature flags every minute by default.
-
-You can check all the available options in the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
-and then set them as you wish in the `src/split.server.ts` file.
-
-Before we continue, let's talk about the difference between production and local development.
-
-#### Production
-
-When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your Split.
-You also need to manage all your flags (or splits as they're called in Split) in the Split Workspace dashboard.
-
-Always use the Splits of your workspace as the source of truth.
-
-#### The `features.ts` file
-
-The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this file
-in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
-
-```ts
-// <project_root>/src/features.ts
-export enum Features {
-  AUTH = 'auth_enabled', // the name of the split from the split.io workspace
-  HELLO = 'hello_split'
-}
-```
-
-Having this allows us to reference the features in our code without having to worry about typos.
-
-#### Local development
-
-When you're developing locally, you can set the `SPLIT_SERVER_TOKEN` variable to `localhost`.
-This sets split into a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
-and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the project root.
-
-```yml
-# <project_root>/devFeatures.yml
-
-- auth_enabled:
-    treatment: "on"
-- hello_split:
-    treatment: "on"
-```
-
-This file is a list of all the features that you have in your application. The `treatment` property determines if the
-feature is enabled or not. If the treatment is set to `on`, the feature is enabled. If it's set to `off`, the feature is
-disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on` and `off`.
-
-> **Warning**
-> Unfortunately there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
-> and the Splits in your split.io workspace in sync. You will have to do this manually.
-
-### I18N - Internationalization
-
-We're using i18next for internationalization. You can read more about it in the [i18next documentation](https://www.i18next.com/).
-To integrate it with Remix, we're using the [remix-i18next](https://github.com/sergiodxa/remix-i18next) package and our setup
-is based on the remix-i18next Readme file.
-
-You can find the i18n configuration in the `src/i18n` directory. The `i18n.config.ts` file contains the configuration for
-the defaults of i18next. The `i18n.server.ts` file contains the configuration for the server side while the `i18n.client.ts`
-file contains the configuration for the client side.
-
-The only deviation we have from the remix-i18next sample setup is that we're actually bundling the translations into the
-server package. This is done in the `src/i18n/i18n.server.ts` file.
-
-```ts
-await i18nextInstance.init({
-      debug: process.env.I18N_DEBUG === 'true',
-      ...baseConfig,
-      lng: locale,
-      ns: remixI18next.getRouteNamespaces(remixContext),
-      // The sample setup in remix-i18next
-      //backend: {
-      //  loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
-      //},
-      resources: {
-        en: {
-          translation: en
-        }
-      }
-    });
-```
-We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) environment, we have one single file as the
-handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file systems,
-it would make deployments more complicated and the function would become incompatible with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
-
-Therefore instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
-
-This does mean that when you add a new locale, you will have to add it to the resources in the `i18n.server.ts` file.
-
-#### Using translations
-
-To use translations in your application, you can use the `useTranslation` hook from the `react-i18next` package.
-
-```tsx
-import { useTranslation } from 'react-i18next';
-
-export const Hello = () => {
-  const { t } = useTranslation();
-  return (
-    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
-  );
-};
-```
-
-You can also [pass in variables](https://www.i18next.com/translation-function/interpolation#working-with-data-models) to the translations. This helps the translators to create more context-sensitive translations.
-
-Take this example from the initial logged in Dashboard of the application:
-```tsx
-export default () => {
-  const { t } = useTranslation();
-  const { user } = useLoaderData<typeof loader>();
-  return (<>
-    <div>{t('dashboard.for', { name: user.nickname || user.givenName || user.name })}<br/><Logout/></div>
-  </>);
-};
-```
-
-Here we pass in the `name` variable to the translation. This means that the location of where the name appears in the final
-text can be different in different languages. For example, in one context we could say "Dashboard for John!" and in another context
-we could say "John's dashboard!".
-
-The translation file in our dashboard's case looks like this:
-
-```json
-{
-  "dashboard": {
-    "for": "Dashboard for {{ name }}"
-  }
-}
-```
-
-#### Adding a new locale
-
-To add a new locale, you will have to do the following:
-
-1. Add the new locale to the `<project_root>/public/locales` folder. Follow the example of the existing locale(s)
-2. Add the new locale to the `resources` object in the `i18n.server.ts` file.
-3. Add the new locale to the `supportedLngs` array in the `i18n.config.ts` file.
-
-#### Removing i18n from your project
-
-If you don't want to use i18n, you can remove it from your project. You will have to do the following:
-
-1. Remove the `i18n` folder from the `src` directory
-2. Remove the `locales` folder from the `public` directory
-3. Run `npm remove i18next i18next* *i18next`
-4. Remove the `<<I18nextProvider ...>` from both the `src/entry.server.tsx` and `src/entry.client.tsx` files
-5. Follow the compilation errors and remove any remaining references to i18n
-
-> **Note**
->
-> There are some great tips about organising your translations in the
-> [i18n Readme file](./src/i18n/README.md).
-
-### Styling / CSS
-
-We use regular stylesheets in this project which means a combination of [Shared Component Styles](#shared-component-styles)
-and [Surfacing Styling](#surfacing-styling).
-
-#### Shared Component Styles
-
-The shared component styles live in the `src/styles` directory. They are imported in the routes that use them.
-
-```ts
-// src/root.tsx
-import styles from './styles/app.css';
-
-export const links: LinksFunction = () => {
-  return [
-    { rel: 'stylesheet', href: styles }
-  ];
-};
-```
-
-The styles that are uniform across the entire application are loaded from the `src/root.tsx` file while the styles that are
-specific to a single route are loaded from the route itself.
-
-These are all additive, so you can have a single stylesheet that is loaded on every route via the `root.tsx`, and then
-additional stylesheets that are loaded on specific routes.
-
-If you need a component-specific stylesheet, you can use the [Surfacing Styling](#surfacing-styling) method.
-
-#### Surfacing Styling
-
-To have local styles per component, we use is [Surfacing Styling](https://remix.run/docs/en/main/guides/styling#surfacing-styles).
-
-> _Because these are not routes, and therefore not associated with a URL segment, Remix doesn't know when to prefetch,
-> load, or unload the styles. We need to "surface" the links up to the routes that use the components_
-
-This solution is a bit more complex, but it allows us to have styles that are only loaded when the component is loaded.
-
-Take the `Hello` component as an example:
-
-```tsx
-import { useTranslation } from 'react-i18next';
-import styles from './hello.css';
-
-export const links = () => [
-  { rel: 'stylesheet', href: styles }
-];
-
-export const Hello = () => {
-  const { t } = useTranslation();
-  return (
-    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
-  );
-};
-
-export default Hello;
-```
-
-Notice that it imports the `hello.css` file. This file is located in the same directory as the component.
-It also has a `links` export that returns the stylesheet link.
-
-In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the components.
-You can see an example of this in the `src/routes/index.tsx` file:
-
-```tsx
-import { Hello, links as helloLinks } from '~/components/Hello';
-
-export const links: LinksFunction = () => ([
-  ...helloLinks()
-]);
-```
-We import the `links` export from the `Hello` component and add it to the `links` export of the `index.tsx` route.
-
-Yes, this is more complicated than it should be but with the rapid development of Remix, we hope that this will be
-simplified in the future.
-
-#### PostCSS
-
-We use [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
-import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
-
-Our PostCSS configuration is located in the `postcss.config.js` file, and it gets applied every single time Remix builds
-the application.
-This means that you don't have to think about prefixes or other browser-specific CSS features. Just write your CSS and
-PostCSS will take care of the rest automagically.
 
 ### Deployment
 <!-- initremove:begin -->
@@ -1221,6 +889,235 @@ This requires you to have a `deployment.result.json` file in the `/tmp` director
 
 The results will be added to the `<project_root>/deploymentSummary.md` file.
 
+### Environment variables
+
+Environment variables are probably the biggest pain-point in the maintenance of this project.
+You have to add them to GitHub, add them to the deploy scripts and add them to the `.env` file.
+
+We're working on a solution to this, but for now, you have to do it manually.
+
+#### Adding a new environment variable checklist:
+
+Add the variable to...
+
+- [ ] the `.env` file
+- [ ] the `.env.example` script. **This is very important**
+- [ ] the `.github/workflows/deploy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/ephemeralDeploy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/ephemeralDestroy.yml` script to the `npm run build` command
+- [ ] the `.github/workflows/playwright.yml` script to the `Create Envfile` section
+
+#### Bundling environment variables
+
+We bundle most of the environment variables into the server bundle. To understand why,
+read [the relevant adr](./doc/adr/0005-bundling-environment-variables.md), and [it's addendum](./doc/adr/0009-no-more-need-to-bundle-environment-variables.md).
+
+The important thing to know is that what gets budled is decided by reading the `.env.example` file and taking its
+keys.
+
+You can prevent certain keys to get bundled by adding them to the deny list in the `remix.config.js` file.
+
+```js
+  const doNotBundleEnv = [
+    'APP_DOMAIN' // deny list for the environmentPlugin
+  ]
+```
+### Feature Flags
+
+Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
+It enables you to decouple the release of new code from the release of new features. [Read more](https://www.split.io/product/feature-flags/)
+
+Let's look at an example which is in the `src/routes/index.tsx` file
+
+```tsx
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const isAuth = await hasFeature(request, Features.AUTH);
+  return json({
+    isHelloEnabled: await hasFeature(request, Features.HELLO),
+    isAuthEnabled: isAuth
+  });
+};
+
+export default () => {
+  const { isHelloEnabled, isAuthEnabled } = useLoaderData<typeof loader>();
+  if (isHelloEnabled) {
+    return (<div>
+      <Hello/>
+      {isAuthEnabled ? <Login/> : null}
+    </div>);
+  }
+  return <div>Goodbye World!</div>;
+};
+```
+
+Here all elements of the page are wrapped in a feature flag. The `Hello` component will only be rendered if the `HELLO`
+feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
+
+Don't worry about using `hasFeature` a lot in your code. Split caches the results of the feature flags, so it's not a
+performance issue. Split works with streaming data and will check for changes in the feature flags every minute by default.
+
+You can check all the available options in the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
+and then set them as you wish in the `src/split.server.ts` file.
+
+Before we continue, let's talk about the difference between production and local development.
+
+#### Production
+
+When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your Split.
+You also need to manage all your flags (or splits as they're called in Split) in the Split Workspace dashboard.
+
+Always use the Splits of your workspace as the source of truth.
+
+#### The `features.ts` file
+
+The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this file
+in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
+
+```ts
+// <project_root>/src/features.ts
+export enum Features {
+  AUTH = 'auth_enabled', // the name of the split from the split.io workspace
+  HELLO = 'hello_split'
+}
+```
+
+Having this allows us to reference the features in our code without having to worry about typos.
+
+#### Local development
+
+When you're developing locally, you can set the `SPLIT_SERVER_TOKEN` variable to `localhost`.
+This sets split into a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
+and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the project root.
+
+```yml
+# <project_root>/devFeatures.yml
+
+- auth_enabled:
+    treatment: "on"
+- hello_split:
+    treatment: "on"
+```
+
+This file is a list of all the features that you have in your application. The `treatment` property determines if the
+feature is enabled or not. If the treatment is set to `on`, the feature is enabled. If it's set to `off`, the feature is
+disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on` and `off`.
+
+> **Warning**
+> Unfortunately there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
+> and the Splits in your split.io workspace in sync. You will have to do this manually.
+
+### I18N - Internationalization
+
+We're using i18next for internationalization. You can read more about it in the [i18next documentation](https://www.i18next.com/).
+To integrate it with Remix, we're using the [remix-i18next](https://github.com/sergiodxa/remix-i18next) package and our setup
+is based on the remix-i18next Readme file.
+
+You can find the i18n configuration in the `src/i18n` directory. The `i18n.config.ts` file contains the configuration for
+the defaults of i18next. The `i18n.server.ts` file contains the configuration for the server side while the `i18n.client.ts`
+file contains the configuration for the client side.
+
+The only deviation we have from the remix-i18next sample setup is that we're actually bundling the translations into the
+server package. This is done in the `src/i18n/i18n.server.ts` file.
+
+```ts
+await i18nextInstance.init({
+      debug: process.env.I18N_DEBUG === 'true',
+      ...baseConfig,
+      lng: locale,
+      ns: remixI18next.getRouteNamespaces(remixContext),
+      // The sample setup in remix-i18next
+      //backend: {
+      //  loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+      //},
+      resources: {
+        en: {
+          translation: en
+        }
+      }
+    });
+```
+We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) environment, we have one single file as the
+handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file systems,
+it would make deployments more complicated and the function would become incompatible with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
+
+Therefore instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
+
+This does mean that when you add a new locale, you will have to add it to the resources in the `i18n.server.ts` file.
+
+#### Using translations
+
+To use translations in your application, you can use the `useTranslation` hook from the `react-i18next` package.
+
+```tsx
+import { useTranslation } from 'react-i18next';
+
+export const Hello = () => {
+  const { t } = useTranslation();
+  return (
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
+  );
+};
+```
+
+You can also [pass in variables](https://www.i18next.com/translation-function/interpolation#working-with-data-models) to the translations. This helps the translators to create more context-sensitive translations.
+
+Take this example from the initial logged in Dashboard of the application:
+```tsx
+export default () => {
+  const { t } = useTranslation();
+  const { user } = useLoaderData<typeof loader>();
+  return (<>
+    <div>{t('dashboard.for', { name: user.nickname || user.givenName || user.name })}<br/><Logout/></div>
+  </>);
+};
+```
+
+Here we pass in the `name` variable to the translation. This means that the location of where the name appears in the final
+text can be different in different languages. For example, in one context we could say "Dashboard for John!" and in another context
+we could say "John's dashboard!".
+
+The translation file in our dashboard's case looks like this:
+
+```json
+{
+  "dashboard": {
+    "for": "Dashboard for {{ name }}"
+  }
+}
+```
+
+#### Adding a new locale
+
+To add a new locale, you will have to do the following:
+
+1. Add the new locale to the `<project_root>/public/locales` folder. Follow the example of the existing locale(s)
+2. Add the new locale to the `resources` object in the `i18n.server.ts` file.
+3. Add the new locale to the `supportedLngs` array in the `i18n.config.ts` file.
+
+#### Removing i18n from your project
+
+If you don't want to use i18n, you can remove it from your project. You will have to do the following:
+
+1. Remove the `i18n` folder from the `src` directory
+2. Remove the `locales` folder from the `public` directory
+3. Run `npm remove i18next i18next* *i18next`
+4. Remove the `<<I18nextProvider ...>` from both the `src/entry.server.tsx` and `src/entry.client.tsx` files
+5. Follow the compilation errors and remove any remaining references to i18n
+
+> **Note**
+>
+> There are some great tips about organising your translations in the
+> [i18n Readme file](./src/i18n/README.md).
+
+### Lefthook
+
+The commit validation and the automatic dependency installation is done by [Lefthook](https://github.com/evilmartians/lefthook)
+
+The configuration file is at `<project_root>/.lefthook.yml`.
+You can see all the commands that happen and the git hooks they are attached to.
+
+If running all the tests at every commit is too much, you can always set it to happen on pre-push instead.
+
 ### Playwright - End-to-end testing
 
 We use Playwright for our end-to-end tests. Playwright is a successor to Cypress and Puppeteer. It's maintained by
@@ -1277,6 +1174,198 @@ npm run int
 ```
 
 The reports will go to the `<root_directory>/reports/e2e` directory.
+
+### Storybook
+
+We use [Storybook V7](https://storybook.js.org/releases/7.0) with Webpack 5.
+Remix is still a bit behind in terms of Storybook support, so we had to do a few things to get it to work.
+
+> **Warning**
+> Storybook 7 brings some fundamental changes to how Storybook works.
+> It is **HIGHLY** encouraged that you read the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700)
+> to see what changed. Things that you are used to might not work the same way anymore.
+
+There is an [ongoing discussion](https://github.com/remix-run/remix/discussions/2481) within the Remix community
+about how to best solve this issue.
+
+This code doesn't include the remixStub yet, but it might change soon.
+
+> If you know how to configure it properly, please open a PR.
+
+#### Running Storybook
+
+You can run Storybook by running the following command:
+
+```bash
+npm run storybook
+```
+
+If you're looking for inspiration on how to organise your stories, you can check out the
+[Telekom Scale project](https://telekom.github.io/scale/?path=/docs/scale-design-system--page)
+
+#### Publishing Storybook
+
+Remember when we set up [Pages](#pages) at the beginning?
+
+Storybook automatically gets published to GitHub Pages when you push to the `main` branch.
+
+This is done via the `<project_root>/.github/workflows/storybook.yml` workflow.
+
+##### Accessing the published Storybook
+
+Right at the top of this README, you can see a badge linking to the published Storybook.
+
+
+### Styling / CSS
+
+We use regular stylesheets in this project which means a combination of [Shared Component Styles](#shared-component-styles)
+and [Surfacing Styling](#surfacing-styling).
+
+#### Shared Component Styles
+
+The shared component styles live in the `src/styles` directory. They are imported in the routes that use them.
+
+```ts
+// src/root.tsx
+import styles from './styles/app.css';
+
+export const links: LinksFunction = () => {
+  return [
+    { rel: 'stylesheet', href: styles }
+  ];
+};
+```
+
+The styles that are uniform across the entire application are loaded from the `src/root.tsx` file while the styles that are
+specific to a single route are loaded from the route itself.
+
+These are all additive, so you can have a single stylesheet that is loaded on every route via the `root.tsx`, and then
+additional stylesheets that are loaded on specific routes.
+
+If you need a component-specific stylesheet, you can use the [Surfacing Styling](#surfacing-styling) method.
+
+#### Surfacing Styling
+
+To have local styles per component, we use is [Surfacing Styling](https://remix.run/docs/en/main/guides/styling#surfacing-styles).
+
+> _Because these are not routes, and therefore not associated with a URL segment, Remix doesn't know when to prefetch,
+> load, or unload the styles. We need to "surface" the links up to the routes that use the components_
+
+This solution is a bit more complex, but it allows us to have styles that are only loaded when the component is loaded.
+
+Take the `Hello` component as an example:
+
+```tsx
+import { useTranslation } from 'react-i18next';
+import styles from './hello.css';
+
+export const links = () => [
+  { rel: 'stylesheet', href: styles }
+];
+
+export const Hello = () => {
+  const { t } = useTranslation();
+  return (
+    <h1 data-testid={'greeting'} className={'hello'}>{t('microcopy.helloWorld')}</h1>
+  );
+};
+
+export default Hello;
+```
+
+Notice that it imports the `hello.css` file. This file is located in the same directory as the component.
+It also has a `links` export that returns the stylesheet link.
+
+In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the components.
+You can see an example of this in the `src/routes/index.tsx` file:
+
+```tsx
+import { Hello, links as helloLinks } from '~/components/Hello';
+
+export const links: LinksFunction = () => ([
+  ...helloLinks()
+]);
+```
+We import the `links` export from the `Hello` component and add it to the `links` export of the `index.tsx` route.
+
+Yes, this is more complicated than it should be but with the rapid development of Remix, we hope that this will be
+simplified in the future.
+
+#### PostCSS
+
+We use [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
+import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
+
+Our PostCSS configuration is located in the `postcss.config.js` file, and it gets applied every single time Remix builds
+the application.
+This means that you don't have to think about prefixes or other browser-specific CSS features. Just write your CSS and
+PostCSS will take care of the rest automagically.
+
+### Typescript Paths
+
+We use [Typescript Paths](https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping).
+This means that instead of messy relative paths in the imports, we can use handy aliases.
+
+We have the following paths defined by default:
+
+- `~` - the `src` folder
+- `@styles` - the `src/styles` folder
+- `@test` - the `test` folder
+
+This means that no matter where you are in the file tree, you can always reference the `src` folder with the `~` alias.
+
+```ts
+import Hello from '~/components/Hello';
+import appStyles from '@styles/app.css';
+import { renderWithi18n } from '@test';
+```
+Feel free to add your own paths in the `tsconfig.json` file.
+
+Common ones that you might want to add are:
+
+- `@components` - the `src/components` folder
+- `@routes` - the `src/routes` folder
+- `@hooks` - the `src/hooks` folder
+
+We have chosen not to add those because `~/hooks` and `@hooks` are not that different to warrant extra settings.
+
+#### Issues with Typescript Paths
+
+Unfortunately typescript paths are somewhat esoteric and support across tools can be spotty.
+
+##### Vitest
+Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts` file.
+It both requires the [vite-tsconfig-paths](https://www.npmjs.com/package/vite-tsconfig-paths) plugin and in some cases
+you need to manually add the path to the `resolve.alias` array.
+
+```ts
+// vite.config.ts
+resolve: {
+  alias: {
+    '~': path.resolve(__dirname, './src')
+  }
+}
+```
+
+##### Storybook
+
+Storybook also needs to be told to respect the typescript paths. We use the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
+to tell the storybook webpack config to respect the paths.
+
+We add it to the `webpackFinal` function in the `<project_root>/.storybook/main.ts` file.
+
+```ts
+webpackFinal: async config => {
+  config.plugins?.push(new DefinePlugin({
+    __DEV__: process.env.NODE_ENV !== 'production'
+  }));
+  if (config.resolve) {
+    config.resolve.plugins = config.resolve.plugins || [];
+    config.resolve.plugins.push(new TsconfigPathsPlugin()); // <--- this line
+  }
+  return config;
+}
+```
 
 ### Unit Testing
 
@@ -1340,88 +1429,7 @@ configuration object if you want to.
 
 Alternatively, you can modify the `report` script in the `package.json` file to remove the `--coverage` flag.
 
-### Lefthook
 
-The commit validation and the automatic dependency installation is done by [Lefthook](https://github.com/evilmartians/lefthook)
-
-The configuration file is at `<project_root>/.lefthook.yml`.
-You can see all the commands that happen and the git hooks they are attached to.
-
-If running all the tests at every commit is too much, you can always set it to happen on pre-push instead.
-
-### Storybook
-
-We use [Storybook V7](https://storybook.js.org/releases/7.0) with Webpack 5.
-Remix is still a bit behind in terms of Storybook support, so we had to do a few things to get it to work.
-
-> **Warning**
-> Storybook 7 brings some fundamental changes to how Storybook works.
-> It is **HIGHLY** encouraged that you read the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700)
-> to see what changed. Things that you are used to might not work the same way anymore.
-
-There is an [ongoing discussion](https://github.com/remix-run/remix/discussions/2481) within the Remix community
-about how to best solve this issue.
-
-This code doesn't include the remixStub yet, but it might change soon.
-
-> If you know how to configure it properly, please open a PR.
-
-#### Running Storybook
-
-You can run Storybook by running the following command:
-
-```bash
-npm run storybook
-```
-
-If you're looking for inspiration on how to organise your stories, you can check out the
-[Telekom Scale project](https://telekom.github.io/scale/?path=/docs/scale-design-system--page)
-
-#### Publishing Storybook
-
-Remember when we set up [Pages](#pages) at the beginning?
-
-Storybook automatically gets published to GitHub Pages when you push to the `main` branch.
-
-This is done via the `<project_root>/.github/workflows/storybook.yml` workflow.
-
-##### Accessing the published Storybook
-
-Right at the top of this README, you can see a badge linking to the published Storybook.
-
-### Environment variables
-
-Environment variables are probably the biggest pain-point in the maintenance of this project.
-You have to add them to GitHub, add them to the deploy scripts and add them to the `.env` file.
-
-We're working on a solution to this, but for now, you have to do it manually.
-
-#### Adding a new environment variable checklist:
-
-Add the variable to...
-
-- [ ] the `.env` file
-- [ ] the `.env.example` script. **This is very important**
-- [ ] the `.github/workflows/deploy.yml` script to the `npm run build` command
-- [ ] the `.github/workflows/ephemeralDeploy.yml` script to the `npm run build` command
-- [ ] the `.github/workflows/ephemeralDestroy.yml` script to the `npm run build` command
-- [ ] the `.github/workflows/playwright.yml` script to the `Create Envfile` section
-
-#### Bundling environment variables
-
-We bundle most of the environment variables into the server bundle. To understand why,
-read [the relevant adr](./doc/adr/0005-bundling-environment-variables.md), and [it's addendum](./doc/adr/0009-no-more-need-to-bundle-environment-variables.md).
-
-The important thing to know is that what gets budled is decided by reading the `.env.example` file and taking its
-keys.
-
-You can prevent certain keys to get bundled by adding them to the deny list in the `remix.config.js` file.
-
-```js
-  const doNotBundleEnv = [
-    'APP_DOMAIN' // deny list for the environmentPlugin
-  ]
-```
 
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions
@@ -1429,7 +1437,7 @@ You can prevent certain keys to get bundled by adding them to the deny list in t
 
 ---
 
-### Development of the stack itself (delete everything below when using this for an app)
+### Development of the stack itself
 
 ---
 

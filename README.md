@@ -17,6 +17,7 @@ The setup process will ask you for a GitHub repository name.
 If you don't have one, don't worry, you can create it after the setup process.
 
 > **Warning**
+>
 > Read this documentation in your own project's directory **from this point onwards**.
 > It will contain links relevant to you as the init script will replace the links in this
 > README with the ones customized to your project.

@@ -1,12 +1,12 @@
 # TRANCE STACK [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://meza.github.io/trance-stack/)
-
+<!-- initremove:begin -->
 > **Warning**
 > **This stack is typescript and NPM only for now.**
 >
 > The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon, but it
 > requires a bit more time and I would love to get feedback on the stack until then.
 
-## Quick Start
+## Using the stack
 
 Create your project with the stack
 ```bash
@@ -16,12 +16,10 @@ npx create-remix@latest --template meza/trance-stack my-app
 The setup process will ask you for a GitHub repository name.
 If you don't have one, don't worry, you can create it after the setup process.
 
-<!-- initremove:begin -->
 > **Warning**
 > Read this documentation in your own project's directory **from this point onwards**.
 > It will contain links relevant to you as the init script will replace the links in this
 > README with the ones customized to your project.
-<!-- initremove:end -->
 
 Once it's done, go into the newly created directory and add your git remote
 
@@ -45,16 +43,8 @@ Now start the dev server
 npm run dev
 ```
 
-Please make sure that you go through the initialization steps of the create-remix script.
-
-If for whatever reason it didn't run, execute the following commands:
-
-```bash
-npm i && remix init
-```
-
 ---
-
+<!-- initremove:end -->
 ## What's included
 
 This is a [Remix](https://remix.run) stack that offers _a_ way to ship production ready remix applications.
@@ -89,7 +79,27 @@ You can modify it to your liking and use it as a base for your own remix project
 - Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
 </details>
 
+## Quickstart
 
+1. Install the dependencies
+```bash
+npm install
+```
+
+2. Start the dev server
+```bash
+npm run dev
+```
+
+3. Go through the [Getting Started](#getting-started) section to set up the local and deployment environments
+
+## Getting Started
+
+In order to get this project to work, you will need to have a few things set up first.
+<!-- initremove:begin -->
+The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
+find removal instructions at every step so don't worry if you're not a fan of a particular service.
+<!-- initremove:end -->
 > **But... why?**
 >
 > **Note**
@@ -103,26 +113,20 @@ You can modify it to your liking and use it as a base for your own remix project
 > We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
 > should be able to use it right away.
 
-## Getting Started
-
-In order to fully use this stack, you will need to have a few things set up first.
-
-The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
-find removal instructions at every step so don't worry if you're not a fan of a particular service.
 
 ### Environment
 
-If you went through the init script of the stack, you should have a `.env` file in the root of your project.
-If for some reason you don't, you can copy the `.env.example` file and rename it to `.env`.
+Check the project root directory for a `.env` file. If it's not there, copy the `.env.example` file to `.env`
 
 ```bash
 cp .env.example .env
 ```
 
-This file contains all the variables you will need to set for the entire stack to function as is.
+This file contains all the variables you will need to set for the project to function as is.
 
 The `APP_DOMAIN` should generally stay the same. It's the domain that your application will be served from. This variable
-will also be set by the deployment scripts, so you don't need to worry about it.
+will also be set by the deployment scripts, so you don't need to worry about it. During local development
+it will be set to `http://localhost:3000`.
 
 The `NODE_ENV` variable is used to determine which environment you're running the application in. It seems like ARC has a
 hard time figuring it out on its own, so we've set it up to be set manually. If all goes well, it won't be needed for long.
@@ -132,7 +136,7 @@ The `SESSION_SECRET` variable is used to encrypt the session cookies. It should 
 ### GitHub Settings
 
 > **Note**
-> The stack is meant to be used with GitHub Actions. If you're not familiar with GitHub Actions, you can read more about it
+> The project uses GitHub Actions. If you're not familiar with GitHub Actions, you can read more about it
 > [here](https://docs.github.com/en/actions).
 
 You need to do a few things to make sure GitHub Actions can work with your project.

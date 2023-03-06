@@ -544,7 +544,7 @@ Finally, copy the `DSN` value
 4. On the very bottom of the `src/root.tsx` file, replace the `withSentry(App)` with `App`.
 5. Remove the `Sentry.init` call from the `src/entry.client.tsx` and the `src/entry.server.tsx` files.
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
-7. Open the `.github/workflows/deploy.yml` and the `./github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
+7. Open the `.github/workflows/deploy.yml` and the `.github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
 
 ### Split integration
 
@@ -588,7 +588,7 @@ We use [Conventional Commits](https://www.conventionalcommits.org/en) to automat
 version of the package. It uses the [semantic-release](https://semantic-release.gitbook.io/semantic-release) package to
 automate the versioning and release process.
 
-The functionality is controlled by the `<project_root>/.releaserc.json` file.
+The functionality is controlled by the `.releaserc.json` file.
 Since the projects that are created from this stack are most likely aren't going to be npm libraries, the npm publishing
 plugin is not included in the configuration.
 
@@ -650,7 +650,7 @@ of the app is running on any given environment.
 ### Dependency Version Updates
 
 We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to automatically update the dependencies.
-The configuration is in the `<project_root>/.github/renovate.json` file.
+The configuration is in the `.github/renovate.json` file.
 
 By default, it is configured to update the dependencies according to some basic rules:
 
@@ -854,7 +854,7 @@ you can do so by running the same command as the deployment scripts would.
 > **Warning**
 > Don't forget to run `npm run build` before deploying.
 
-You can define the context variables either on the command line or you can use the `<root_directory>/cdk.context.json` file.
+You can define the context variables either on the command line or you can use the `cdk.context.json` file.
 
 ```json
 {
@@ -887,7 +887,7 @@ npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.r
 This requires you to have a `deployment.result.json` file in the `/tmp` directory. You can get this file by running the
 [deployment command locally](#deploying-from-your-local-machine).
 
-The results will be added to the `<project_root>/deploymentSummary.md` file.
+The results will be added to the `deploymentSummary.md` file.
 
 ### Environment variables
 
@@ -974,7 +974,7 @@ The `features.ts` file is a list of all the features that you have in your appli
 in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
 
 ```ts
-// <project_root>/src/features.ts
+// src/features.ts
 export enum Features {
   AUTH = 'auth_enabled', // the name of the split from the split.io workspace
   HELLO = 'hello_split'
@@ -990,7 +990,7 @@ This sets split into a [localhost mode](https://help.split.io/hc/en-us/articles/
 and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the project root.
 
 ```yml
-# <project_root>/devFeatures.yml
+# devFeatures.yml
 
 - auth_enabled:
     treatment: "on"
@@ -1090,7 +1090,7 @@ The translation file in our dashboard's case looks like this:
 
 To add a new locale, you will have to do the following:
 
-1. Add the new locale to the `<project_root>/public/locales` folder. Follow the example of the existing locale(s)
+1. Add the new locale to the `public/locales` folder. Follow the example of the existing locale(s)
 2. Add the new locale to the `resources` object in the `i18n.server.ts` file.
 3. Add the new locale to the `supportedLngs` array in the `i18n.config.ts` file.
 
@@ -1113,7 +1113,7 @@ If you don't want to use i18n, you can remove it from your project. You will hav
 
 The commit validation and the automatic dependency installation is done by [Lefthook](https://github.com/evilmartians/lefthook)
 
-The configuration file is at `<project_root>/.lefthook.yml`.
+The configuration file is at `.lefthook.yml`.
 You can see all the commands that happen and the git hooks they are attached to.
 
 If running all the tests at every commit is too much, you can always set it to happen on pre-push instead.
@@ -1137,7 +1137,7 @@ npx playwright install --with-deps
 #### Configuring Playwright
 
 The tests are located in the `tests/e2e` directory. Feel free to change the directory structure to your liking.
-If you do so, don't forget to update the test location in the `<root_directory>/playwright.config.ts` file.
+If you do so, don't forget to update the test location in the `playwright.config.ts` file.
 
 ```ts
 export default defineConfig({
@@ -1146,7 +1146,7 @@ export default defineConfig({
 
 **You do not need to start the dev server before running the tests.**
 
-Playwright will start the dev server for you. It is configured in the `<root_directory>/playwright.config.ts` file right
+Playwright will start the dev server for you. It is configured in the `playwright.config.ts` file right
 at the bottom:
 
 ```ts
@@ -1173,7 +1173,7 @@ You can run the tests locally by running the following command:
 npm run int
 ```
 
-The reports will go to the `<root_directory>/reports/e2e` directory.
+The reports will go to the `reports/e2e` directory.
 
 ### Storybook
 
@@ -1209,7 +1209,7 @@ Remember when we set up [Pages](#pages) at the beginning?
 
 Storybook automatically gets published to GitHub Pages when you push to the `main` branch.
 
-This is done via the `<project_root>/.github/workflows/storybook.yml` workflow.
+This is done via the `.github/workflows/storybook.yml` workflow.
 
 ##### Accessing the published Storybook
 
@@ -1352,7 +1352,7 @@ resolve: {
 Storybook also needs to be told to respect the typescript paths. We use the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
 to tell the storybook webpack config to respect the paths.
 
-We add it to the `webpackFinal` function in the `<project_root>/.storybook/main.ts` file.
+We add it to the `webpackFinal` function in the `.storybook/main.ts` file.
 
 ```ts
 webpackFinal: async config => {
@@ -1372,7 +1372,7 @@ webpackFinal: async config => {
 We use [Vitest](https://vitest.dev/) as the unit testing framework.
 If you're unfamiliar with Vitest, fear not, its interface is very similar to Jest and you will have no issues getting started.
 
-The main configuration file of Vitest is located at `<root_directory>/vitest.config.ts`.
+The main configuration file of Vitest is located at `vitest.config.ts`.
 
 There has been quite a few deliberate decisions made here, so let's go through them.
 
@@ -1388,12 +1388,12 @@ On your local machine, we use the `html` reporter for coverage and a default tex
 
 In both cases we also print out a textual representation of the coverage report.
 
-All the test reporting goes into the `<root_directory>/reports` directory.
+All the test reporting goes into the `reports` directory.
 
 #### Setup files
 
 If you look closely, you can see that we have a `setupFiles` section which calls the
-`<root_directory>/vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
+`vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
 It installs the `@testing-library/jest-dom` package and sets up a universal `afterEach` hook to clean up after the tests.
 
 This might not be to everyone's liking so feel free to change it. Just remember that if you remove the global
@@ -1403,7 +1403,7 @@ broke.
 Since Remix relies on browser APIs such as fetch that are not natively available in Node.js you may find that your unit
 tests fail without these globals when running with some tools.
 
-If you need to add more globals, you can do so in the `<root_directory>/vitest.setup.ts` file.
+If you need to add more globals, you can do so in the `vitest.setup.ts` file.
 
 Simply add:
 

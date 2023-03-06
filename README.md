@@ -633,6 +633,34 @@ When you merge a pull request from the `alpha` or `beta` branch to the `main` br
 will be collected and bundled into a single release. To follow the example above, if you have a `1.0.0` version in production,
 and merge the `alpha` branch with its `1.1.0-alpha.1` version, your newly created version on production will be `1.1.0`.
 
+```mermaid
+---
+title: branching and versioning
+---
+%%{title: '', init: {'theme': 'base', 'gitGraph': {'rotateCommitLabel': true}} }%%
+gitGraph
+    commit id: "v1.0.0"
+    branch feature order: 2
+    branch beta order: 1
+    checkout feature
+    commit id: "fix: x"
+    commit id: "fix: y"
+    checkout beta
+    merge feature id: "v1.0.1-beta.1"
+    checkout feature
+    commit id: "fix: z"
+    checkout beta
+    merge feature id: "v1.0.1-beta.2"
+    checkout feature
+    commit id: "feat: added something cool"
+    commit id: "fix: fixed a mistake"
+    commit id: "refactor: refactored the tests"
+    checkout beta
+    merge feature id: "v1.1.0-beta.1"
+    checkout main
+    merge beta id: "v1.1.0"
+```
+
 #### Linting
 
 We use [commitlint](https://commitlint.js.org/#/) to lint the commit messages. The configuration is in the

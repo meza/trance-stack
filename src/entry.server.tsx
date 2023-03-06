@@ -9,6 +9,7 @@ import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import { NonceContext } from './components/NonceContext';
 import type { EntryContext } from '@remix-run/node';
 
+// @see https://github.com/getsentry/sentry-javascript/issues/6062 <- subscribe to this for a resolution
 // @see https://github.com/getsentry/sentry-javascript/issues/7332
 // Cannot use Sentry in server entry file because of this issue
 //

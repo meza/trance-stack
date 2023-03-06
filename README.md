@@ -509,6 +509,13 @@ variables in the `.env` file.
 
 ### Sentry integration
 
+> **Note**
+> Due to compatibility issues with Architect, the server-side instrumentation of Sentry is not
+> working for now.
+> Keep an eye on [this issue](https://github.com/getsentry/sentry-javascript/issues/6062) for
+> updates.
+> The relevant code is commented out in the `entry.server.tsx` file.
+
 We use [Sentry](https://sentry.io) for error reporting. You will need to create an account with them
 and set up a new project.
 

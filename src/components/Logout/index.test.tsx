@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithi18n } from '@test';
+import { renderWithi18n } from '../../../testUtils';
 import Logout from './index';
 import type { PropsWithChildren } from 'react';
 

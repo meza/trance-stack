@@ -1,5 +1,5 @@
 {
-  "include": ["./*", "src", "test", "types", "deployment"],
+  "include": ["./*", "src", "testUtils", "types", "deployment"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "isolatedModules": true,
@@ -19,8 +19,8 @@
     "rootDir": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "@test": ["./test"],
-      "@test/*": ["./test/*"],
+      "@test": ["./testUtils"],
+      "@test/*": ["./testUtils/*"],
       "@styles": ["./src/styles"],
       "@styles/*": ["./src/styles/*"]
     },

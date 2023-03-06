@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithi18n } from '@test';
+import { renderWithi18n } from '../../../testUtils';
 import { Hello, links } from './index';
 
 vi.mock('./hello.css', () => ({ default: 'hello.css' }));

@@ -12,7 +12,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
-    'plugin:i18next/recommended'
+    'plugin:i18next/recommended',
+    'plugin:sonarjs/recommended'
   ],
   overrides: [
     {
@@ -25,7 +26,8 @@ module.exports = {
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/ban-ts-comment': 'off',
         'no-use-before-define': 'off',
-        'max-nested-callbacks': 'off'
+        'max-nested-callbacks': 'off',
+        'sonarjs/no-duplicate-string': 'off',
       }
     }
   ],
@@ -46,7 +48,8 @@ module.exports = {
   plugins: [
     'i18next',
     'json',
-    '@typescript-eslint'
+    '@typescript-eslint',
+    'sonarjs'
   ],
   root: true,
   rules: {
@@ -76,6 +79,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['type'],
       },
     ],
+    'sonarjs/no-duplicate-string': 'off',
     'no-continue': 'off',
     'dot-notation': 'error',
     '@typescript-eslint/dot-notation': 'error',

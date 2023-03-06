@@ -16,6 +16,13 @@ npx create-remix@latest --template meza/trance-stack my-app
 The setup process will ask you for a GitHub repository name.
 If you don't have one, don't worry, you can create it after the setup process.
 
+<!-- initremove:begin -->
+> **Warning**
+> Read this documentation in your own project's directory **from this point onwards**.
+> It will contain links relevant to you as the init script will replace the links in this
+> README with the ones customized to your project.
+<!-- initremove:end -->
+
 Once it's done, go into the newly created directory and add your git remote
 
 ```bash
@@ -31,7 +38,6 @@ Make sure that lefthook is set up. Unfortunately it can only be set up once you 
 ```bash
 npx lefthook install
 ```
-
 > More about lefthook [here](#lefthook)
 
 Now start the dev server
@@ -49,13 +55,14 @@ npm i && remix init
 
 ---
 
-## What is this stack?
+## What's included
 
 This is a [Remix](https://remix.run) stack that offers _a_ way to ship production ready remix applications.
 It is constructed in an opinionated way and is meant to be used as a starting point for your own remix projects.
 You can modify it to your liking and use it as a base for your own remix projects.
 
-## What's included
+<details>
+<summary>📦 Click to see a list of included technologies</summary>
 
 - Good security practices with CSP and sensible auth processes
 - i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
@@ -80,20 +87,12 @@ You can modify it to your liking and use it as a base for your own remix project
   - Using AWS Lambda + Api Gateway + Cloud Front for production builds
   - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
 - Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
+</details>
 
-## Getting Started
 
-> **Note**
-> Read this documentation on your own project's repository. It will contain links relevant to you as
-> the init script will replace the links in this README with the ones customized to your project.
-
-In order to fully use this stack, you will need to have a few things set up first.
-
-The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
-find removal instructions at every step so don't worry if you're not a fan of a particular service.
-
-> #### But... why?
+> **But... why?**
 >
+> **Note**
 > We've been using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
 > throughout the development of the stack so if you ever find yourself wondering why we've chosen a particular service or
 > implementation, you can check the [ADR](./doc/adr/decisions.md) page for more information.
@@ -104,9 +103,12 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 > We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the stack, so you
 > should be able to use it right away.
 
-> **Warning**
-> This README isn't trying to teach you how to use these services, please refer to the services' documentation for that.
+## Getting Started
 
+In order to fully use this stack, you will need to have a few things set up first.
+
+The stack is designed in a way that makes it relatively simple to remove the parts you don't need. You will be able to
+find removal instructions at every step so don't worry if you're not a fan of a particular service.
 
 ### Environment
 
@@ -1315,10 +1317,9 @@ You can prevent certain keys to get bundled by adding them to the deny list in t
 
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions
+<!-- initremove:begin -->
 
 ---
-
-<!-- stack-only -->
 
 ### Development of the stack itself (delete everything below when using this for an app)
 
@@ -1330,3 +1331,4 @@ You can prevent certain keys to get bundled by adding them to the deny list in t
 >
 > Since this is a "create" package, lockfiles are not included. This is to ensure that the latest versions of
 > dependencies are used when creating a new project.
+<!-- initremove:end -->

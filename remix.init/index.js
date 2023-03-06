@@ -26,6 +26,17 @@ const cleanUpDeploymentScripts = async (rootDirectory) => {
   }
 };
 
+const cleanUpReadme = async (rootDirectory) => {
+  // remove all blocks between <!-- initremove:begin --> and <!-- initremove:end --> in the readme
+
+  const readmePath = path.join(rootDirectory, 'README.md');
+  const contents = await fs.readFile(readmePath, 'utf-8');
+
+  const newContents = contents.replaceAll(/<!--\s*initremove:begin\s*-->.*?<!--\s*initremove:end\s*-->/gs, '');
+
+  await fs.writeFile(readmePath, newContents, 'utf-8');
+};
+
 const replaceInFile = async (file, replacements) => {
   return fs.readFile(file, 'utf-8').then((contents) => {
     const githubSlug = replacements.githubRepo.replace(`https://github.com/${replacements.githubUsername}/`, '');
@@ -165,6 +176,7 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
   }));
 
   await Promise.all([
+    cleanUpReadme(rootDirectory),
     cleanUpDeploymentScripts(rootDirectory),
     fs.copyFile(
       envExamplePath,

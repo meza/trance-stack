@@ -6,6 +6,40 @@
 > The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon, but it
 > requires a bit more time and I would love to get feedback on the stack until then.
 
+## What's included
+
+This is a [Remix](https://remix.run) stack that offers _a_ way to ship production ready remix applications.
+It is constructed in an opinionated way and is meant to be used as a starting point for your own remix projects.
+You can modify it to your liking and use it as a base for your own remix projects.
+
+<details>
+<summary>📦 Click to see a list of included technologies</summary>
+
+- Good security practices with CSP and sensible auth processes
+- i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
+- [Auth0](https://auth0.com/) for authentication
+- [Split](https://split.io) for feature flags
+- [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
+- [CookieYes](https://cookieyes.com) for cookie consent
+- Analytics Integrations
+  - [Mixpanel](https://mixpanel.com)
+  - [Hotjar](https://hotjar.com)
+  - [Google Analytics v4](https://analytics.google.com)
+- Static Types with [TypeScript](https://typescriptlang.org)
+- Linting with [ESLint](https://eslint.org)
+- Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
+- End-to-End testing with [Playwright](https://playwright.dev)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
+- [Semantic Release](https://github.com/semantic-release/semantic-release) for automatic release management
+- [Storybook v7](https://storybook.js.org) for component development
+- [NPM](https://docs.npmjs.com/) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
+- [GitHub Actions](https://github.com/features/actions) for a full CI setup
+- [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
+  - Using AWS Lambda + Api Gateway + Cloud Front for production builds
+  - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
+- Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
+</details>
+
 ## Using the stack
 
 Create your project with the stack
@@ -49,39 +83,6 @@ You can find the instructions for that [here](#getting-started)
 
 ---
 <!-- initremove:end -->
-## What's included
-
-This is a [Remix](https://remix.run) stack that offers _a_ way to ship production ready remix applications.
-It is constructed in an opinionated way and is meant to be used as a starting point for your own remix projects.
-You can modify it to your liking and use it as a base for your own remix projects.
-
-<details>
-<summary>📦 Click to see a list of included technologies</summary>
-
-- Good security practices with CSP and sensible auth processes
-- i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
-- [Auth0](https://auth0.com/) for authentication
-- [Split](https://split.io) for feature flags
-- [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
-- [CookieYes](https://cookieyes.com) for cookie consent
-- Analytics Integrations
-  - [Mixpanel](https://mixpanel.com)
-  - [Hotjar](https://hotjar.com)
-  - [Google Analytics v4](https://analytics.google.com)
-- Static Types with [TypeScript](https://typescriptlang.org)
-- Linting with [ESLint](https://eslint.org)
-- Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
-- End-to-End testing with [Playwright](https://playwright.dev)
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
-- [Semantic Release](https://github.com/semantic-release/semantic-release) for automatic release management
-- [Storybook v7](https://storybook.js.org) for component development
-- [NPM](https://docs.npmjs.com/) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
-- [GitHub Actions](https://github.com/features/actions) for a full CI setup
-- [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
-  - Using AWS Lambda + Api Gateway + Cloud Front for production builds
-  - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
-- Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
-</details>
 
 ## Quickstart
 

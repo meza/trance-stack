@@ -185,9 +185,7 @@ npm run dev
         * [Accessing the published Storybook](#accessing-the-published-storybook)
     * [Environment variables](#environment-variables-1)
       * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist-)
-  * [Add the variable to...](#add-the-variable-to)
       * [Bundling environment variables](#bundling-environment-variables)
-    * [Development of the stack itself (delete everything below when using this for an app)](#development-of-the-stack-itself--delete-everything-below-when-using-this-for-an-app-)
 <!-- TOC -->
 
 ## Getting Started
@@ -1393,7 +1391,7 @@ We're working on a solution to this, but for now, you have to do it manually.
 #### Adding a new environment variable checklist:
 
 Add the variable to...
--
+
 - [ ] the `.env` file
 - [ ] the `.env.example` script. **This is very important**
 - [ ] the `.github/workflows/deploy.yml` script to the `npm run build` command

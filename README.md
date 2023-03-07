@@ -570,6 +570,13 @@ When you have your project set up, head to the workspace settings > API Keys sec
 We're only interested in the server-side keys. Copy the `API Key` and paste it
 set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
 
+For now, go to the Splits section on your workspace and set up 2 splits:
+
+- `auth_enabled`
+- `hello_split`
+
+Make sure to click on them and add new targeting rules!
+
 Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
 variables in the `.env` file.
 

@@ -30,9 +30,9 @@ You can modify it to your liking and use it as a base for your own remix project
 - Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
 - End-to-End testing with [Playwright](https://playwright.dev)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
-- [Semantic Release](https://github.com/semantic-release/semantic-release) for automatic release management
+- [semantic-release](https://github.com/semantic-release/semantic-release) for automatic release management
 - [Storybook v7](https://storybook.js.org) for component development
-- [NPM](https://docs.npmjs.com/) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
+- [NPM](https://docs.npmjs.com/cli) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
 - [GitHub Actions](https://github.com/features/actions) for a full CI setup
 - [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
   - Using AWS Lambda + Api Gateway + Cloud Front for production builds
@@ -60,14 +60,14 @@ Once it's done, go into the newly created directory and add your git remote
 
 ```bash
 cd my-app && \
-git init  && \
-git add .  && \
-git commit -m "chore: first commit"  && \
-git branch -M main  && \
+git init && \
+git add . && \
+git commit -m "chore: first commit" && \
+git branch -M main && \
 git remote add origin https://github.com/meza/trance-stack.git
 ```
 
-Make sure that lefthook is set up. Unfortunately it can only be set up once you have an active git repository.
+Make sure that lefthook is set up. Unfortunately, it can only be set up once you have an active git repository.
 ```bash
 npx lefthook install
 ```
@@ -78,7 +78,7 @@ Now start the dev server
 npm run dev
 ```
 
-Now this has set you up with a default remix application. It won't function well until you complete the setup process.
+This has set you up with a default remix application. It won't function well until you complete the setup process.
 You can find the instructions for that [here](#getting-started)
 
 ---
@@ -146,7 +146,7 @@ npm run dev
       * [Removing the Sentry integration from the application](#removing-the-sentry-integration-from-the-application)
     * [Split integration](#split-integration)
       * [Removing the Split integration from the application](#removing-the-split-integration-from-the-application)
-  * [How to use ... ?](#how-to-use--)
+  * [How to use ...?](#how-to-use-)
     * [Authentication](#authentication)
     * [Automated Semantic Versioning](#automated-semantic-versioning)
     * [Branching Strategy with Semantic Versioning](#branching-strategy-with-semantic-versioning)
@@ -167,10 +167,10 @@ npm run dev
         * [The deployment directory](#the-deployment-directory)
         * [The context variables](#the-context-variables)
         * [Deploying from your local machine](#deploying-from-your-local-machine)
-        * [The githubActionSupport](#the-githubactionsupport)
+        * [The githubActionSupport.ts file](#the-githubactionsupportts-file)
           * [Testing the GitHub support locally](#testing-the-github-support-locally)
     * [Environment variables](#environment-variables-1)
-      * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist-)
+      * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist)
       * [Bundling environment variables](#bundling-environment-variables)
     * [Feature Flags](#feature-flags)
       * [Production](#production)
@@ -201,7 +201,7 @@ npm run dev
         * [Vitest](#vitest)
         * [Storybook](#storybook-1)
     * [Unit Testing](#unit-testing)
-      * [Globals: true](#globals--true)
+      * [Globals: true](#globals-true)
       * [Test reporters](#test-reporters)
       * [Setup files](#setup-files)
       * [Threads](#threads)
@@ -283,7 +283,7 @@ We use this later in the [Deployment](#deployment) section to prevent named envi
 
 #### Pages
 
-Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set to `Github Actions`.
+Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set to `GitHub Actions`.
 This will allow us to deploy the project's storybook to GitHub Pages.
 
 #### Environments
@@ -532,7 +532,7 @@ Once you have the token, go to the [secrets settings][gh-secrets] and add
 
 We will be using these to send the source maps to Sentry so that the errors are properly mapped to the source code.
 
-The deployment script will automatically upload the source maps to Sentry and then remove them locally so they don't get
+The deployment script will automatically upload the source maps to Sentry and then remove them locally, so they don't get
 uploaded to the environments.
 
 #### How to find the DSN
@@ -588,7 +588,7 @@ variables in the `.env` file.
 
 ---
 
-## How to use ... ?
+## How to use ...?
 
 This section dives deeper into the concepts present in the stack.
 
@@ -641,7 +641,7 @@ When you push to the `alpha` or `beta` branch, a new [Pre-release](https://seman
 version is created. This allows you to iterate on features for an upcoming release and not worry about bumping the version
 number every time you push a commit that introduces a new feature or a fix.
 
-For example if you have a `1.0.0` version in production, and you push a commit to the `alpha` branch, the version will be
+For example, if you have a `1.0.0` version in production, and you push a commit to the `alpha` branch, the version will be
 `1.1.0-alpha.0`. If you push another commit to the `alpha` branch, the version will be `1.1.0-alpha.1` and so on.
 
 When you merge a pull request from the `alpha` or `beta` branch to the `main` branch, all the changes in those branches
@@ -803,7 +803,7 @@ flowchart TD
         H -->|Yes| I1{{Deploy to Production}}
         H -->|No| I2{{Deploy to Staging}}
 
-        I1 --> J1[Create Github Release]
+        I1 --> J1[Create GitHub Release]
         H -->|Yes| J2[Deploy Storybook]
         I2 --> J1
     end
@@ -908,7 +908,7 @@ You can define the context variables either on the command line or you can use t
 }
 ```
 
-##### The githubActionSupport
+##### The githubActionSupport.ts file
 
 Let's talk about the `githubActionSupport.ts` file.
 
@@ -955,7 +955,7 @@ Add the variable to...
 We bundle most of the environment variables into the server bundle. To understand why,
 read [the relevant adr](./docs/adr/0005-bundling-environment-variables.md), and [it's addendum](./docs/adr/0009-no-more-need-to-bundle-environment-variables.md).
 
-The important thing to know is that what gets budled is decided by reading the `.env.example` file and taking its
+The important thing to know is that what gets bundled is decided by reading the `.env.example` file and taking its
 keys.
 
 You can prevent certain keys to get bundled by adding them to the deny list in the `remix.config.js` file.
@@ -1046,7 +1046,7 @@ feature is enabled or not. If the treatment is set to `on`, the feature is enabl
 disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on` and `off`.
 
 > **Warning**
-> Unfortunately there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
+> Unfortunately, there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
 > and the Splits in your split.io workspace in sync. You will have to do this manually.
 
 ### I18N - Internationalization
@@ -1083,7 +1083,7 @@ We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) env
 handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file systems,
 it would make deployments more complicated and the function would become incompatible with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
 
-Therefore instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
+Therefore, instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
 
 This does mean that when you add a new locale, you will have to add it to the resources in the `i18n.server.ts` file.
 
@@ -1381,7 +1381,7 @@ We have chosen not to add those because `~/hooks` and `@hooks` are not that diff
 
 #### Issues with Typescript Paths
 
-Unfortunately typescript paths are somewhat esoteric and support across tools can be spotty.
+Unfortunately, typescript paths are somewhat esoteric and support across tools can be spotty.
 
 ##### Vitest
 Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts` file.

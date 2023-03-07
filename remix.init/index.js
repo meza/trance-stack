@@ -82,7 +82,7 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
   const awsPath = path.join(rootDirectory, 'deployment');
   const rootPath = path.join(rootDirectory, 'src/root.tsx');
   const rootTestPath = path.join(rootDirectory, 'src/root.test.tsx');
-  const e2ePath = path.join(rootDirectory, 'tests/e2e/example.spec.ts');
+  const e2ePath = path.join(rootDirectory, 'playwright/e2e/example.spec.ts');
 
   const filesToDelete = [
     fundingPath,

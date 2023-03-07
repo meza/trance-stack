@@ -506,7 +506,7 @@ work on the repository you're currently in.
 ### Sentry integration
 
 > **Note**
-> Due to4 compatibility issues with Architect, the server-side instrumentation of Sentry is not
+> Due to compatibility issues with Architect, the server-side instrumentation of Sentry is not
 > working for now.
 > Keep an eye on [this issue](https://github.com/getsentry/sentry-javascript/issues/6062) for
 > updates.

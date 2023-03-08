@@ -14,7 +14,7 @@ describe('Hotjar', () => {
       nonce: 'a-nonce'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <script
+        <StaticContent
           async={true}
           dangerouslySetInnerHTML={
             {
@@ -26,11 +26,13 @@ describe('Hotjar', () => {
                 ",
             }
           }
+          element="script"
           id="hotjar-init"
           nonce="a-nonce"
         />
-        <script
+        <StaticContent
           async={true}
+          element="script"
           id="hotjar-script"
           nonce="a-nonce"
           src="https://static.hotjar.com/c/hotjar-123.js?sv=6"
@@ -45,7 +47,7 @@ describe('Hotjar', () => {
       nonce: 'a-nonce2'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <script
+        <StaticContent
           async={true}
           dangerouslySetInnerHTML={
             {
@@ -57,11 +59,13 @@ describe('Hotjar', () => {
                 ",
             }
           }
+          element="script"
           id="hotjar-init"
           nonce="a-nonce2"
         />
-        <script
+        <StaticContent
           async={true}
+          element="script"
           id="hotjar-script"
           nonce="a-nonce2"
           src="https://static.hotjar.com/c/hotjar-324123.js?sv=6"

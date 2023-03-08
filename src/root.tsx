@@ -5,6 +5,7 @@ import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
 import { ColorModeContext, ColorModeSensor } from '~/components/ColorModeSwitcher';
 import { CookieYes } from '~/components/CookieYes';
+import { ExposeAppConfig } from '~/components/ExposeAppConfig';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
@@ -67,18 +68,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
   });
 };
-
-export const ExposeAppConfig = (props: { appConfig: AppConfig, nonce?: string }) => {
-  return (
-    <script
-      nonce={props.nonce}
-      dangerouslySetInnerHTML={{
-        __html: `window.appConfig = ${JSON.stringify(props.appConfig)}` //typed in the ../types/global.d.ts
-      }}
-    />
-  );
-};
-
 const App = () => {
   const nonce = useContext(NonceContext);
   const { appConfig, locale, colorMode: colorModeFromSession } = useLoaderData<typeof loader>();
@@ -93,7 +82,7 @@ const App = () => {
         <Meta/>
         <Links/>
         <ColorModeSensor nonce={nonce}/>
-        <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
+        <ExposeAppConfig appConfig={appConfig} nonce={nonce} />
         <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>

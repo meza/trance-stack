@@ -11,7 +11,7 @@ export class EphemeralStack extends Stack {
     super(scope, id, props);
 
     const environmentName = scope.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-]/g, '-');
-    const formatName = (name: string) => `${id}-${environmentName}-${name}`;
+    const formatName = (name: string) => `${name}`;
 
     const remixDeployment = new RemixDeployment(this, formatName('RemixDeployment'), {
       publicDir: path.join(__dirname, '../../public'),
@@ -29,6 +29,7 @@ export class EphemeralStack extends Stack {
       value: api.url()
     });
 
+    Tags.of(this).add('environment', environmentName);
     Tags.of(this).add('ephemeral', 'true');
   }
 }

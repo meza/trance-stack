@@ -1,0 +1,21 @@
+// Vitest Snapshot v1
+
+exports[`StaticContent > should wrap with div by default 1`] = `
+<div>
+  <div
+    title="some div"
+  >
+    div content
+  </div>
+</div>
+`;
+
+exports[`StaticContent > should wrap with given element 1`] = `
+<div>
+  <script
+    async=""
+  >
+    script content
+  </script>
+</div>
+`;

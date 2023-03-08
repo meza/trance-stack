@@ -4,6 +4,7 @@ import { Bucket, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import type { LambdaDeployment } from './LambdaDeployment';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 
 export interface StaticDeploymentProps {
   publicDir: string;
@@ -41,8 +42,7 @@ export class StaticDeployment extends Construct {
       assumedBy: new ServicePrincipal('lambda.amazonaws.com')
     });
 
-    // eslint-disable-next-line no-new
-    new BucketDeployment(this, 'AssetDeployment', {
+    const bucketDeployment = new BucketDeployment(this, 'Default', {
       sources: [Source.asset(props.publicDir)],
       destinationBucket: this.bucketResource,
       destinationKeyPrefix: this.key,
@@ -50,8 +50,12 @@ export class StaticDeployment extends Construct {
         CacheControl.maxAge(Duration.days(365)),
         CacheControl.sMaxAge(Duration.days(365))
       ],
+      logRetention: RetentionDays.SIX_MONTHS,
       role: role
     });
+
+    const awscliLayer = bucketDeployment.node.findChild('AwsCliLayer');
+    awscliLayer.node.findChild('Resource');
   }
 
   grantAccessTo(lambda: LambdaDeployment) {

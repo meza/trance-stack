@@ -1,8 +1,6 @@
 import { Auth0RemixServer } from 'auth0-remix-server';
 import { getSessionStorage } from '~/sessionStorage.server';
 
-console.log(process.env.APP_DOMAIN);
-
 export const authenticator = new Auth0RemixServer({
   clientDetails: {
     domain: process.env.AUTH0_DOMAIN,

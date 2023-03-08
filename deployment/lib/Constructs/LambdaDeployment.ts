@@ -5,7 +5,6 @@ import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
 import type { Runtime } from 'aws-cdk-lib/aws-lambda';
-import { RemixApiGateway } from './RemixApiGateway';
 
 export interface LambdaDeploymentProps {
   runtime: Runtime;
@@ -26,6 +25,7 @@ export class LambdaDeployment extends Construct {
 
     const role = new Role(this, 'RemixServerRole', {
       description: 'Service Role for the Remix Server, managed by CDK',
+      roleName: 'RemixServerRole',
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
@@ -34,6 +34,7 @@ export class LambdaDeployment extends Construct {
 
     const logRetentionRole = new Role(this, 'RemixServerLogRetentionRole', {
       description: 'Log Retention Role for the Remix Server, managed by CDK',
+      roleName: 'RemixServerLogRetentionRole',
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       inlinePolicies: {
         'AllowRemixServerToChangeLogRetention': new PolicyDocument({
@@ -42,7 +43,12 @@ export class LambdaDeployment extends Construct {
       }
     });
 
-    this.lambdaFunction = new NodejsFunction(this, 'RemixServer', {
+    // The Lambda function names have a hard limit on size of 64 characters.
+    // We need to truncate the environment name to fit within that limit.
+    const env = scope.node.tryGetContext('environmentName').replace(/[^a-zA-Z0-9-]/g, '-').substring(0, 50);
+
+    this.lambdaFunction = new NodejsFunction(this, 'Default', {
+      functionName: `${env}-remix-server`,
       description: 'Remix Server, managed by CDK',
       runtime: props.runtime,
       entry: props.server,

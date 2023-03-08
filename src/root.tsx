@@ -21,7 +21,7 @@ import type { ColorMode } from '~/components/ColorModeSwitcher';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'AgilityMatrix.IO',
+  title: 'REPL_APP_NAME',
   viewport: 'width=device-width,initial-scale=1'
 });
 

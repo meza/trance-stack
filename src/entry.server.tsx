@@ -53,17 +53,3 @@ export default async (
     headers: responseHeaders
   });
 };
-
-export const handleDataRequest = (
-  response: Response,
-  { request }: { request: Request }
-) => {
-  // Cache all loader responses on the browser for 10mins, unless overridden in the loader
-  if (
-    !response.headers.get('Cache-Control')
-    && request.method.toLowerCase() === 'get'
-  ) {
-    response.headers.set('Cache-Control', 'private, max-age=600, no-cache="Set-Cookie"');
-  }
-  return response;
-};

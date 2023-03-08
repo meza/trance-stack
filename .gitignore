@@ -21,6 +21,7 @@ storybook-static
 # Remix
 server/index.js
 server/index.js.map
+server/index.mjs
 public/build
 
 # ARC

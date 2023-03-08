@@ -15,9 +15,10 @@ deploymentSummary.md
 # Storybook
 storybook-static
 
-# Remix
+# Remix/Arc
 server/index.js
 server/index.js.map
+server/index.mjs
 public/build
 
 # ARC

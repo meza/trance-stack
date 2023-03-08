@@ -1,0 +1,38 @@
+@import url("./sun-and-moon.css");
+
+.color-mode-toggle {
+  --size: 2rem;
+  --icon-fill: hsl(210deg 10% 30%);
+  --icon-fill-hover: hsl(210deg 10% 15%);
+
+  aspect-ratio: 1;
+  background: none;
+  block-size: var(--size);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  inline-size: var(--size);
+  margin: 10px 10px 0 0;
+  outline-offset: 5px;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  -webkit-tap-highlight-color: transparent;
+  top: 0;
+  touch-action: manipulation;
+
+  & > svg {
+      block-size: 100%;
+      inline-size: 100%;
+      stroke-linecap: round;
+    }
+
+  @nest .dark & {
+    --icon-fill: hsl(210deg 10% 70%);
+    --icon-fill-hover: hsl(210deg 15% 90%);
+  }
+
+  @media (hover: none) {
+    --size: 48px;
+  }
+}

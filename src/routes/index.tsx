@@ -1,6 +1,8 @@
+import React from 'react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
+import ColorModeSwitcher from '~/components/ColorModeSwitcher';
 import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
 import { Features } from '~/features';
@@ -25,6 +27,7 @@ export default () => {
   if (isHelloEnabled) {
     return (<div>
       <Hello/>
+      <ColorModeSwitcher />
       {isAuthEnabled ? <Login/> : null}
     </div>);
   }

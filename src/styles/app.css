@@ -1,6 +1,14 @@
+@import url("./components/ColorModeSwitcher/color-mode-toggle.css");
+
+@custom-media --motion-ok (prefers-reduced-motion: no-preference);
+
 html {
   background-color: var(--color-secondary);
+  block-size: 100%;
   color: var(--color-primary);
+  color-scheme: light;
+  font-display: swap;
+  font-family: 'IBM Plex Sans', sans-serif;
   height: 100dvh;
   margin: 0;
 }

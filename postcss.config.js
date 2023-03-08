@@ -5,16 +5,15 @@ module.exports = (cfg) => {
   return {
     map: dev ? { inline: false }:false,
     plugins: {
-      'postcss-advanced-variables': {},
-      'postcss-nested': {},
       'postcss-sorting': {},
-      'postcss-preset-env': {},
+      'postcss-preset-env': {
+        stage: 0
+      },
       'colorguard': {},
       'doiuse': {
         browsers: dev ? packageJson.browserslist.development : packageJson.browserslist.production,
         ignoreFiles: [
-          '**/sanitize.css',
-          '**/sanitize.css/**'
+          '**/node_modules/**/*'
         ]
       },
       'autoprefixer': {
@@ -22,7 +21,8 @@ module.exports = (cfg) => {
       },
       'cssnano': dev ? false : {},
       'stylelint': {},
-      'postcss-reporter': {}
+      'postcss-reporter': {},
+      'postcss-custom-media': {},
     }
   };
 };

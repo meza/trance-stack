@@ -33,9 +33,13 @@ export const createUserSession = async (request: Request) => {
   const session = await getSessionFromRequest(request);
   const id = getVisitorId(session, new URL(request.url).hostname);
   const cookie = await getSessionStorage().commitSession(session);
-  return { cookie: cookie, visitorId: id };
+  return { cookie: cookie, visitorId: id, session: session };
 };
 
 export const destroySession = async (session: Session) => {
   return getSessionStorage().destroySession(session);
+};
+
+export const commitSession = async (session: Session) => {
+  return getSessionStorage().commitSession(session);
 };

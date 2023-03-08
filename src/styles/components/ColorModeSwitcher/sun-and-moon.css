@@ -1,0 +1,83 @@
+.sun-and-moon {
+  --ease-3: cubic-bezier(.25, 0, .3, 1);
+  --ease-elastic-3: cubic-bezier(.5, 1.25, .75, 1.25);
+  --ease-elastic-4: cubic-bezier(.5, 1.5, .75, 1.25);
+  --ease-out-5: cubic-bezier(0, 0, 0, 1);
+
+  & > :is(.moon, .sun, .sun-beams) {
+    transform-origin: center center;
+  }
+
+  & > :is(.moon, .sun) {
+    fill: var(--icon-fill);
+
+    @nest .color-mode-toggle:is(:hover, :focus-visible) & {
+      fill: var(--icon-fill-hover);
+    }
+  }
+
+  & > .sun-beams {
+    stroke: var(--icon-fill);
+    stroke-width: 2px;
+
+    @nest .color-mode-toggle:is(:hover, :focus-visible) & {
+      stroke: var(--icon-fill-hover);
+    }
+  }
+
+  @nest .dark & {
+    & > .sun {
+      transform: scale(1.75);
+    }
+
+    & > .sun-beams {
+      opacity: 0;
+    }
+
+    & > .moon > circle {
+      transform: translateX(-7px);
+
+      @supports (cx: 1) {
+        cx: 17;
+        transform: translateX(0);
+      }
+    }
+  }
+
+  @media (--motion-ok) {
+    & > .sun {
+      transition: transform .5s var(--ease-elastic-3);
+    }
+
+    & > .sun-beams {
+      transition: transform .5s var(--ease-elastic-4),
+      opacity .5s var(--ease-3);
+    }
+
+    & .moon > circle {
+      transition: transform .25s var(--ease-out-5);
+
+      @supports (cx: 1) {
+        transition: cx .25s var(--ease-out-5);
+      }
+    }
+
+    @nest .dark & {
+      & > .sun {
+        transform: scale(1.75);
+        transition-duration: .25s;
+        transition-timing-function: var(--ease-3);
+      }
+
+      & > .sun-beams {
+        transform: rotateZ(-25deg);
+        transition-duration: .15s;
+      }
+
+      & > .moon > circle {
+        transition-delay: .25s;
+        transition-duration: .5s;
+      }
+    }
+  }
+}

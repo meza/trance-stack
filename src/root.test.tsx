@@ -7,7 +7,7 @@ import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { createUserSession } from '~/session.server';
 import splitClient from '~/split.server';
-import App, { ExposeAppConfig, handle, links, loader, meta } from './root';
+import App, { handle, links, loader, meta } from './root';
 
 vi.mock('~/session.server');
 vi.mock('~/i18n');
@@ -18,7 +18,12 @@ vi.mock('./styles/light.css', () => ({ default: 'light.css' }));
 vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
-vi.mock('react');
+vi.mock('react', async () => ({
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  ...await vi.importActual<typeof import('react')>('react'),
+  useContext: vi.fn()
+}));
+
 vi.mock('@sentry/remix', () => ({
   withSentry: (Component: React.FC) => {
     return () => {
@@ -173,7 +178,7 @@ describe('The root module', () => {
       visitorId: 'a-visitor-id',
       isProduction: true,
       mixpanelApi: 'a-mixpanel-api',
-      splitToken : 'a-split-token',
+      splitToken: 'a-split-token',
       cookieYesToken: 'a-cookieyes-token',
       version: '0.0.0-dev',
       sentryDsn: 'a-sentry-dsn'
@@ -183,10 +188,12 @@ describe('The root module', () => {
       vi.mocked(useLoaderData).mockReturnValue({ appConfig: appConfig, locale: 'en' } as never);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore - weird stuff happening with the useTranslataion mocks
-      vi.mocked(useTranslation).mockReturnValue({ i18n: {
-        language: 'en',
-        dir: () => 'ltr'
-      } } as never);
+      vi.mocked(useTranslation).mockReturnValue({
+        i18n: {
+          language: 'en',
+          dir: () => 'ltr'
+        }
+      } as never);
       vi.mocked(useChangeLanguage).mockReturnValue();
     });
 
@@ -200,12 +207,6 @@ describe('The root module', () => {
       errorSpy.mockReset();
       expect(markup.asFragment()).toMatchSnapshot();
       expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();
-    });
-
-    it('can expose the app config correctly', () => {
-      // eslint-disable-next-line new-cap
-      const markup = ExposeAppConfig({ appConfig: appConfig });
-      expect(markup).toMatchSnapshot();
     });
   });
 });

@@ -5,6 +5,7 @@ module.exports = (cfg) => {
   return {
     map: dev ? { inline: false }:false,
     plugins: {
+      'postcss-advanced-variables': {},
       'postcss-sorting': {},
       'postcss-preset-env': {
         stage: 0

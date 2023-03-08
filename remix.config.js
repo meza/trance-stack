@@ -3,7 +3,6 @@ const { environmentPlugin } = require('esbuild-plugin-environment');
 const env = require('esbuild-plugin-env');
 const fs = require('node:fs');
 const copyFilesPlugin = require('esbuild-copy-static-files');
-var ConfigIniParser = require("config-ini-parser").ConfigIniParser;
 
 
 /**
@@ -22,7 +21,7 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
   const envFile = fs.readFileSync('./.env.example', 'utf-8');
   const envFileLines = envFile.split('\n');
   const envFileKeys = envFileLines.map(line => line.split('=')[0]);
-  const keysToBundle = envFileKeys.filter(key => !doNotBundleEnv.includes(key));
+  const keysToBundle = envFileKeys.filter(key => !doNotBundleEnv.includes(key)).filter(key => key !== '');
 
   option.plugins = [
     copyFilesPlugin({

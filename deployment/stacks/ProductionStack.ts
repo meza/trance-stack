@@ -27,6 +27,8 @@ export class ProductionStack extends Stack {
 
     const api = new RemixApiGateway(this, 'RemixApiGateway', remixDeployment);
 
+    remixDeployment.setApiUrl(`https://${domainName}`);
+
     const cdn = new RemixCDN(this, 'RemixCDN', {
       remixDeployment: remixDeployment,
       api: api,

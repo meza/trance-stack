@@ -31,7 +31,7 @@
     "deploy:ephemeral": "npx cdk deploy remix-trance-stack-ephemeral --require-approval never -O deployment.result.json",
     "deploy:prod": "run-s build:remix deploy:cdk",
     "dev": "run-p dev:remix dev:arc",
-    "dev:arc": "cross-env NODE_ENV=development arc sandbox -p 3000",
+    "dev:arc": "wait-on -l ./server/index.js && cross-env NODE_ENV=development arc sandbox -p 3000",
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
@@ -102,6 +102,7 @@
     "@jscpd/badge-reporter": "^3.4.5",
     "@jscpd/html-reporter": "^3.5.3",
     "@meza/adr-tools": "^1.0.10",
+    "@meza/storybook-react-i18next": "latest",
     "@playwright/test": "^1.30.0",
     "@remix-run/dev": "^1.13.0",
     "@remix-run/eslint-config": "^1.13.0",
@@ -182,7 +183,6 @@
     "semantic-release-export-data": "^1.0.1",
     "storybook": "^7.0.0-beta.62",
     "storybook-addon-themes": "^6.1.0",
-    "@meza/storybook-react-i18next": "latest",
     "stylelint": "^15.1.0",
     "stylelint-config-standard": "^30.0.1",
     "stylelint-order": "^6.0.2",
@@ -193,6 +193,7 @@
     "vite": "^4.1.1",
     "vite-tsconfig-paths": "^4.0.5",
     "vitest": "^0.28.5",
+    "wait-on": "^7.0.1",
     "webpack": "^5.75.0"
   },
   "browserslist": {

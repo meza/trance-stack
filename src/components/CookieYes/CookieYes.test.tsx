@@ -9,7 +9,8 @@ describe('CookieYes', () => {
   it('Renders with the correct values', () => {
     // eslint-disable-next-line new-cap
     expect(CookieYes({ isProduction: true, token: '123' })).toMatchInlineSnapshot(`
-      <script
+      <StaticContent
+        element="script"
         id="cookieyes"
         src="https://cdn-cookieyes.com/client_data/123/script.js"
         type="text/javascript"
@@ -17,7 +18,8 @@ describe('CookieYes', () => {
     `);
     // eslint-disable-next-line new-cap
     expect(CookieYes({ isProduction: true, token: 'abc', nonce: 'a-nonce' })).toMatchInlineSnapshot(`
-      <script
+      <StaticContent
+        element="script"
         id="cookieyes"
         nonce="a-nonce"
         src="https://cdn-cookieyes.com/client_data/abc/script.js"

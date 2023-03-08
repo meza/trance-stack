@@ -1,0 +1,13 @@
+// Vitest Snapshot v1
+
+exports[`ExposeAppConfig > can expose the app config correctly 1`] = `
+<StaticContent
+  dangerouslySetInnerHTML={
+    {
+      "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"googleAnalyticsId\\":\\"ga-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\",\\"version\\":\\"0.0.0-dev\\",\\"sentryDsn\\":\\"a-sentry-dsn\\"}",
+    }
+  }
+  element="script"
+  id="app-config"
+/>
+`;

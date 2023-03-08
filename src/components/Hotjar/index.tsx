@@ -1,3 +1,5 @@
+import { StaticContent } from '~/components/StaticContent';
+
 interface HotjarProps {
   hotjarId: string;
   visitorId: string;
@@ -7,7 +9,7 @@ interface HotjarProps {
 export const Hotjar = (props: HotjarProps) => {
   const { hotjarId, visitorId } = props;
 
-  const inputProps: {nonce?: string} = {};
+  const inputProps: { nonce?: string } = {};
   if (props.nonce) {
     inputProps.nonce = props.nonce;
   }
@@ -16,7 +18,8 @@ export const Hotjar = (props: HotjarProps) => {
 
   return (
     <>
-      <script
+      <StaticContent
+        element={'script'}
         {...inputProps}
         async
         id={'hotjar-init'}
@@ -29,7 +32,8 @@ export const Hotjar = (props: HotjarProps) => {
           `
         }}
       />
-      <script
+      <StaticContent
+        element={'script'}
         {...inputProps}
         async
         id={'hotjar-script'}

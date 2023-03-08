@@ -1,15 +1,5 @@
 // Vitest Snapshot v1
 
-exports[`The root module > when rendering the app > can expose the app config correctly 1`] = `
-<script
-  dangerouslySetInnerHTML={
-    {
-      "__html": "window.appConfig = {\\"hotjarId\\":\\"a-hotjar-id\\",\\"googleAnalyticsId\\":\\"ga-id\\",\\"mixpanelToken\\":\\"a-mixpanel-token\\",\\"visitorId\\":\\"a-visitor-id\\",\\"isProduction\\":true,\\"mixpanelApi\\":\\"a-mixpanel-api\\",\\"splitToken\\":\\"a-split-token\\",\\"cookieYesToken\\":\\"a-cookieyes-token\\",\\"version\\":\\"0.0.0-dev\\",\\"sentryDsn\\":\\"a-sentry-dsn\\"}",
-    }
-  }
-/>
-`;
-
 exports[`The root module > when rendering the app > renders the app 1`] = `
 <DocumentFragment>
   mock sentry wrapper
@@ -20,6 +10,7 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
   >
     <head>
       <script
+        id="app-config"
         nonce="mocked-nonce"
       >
         window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
@@ -32,6 +23,7 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
       />
       <script
         async=""
+        id="gtm"
         nonce="mocked-nonce"
         src="https://www.googletagmanager.com/gtag/js?id=ga-id"
       />
@@ -40,11 +32,9 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
         nonce="mocked-nonce"
       >
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'ga-id', {
-          'user_id': 'a-visitor-id'
-        });
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
       </script>
       <script
         async=""

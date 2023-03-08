@@ -14,22 +14,23 @@ describe('Google Analytics 4', () => {
       nonce: 'a-nonce'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <script
+        <StaticContent
           async={true}
+          element="script"
+          id="gtm"
           nonce="a-nonce"
           src="https://www.googletagmanager.com/gtag/js?id=123"
         />
-        <script
+        <StaticContent
           dangerouslySetInnerHTML={
             {
               "__html": "window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '123', {
-                'user_id': 'abc'
-              });",
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '123', { user_id: 'abc' });",
             }
           }
+          element="script"
           id="google-analytics"
           nonce="a-nonce"
         />
@@ -43,22 +44,23 @@ describe('Google Analytics 4', () => {
       nonce: 'a-nonce2'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <script
+        <StaticContent
           async={true}
+          element="script"
+          id="gtm"
           nonce="a-nonce2"
           src="https://www.googletagmanager.com/gtag/js?id=triangulation"
         />
-        <script
+        <StaticContent
           dangerouslySetInnerHTML={
             {
               "__html": "window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'triangulation', {
-                'user_id': 'abc123'
-              });",
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'triangulation', { user_id: 'abc123' });",
             }
           }
+          element="script"
           id="google-analytics"
           nonce="a-nonce2"
         />

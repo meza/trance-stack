@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Form } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
+import { StaticContent } from '~/components/StaticContent';
 
 export enum ColorMode {
   LIGHT = 'light',
@@ -18,10 +19,18 @@ export interface ColorModeSensorProps {
   nonce: string | undefined;
 }
 
-export const ColorModeSensor = ({ nonce }: ColorModeSensorProps) => {
+export const ColorModeSensor = (props: ColorModeSensorProps) => {
+  const inputProps: { nonce?: string } = {};
+  if (props.nonce) {
+    inputProps.nonce = props.nonce;
+  }
+
   // detect the user's preferences and update the root element if it is not set already
   return (
-    <script id={'color-mode-sensor'} nonce={nonce}
+    <StaticContent
+      element={'script'}
+      {...inputProps}
+      id={'color-mode-sensor'}
       dangerouslySetInnerHTML={{
         __html: `const cl=document.firstElementChild.classList;
 if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}`

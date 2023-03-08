@@ -1,5 +1,17 @@
 // Vitest Snapshot v1
 
+exports[`index > The color mode sensor > should render the correct script 1`] = `
+<DocumentFragment>
+  <script
+    id="color-mode-sensor"
+    nonce="example-nonce"
+  >
+    const cl=document.firstElementChild.classList;
+if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
+  </script>
+</DocumentFragment>
+`;
+
 exports[`index > The color mode switcher > should change the color mode 1`] = `
 <DocumentFragment>
   <form

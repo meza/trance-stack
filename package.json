@@ -23,7 +23,7 @@
     "clean:basics": "rimraf .cache storybook-static reports",
     "clean:deployments": "rimraf deployment.result.json deploymentSummary.md cdk.out .cdk.staging",
     "clean:node": "rimraf node_modules",
-    "clean:remix": "rimraf public/build server/index.js server/node_modules remix.init/node_modules",
+    "clean:remix": "rimraf public/build server/index.js server/index.mjs server/*.map server/node_modules remix.init/node_modules",
     "cpd": "jscpd",
     "delete:ephemeral": "cdk destroy remix-trance-stack-ephemeral --require-approval never --force",
     "deploy:cdk": "npx cdk deploy remix-trance-stack-deployment --require-approval never -O deployment.result.json",

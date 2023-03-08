@@ -3,6 +3,7 @@
   "name": "remix-trance-stack",
   "private": true,
   "sideEffects": false,
+  "license": "MIT",
   "publishConfig": {
     "ignore": [
       "*.ts",

@@ -56,15 +56,6 @@ describe('The root module', () => {
     expect(links()).toMatchInlineSnapshot(`
       [
         {
-          "href": "light.css",
-          "rel": "stylesheet",
-        },
-        {
-          "href": "dark.css",
-          "media": "(prefers-color-scheme: dark)",
-          "rel": "stylesheet",
-        },
-        {
           "href": "app.css",
           "rel": "stylesheet",
         },

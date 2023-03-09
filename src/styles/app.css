@@ -1,3 +1,5 @@
+@import url("./dark.css");
+@import url("./light.css");
 @import url("./components/ColorModeSwitcher/color-mode-toggle.css");
 
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);

@@ -15,8 +15,6 @@ import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
-import darkStyles from './styles/dark.css';
-import lightStyles from './styles/light.css';
 import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import type { ColorMode } from '~/components/ColorModeSwitcher';
 
@@ -28,8 +26,6 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: lightStyles },
-    { rel: 'stylesheet', href: darkStyles, media: '(prefers-color-scheme: dark)' },
     { rel: 'stylesheet', href: styles },
     { rel: 'icon', href: '/_static/favicon.ico', type: 'image/x-icon' }
   ];
@@ -82,16 +78,17 @@ const App = () => {
         <Meta/>
         <Links/>
         <ColorModeSensor nonce={nonce}/>
-        <ExposeAppConfig appConfig={appConfig} nonce={nonce} />
+        <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
         <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>
       <body>
-        <ColorModeContext.Provider value={{
-          colorMode: colorMode,
-          setColorMode: setColorMode
-        }}>
+        <ColorModeContext.Provider
+          value={{
+            colorMode: colorMode,
+            setColorMode: setColorMode
+          }}>
           <Outlet
             context={{
               appConfig: appConfig,

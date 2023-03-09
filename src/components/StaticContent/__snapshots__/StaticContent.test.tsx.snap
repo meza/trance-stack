@@ -14,8 +14,20 @@ exports[`StaticContent > should wrap with given element 1`] = `
 <div>
   <script
     async=""
+    nonce="example-nonce"
   >
-    script content
+    alert("hello world")
+  </script>
+</div>
+`;
+
+exports[`StaticContent > should wrap with given element 2`] = `
+<div>
+  <script
+    async=""
+    nonce="example-nonce"
+  >
+    alert("hello world")
   </script>
 </div>
 `;

@@ -25,15 +25,16 @@ export const StaticContent = <Elem extends keyof JSX.IntrinsicElements = 'div'>(
 ) => {
   const elem = element || 'div';
   const [render, ref] = useStaticContent();
-
+  console.log('render');
   // if we're in the server or a spa navigation, just render it
   if (render) {
+    console.log('server');
     return createElement(elem, {
       ...props,
       children: children
     });
   }
-
+  console.log('client');
   // avoid re-render on the client
   return createElement(elem, {
     ...props,

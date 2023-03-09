@@ -1,23 +1,35 @@
-import react from 'react';
-import { render } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { expect, it, vi } from 'vitest';
 import { StaticContent } from './StaticContent';
+import type { ComponentProps } from 'react';
 
 describe('StaticContent', () => {
   it('should wrap with div by default', () => {
-    const { container } = render(<StaticContent title={'some div'}>{'div content'}</StaticContent>);
-    expect(container).toMatchSnapshot();
+    vi.stubGlobal('document', undefined);
+    let html = renderToString(<StaticContent title={'some div'}>{'div content'}</StaticContent>);
+    expect(html).toMatchSnapshot();
+
+    vi.unstubAllGlobals();
+    html = renderToString(<StaticContent title={'some div'}>{'div content'}</StaticContent>);
+    expect(html).toMatchSnapshot();
   });
 
   it('should wrap with given element', () => {
-    const component = <StaticContent async element={'script'} nonce={'example-nonce'}
-      dangerouslySetInnerHTML={{
-        __html: 'alert("hello world")'
-      }}/>;
+    const props: ComponentProps<typeof StaticContent> = {
+      async: true,
+      element: 'script',
+      dangerouslySetInnerHTML: {
+        __html: 'alert("hello world");'
+      }
+    };
 
-    const { container } = render(component);
-    expect(container).toMatchSnapshot();
+    vi.stubGlobal('document', undefined);
+    let html = renderToString(<StaticContent {...props} />);
+    expect(html).toMatchSnapshot();
 
+    vi.unstubAllGlobals();
+    html = renderToString(<StaticContent {...props} />);
+    expect(html).toMatchSnapshot();
   });
 });
 

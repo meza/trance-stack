@@ -13,7 +13,7 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
     id="color-mode-update"
     nonce="example-nonce"
   >
-    window.onload(()=&gt;{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=&gt;{
+    addEventListener('load', ()=&gt;{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=&gt;{
           const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});
   </script>
 </DocumentFragment>

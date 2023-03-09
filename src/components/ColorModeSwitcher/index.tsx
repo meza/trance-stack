@@ -42,7 +42,7 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
         {...inputProps}
         id={'color-mode-update'}
         dangerouslySetInnerHTML={{
-          __html: `window.onload(()=>{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
+          __html: `addEventListener('load', ()=>{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
           const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});`
         }}
       />

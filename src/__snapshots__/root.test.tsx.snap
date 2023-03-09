@@ -10,6 +10,13 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
   >
     <head>
       <script
+        id="color-mode-sensor"
+        nonce="mocked-nonce"
+      >
+        const cl=document.firstElementChild.classList;
+if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
+      </script>
+      <script
         id="app-config"
         nonce="mocked-nonce"
       >

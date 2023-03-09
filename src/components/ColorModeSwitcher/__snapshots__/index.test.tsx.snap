@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`index > The color mode sensor > should render the correct script 1`] = `
+exports[`The Color Mode Switch > The color mode sensor > should render the correct script 1`] = `
 <DocumentFragment>
   <script
     id="color-mode-sensor"
@@ -12,13 +12,14 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
 </DocumentFragment>
 `;
 
-exports[`index > The color mode switcher > should change the color mode 1`] = `
+exports[`The Color Mode Switch > The color mode switcher > should configure the form correctly 1`] = `
 <DocumentFragment>
   <form
     action="/settings/color-mode"
     method="post"
   >
     <input
+      defaultvalue="dark"
       name="colorMode"
       type="hidden"
       value="dark"

@@ -30,7 +30,7 @@ vi.mock('@sentry/remix', () => ({
       return (
         <>
           {'mock sentry wrapper'}
-          <Component />
+          <Component/>
         </>
       );
     };
@@ -91,7 +91,11 @@ describe('The root module', () => {
     beforeEach(() => {
       vi.mocked(createUserSession).mockResolvedValue({
         visitorId: 'a-visitorId',
-        cookie: 'a-cookie'
+        cookie: 'a-cookie',
+        session: {
+          get: vi.fn(),
+          set: vi.fn()
+        } as never
       });
       vi.mocked(remixI18next.getLocale).mockResolvedValue('en');
       vi.mocked(splitClient.ready).mockResolvedValue();
@@ -203,7 +207,7 @@ describe('The root module', () => {
         // There is a DOM Nesting Validation error because we're rendering
         // the entire html in a test environment. We don't care about that error
       });
-      const markup = render(<App />);
+      const markup = render(<App/>);
       errorSpy.mockReset();
       expect(markup.asFragment()).toMatchSnapshot();
       expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();

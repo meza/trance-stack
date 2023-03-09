@@ -61,7 +61,7 @@ export default function ColorModeSwitcher() {
         setNextColorMode(ColorMode.DARK);
       }
     }
-  });
+  }, [colorMode]);
 
   const toggleColorMode = () => {
     setColorMode(nextColorMode);

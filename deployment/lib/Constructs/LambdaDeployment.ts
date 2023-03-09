@@ -13,6 +13,7 @@ export interface LambdaDeploymentProps {
 
 export class LambdaDeployment extends Construct {
   private readonly lambdaFunction: NodejsFunction;
+
   constructor(scope: Construct, id: string, props: LambdaDeploymentProps) {
     super(scope, id);
 
@@ -25,7 +26,6 @@ export class LambdaDeployment extends Construct {
 
     const role = new Role(this, 'RemixServerRole', {
       description: 'Service Role for the Remix Server, managed by CDK',
-      roleName: 'RemixServerRole',
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       managedPolicies: [
         ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole')
@@ -34,7 +34,6 @@ export class LambdaDeployment extends Construct {
 
     const logRetentionRole = new Role(this, 'RemixServerLogRetentionRole', {
       description: 'Log Retention Role for the Remix Server, managed by CDK',
-      roleName: 'RemixServerLogRetentionRole',
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
       inlinePolicies: {
         'AllowRemixServerToChangeLogRetention': new PolicyDocument({

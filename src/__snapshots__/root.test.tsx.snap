@@ -17,6 +17,13 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
 if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
       </script>
       <script
+        id="color-mode-update"
+        nonce="mocked-nonce"
+      >
+        window.onload(()=&gt;{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=&gt;{
+          const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});
+      </script>
+      <script
         id="app-config"
         nonce="mocked-nonce"
       >

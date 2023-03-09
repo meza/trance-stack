@@ -27,15 +27,26 @@ export const ColorModeSensor = (props: ColorModeSensorProps) => {
 
   // detect the user's preferences and update the root element if it is not set already
   return (
-    <StaticContent
-      element={'script'}
-      {...inputProps}
-      id={'color-mode-sensor'}
-      dangerouslySetInnerHTML={{
-        __html: `const cl=document.firstElementChild.classList;
+    <>
+      <StaticContent
+        element={'script'}
+        {...inputProps}
+        id={'color-mode-sensor'}
+        dangerouslySetInnerHTML={{
+          __html: `const cl=document.firstElementChild.classList;
 if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}`
-      }}
-    />
+        }}
+      />
+      <StaticContent
+        element={'script'}
+        {...inputProps}
+        id={'color-mode-update'}
+        dangerouslySetInnerHTML={{
+          __html: `window.onload(()=>{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
+          const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});`
+        }}
+      />
+    </>
   );
 };
 

@@ -64,6 +64,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     }
   });
 };
+
 const App = () => {
   const nonce = useContext(NonceContext);
   const { appConfig, locale, colorMode: colorModeFromSession } = useLoaderData<typeof loader>();

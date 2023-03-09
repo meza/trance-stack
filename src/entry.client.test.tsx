@@ -16,6 +16,7 @@ vi.mock('~/components/Mixpanel', () => ({
 }));
 vi.mock('@remix-run/react');
 vi.mock('@sentry/remix');
+vi.mock('@sentry/react');
 
 describe('The Client Entrypoint', () => {
   beforeEach(() => {
@@ -44,6 +45,7 @@ describe('The Client Entrypoint', () => {
         "dsn": "sentryDsn",
         "integrations": [
           BrowserTracing {},
+          Replay {},
         ],
         "release": "0.1.2-dev",
         "tracesSampleRate": 1,

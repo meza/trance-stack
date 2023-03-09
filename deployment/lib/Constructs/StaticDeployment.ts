@@ -1,10 +1,10 @@
 import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { AnyPrincipal, Effect, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Bucket, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import type { LambdaDeployment } from './LambdaDeployment';
-import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 
 export interface StaticDeploymentProps {
   publicDir: string;

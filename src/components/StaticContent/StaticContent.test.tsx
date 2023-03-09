@@ -1,5 +1,6 @@
-import { createElement } from 'react';
+import { createElement, useRef } from 'react';
 import { render } from '@testing-library/react';
+import { JSDOM } from 'jsdom';
 import { renderToString } from 'react-dom/server';
 import { expect, it, vi } from 'vitest';
 import { StaticContent } from './StaticContent';
@@ -10,13 +11,15 @@ vi.mock('react', async () => {
   const react: typeof import('react') = await vi.importActual('react');
   return {
     ...react,
-    createElement: vi.fn()
+    createElement: vi.fn(),
+    useRef: vi.fn()
   };
 });
 describe('StaticContent', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
+    vi.mocked(useRef).mockReturnValue({ current: null });
   });
 
   it('should wrap with div by default', () => {
@@ -74,9 +77,19 @@ describe('StaticContent', () => {
   });
 
   it('should handle clientside first render', () => {
-    const ui = <StaticContent element="span" title={'some span'}>{'span content'}</StaticContent>;
+    vi.stubGlobal('document', new JSDOM()); // not server render
+    vi.mocked(useRef).mockReturnValue({ current: { innerHTML: 'not empty' } });
 
-    // ???
+    renderToString(<StaticContent element="span" title={'some span'}>{'span content'}</StaticContent>);
+
+    expect(createElement).toHaveBeenCalledWith('span', {
+      ref: { current: { innerHTML: 'not empty' } },
+      suppressHydrationWarning: true,
+      title: 'some span',
+      dangerouslySetInnerHTML: {
+        __html: ''
+      }
+    });
   });
 });
 

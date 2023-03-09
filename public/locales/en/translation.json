@@ -1,10 +1,13 @@
 {
+  "app": {
+    "colorModeToggle": "Toggles the color mode to {{ nextMode }}"
+  },
   "microcopy": {
     "helloWorld": "Hello World!",
     "goodBye": "Goodbye World!"
   },
   "dashboard": {
-     "for": "Dashboard for {{ name }}"
+    "for": "Dashboard for {{ name }}"
   },
   "login": "Login",
   "register": "Sign Up",

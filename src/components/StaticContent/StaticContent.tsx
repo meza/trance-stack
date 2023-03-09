@@ -17,20 +17,26 @@ const useStaticContent = () => {
   return [isFirstRender, ref];
 };
 
+export type StaticContentProps<Elem extends keyof JSX.IntrinsicElements = 'div'> =
+  PropsWithChildren<{ element?: Elem } & JSX.IntrinsicElements[Elem]>
+
 export const StaticContent = <Elem extends keyof JSX.IntrinsicElements = 'div'>(
-  { children, element, ...props }: PropsWithChildren<{ element?: Elem } & JSX.IntrinsicElements[Elem]>
+  { children, element, ...props }: StaticContentProps<Elem>
 ) => {
   const elem = element || 'div';
   const [isFirstRender, ref] = useStaticContent();
+  console.log('** ref', ref);
 
   // if we're in the server or a spa navigation, just render it
   if (isFirstRender) {
+    console.log('server render');
     return createElement(elem, {
       ...props,
       children: children
     });
   }
 
+  console.log('client render');
   // avoid re-render on the client
   return createElement(elem, {
     ...props,

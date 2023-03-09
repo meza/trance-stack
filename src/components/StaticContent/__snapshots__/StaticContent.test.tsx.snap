@@ -1,9 +1,0 @@
-// Vitest Snapshot v1
-
-exports[`StaticContent > should wrap with div by default 1`] = `"<div title=\\"some div\\">div content</div>"`;
-
-exports[`StaticContent > should wrap with div by default 2`] = `"<div title=\\"some div\\"></div>"`;
-
-exports[`StaticContent > should wrap with given element 1`] = `"<script async=\\"\\">alert(\\"hello world\\");</script>"`;
-
-exports[`StaticContent > should wrap with given element 2`] = `"<script async=\\"\\"></script>"`;

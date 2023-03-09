@@ -1,12 +1,12 @@
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { DefinePlugin } from 'webpack';
 import { StorybookConfig } from '@storybook/react-webpack5';
+
 const storybookConfig: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-a11y',
     '@storybook/addon-links',
-    '@meza/storybook-react-i18next',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     {

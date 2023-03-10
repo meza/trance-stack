@@ -60,15 +60,26 @@ gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
         id="color-mode-sensor"
         nonce="mocked-nonce"
       >
-        const cl=document.body.classList;
-if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
+        (() =&gt; {
+    const cl = document.body.classList;
+    if (!(cl.contains("dark") || cl.contains("light"))) {
+      cl.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    }
+  })();
       </script>
       <script
         id="color-mode-update"
         nonce="mocked-nonce"
       >
-        addEventListener('load', ()=&gt;{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=&gt;{
-          const cl=document.body.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});
+        (() =&gt; {
+    addEventListener("load", () =&gt; {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
+        const cl = document.body.classList;
+        cl.remove(e.matches ? "light" : "dark");
+        cl.add(e.matches ? "dark" : "light");
+      });
+    });
+  })();
       </script>
     </body>
   </html>

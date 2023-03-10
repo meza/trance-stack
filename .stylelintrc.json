@@ -6,7 +6,14 @@
     "stylelint-order"
   ],
   "rules": {
-    "order/properties-alphabetical-order": true
+    "order/properties-alphabetical-order": true,
+    "at-rule-empty-line-before": ["always", {
+      "except": [
+        "blockless-after-same-name-blockless",
+        "first-nested"
+      ],
+      "ignore": ["after-comment"]
+    }]
   },
   "reportDescriptionlessDisables": true,
   "reportInvalidScopeDisables": true,

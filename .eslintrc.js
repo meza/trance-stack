@@ -19,7 +19,9 @@ module.exports = {
     {
       files: [
         '**/*.test.ts',
-        'test/**/*.ts'
+        '**/*.test.tsx',
+        'test/**/*.ts',
+        'test/**/*.tsx'
       ],
       rules: {
         '@typescript-eslint/no-non-null-assertion': 'off',
@@ -27,7 +29,7 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         'no-use-before-define': 'off',
         'max-nested-callbacks': 'off',
-        'sonarjs/no-duplicate-string': 'off',
+        'sonarjs/no-duplicate-string': 'off'
       }
     }
   ],
@@ -36,14 +38,14 @@ module.exports = {
     sourceType: 'module',
     ecmaVersion: 'latest',
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
     project: ['./tsconfig.json', './.storybook/tsconfig.json']
   },
   settings: {
     jest: {
-      version: 28,
-    },
+      version: 28
+    }
   },
   plugins: [
     'i18next',
@@ -58,7 +60,7 @@ module.exports = {
       {
         alphabetize: {
           caseInsensitive: false,
-          order: 'asc',
+          order: 'asc'
         },
         groups: [
           'builtin',
@@ -67,17 +69,17 @@ module.exports = {
           'parent',
           'sibling',
           'index',
-          'type',
+          'type'
         ],
         pathGroups: [
           {
             pattern: 'react',
             group: 'external',
-            position: 'before',
-          },
+            position: 'before'
+          }
         ],
-        pathGroupsExcludedImportTypes: ['type'],
-      },
+        pathGroupsExcludedImportTypes: ['type']
+      }
     ],
     'sonarjs/no-duplicate-string': 'off',
     'no-continue': 'off',

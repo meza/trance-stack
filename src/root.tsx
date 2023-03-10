@@ -1,16 +1,9 @@
-import React from 'react';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { json } from '@remix-run/node';
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration, useLoaderData
-} from '@remix-run/react';
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
+import { ColorModeContext, ColorModeSensor } from '~/components/ColorModeSwitcher';
 import { CookieYes } from '~/components/CookieYes';
 import { ExposeAppConfig } from '~/components/ExposeAppConfig';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
@@ -22,9 +15,8 @@ import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
 import splitClient from '~/split.server';
 import styles from './styles/app.css';
-import darkStyles from './styles/dark.css';
-import lightStyles from './styles/light.css';
-import type { MetaFunction, LinksFunction, LoaderFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { ColorMode } from '~/components/ColorModeSwitcher';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -34,8 +26,6 @@ export const meta: MetaFunction = () => ({
 
 export const links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: lightStyles },
-    { rel: 'stylesheet', href: darkStyles, media: '(prefers-color-scheme: dark)' },
     { rel: 'stylesheet', href: styles },
     { rel: 'icon', href: '/_static/favicon.ico', type: 'image/x-icon' }
   ];
@@ -53,7 +43,6 @@ export const loader: LoaderFunction = async ({ request }) => {
     splitClient.ready()
   ]);
   splitClient.track(cookieData.visitorId, 'anonymous', 'page_view');
-
   return json({
     appConfig: {
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
@@ -67,31 +56,46 @@ export const loader: LoaderFunction = async ({ request }) => {
       version: packageJson.default.version,
       sentryDsn: process.env.SENTRY_DSN
     },
-    locale: locale
+    locale: locale,
+    colorMode: cookieData.session.get('colorMode')
   }, {
     headers: {
       'Set-Cookie': cookieData.cookie
     }
   });
 };
+
 const App = () => {
   const nonce = useContext(NonceContext);
-  const { appConfig, locale } = useLoaderData<typeof loader>();
+  const { appConfig, locale, colorMode: colorModeFromSession } = useLoaderData<typeof loader>();
   const { i18n } = useTranslation();
   useChangeLanguage(locale);
 
+  const [colorMode, setColorMode] = useState<ColorMode>(colorModeFromSession);
+
   return (
-    <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version}>
+    <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} className={colorMode}>
       <head>
         <Meta/>
         <Links/>
-        <ExposeAppConfig appConfig={appConfig} nonce={nonce} />
+        <ColorModeSensor nonce={nonce}/>
+        <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
         <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>
       <body>
-        <Outlet context={{ appConfig: appConfig, locale: locale }}/>
+        <ColorModeContext.Provider
+          value={{
+            colorMode: colorMode,
+            setColorMode: setColorMode
+          }}>
+          <Outlet
+            context={{
+              appConfig: appConfig,
+              locale: locale
+            }}/>
+        </ColorModeContext.Provider>
         <ScrollRestoration nonce={nonce}/>
         <Scripts nonce={nonce}/>
         <LiveReload nonce={nonce}/>

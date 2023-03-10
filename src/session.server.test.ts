@@ -1,11 +1,12 @@
 import { v4 as uuid } from 'uuid';
-import { describe, it, vi, expect, beforeEach } from 'vitest';
-import { createUserSession, destroySession, getSessionFromRequest, getVisitorId, getVisitorIdFromRequest } from '~/session.server';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { commitSession, createUserSession, destroySession, getSessionFromRequest, getVisitorId, getVisitorIdFromRequest } from '~/session.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
 
 vi.mock('~/sessionStorage.server');
 vi.mock('uuid');
+
 interface LocalTestContext {
   sessionStorage: ReturnType<typeof getSessionStorage>;
   session: Session;
@@ -105,7 +106,8 @@ describe('The session server', () => {
 
     expect(actual).toEqual({
       cookie: 'newcookievalue',
-      visitorId: 'random-uuid'
+      visitorId: 'random-uuid',
+      session: session
     });
     expect(request.headers.get).toHaveBeenCalledWith('Cookie');
     expect(sessionStorage.getSession).toHaveBeenCalledWith('cookievalue');
@@ -115,5 +117,12 @@ describe('The session server', () => {
   it<LocalTestContext>('can destroy a session', async ({ sessionStorage, session }) => {
     destroySession(session as never as Session);
     expect(sessionStorage.destroySession).toHaveBeenCalledWith(session);
+  });
+
+  it<LocalTestContext>('can commit a session', async ({ sessionStorage, session }) => {
+    vi.mocked(sessionStorage.commitSession).mockResolvedValueOnce('newcookievalue');
+    const actual = await commitSession(session as never as Session);
+    expect(sessionStorage.commitSession).toHaveBeenCalledWith(session);
+    expect(actual).toEqual('newcookievalue');
   });
 });

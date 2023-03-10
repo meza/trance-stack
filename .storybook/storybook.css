@@ -1,0 +1,6 @@
+/** This is necessary to override the default canvas styles */
+.storybook-canvas {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-primary) !important;
+  @custom-media --motion-ok true;
+}

@@ -73,7 +73,7 @@ const App = () => {
   const [colorMode, setColorMode] = useState<ColorMode>(colorModeFromSession);
 
   return (
-    <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} >
+    <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} className={colorMode}>
       <head>
         <Meta/>
         <Links/>
@@ -83,7 +83,7 @@ const App = () => {
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>
-      <body className={colorMode}>
+      <body>
         <ColorModeContext.Provider
           value={{
             colorMode: colorMode,

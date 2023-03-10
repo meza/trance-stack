@@ -35,7 +35,7 @@
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
-    "lint:css": "stylelint src/styles/**/*.css",
+    "lint:css": "postcss src/**/*.css -d .cache/postcss && rimraf .cache/postcss",
     "lint:eslint": "eslint --ext .ts,.tsx,.json src",
     "lint:typecheck": "tsc",
     "playwright:install": "playwright install --with-deps",
@@ -202,18 +202,11 @@
     "wait-on": "^7.0.1",
     "webpack": "^5.75.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

@@ -42,6 +42,13 @@ describe('The index route', () => {
         <DocumentFragment>
           <div>
             <hello />
+            <div
+              style="position: absolute; top: 0px; right: 0px;"
+            >
+              <div
+                class="color-mode-toggle-container"
+              />
+            </div>
           </div>
         </DocumentFragment>
       `);
@@ -62,6 +69,13 @@ describe('The index route', () => {
         <DocumentFragment>
           <div>
             <hello />
+            <div
+              style="position: absolute; top: 0px; right: 0px;"
+            >
+              <div
+                class="color-mode-toggle-container"
+              />
+            </div>
             <div
               class="centered-button"
             />

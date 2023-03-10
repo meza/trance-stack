@@ -1,44 +1,35 @@
-import React from 'react';
-import ColorModeSwitcher, { ColorMode } from './index';
+import React, { useContext, useEffect } from 'react';
+import ColorModeSwitcher, { ColorMode, ColorModeContext } from './index';
 import type { Meta, StoryFn, StoryObj } from '@storybook/react';
 
-const Template: StoryFn<{ mode: ColorMode, zoom: number }> = ({ mode, zoom }) => {
-  document.firstElementChild?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
-  document.firstElementChild?.classList.add(mode);
-  return <div style={{ zoom: zoom, display: 'grid', placeContent: 'center' }}><ColorModeSwitcher/></div>;
+const ColorDecorator = (Story: StoryFn) => {
+  const { colorMode } = useContext(ColorModeContext);
+
+  const [cmode, setMode] = React.useState<ColorMode>(colorMode || ColorMode.LIGHT);
+
+  useEffect(() => {
+    document.firstElementChild?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
+    document.firstElementChild?.classList.add(cmode);
+  }, [cmode]);
+
+  useEffect(() => {
+    setMode(colorMode);
+  }, [colorMode]);
+
+  return (<div style={{ zoom: 5, display: 'grid', placeContent: 'center' }}>
+    <ColorModeContext.Provider value={{ colorMode: cmode, setColorMode: setMode }}>
+      <Story/>
+    </ColorModeContext.Provider>
+  </div>);
 };
 
 const meta = {
   title: 'Layout/ColorMode Switcher',
-  component: React.memo(Template),
-  argTypes: {
-    mode: {
-      defaultValue: ColorMode.LIGHT,
-      description: 'Color mode',
-      control: 'select',
-      options: Object.values(ColorMode)
-    },
-    zoom: {
-      description: 'Zoom in to see the switcher',
-      defaultValue: 1,
-      control: {
-        type: 'range',
-        min: 1,
-        max: 10
-      }
-    }
-  },
-  args: {
-    zoom: 5,
-    mode: ColorMode.LIGHT
-  }
+  component: ColorModeSwitcher,
+  decorators: [ColorDecorator]
 } satisfies Meta<typeof ColorModeSwitcher>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Light: Story = {
-  args: {
-    mode: ColorMode.LIGHT
-  }
-};
+export const Toggle: Story = {};

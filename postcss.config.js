@@ -21,7 +21,9 @@ module.exports = (cfg) => {
         grid: true
       },
       'cssnano': dev ? false : {},
-      'stylelint': {},
+      'stylelint': {
+        configFile: '.stylelintrc.json',
+      },
       'postcss-reporter': {},
       'postcss-custom-media': {},
     }

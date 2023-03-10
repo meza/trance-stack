@@ -54,11 +54,27 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
 
  Adds the ability to toggle between light and dark mode.
 
- _Usage:_
+ ## Usage
 
  ```jsx
  <ColorModeSwitcher/>
  ```
+
+ ## Provider
+
+ In order to make it actually work, it needs to be wrapped in a `ColorModeContext.Provider` with the `colorMode` and `setColorMode` props set.
+
+ ```jsx
+ import { ColorMode, ColorModeContext } from '~/components/ColorModeSwitcher';
+ import { useState } from 'react';
+
+ const [colorMode, setColorMode] = useState<ColorMode>(ColorMode.LIGHT);
+
+ <ColorModeContext.Provider value={{ colorMode: colorMode, setColorMode: setColorMode}}>
+   <ColorModeSwitcher/>
+ </ColorModeContext.Provider>
+ ```
+
  **/
 export default function ColorModeSwitcher() {
   const { colorMode, setColorMode } = useContext(ColorModeContext);

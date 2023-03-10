@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Form } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
+import { sensorScript, updateScript } from '~/components/ColorModeSwitcher/clientUtils';
 
 export enum ColorMode {
   LIGHT = 'light',
@@ -23,24 +24,6 @@ export const ColorModeSensor = (props: ColorModeSensorProps) => {
   if (props.nonce) {
     inputProps.nonce = props.nonce;
   }
-
-  /* c8 ignore next 17 */
-  const sensorScript = (() => {
-    const cl = document.body.classList;
-    if (!(cl.contains('dark') || cl.contains('light'))) {
-      cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-  });
-
-  const updateScript = (() => {
-    addEventListener('load', ()=> {
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        const cl = document.body.classList;
-        cl.remove(e.matches ? 'light' : 'dark');
-        cl.add(e.matches ? 'dark' : 'light');
-      });
-    });
-  });
 
   // detect the user's preferences and update the root element if it is not set already
   return (

@@ -4,7 +4,6 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderD
 import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
 import { ColorModeContext, ColorModeSensor } from '~/components/ColorModeSwitcher';
-import { CookieYes } from '~/components/CookieYes';
 import { ExposeAppConfig } from '~/components/ExposeAppConfig';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
@@ -79,12 +78,12 @@ const App = () => {
         <Meta/>
         <Links/>
         <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-        <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
+        <ColorModeSensor nonce={nonce}/>
+        {/*<CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>*/}
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
       </head>
       <body className={colorMode}>
-        <ColorModeSensor nonce={nonce}/>
         <ColorModeContext.Provider
           value={{
             colorMode: colorMode,

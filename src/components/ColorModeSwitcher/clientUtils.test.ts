@@ -5,7 +5,7 @@ import type { MockedFunction } from 'vitest';
 
 interface SensorTestContext {
   dom: JSDOM;
-  body: HTMLElement;
+  htmlElement: Element | null;
   matchMediaMock: MockedFunction<typeof window.matchMedia>
 }
 
@@ -17,7 +17,7 @@ describe('The color switcher client utils', () => {
   describe('the sensor script', () => {
     beforeEach<SensorTestContext>((context) => {
       context.dom = new JSDOM();
-      context.body = context.dom.window.document.body;
+      context.htmlElement = context.dom.window.document.firstElementChild;
       vi.stubGlobal('document', context.dom.window.document);
 
       context.matchMediaMock = vi.fn();
@@ -29,7 +29,7 @@ describe('The color switcher client utils', () => {
         it<SensorTestContext>('adds the dark class', (context) => {
           context.matchMediaMock.mockReturnValue({ matches: true } as never);
           sensorScript();
-          expect(context.body.classList.contains('dark')).toBe(true);
+          expect(context.htmlElement?.classList.contains('dark')).toBe(true);
           expect(context.matchMediaMock).toHaveBeenCalledWith('(prefers-color-scheme: dark)');
         });
       });
@@ -38,7 +38,7 @@ describe('The color switcher client utils', () => {
         it<SensorTestContext>('adds the light class', (context) => {
           context.matchMediaMock.mockReturnValue({ matches: false } as never);
           sensorScript();
-          expect(context.body.classList.contains('light')).toBe(true);
+          expect(context.htmlElement?.classList.contains('light')).toBe(true);
           expect(context.matchMediaMock).toHaveBeenCalledWith('(prefers-color-scheme: dark)');
         });
       });
@@ -46,13 +46,13 @@ describe('The color switcher client utils', () => {
 
     describe('when the body has a predefined light class', () => {
       beforeEach<SensorTestContext>((context) => {
-        context.body.classList.add('light');
+        context.htmlElement?.classList.add('light');
       });
 
       describe('and the user prefers dark mode', () => {
         it<SensorTestContext>('does not change to dark', (context) => {
           sensorScript();
-          expect(context.body.classList.contains('dark')).not.toBe(true);
+          expect(context.htmlElement?.classList.contains('dark')).not.toBe(true);
           expect(context.matchMediaMock).not.toHaveBeenCalled();
         });
       });
@@ -60,7 +60,7 @@ describe('The color switcher client utils', () => {
       describe('and the user prefers light mode', () => {
         it<SensorTestContext>('does not change the dom unnecessarily', (context) => {
           sensorScript();
-          expect(context.body.classList.contains('light')).toBe(true);
+          expect(context.htmlElement?.classList.contains('light')).toBe(true);
           expect(context.matchMediaMock).not.toHaveBeenCalled();
         });
       });
@@ -68,13 +68,13 @@ describe('The color switcher client utils', () => {
 
     describe('when the body has a predefined dark class', () => {
       beforeEach<SensorTestContext>((context) => {
-        context.body.classList.add('dark');
+        context.htmlElement?.classList.add('dark');
       });
 
       describe('and the user prefers light mode', () => {
         it<SensorTestContext>('does not change to light', (context) => {
           sensorScript();
-          expect(context.body.classList.contains('light')).not.toBe(true);
+          expect(context.htmlElement?.classList.contains('light')).not.toBe(true);
           expect(context.matchMediaMock).not.toHaveBeenCalled();
         });
       });
@@ -82,7 +82,7 @@ describe('The color switcher client utils', () => {
       describe('and the user prefers dark mode', () => {
         it<SensorTestContext>('does not change the dom unnecessarily', (context) => {
           sensorScript();
-          expect(context.body.classList.contains('dark')).toBe(true);
+          expect(context.htmlElement?.classList.contains('dark')).toBe(true);
           expect(context.matchMediaMock).not.toHaveBeenCalled();
         });
       });
@@ -92,7 +92,7 @@ describe('The color switcher client utils', () => {
   describe('the update script', () => {
     beforeEach<SensorTestContext>((context) => {
       context.dom = new JSDOM();
-      context.body = context.dom.window.document.body;
+      context.htmlElement = context.dom.window.document.firstElementChild;
       vi.stubGlobal('document', context.dom.window.document);
 
       context.matchMediaMock = vi.fn();
@@ -131,10 +131,10 @@ describe('The color switcher client utils', () => {
           loadListener();
 
           const changeListener = addMatchMediaEventListenerMock.mock.calls[0][1];
-          context.body.classList.add('dark');
+          context.htmlElement?.classList.add('dark');
           changeListener({ matches: false } as never);
-          expect(context.body.classList.contains('dark')).toBe(false);
-          expect(context.body.classList.contains('light')).toBe(true);
+          expect(context.htmlElement?.classList.contains('dark')).toBe(false);
+          expect(context.htmlElement?.classList.contains('light')).toBe(true);
         });
       });
 
@@ -150,10 +150,10 @@ describe('The color switcher client utils', () => {
           loadListener();
 
           const changeListener = addMatchMediaEventListenerMock.mock.calls[0][1];
-          context.body.classList.add('light');
+          context.htmlElement?.classList.add('light');
           changeListener({ matches: true } as never);
-          expect(context.body.classList.contains('light')).toBe(false);
-          expect(context.body.classList.contains('dark')).toBe(true);
+          expect(context.htmlElement?.classList.contains('light')).toBe(false);
+          expect(context.htmlElement?.classList.contains('dark')).toBe(true);
         });
       });
     });

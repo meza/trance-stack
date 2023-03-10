@@ -26,8 +26,8 @@ const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
   const colorMode = globals.colorMode || ColorMode.LIGHT;
 
   const setStoryColorMode = (mode: ColorMode, force = true) => {
-    const cl = document.body?.classList;
-    document.body.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
+    const cl = document.firstElementChild?.classList;
+    document.firstElementChild.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
     if (cl) {
       cl.remove(ColorMode.LIGHT, ColorMode.DARK);
       cl.add(mode);

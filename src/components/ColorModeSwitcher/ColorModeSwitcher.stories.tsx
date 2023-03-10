@@ -8,8 +8,8 @@ const ColorDecorator = (Story: StoryFn) => {
   const [cmode, setMode] = React.useState<ColorMode>(colorMode || ColorMode.LIGHT);
 
   useEffect(() => {
-    document.body?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
-    document.body?.classList.add(cmode);
+    document.firstElementChild?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
+    document.firstElementChild?.classList.add(cmode);
   }, [cmode]);
 
   useEffect(() => {

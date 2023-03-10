@@ -16,11 +16,30 @@ exports[`The root module > when rendering the app > renders the app 1`] = `
         window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
       </script>
       <script
-        id="cookieyes"
+        id="color-mode-sensor"
         nonce="mocked-nonce"
-        src="https://cdn-cookieyes.com/client_data/a-cookieyes-token/script.js"
-        type="text/javascript"
-      />
+      >
+        (() =&gt; {
+  const cl = document.firstElementChild?.classList;
+  if (!(cl?.contains("dark") || cl?.contains("light"))) {
+    cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  }
+})();
+      </script>
+      <script
+        id="color-mode-update"
+        nonce="mocked-nonce"
+      >
+        (() =&gt; {
+  addEventListener("load", () =&gt; {
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
+      const cl = document.firstElementChild?.classList;
+      cl?.remove(e.matches ? "light" : "dark");
+      cl?.add(e.matches ? "dark" : "light");
+    });
+  });
+})();
+      </script>
       <script
         async=""
         id="gtm"
@@ -55,33 +74,7 @@ gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
         src="https://static.hotjar.com/c/hotjar-a-hotjar-id.js?sv=6"
       />
     </head>
-    <body>
-      <script
-        id="color-mode-sensor"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
-  const cl = document.body.classList;
-  if (!(cl.contains("dark") || cl.contains("light"))) {
-    cl.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-})();
-      </script>
-      <script
-        id="color-mode-update"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
-  addEventListener("load", () =&gt; {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
-      const cl = document.body.classList;
-      cl.remove(e.matches ? "light" : "dark");
-      cl.add(e.matches ? "dark" : "light");
-    });
-  });
-})();
-      </script>
-    </body>
+    <body />
   </html>
 </DocumentFragment>
 `;

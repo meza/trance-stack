@@ -89,7 +89,7 @@ export default function ColorModeSwitcher() {
   useEffect(() => {
     // if there's no colour preference set, update the button in relation to the html tag
     if (!colorMode) {
-      const container = document.body;
+      const container = document.firstElementChild;
       const cl = container?.classList;
       if (cl?.contains(ColorMode.DARK)) {
         setNextColorMode(ColorMode.LIGHT);

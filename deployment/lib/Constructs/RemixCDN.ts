@@ -1,20 +1,24 @@
 import { Duration } from 'aws-cdk-lib';
-import { AllowedMethods,
+import {
+  AllowedMethods,
   CacheCookieBehavior,
   CacheHeaderBehavior,
-  CachePolicy, CacheQueryStringBehavior, Distribution,
+  CachePolicy,
+  CacheQueryStringBehavior,
+  Distribution,
   OriginRequestCookieBehavior,
   OriginRequestHeaderBehavior,
   OriginRequestPolicy,
-  OriginRequestQueryStringBehavior, PriceClass, ViewerProtocolPolicy
+  OriginRequestQueryStringBehavior,
+  PriceClass,
+  ViewerProtocolPolicy
 } from 'aws-cdk-lib/aws-cloudfront';
 import { HttpOrigin, S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins';
 import { Construct } from 'constructs';
 import type { RemixApiGateway } from './RemixApiGateway';
 import type { RemixDeployment } from './RemixDeployment';
 import type { ICertificate } from 'aws-cdk-lib/aws-certificatemanager';
-import type {
-  AddBehaviorOptions } from 'aws-cdk-lib/aws-cloudfront';
+import type { AddBehaviorOptions } from 'aws-cdk-lib/aws-cloudfront';
 
 export interface RemixCDNProps {
   remixDeployment: RemixDeployment;
@@ -40,12 +44,21 @@ export class RemixCDN extends Construct {
     });
 
     const cachePolicy = new CachePolicy(this, 'CachePolicy', {
-      defaultTtl: Duration.seconds(86400),
+      defaultTtl: Duration.seconds(0),
       minTtl: Duration.seconds(0),
+      maxTtl: Duration.seconds(0),
+      cookieBehavior: CacheCookieBehavior.none(),
+      headerBehavior: CacheHeaderBehavior.none(),
+      queryStringBehavior: CacheQueryStringBehavior.none()
+    });
+
+    const assetsCachePolicy = new CachePolicy(this, 'AssetsCachePolicy', {
+      defaultTtl: Duration.seconds(86400),
+      minTtl: Duration.seconds(1),
       maxTtl: Duration.seconds(31536000),
       cookieBehavior: CacheCookieBehavior.none(),
-      headerBehavior: CacheHeaderBehavior.allowList('Origin', 'Access-Control-Request-Method', 'Access-Control-Request-Headers', 'Referer', 'Accept-Language', 'Accept-Datetime'),
-      queryStringBehavior: CacheQueryStringBehavior.none()
+      headerBehavior: CacheHeaderBehavior.none(),
+      queryStringBehavior: CacheQueryStringBehavior.allowList('v')
     });
 
     const requestHandlerBehavior: AddBehaviorOptions = {
@@ -56,7 +69,8 @@ export class RemixCDN extends Construct {
     };
 
     const assetBehaviorOptions = {
-      viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS
+      viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      cachePolicy: assetsCachePolicy
     };
 
     this.cloudFrontDistribution = new Distribution(this, 'HUHDistribution', {

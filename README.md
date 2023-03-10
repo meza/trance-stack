@@ -353,7 +353,7 @@ It needs the following settings:
 - Expiration: never
 - Scopes
   - [repo](https://github.com/settings/tokens/new?scopes=repo) for private repositories
-  - [repo](https://github.com/settings/tokens/new?scopes=public_repo) for public repositories
+  - [public_repo](https://github.com/settings/tokens/new?scopes=public_repo) for public repositories
 
 Once you've created the token, go to the [secrets settings][gh-secrets] and add it as `GH_TOKEN`
 

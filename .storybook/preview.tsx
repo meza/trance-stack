@@ -1,31 +1,42 @@
 import i18n from '../testUtils/i18nextForStorybook';
 import React, { useEffect } from 'react';
-import { ColorMode } from '~/components/ColorModeSwitcher';
+import { ColorMode, ColorModeContext } from '~/components/ColorModeSwitcher';
 import { StoryContext, StoryFn } from '@storybook/react';
 import '../src/styles/app.css';
 import './storybook.css';
 import { I18nextProvider } from 'react-i18next';
 import theme from './theme';
+import { useGlobals } from '@storybook/addons';
 
 const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
-  const { colorMode } = context.globals;
+  const [globals, updateGlobals] = useGlobals();
+  const colorMode = globals.colorMode || ColorMode.LIGHT;
 
-  const setMode = (mode: ColorMode) => {
+  const setStoryColorMode = (mode: ColorMode, force = true) => {
     const cl = document.firstElementChild?.classList;
     document.body.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
     if (cl) {
       cl.remove(ColorMode.LIGHT, ColorMode.DARK);
       cl.add(mode);
+      if (force) {
+        updateGlobals({ colorMode: mode });
+      }
     }
   };
 
   useEffect(() => {
-    setMode(colorMode);
+    setStoryColorMode(colorMode, false);
   }, [colorMode]);
 
   return (
     <I18nextProvider i18n={i18n}>
-      <Story/>
+      <ColorModeContext.Provider
+        value={{
+          colorMode: colorMode,
+          setColorMode: setStoryColorMode
+        }}>
+        <Story/>
+      </ColorModeContext.Provider>
     </I18nextProvider>
   );
 };

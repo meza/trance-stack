@@ -49,6 +49,17 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
   );
 };
 
+/**
+ `import { ColorModeSwitcher } from '~/components/ColorModeSwitcher';`
+
+ Adds the ability to toggle between light and dark mode.
+
+ _Usage:_
+
+ ```jsx
+ <ColorModeSwitcher/>
+ ```
+ **/
 export default function ColorModeSwitcher() {
   const { colorMode, setColorMode } = useContext(ColorModeContext);
   // defaulting to the ColorMode.LIGHT makes react not moan about uncontrolled components as the hidden input needs a mode

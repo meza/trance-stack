@@ -10,6 +10,14 @@ const storybookConfig: StorybookConfig = {
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
     {
+      name: '@storybook/addon-postcss',
+      options: {
+        postcssLoaderOptions: {
+          implementation: require('postcss')
+        }
+      }
+    },
+    {
       name: '@storybook/addon-docs',
       options: {
         configureJSX: true,

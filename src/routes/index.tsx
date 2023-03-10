@@ -7,7 +7,7 @@ import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
-import type { LoaderFunction, LinksFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderFunction } from '@remix-run/node';
 
 export const links: LinksFunction = () => ([
   ...helloLinks()
@@ -27,7 +27,14 @@ export default () => {
   if (isHelloEnabled) {
     return (<div>
       <Hello/>
-      <ColorModeSwitcher />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0
+        }}>
+        <ColorModeSwitcher/>
+      </div>
       {isAuthEnabled ? <Login/> : null}
     </div>);
   }

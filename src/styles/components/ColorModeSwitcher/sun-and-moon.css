@@ -43,7 +43,7 @@
       }
     }
   }
-  --motion-ok: 1;
+
   @media (--motion-ok) {
     & > .sun {
       transition: transform .5s var(--ease-elastic-3);

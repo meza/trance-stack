@@ -7,6 +7,19 @@ import './storybook.css';
 import { I18nextProvider } from 'react-i18next';
 import theme from './theme';
 import { useGlobals } from '@storybook/addons';
+import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub';
+
+const createRemixStoryDecorator = (Story: StoryFn) => {
+  const RemixStub = createRemixStub([
+    {
+      path: '/*',
+      element: <Story/>,
+      action: () => ({ redirect: '/' }),
+      loader: () => ({ redirect: '/' })
+    }
+  ]);
+  return <RemixStub/>;
+};
 
 const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
   const [globals, updateGlobals] = useGlobals();
@@ -24,6 +37,15 @@ const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
     }
   };
 
+  const RemixStub = createRemixStub([
+    {
+      path: '/*',
+      element: <Story/>,
+      action: () => ({ redirect: '/' }),
+      loader: () => ({ redirect: '/' })
+    }
+  ]);
+
   useEffect(() => {
     setStoryColorMode(colorMode, false);
   }, [colorMode]);
@@ -35,7 +57,7 @@ const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
           colorMode: colorMode,
           setColorMode: setStoryColorMode
         }}>
-        <Story/>
+        <RemixStub/>
       </ColorModeContext.Provider>
     </I18nextProvider>
   );

@@ -14,14 +14,14 @@ describe('Google Analytics 4', () => {
       nonce: 'a-nonce'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <StaticContent
+        <script
           async={true}
-          element="script"
           id="gtm"
           nonce="a-nonce"
           src="https://www.googletagmanager.com/gtag/js?id=123"
+          suppressHydrationWarning={true}
         />
-        <StaticContent
+        <script
           dangerouslySetInnerHTML={
             {
               "__html": "window.dataLayer = window.dataLayer || [];
@@ -30,9 +30,9 @@ describe('Google Analytics 4', () => {
       gtag('config', '123', { user_id: 'abc' });",
             }
           }
-          element="script"
           id="google-analytics"
           nonce="a-nonce"
+          suppressHydrationWarning={true}
         />
       </React.Fragment>
     `);
@@ -44,14 +44,14 @@ describe('Google Analytics 4', () => {
       nonce: 'a-nonce2'
     })).toMatchInlineSnapshot(`
       <React.Fragment>
-        <StaticContent
+        <script
           async={true}
-          element="script"
           id="gtm"
           nonce="a-nonce2"
           src="https://www.googletagmanager.com/gtag/js?id=triangulation"
+          suppressHydrationWarning={true}
         />
-        <StaticContent
+        <script
           dangerouslySetInnerHTML={
             {
               "__html": "window.dataLayer = window.dataLayer || [];
@@ -60,9 +60,9 @@ describe('Google Analytics 4', () => {
       gtag('config', 'triangulation', { user_id: 'abc123' });",
             }
           }
-          element="script"
           id="google-analytics"
           nonce="a-nonce2"
+          suppressHydrationWarning={true}
         />
       </React.Fragment>
     `);

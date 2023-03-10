@@ -1,9 +1,11 @@
 # TRANCE STACK [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](https://meza.github.io/trance-stack/)
+
 <!-- initremove:begin -->
 > **Warning**
 > **This stack is typescript and NPM only for now.**
 >
-> The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon, but it
+> The NPM requirement comes from the GitHub actions scripts. I will make it possible to use both pnpm and yarn soon, but
+> it
 > requires a bit more time and I would love to get feedback on the stack until then.
 
 ## What's included
@@ -16,7 +18,8 @@ You can modify it to your liking and use it as a base for your own remix project
 <summary>📦 Click to see a list of included technologies</summary>
 
 - Good security practices with CSP and sensible auth processes
-- i18n with [i18next](https://www.i18next.com/) and its remix integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
+- i18n with [i18next](https://www.i18next.com/) and its remix
+  integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
 - [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
@@ -29,20 +32,25 @@ You can modify it to your liking and use it as a base for your own remix project
 - Linting with [ESLint](https://eslint.org)
 - Unit testing with [Vitest](https://vitest.dev) and [Testing Library](https://testing-library.com)
 - End-to-End testing with [Playwright](https://playwright.dev)
-- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated versioning
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages to enable automated
+  versioning
 - [semantic-release](https://github.com/semantic-release/semantic-release) for automatic release management
 - [Storybook v7](https://storybook.js.org) for component development
-- [NPM](https://docs.npmjs.com/cli) for package management (for now. Will have support for [yarn](https://yarnpkg.com/) and [pnpm](https://pnpm.io/) soon)
+- [NPM](https://docs.npmjs.com/cli) for package management (for now. Will have support for [yarn](https://yarnpkg.com/)
+  and [pnpm](https://pnpm.io/) soon)
 - [GitHub Actions](https://github.com/features/actions) for a full CI setup
-- [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html) via [GitHub Actions](https://github.com/features/actions)
+- [AWS](https://aws.com) deployment with [CDK](https://docs.aws.amazon.com/cdk/index.html)
+  via [GitHub Actions](https://github.com/features/actions)
   - Using AWS Lambda + Api Gateway + Cloud Front for production builds
   - Using AWS Lambda + Api Gateway for ephemeral builds (for feature branches, pull requests, etc)
 - Automatic dependency updates with [Renovate](https://www.mend.io/free-developer-tools/renovate)
+
 </details>
 
 ## Using the stack
 
 Create your project with the stack
+
 ```bash
 npx create-remix@latest --template meza/trance-stack my-app
 ```
@@ -68,12 +76,15 @@ git remote add origin https://github.com/meza/trance-stack.git
 ```
 
 Make sure that lefthook is set up. Unfortunately, it can only be set up once you have an active git repository.
+
 ```bash
 npx lefthook install
 ```
+
 > More about lefthook [here](#lefthook)
 
 Now start the dev server
+
 ```bash
 npm run dev
 ```
@@ -87,11 +98,13 @@ You can find the instructions for that [here](#getting-started)
 ## Quickstart
 
 1. Install the dependencies
+
 ```bash
 npm install
 ```
 
 2. Start the dev server
+
 ```bash
 npm run dev
 ```
@@ -112,101 +125,105 @@ npm run dev
 - `npm run validate` - Runs both the CI tests and the integration tests
 
 ## Table Of Contents
+
 <!-- TOC -->
 <!-- initremove:begin -->
-  * [What's included](#whats-included)
-  * [Using the stack](#using-the-stack)<!-- initremove:end -->
-  * [Quickstart](#quickstart)
-    * [Notable npm scripts](#notable-npm-scripts)
-  * [Table Of Contents](#table-of-contents)
-  * [Getting Started](#getting-started)
-    * [Environment](#environment)
-    * [GitHub Settings](#github-settings)
-      * [Workflow permissions](#workflow-permissions)
-      * [Branch Protection](#branch-protection)
-      * [Pages](#pages)
-      * [Environments](#environments)
-      * [Variables vs. Secrets](#variables-vs-secrets)
-    * [Setup for continuous deployment](#setup-for-continuous-deployment)
-    * [Authentication with Auth0](#authentication-with-auth0)
-      * [Adding the Auth0 variables to GitHub](#adding-the-auth0-variables-to-github)
-      * [Enabling the Auth0 integration for feature branch/PR deployments](#enabling-the-auth0-integration-for-feature-branchpr-deployments)
-      * [Removing the Auth0 integration from the application](#removing-the-auth0-integration-from-the-application)
-    * [CookieYes integration](#cookieyes-integration)
-      * [Removing the CookieYes integration from the application](#removing-the-cookieyes-integration-from-the-application)
-    * [Google Analytics 4 integration](#google-analytics-4-integration)
-      * [Removing the Google Analytics 4 integration from the application](#removing-the-google-analytics-4-integration-from-the-application)
-    * [Hotjar integration](#hotjar-integration)
-      * [Removing the Hotjar integration from the application](#removing-the-hotjar-integration-from-the-application)
-    * [Mixpanel integration](#mixpanel-integration)
-      * [Removing the Mixpanel integration from the application](#removing-the-mixpanel-integration-from-the-application)
-    * [Renovate bot setup](#renovate-bot-setup)
-    * [Sentry integration](#sentry-integration)
-      * [How to find the DSN](#how-to-find-the-dsn)
-      * [Removing the Sentry integration from the application](#removing-the-sentry-integration-from-the-application)
-    * [Split integration](#split-integration)
-      * [Removing the Split integration from the application](#removing-the-split-integration-from-the-application)
-  * [How to use ...?](#how-to-use-)
-    * [Authentication](#authentication)
-    * [Automated Semantic Versioning](#automated-semantic-versioning)
-    * [Branching Strategy with Semantic Versioning](#branching-strategy-with-semantic-versioning)
-      * [Linting](#linting)
-      * [Which version am I running?](#which-version-am-i-running)
-    * [Dependency Version Updates](#dependency-version-updates)
-      * [Runtime dependencies](#runtime-dependencies)
-      * [Development dependencies](#development-dependencies)
-    * [Deployment](#deployment)
-      * [Ephemeral Environments](#ephemeral-environments)
-        * [Manual Ephemeral Deployment](#manual-ephemeral-deployment)
-        * [Pull Request Ephemeral Deployment](#pull-request-ephemeral-deployment)
-      * [Production-like Environments](#production-like-environments)
-      * [GitHub Actions](#github-actions)
-      * [CDK](#cdk)
-        * [Environment Variables](#environment-variables)
-          * [Local Environments](#local-environments)
-        * [The deployment directory](#the-deployment-directory)
-        * [The context variables](#the-context-variables)
-        * [Deploying from your local machine](#deploying-from-your-local-machine)
-        * [The githubActionSupport.ts file](#the-githubactionsupportts-file)
-          * [Testing the GitHub support locally](#testing-the-github-support-locally)
-    * [Environment variables](#environment-variables-1)
-      * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist)
-      * [Bundling environment variables](#bundling-environment-variables)
-    * [Feature Flags](#feature-flags)
-      * [Production](#production)
-      * [The `features.ts` file](#the-featurests-file)
-      * [Local development](#local-development)
-    * [I18N - Internationalization](#i18n---internationalization)
-      * [Using translations](#using-translations)
-      * [Adding a new locale](#adding-a-new-locale)
-      * [Removing i18n from your project](#removing-i18n-from-your-project)
-    * [Lefthook](#lefthook)
-    * [NPMIgnore - automated](#npmignore---automated)
-    * [Playwright - End-to-end testing](#playwright---end-to-end-testing)
-      * [Installing Playwright dependencies](#installing-playwright-dependencies)
-      * [Configuring Playwright](#configuring-playwright)
-      * [Running the tests](#running-the-tests)
-        * [Playwright on GitHub Actions](#playwright-on-github-actions)
-        * [Playwright locally](#playwright-locally)
-    * [Storybook](#storybook)
-      * [Running Storybook](#running-storybook)
-      * [Publishing Storybook](#publishing-storybook)
-        * [Accessing the published Storybook](#accessing-the-published-storybook)
-    * [Styling / CSS](#styling--css)
-      * [Shared Component Styles](#shared-component-styles)
-      * [Surfacing Styling](#surfacing-styling)
-      * [PostCSS](#postcss)
-    * [Typescript Paths](#typescript-paths)
-      * [Issues with Typescript Paths](#issues-with-typescript-paths)
-        * [Vitest](#vitest)
-        * [Storybook](#storybook-1)
-    * [Unit Testing](#unit-testing)
-      * [Globals: true](#globals-true)
-      * [Test reporters](#test-reporters)
-      * [Setup files](#setup-files)
-      * [Threads](#threads)
-      * [Coverage](#coverage)<!-- initremove:begin -->
-    * [Development of the stack itself](#development-of-the-stack-itself)
+
+* [What's included](#whats-included)
+* [Using the stack](#using-the-stack)<!-- initremove:end -->
+* [Quickstart](#quickstart)
+  * [Notable npm scripts](#notable-npm-scripts)
+* [Table Of Contents](#table-of-contents)
+* [Getting Started](#getting-started)
+  * [Environment](#environment)
+  * [GitHub Settings](#github-settings)
+    * [Workflow permissions](#workflow-permissions)
+    * [Branch Protection](#branch-protection)
+    * [Pages](#pages)
+    * [Environments](#environments)
+    * [Variables vs. Secrets](#variables-vs-secrets)
+    * [GitHub Token - Do This First!](#github-token---do-this-first)
+  * [Setup for continuous deployment](#setup-for-continuous-deployment)
+  * [Authentication with Auth0](#authentication-with-auth0)
+    * [Adding the Auth0 variables to GitHub](#adding-the-auth0-variables-to-github)
+    * [Enabling the Auth0 integration for feature branch/PR deployments](#enabling-the-auth0-integration-for-feature-branchpr-deployments)
+    * [Removing the Auth0 integration from the application](#removing-the-auth0-integration-from-the-application)
+  * [CookieYes integration](#cookieyes-integration)
+    * [Removing the CookieYes integration from the application](#removing-the-cookieyes-integration-from-the-application)
+  * [Google Analytics 4 integration](#google-analytics-4-integration)
+    * [Removing the Google Analytics 4 integration from the application](#removing-the-google-analytics-4-integration-from-the-application)
+  * [Hotjar integration](#hotjar-integration)
+    * [Removing the Hotjar integration from the application](#removing-the-hotjar-integration-from-the-application)
+  * [Mixpanel integration](#mixpanel-integration)
+    * [Removing the Mixpanel integration from the application](#removing-the-mixpanel-integration-from-the-application)
+  * [Renovate bot setup](#renovate-bot-setup)
+  * [Sentry integration](#sentry-integration)
+    * [How to find the DSN](#how-to-find-the-dsn)
+    * [Removing the Sentry integration from the application](#removing-the-sentry-integration-from-the-application)
+  * [Split integration](#split-integration)
+    * [Removing the Split integration from the application](#removing-the-split-integration-from-the-application)
+* [How to use ...?](#how-to-use-)
+  * [Authentication](#authentication)
+  * [Automated Semantic Versioning](#automated-semantic-versioning)
+  * [Branching Strategy with Semantic Versioning](#branching-strategy-with-semantic-versioning)
+    * [Linting](#linting)
+    * [Which version am I running?](#which-version-am-i-running)
+  * [Dependency Version Updates](#dependency-version-updates)
+    * [Runtime dependencies](#runtime-dependencies)
+    * [Development dependencies](#development-dependencies)
+  * [Deployment](#deployment)
+    * [Ephemeral Environments](#ephemeral-environments)
+      * [Manual Ephemeral Deployment](#manual-ephemeral-deployment)
+      * [Pull Request Ephemeral Deployment](#pull-request-ephemeral-deployment)
+    * [Production-like Environments](#production-like-environments)
+    * [GitHub Actions](#github-actions)
+    * [CDK](#cdk)
+      * [Environment Variables](#environment-variables)
+        * [Local Environments](#local-environments)
+      * [The deployment directory](#the-deployment-directory)
+      * [The context variables](#the-context-variables)
+      * [Deploying from your local machine](#deploying-from-your-local-machine)
+      * [The githubActionSupport.ts file](#the-githubactionsupportts-file)
+        * [Testing the GitHub support locally](#testing-the-github-support-locally)
+  * [Environment variables](#environment-variables-1)
+    * [Adding a new environment variable checklist:](#adding-a-new-environment-variable-checklist)
+    * [Bundling environment variables](#bundling-environment-variables)
+  * [Feature Flags](#feature-flags)
+    * [Production](#production)
+    * [The `features.ts` file](#the-featurests-file)
+    * [Local development](#local-development)
+  * [I18N - Internationalization](#i18n---internationalization)
+    * [Using translations](#using-translations)
+    * [Adding a new locale](#adding-a-new-locale)
+    * [Removing i18n from your project](#removing-i18n-from-your-project)
+  * [Lefthook](#lefthook)
+  * [NPMIgnore - automated](#npmignore---automated)
+  * [Playwright - End-to-end testing](#playwright---end-to-end-testing)
+    * [Installing Playwright dependencies](#installing-playwright-dependencies)
+    * [Configuring Playwright](#configuring-playwright)
+    * [Running the tests](#running-the-tests)
+      * [Playwright on GitHub Actions](#playwright-on-github-actions)
+      * [Playwright locally](#playwright-locally)
+  * [Storybook](#storybook)
+    * [Running Storybook](#running-storybook)
+    * [Publishing Storybook](#publishing-storybook)
+      * [Accessing the published Storybook](#accessing-the-published-storybook)
+  * [Styling / CSS](#styling--css)
+    * [Shared Component Styles](#shared-component-styles)
+    * [Surfacing Styling](#surfacing-styling)
+    * [PostCSS](#postcss)
+  * [Typescript Paths](#typescript-paths)
+    * [Issues with Typescript Paths](#issues-with-typescript-paths)
+      * [Vitest](#vitest)
+      * [Storybook](#storybook-1)
+  * [Unit Testing](#unit-testing)
+    * [Globals: true](#globals-true)
+    * [Test reporters](#test-reporters)
+    * [Setup files](#setup-files)
+    * [Threads](#threads)
+    * [Coverage](#coverage)<!-- initremove:begin -->
+  * [Development of the stack itself](#development-of-the-stack-itself)
+
 <!-- initremove:end -->
 <!-- TOC -->
 
@@ -220,16 +237,19 @@ find removal instructions at every step so don't worry if you're not a fan of a 
 > **But... why?**
 >
 > **Note**
-> We've been using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
-> throughout the development of the project so if you ever find yourself wondering why we've chosen a particular service or
+> We've been
+> using [Architecture Decision Records](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions)
+> throughout the development of the project so if you ever find yourself wondering why we've chosen a particular service
+> or
 > implementation, you can check the [ADR](./docs/adr/decisions.md) page for more information.
 >
-> We highly encourage you to keep on adding your own decisions. It's a great way to document the historical context of your
+> We highly encourage you to keep on adding your own decisions. It's a great way to document the historical context of
+> your
 > project, and it's a great way to share your knowledge with the rest of the team.
 >
-> We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the dependencies, so you
+> We use [adr-tools](https://github.com/meza/adr-tools) to manage our ADRs. It is installed as part of the dependencies,
+> so you
 > should be able to use it right away.
-
 
 ### Environment
 
@@ -241,12 +261,15 @@ cp .env.example .env
 
 This file contains all the variables you will need to set for the project to function as is.
 
-The `APP_DOMAIN` should generally stay the same. It's the domain that your application will be served from. This variable
+The `APP_DOMAIN` should generally stay the same. It's the domain that your application will be served from. This
+variable
 will also be set by the deployment scripts, so you don't need to worry about it. During local development
 it will be set to `http://localhost:3000`.
 
-The `NODE_ENV` variable is used to determine which environment you're running the application in. It seems like ARC has a
-hard time figuring it out on its own, so we've set it up to be set manually. If all goes well, it won't be needed for long.
+The `NODE_ENV` variable is used to determine which environment you're running the application in. It seems like ARC has
+a
+hard time figuring it out on its own, so we've set it up to be set manually. If all goes well, it won't be needed for
+long.
 
 The `SESSION_SECRET` variable is used to encrypt the session cookies. It should be a long, random string.
 
@@ -268,6 +291,7 @@ Without this, the deployment scripts won't be able to create the necessary GitHu
 #### Branch Protection
 
 Next, head over to https://github.com/meza/trance-stack/settings/branches and add a few branch protection rules.
+
 - main
 - alpha
 - beta
@@ -283,36 +307,55 @@ We use this later in the [Deployment](#deployment) section to prevent named envi
 
 #### Pages
 
-Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set to `GitHub Actions`.
+Next, head over to https://github.com/meza/trance-stack/settings/pages and make sure the `Source` is set
+to `GitHub Actions`.
 This will allow us to deploy the project's storybook to GitHub Pages.
 
 #### Environments
 
 > **Note**
 > We use GitHub environments to manage the different stages of our application. You can read more about them
->[here](https://docs.github.com/en/actions/deployment/targeting-different-environments).
+> [here](https://docs.github.com/en/actions/deployment/targeting-different-environments).
 
 GitHub environments are great to control the environment variables that are used in your workflows.
 
 For now, go to https://github.com/meza/trance-stack/settings/environments and create the following environments:
+
 - `Production`
 - `Staging`
 - `Ephemeral`
 
-These are referred to in [the deployment workflow](./.github/workflows/deploy.yml) for example with the `environment` key.
-The `Ephemeral` environment is used for feature branches and pull requests and is referenced in [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
+These are referred to in [the deployment workflow](./.github/workflows/deploy.yml) for example with the `environment`
+key.
+The `Ephemeral` environment is used for feature branches and pull requests and is referenced
+in [the ephemeral workflow](./.github/workflows/ephemeralDeploy.yml).
 
 #### Variables vs. Secrets
 
-Some configuration values are sensitive while others are not. For example, the `COOKIEYES_TOKEN` is not sensitive, but the
+Some configuration values are sensitive while others are not. For example, the `COOKIEYES_TOKEN` is not sensitive, but
+the
 `AUTH0_CLIENT_SECRET` is.
-This mainly comes from the fact that some of these values will be embedded into the html of your application and be visible
+This mainly comes from the fact that some of these values will be embedded into the html of your application and be
+visible
 to everyone.
 
 > **Warning**
 > Please double-check the documentation of the services to ensure you're setting them up correctly.
 >
 > The application won't work properly if you add a secret as a variable or a variable as a secret.
+
+### GitHub Token - Do This First!
+
+For the releases to work properly, you will need
+to [create a Personal Access Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token).
+It needs the following settings:
+
+- Expiration: never
+- Scopes
+  - [repo](https://github.com/settings/tokens/new?scopes=repo) for private repositories
+  - [public_repo](https://github.com/settings/tokens/new?scopes=public_repo) for public repositories
+
+Once you've created the token, go to the [secrets settings][gh-secrets] and add it as `GH_TOKEN`
 
 ### Setup for continuous deployment
 
@@ -322,9 +365,11 @@ create the environment variables and secrets defined in the [environment variabl
 ### Authentication with Auth0
 
 We use [Auth0 for authentication](./docs/adr/0010-authentication-is-done-by-auth0.md).
-You will need to create an account with them and [set up an application](https://auth0.com/docs/get-started/auth0-overview/create-applications).
+You will need to create an account with them
+and [set up an application](https://auth0.com/docs/get-started/auth0-overview/create-applications).
 
 When creating your new application, make sure to set the following settings:
+
 1. The application type should be `Regular Web Applications`
 2. Ignore the Quick Start section
 3. Go to Settings and copy the `Domain` and `Client ID` and `Client Secret` and paste them in the `.env` file
@@ -333,7 +378,8 @@ When creating your new application, make sure to set the following settings:
 6. Go to the `Allowed Logout URLs` section and add `http://localhost:3000`
 7. Go to the `Allowed Web Origins` section and add `http://localhost:3000`
 8. Go to the `Allowed Origins (CORS)` section and add `http://localhost:3000`
-9. Go to the `Refresh Token Rotation` section and enable it and with that, you also have to enable the `Absolute Expiration`
+9. Go to the `Refresh Token Rotation` section and enable it and with that, you also have to enable
+   the `Absolute Expiration`
    option.
 
 #### Adding the Auth0 variables to GitHub
@@ -377,7 +423,8 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 
 #### Removing the Auth0 integration from the application
 
-1. Delete the `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID` and `AUTH0_CLIENT_SECRET` variables from the `.env` file and GitHub secrets.
+1. Delete the `AUTH0_DOMAIN`, `AUTH0_CLIENT_ID` and `AUTH0_CLIENT_SECRET` variables from the `.env` file and GitHub
+   secrets.
 2. Delete the `src/auth.server.ts` and the `src/auth.server.test.ts` files.
 3. Delete the `auth0-remix-server` dependency from the `package.json` file.
 4. Follow the compilation and test errors to remove all the code that uses the `auth0-remix-server` dependency.
@@ -387,7 +434,8 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 We use [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and
 [set up a cookie banner](https://www.cookieyes.com/category/documentation/getting-started/).
 
-When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will need
+When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will
+need
 to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
 
 <p align="center">
@@ -463,13 +511,14 @@ set the `MIXPANEL_TOKEN` variable in the `.env` file.
 Mixpanel allows you to choose the region where your data is stored. You can find the API endpoint for your region in the
 [documentation](https://help.mixpanel.com/hc/en-us/articles/360039135652-Data-Residency-in-EU).
 
-You also need to set the `MIXPANEL_API` variable. This is the API endpoint that the stack will use to send events to Mixpanel.
+You also need to set the `MIXPANEL_API` variable. This is the API endpoint that the stack will use to send events to
+Mixpanel.
 There is no default value to this because you should understand how you're dealing with data residency.
 
 The values for the `MIXPANEL_API` variable are:
+
 - `https://api-eu.mixpanel.com` - for the European Union
 - `https://api.mixpanel.com` - for the rest of the world
-
 
 You will also have to go to the [variables settings][gh-variables] and add the same variable
 names as the one in the `.env` file.
@@ -488,7 +537,8 @@ names as the one in the `.env` file.
 ### Renovate bot setup
 
 We use [Renovate](https://www.mend.io/free-developer-tools/renovate) to manage dependency updates.
-To take advantage of it, you will need to install the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
+To take advantage of it, you will need to install
+the [Renovate GitHub App](https://docs.renovatebot.com/getting-started/installing-onboarding/#hosted-githubcom-app).
 
 First, navigate to https://github.com/apps/renovate and click on the Install button.
 
@@ -532,7 +582,8 @@ Once you have the token, go to the [secrets settings][gh-secrets] and add
 
 We will be using these to send the source maps to Sentry so that the errors are properly mapped to the source code.
 
-The deployment script will automatically upload the source maps to Sentry and then remove them locally, so they don't get
+The deployment script will automatically upload the source maps to Sentry and then remove them locally, so they don't
+get
 uploaded to the environments.
 
 #### How to find the DSN
@@ -555,11 +606,13 @@ Finally, copy the `DSN` value
 
 1. Delete the `SENTRY_DSN` variable from the `.env` file and GitHub variables.
 2. Run `npm remove @sentry/*` to remove all the sentry packages.
-3. Remove the `sentryDsn` from the `appConfig` and the `SENTRY_DSN` from the `ProcessEnv` type in the `src/types/global.d.ts` file.
+3. Remove the `sentryDsn` from the `appConfig` and the `SENTRY_DSN` from the `ProcessEnv` type in
+   the `src/types/global.d.ts` file.
 4. On the very bottom of the `src/root.tsx` file, replace the `withSentry(App)` with `App`.
 5. Remove the `Sentry.init` call from the `src/entry.client.tsx` and the `src/entry.server.tsx` files.
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
-7. Open the `.github/workflows/deploy.yml` and the `.github/workflows/ephemeralDeply.yml` files and remove the `Sentry Sourcemaps` step.
+7. Open the `.github/workflows/deploy.yml` and the `.github/workflows/ephemeralDeply.yml` files and remove
+   the `Sentry Sourcemaps` step.
 
 ### Split integration
 
@@ -587,9 +640,9 @@ variables in the `.env` file.
 
 1. Delete the `SPLIT_SERVER_TOKEN` variable from the `.env` file and GitHub secrets.
 2. Delete the following files:
-  1. `src/split.server.ts` and the `src/split.server.test.ts`
-  2. `src/feature.ts` and the `src/feature.test.ts`
-  3. `devFeatures.yml` (from the project root)
+1. `src/split.server.ts` and the `src/split.server.test.ts`
+2. `src/feature.ts` and the `src/feature.test.ts`
+3. `devFeatures.yml` (from the project root)
 3. Follow the compilation and test errors to remove all the code that uses the feature flags.
 4. Run `vitest --run --update` to update the snapshots.
 
@@ -619,10 +672,12 @@ To effectively use conventional commits, you need to understand the following ba
 **Your commit messages determine if a new deployment happens to production.**
 
 Messages that trigger builds are:
+
 - `fix: ...` - fixes a bug
 - `feat: ...` - adds a new feature
 
 Messages that don't trigger new versions (therefore builds) are:
+
 - `docs: ...` - changes to the documentation
 - `chore: ...` - changes to the build process or auxiliary tools and libraries such as documentation generation
 - `refactor: ...` - code changes that neither fixes a bug nor adds a feature
@@ -637,22 +692,28 @@ We will talk about how the deployment works in the [Deployment](#deployment) sec
 branching strategy works with the versioning.
 
 There are 3 main branches:
+
 - `main` - this is the main branch. It is the branch that is deployed to production.
 - `beta` - this is the branch that is deployed to the beta (Staging) environment.
 - `alpha` - this is the branch that is deployed to the alpha (Staging) environment.
 
-When you push to the `main` branch, a new version is released to production. The version is determined by the commit messages
+When you push to the `main` branch, a new version is released to production. The version is determined by the commit
+messages
 and every commit that is pushed to the `main` branch will trigger a new version.
 
-When you push to the `alpha` or `beta` branch, a new [Pre-release](https://semantic-release.gitbook.io/semantic-release/usage/workflow-configuration#pre-release-branches)
-version is created. This allows you to iterate on features for an upcoming release and not worry about bumping the version
+When you push to the `alpha` or `beta` branch, a
+new [Pre-release](https://semantic-release.gitbook.io/semantic-release/usage/workflow-configuration#pre-release-branches)
+version is created. This allows you to iterate on features for an upcoming release and not worry about bumping the
+version
 number every time you push a commit that introduces a new feature or a fix.
 
-For example, if you have a `1.0.0` version in production, and you push a commit to the `alpha` branch, the version will be
+For example, if you have a `1.0.0` version in production, and you push a commit to the `alpha` branch, the version will
+be
 `1.1.0-alpha.0`. If you push another commit to the `alpha` branch, the version will be `1.1.0-alpha.1` and so on.
 
 When you merge a pull request from the `alpha` or `beta` branch to the `main` branch, all the changes in those branches
-will be collected and bundled into a single release. To follow the example above, if you have a `1.0.0` version in production,
+will be collected and bundled into a single release. To follow the example above, if you have a `1.0.0` version in
+production,
 and merge the `alpha` branch with its `1.1.0-alpha.1` version, your newly created version on production will be `1.1.0`.
 
 ```mermaid
@@ -694,7 +755,8 @@ The linting itself is triggered by [lefthook](#lefthook)
 
 #### Which version am I running?
 
-The version of the app is sent into the `<html data-version="...">` attribute. You can use this to determine which version
+The version of the app is sent into the `<html data-version="...">` attribute. You can use this to determine which
+version
 of the app is running on any given environment.
 
 ### Dependency Version Updates
@@ -713,7 +775,8 @@ important for these dependencies.
 
 We want to update these dependencies as soon as possible, so we have the following configuration:
 
-- `minor and patch versions` - create a pull request with a `fix: ` prefix in the commit message and merge automatically if possible
+- `minor and patch versions` - create a pull request with a `fix: ` prefix in the commit message and merge automatically
+  if possible
 - `major versions` - create a pull request with a `fix: ` prefix in the commit message and do NOT merge automatically
 
 #### Development dependencies
@@ -725,10 +788,12 @@ a new version of the app when we update these dependencies.
 
 We still want to update these dependencies as soon as possible, so we have the following configuration:
 
-- `minor and patch versions` - create a pull request with a `chore: ` prefix in the commit message and merge automatically if possible
+- `minor and patch versions` - create a pull request with a `chore: ` prefix in the commit message and merge
+  automatically if possible
 - `major versions` - create a pull request with a `chore: ` prefix in the commit message and do NOT merge automatically
 
 ### Deployment
+
 <!-- initremove:begin -->
 One of the main focuses of this stack was to create a deployment strategy that is a good starting point for anyone
 building from this stack.
@@ -746,7 +811,8 @@ a feature branch.
 
 ##### Manual Ephemeral Deployment
 
-Navigate to https://github.com/meza/trance-stack/actions/workflows/ephemeralDeploy.yml and click the "Run workflow" button.
+Navigate to https://github.com/meza/trance-stack/actions/workflows/ephemeralDeploy.yml and click the "Run workflow"
+button.
 
 <p align="center">
   <img src="./docs/images/github-run-workflow.png" alt="Run workflow button" />
@@ -831,11 +897,11 @@ The hexagonal nodes are processes which are executed by [CDK](#cdk) while the ot
 framework to define cloud infrastructure in code and provision it through AWS CloudFormation.
 
 > **Note**
-> If you are interested in why we chose CDK, check out [the relevant ADR](./docs/adr/0008-use-aws-cdk-for-deployments.md)
+> If you are interested in why we chose CDK, check
+> out [the relevant ADR](./docs/adr/0008-use-aws-cdk-for-deployments.md)
 
 The majority of the infrastructure is defined in the `deployment` directory. The `deployment/lib` directory contains the
 custom [Constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html) that are used to build the infrastructure.
-
 
 ##### Environment Variables
 
@@ -859,7 +925,8 @@ environment variables only.
 
 ##### The deployment directory
 
-The `deployment/stacks` directory contains the actual stacks that are deployed to AWS. Their naming should be self-explanatory.
+The `deployment/stacks` directory contains the actual stacks that are deployed to AWS. Their naming should be
+self-explanatory.
 We have one for the `Ephemeral` environment and one for the `Production` environment.
 
 If you examine either of the deployment files, you will notice that the deployment is basically
@@ -898,7 +965,8 @@ The context variables are used to pass information to the CDK stack.
 
 ##### Deploying from your local machine
 
-We advise you to use the GitHub Actions to deploy the application. However, if you want to deploy from your local machine,
+We advise you to use the GitHub Actions to deploy the application. However, if you want to deploy from your local
+machine,
 you can do so by running the same command as the deployment scripts would.
 
 > **Warning**
@@ -919,10 +987,12 @@ You can define the context variables either on the command line or you can use t
 
 Let's talk about the `githubActionSupport.ts` file.
 
-This file uses the GitHub Actions toolkit to allow us to report back with the deployment URL to the GitHub Actions/Pull Request.
+This file uses the GitHub Actions toolkit to allow us to report back with the deployment URL to the GitHub Actions/Pull
+Request.
 
 The reason it's a bit more complex than it needs to be is because we don't want to publish a PR comment every time we
-deploy the same branch. Since the URL won't change for a branch that's already deployed, there is no need to spam the PR.
+deploy the same branch. Since the URL won't change for a branch that's already deployed, there is no need to spam the
+PR.
 
 This posed a challenge of finding an existing deployment comment and updating it instead of creating a new one.
 
@@ -934,6 +1004,7 @@ following command:
 ```bash
 npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json
 ```
+
 This requires you to have a `deployment.result.json` file in the `/tmp` directory. You can get this file by running the
 [deployment command locally](#deploying-from-your-local-machine).
 
@@ -960,7 +1031,8 @@ Add the variable to...
 #### Bundling environment variables
 
 We bundle most of the environment variables into the server bundle. To understand why,
-read [the relevant adr](./docs/adr/0005-bundling-environment-variables.md), and [it's addendum](./docs/adr/0009-no-more-need-to-bundle-environment-variables.md).
+read [the relevant adr](./docs/adr/0005-bundling-environment-variables.md),
+and [it's addendum](./docs/adr/0009-no-more-need-to-bundle-environment-variables.md).
 
 The important thing to know is that what gets bundled is decided by reading the `.env.example` file and taking its
 keys.
@@ -969,13 +1041,15 @@ You can prevent certain keys to get bundled by adding them to the deny list in t
 
 ```js
   const doNotBundleEnv = [
-    'APP_DOMAIN' // deny list for the environmentPlugin
-  ]
+  'APP_DOMAIN' // deny list for the environmentPlugin
+]
 ```
+
 ### Feature Flags
 
 Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
-It enables you to decouple the release of new code from the release of new features. [Read more](https://www.split.io/product/feature-flags/)
+It enables you to decouple the release of new code from the release of new
+features. [Read more](https://www.split.io/product/feature-flags/)
 
 Let's look at an example which is in the `src/routes/index.tsx` file
 
@@ -1004,23 +1078,27 @@ Here all elements of the page are wrapped in a feature flag. The `Hello` compone
 feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
 
 Don't worry about using `hasFeature` a lot in your code. Split caches the results of the feature flags, so it's not a
-performance issue. Split works with streaming data and will check for changes in the feature flags every minute by default.
+performance issue. Split works with streaming data and will check for changes in the feature flags every minute by
+default.
 
-You can check all the available options in the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
+You can check all the available options in
+the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
 and then set them as you wish in the `src/split.server.ts` file.
 
 Before we continue, let's talk about the difference between production and local development.
 
 #### Production
 
-When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your Split.
+When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your
+Split.
 You also need to manage all your flags (or splits as they're called in Split) in the Split Workspace dashboard.
 
 Always use the Splits of your workspace as the source of truth.
 
 #### The `features.ts` file
 
-The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this file
+The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this
+file
 in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
 
 ```ts
@@ -1036,8 +1114,10 @@ Having this allows us to reference the features in our code without having to wo
 #### Local development
 
 When you're developing locally, you can set the `SPLIT_SERVER_TOKEN` variable to `localhost`.
-This sets split into a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
-and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the project root.
+This sets split into
+a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
+and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the
+project root.
 
 ```yml
 # devFeatures.yml
@@ -1050,7 +1130,8 @@ and it will use the `devFeatures.yml` file to determine if a feature is enabled 
 
 This file is a list of all the features that you have in your application. The `treatment` property determines if the
 feature is enabled or not. If the treatment is set to `on`, the feature is enabled. If it's set to `off`, the feature is
-disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on` and `off`.
+disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on`
+and `off`.
 
 > **Warning**
 > Unfortunately, there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
@@ -1058,12 +1139,16 @@ disabled. [Read more about treatments](https://docs.split.io/reference/treatment
 
 ### I18N - Internationalization
 
-We're using i18next for internationalization. You can read more about it in the [i18next documentation](https://www.i18next.com/).
-To integrate it with Remix, we're using the [remix-i18next](https://github.com/sergiodxa/remix-i18next) package and our setup
+We're using i18next for internationalization. You can read more about it in
+the [i18next documentation](https://www.i18next.com/).
+To integrate it with Remix, we're using the [remix-i18next](https://github.com/sergiodxa/remix-i18next) package and our
+setup
 is based on the remix-i18next Readme file.
 
-You can find the i18n configuration in the `src/i18n` directory. The `i18n.config.ts` file contains the configuration for
-the defaults of i18next. The `i18n.server.ts` file contains the configuration for the server side while the `i18n.client.ts`
+You can find the i18n configuration in the `src/i18n` directory. The `i18n.config.ts` file contains the configuration
+for
+the defaults of i18next. The `i18n.server.ts` file contains the configuration for the server side while
+the `i18n.client.ts`
 file contains the configuration for the client side.
 
 The only deviation we have from the remix-i18next sample setup is that we're actually bundling the translations into the
@@ -1071,26 +1156,30 @@ server package. This is done in the `src/i18n/i18n.server.ts` file.
 
 ```ts
 await i18nextInstance.init({
-      debug: process.env.I18N_DEBUG === 'true',
-      ...baseConfig,
-      lng: locale,
-      ns: remixI18next.getRouteNamespaces(remixContext),
-      // The sample setup in remix-i18next
-      //backend: {
-      //  loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
-      //},
-      resources: {
-        en: {
-          translation: en
-        }
-      }
-    });
+  debug: process.env.I18N_DEBUG === 'true',
+  ...baseConfig,
+  lng: locale,
+  ns: remixI18next.getRouteNamespaces(remixContext),
+  // The sample setup in remix-i18next
+  //backend: {
+  //  loadPath: resolve("./public/locales/{{lng}}/{{ns}}.json"),
+  //},
+  resources: {
+    en: {
+      translation: en
+    }
+  }
+});
 ```
-We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) environment, we have one single file as the
-handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file systems,
-it would make deployments more complicated and the function would become incompatible with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
 
-Therefore, instead of using the `fs-backend`, we're directly importing the resources from the `public/locales` directory.
+We're doing this because in the [AWS Lambda](https://aws.amazon.com/lambda/) environment, we have one single file as the
+handler, and it needs to be self-contained. While traditional lambda functions could have access to attached file
+systems,
+it would make deployments more complicated and the function would become incompatible
+with [Lambda@Edge](https://aws.amazon.com/lambda/edge/) solutions.
+
+Therefore, instead of using the `fs-backend`, we're directly importing the resources from the `public/locales`
+directory.
 
 This does mean that when you add a new locale, you will have to add it to the resources in the `i18n.server.ts` file.
 
@@ -1109,9 +1198,11 @@ export const Hello = () => {
 };
 ```
 
-You can also [pass in variables](https://www.i18next.com/translation-function/interpolation#working-with-data-models) to the translations. This helps the translators to create more context-sensitive translations.
+You can also [pass in variables](https://www.i18next.com/translation-function/interpolation#working-with-data-models) to
+the translations. This helps the translators to create more context-sensitive translations.
 
 Take this example from the initial logged in Dashboard of the application:
+
 ```tsx
 export default () => {
   const { t } = useTranslation();
@@ -1122,8 +1213,10 @@ export default () => {
 };
 ```
 
-Here we pass in the `name` variable to the translation. This means that the location of where the name appears in the final
-text can be different in different languages. For example, in one context we could say "Dashboard for John!" and in another context
+Here we pass in the `name` variable to the translation. This means that the location of where the name appears in the
+final
+text can be different in different languages. For example, in one context we could say "Dashboard for John!" and in
+another context
 we could say "John's dashboard!".
 
 The translation file in our dashboard's case looks like this:
@@ -1161,7 +1254,8 @@ If you don't want to use i18n, you can remove it from your project. You will hav
 
 ### Lefthook
 
-The commit validation and the automatic dependency installation is done by [Lefthook](https://github.com/evilmartians/lefthook)
+The commit validation and the automatic dependency installation is done
+by [Lefthook](https://github.com/evilmartians/lefthook)
 
 The configuration file is at `.lefthook.yml`.
 You can see all the commands that happen and the git hooks they are attached to.
@@ -1170,7 +1264,8 @@ If running all the tests at every commit is too much, you can always set it to h
 
 ### NPMIgnore - automated
 
-In case you would ever want to publish your project to NPM (which you shouldn't), you can use the [npmignore](https://www.npmjs.com/package/npmignore) package to
+In case you would ever want to publish your project to NPM (which you shouldn't), you can use
+the [npmignore](https://www.npmjs.com/package/npmignore) package to
 automatically generate an `.npmignore` file. This file will be generated based on the `.gitignore` file.
 
 There is a basic ignore configuration in the `package.json` file's `publishConfig` section.
@@ -1208,12 +1303,18 @@ at the bottom:
 
 ```ts
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    timeout: 1 * 60 * 1000,
-    reuseExistingServer: !process.env.CI
-  }
+webServer: {
+  command: 'npm run dev',
+    url
+:
+  'http://localhost:3000',
+    timeout
+:
+  1 * 60 * 1000,
+    reuseExistingServer
+:
+  !process.env.CI
+}
 ```
 
 #### Running the tests
@@ -1239,7 +1340,8 @@ Remix is still a bit behind in terms of Storybook support, so we had to do a few
 
 > **Warning**
 > Storybook 7 brings some fundamental changes to how Storybook works.
-> It is **HIGHLY** encouraged that you read the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700)
+> It is **HIGHLY** encouraged that you read
+> the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#from-version-65x-to-700)
 > to see what changed. Things that you are used to might not work the same way anymore.
 
 There is an [ongoing discussion](https://github.com/remix-run/remix/discussions/2481) within the Remix community
@@ -1272,10 +1374,10 @@ This is done via the `.github/workflows/storybook.yml` workflow.
 
 Right at the top of this README, you can see a badge linking to the published Storybook.
 
-
 ### Styling / CSS
 
-We use regular stylesheets in this project which means a combination of [Shared Component Styles](#shared-component-styles)
+We use regular stylesheets in this project which means a combination
+of [Shared Component Styles](#shared-component-styles)
 and [Surfacing Styling](#surfacing-styling).
 
 #### Shared Component Styles
@@ -1293,7 +1395,8 @@ export const links: LinksFunction = () => {
 };
 ```
 
-The styles that are uniform across the entire application are loaded from the `src/root.tsx` file while the styles that are
+The styles that are uniform across the entire application are loaded from the `src/root.tsx` file while the styles that
+are
 specific to a single route are loaded from the route itself.
 
 These are all additive, so you can have a single stylesheet that is loaded on every route via the `root.tsx`, and then
@@ -1303,7 +1406,8 @@ If you need a component-specific stylesheet, you can use the [Surfacing Styling]
 
 #### Surfacing Styling
 
-To have local styles per component, we use is [Surfacing Styling](https://remix.run/docs/en/main/guides/styling#surfacing-styles).
+To have local styles per component, we use
+is [Surfacing Styling](https://remix.run/docs/en/main/guides/styling#surfacing-styles).
 
 > _Because these are not routes, and therefore not associated with a URL segment, Remix doesn't know when to prefetch,
 > load, or unload the styles. We need to "surface" the links up to the routes that use the components_
@@ -1333,7 +1437,8 @@ export default Hello;
 Notice that it imports the `hello.css` file. This file is located in the same directory as the component.
 It also has a `links` export that returns the stylesheet link.
 
-In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the components.
+In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the
+components.
 You can see an example of this in the `src/routes/index.tsx` file:
 
 ```tsx
@@ -1343,6 +1448,7 @@ export const links: LinksFunction = () => ([
   ...helloLinks()
 ]);
 ```
+
 We import the `links` export from the `Hello` component and add it to the `links` export of the `index.tsx` route.
 
 Yes, this is more complicated than it should be but with the rapid development of Remix, we hope that this will be
@@ -1351,7 +1457,8 @@ simplified in the future.
 #### PostCSS
 
 We use [PostCSS](https://postcss.org) to process CSS. Remix has a built-in PostCSS plugin that allows you to
-import CSS files directly into your components. Read more about how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
+import CSS files directly into your components. Read more about
+how [CSS in Remix](https://remix.run/docs/en/main/guides/styling#built-in-postcss-support) works.
 
 Our PostCSS configuration is located in the `postcss.config.js` file, and it gets applied every single time Remix builds
 the application.
@@ -1376,6 +1483,7 @@ import Hello from '~/components/Hello';
 import appStyles from '@styles/app.css';
 import { renderWithi18n } from '@test';
 ```
+
 Feel free to add your own paths in the `tsconfig.json` file.
 
 Common ones that you might want to add are:
@@ -1391,7 +1499,9 @@ We have chosen not to add those because `~/hooks` and `@hooks` are not that diff
 Unfortunately, typescript paths are somewhat esoteric and support across tools can be spotty.
 
 ##### Vitest
-Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts` file.
+
+Vitest for example needs special configuration to handle it. You can find the configuration in the `vitest.config.ts`
+file.
 It both requires the [vite-tsconfig-paths](https://www.npmjs.com/package/vite-tsconfig-paths) plugin and in some cases
 you need to manually add the path to the `resolve.alias` array.
 
@@ -1399,14 +1509,17 @@ you need to manually add the path to the `resolve.alias` array.
 // vite.config.ts
 resolve: {
   alias: {
-    '~': path.resolve(__dirname, './src')
+    '~'
+  :
+    path.resolve(__dirname, './src')
   }
 }
 ```
 
 ##### Storybook
 
-Storybook also needs to be told to respect the typescript paths. We use the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
+Storybook also needs to be told to respect the typescript paths. We use
+the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin)
 to tell the storybook webpack config to respect the paths.
 
 We add it to the `webpackFinal` function in the `.storybook/main.ts` file.
@@ -1427,7 +1540,8 @@ webpackFinal: async config => {
 ### Unit Testing
 
 We use [Vitest](https://vitest.dev/) as the unit testing framework.
-If you're unfamiliar with Vitest, fear not, its interface is very similar to Jest and you will have no issues getting started.
+If you're unfamiliar with Vitest, fear not, its interface is very similar to Jest and you will have no issues getting
+started.
 
 The main configuration file of Vitest is located at `vitest.config.ts`.
 
@@ -1439,7 +1553,8 @@ The globals are off by default but to get `js-dom` to work with vitest, they nee
 
 #### Test reporters
 
-We use different reporters depending on the environment. In the CI environment, we output `junit` and `cobertura` reports
+We use different reporters depending on the environment. In the CI environment, we output `junit` and `cobertura`
+reports
 which then get published to the GitHub Actions Summary or as a Pull Request comment.
 On your local machine, we use the `html` reporter for coverage and a default text reporter for the test results.
 
@@ -1451,7 +1566,8 @@ All the test reporting goes into the `reports` directory.
 
 If you look closely, you can see that we have a `setupFiles` section which calls the
 `vitest.setup.ts` file. This file is responsible for setting up the environment for the tests.
-It installs the `@testing-library/jest-dom` package and sets up a universal `afterEach` hook to clean up after the tests.
+It installs the `@testing-library/jest-dom` package and sets up a universal `afterEach` hook to clean up after the
+tests.
 
 This might not be to everyone's liking so feel free to change it. Just remember that if you remove the global
 `afterEach` hook, you will need to clean up after the tests yourself so make sure to run `npm run ci` and see what
@@ -1487,8 +1603,8 @@ configuration object if you want to.
 Alternatively, you can modify the `report` script in the `package.json` file to remove the `--coverage` flag.
 
 
-
 [gh-variables]: https://github.com/meza/trance-stack/settings/variables/actions
+
 [gh-secrets]: https://github.com/meza/trance-stack/settings/secrets/actions
 <!-- initremove:begin -->
 

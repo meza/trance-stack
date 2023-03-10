@@ -78,11 +78,11 @@ const App = () => {
       <head>
         <Meta/>
         <Links/>
-        <ColorModeSensor nonce={nonce}/>
         <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
         <CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>
         <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
         <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
+        <ColorModeSensor nonce={nonce}/>
       </head>
       <body>
         <ColorModeContext.Provider

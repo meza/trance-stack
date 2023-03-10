@@ -12,6 +12,8 @@ Sentry.init({
   dsn: window.appConfig.sentryDsn,
   release: window.appConfig.version,
   tracesSampleRate: 1,
+  replaysOnErrorSampleRate: 1,
+  replaysSessionSampleRate: 0.1,
   integrations: [
     new Sentry.BrowserTracing({
       routingInstrumentation: Sentry.remixRouterInstrumentation(

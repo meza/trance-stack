@@ -48,6 +48,8 @@ describe('The Client Entrypoint', () => {
           Replay {},
         ],
         "release": "0.1.2-dev",
+        "replaysOnErrorSampleRate": 1,
+        "replaysSessionSampleRate": 0.1,
         "tracesSampleRate": 1,
       }
     `);

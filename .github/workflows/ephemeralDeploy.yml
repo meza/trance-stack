@@ -2,7 +2,7 @@ name: Ephemeral Deployment
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [ opened, synchronize, reopened ]
   workflow_dispatch:
 
 env:
@@ -71,4 +71,4 @@ jobs:
         run: npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json
         env:
           ISSUE_NUMBER: ${{ github.event.pull_request.number }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

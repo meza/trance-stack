@@ -6,7 +6,7 @@ exports[`The Color Mode Switch > The color mode sensor > should render the corre
     id="color-mode-sensor"
     nonce="example-nonce"
   >
-    const cl=document.firstElementChild.classList;
+    const cl=document.body.classList;
 if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}
   </script>
   <script
@@ -14,7 +14,7 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
     nonce="example-nonce"
   >
     addEventListener('load', ()=&gt;{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=&gt;{
-          const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});
+          const cl=document.body.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});
   </script>
 </DocumentFragment>
 `;

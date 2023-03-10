@@ -8,11 +8,9 @@
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);
 
 html {
-  background-color: var(--color-secondary);
   block-size: 100%;
   color: var(--color-primary);
   color-scheme: light;
-  font-display: swap;
   font-family: 'IBM Plex Sans', sans-serif;
   height: 100dvh;
   margin: 0;
@@ -20,6 +18,7 @@ html {
 
 body {
   align-items: center;
+  background-color: var(--color-secondary);
   display: grid;
   grid-template-rows: 1fr auto;
   height: inherit;

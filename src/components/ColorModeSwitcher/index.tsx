@@ -32,7 +32,7 @@ export const ColorModeSensor = (props: ColorModeSensorProps) => {
         id={'color-mode-sensor'}
         suppressHydrationWarning
         dangerouslySetInnerHTML={{
-          __html: `const cl=document.firstElementChild.classList;
+          __html: `const cl=document.body.classList;
 if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');}`
         }}
       />
@@ -42,7 +42,7 @@ if(!(cl.contains('dark')||cl.contains('light'))){cl.add(window.matchMedia('(pref
         id={'color-mode-update'}
         dangerouslySetInnerHTML={{
           __html: `addEventListener('load', ()=>{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',e=>{
-          const cl=document.firstElementChild.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});`
+          const cl=document.body.classList;cl.remove(e.matches?'light':'dark');cl.add(e.matches?'dark':'light');});});`
         }}
       />
     </>
@@ -90,7 +90,7 @@ export default function ColorModeSwitcher() {
   useEffect(() => {
     // if there's no colour preference set, update the button in relation to the html tag
     if (!colorMode) {
-      const container = document.firstElementChild;
+      const container = document.body;
       const cl = container?.classList;
       if (cl?.contains(ColorMode.DARK)) {
         setNextColorMode(ColorMode.LIGHT);

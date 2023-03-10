@@ -51,7 +51,7 @@ describe('The Color Mode Switch', () => {
 
     it('should use the correct mode based on the html tag', () => {
       const ColorWrapper = ({ children, color }: PropsWithChildren<{ color: string }>) => {
-        document.firstElementChild?.classList.add(color);
+        document.body?.classList.add(color);
         return <>{children}</>;
       };
 

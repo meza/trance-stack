@@ -12,12 +12,11 @@ Accepted
 
 When using the app in development mode, the console is filled with hydration warnings.
 This usually is because the server and client render different content.
-This is not a problem in production, but it is annoying in development.
 
 In this case however the error stems from a change in the [DOM specification](https://github.com/whatwg/html/pull/2373)
 which aims to reduce attack vectors by removing the nonce attribute from elements.
 
-This inadvertently breaks causes differences between the server and the client side and React freaks out.
+This inadvertently causes differences between the server and the client side and React freaks out.
 
 There is an [outstanding issue](https://github.com/facebook/react/issues/26028) to look into the problem.
 

@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { CookieConsentContext } from '~/components/CookieConsent';
+
 interface HotjarProps {
   hotjarId: string;
   visitorId: string;
@@ -6,11 +9,7 @@ interface HotjarProps {
 
 export const Hotjar = (props: HotjarProps) => {
   const { hotjarId, visitorId } = props;
-
-  const inputProps: { nonce?: string } = {};
-  if (props.nonce) {
-    inputProps.nonce = props.nonce;
-  }
+  const { analytics } = useContext(CookieConsentContext);
   const hotjarVersion = 6;
   const debug = process.env.NODE_ENV === 'development';
 
@@ -18,7 +17,7 @@ export const Hotjar = (props: HotjarProps) => {
     <>
       <script
         suppressHydrationWarning
-        {...inputProps}
+        nonce={props.nonce}
         async
         id={'hotjar-init'}
         dangerouslySetInnerHTML={{
@@ -30,13 +29,13 @@ export const Hotjar = (props: HotjarProps) => {
           `
         }}
       />
-      <script
+      { analytics ? <script
         suppressHydrationWarning
-        {...inputProps}
+        nonce={props.nonce}
         async
         id={'hotjar-script'}
         src={`https://static.hotjar.com/c/hotjar-${hotjarId}.js?sv=${hotjarVersion}`}
-      />
+      /> : null }
     </>
   );
 };

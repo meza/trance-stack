@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { CookieConsentContext } from '~/components/CookieConsent';
+
 interface GoogleAnalyticsProps {
   googleAnalyticsId: string;
   visitorId: string;
@@ -5,15 +8,17 @@ interface GoogleAnalyticsProps {
 }
 
 export const GoogleAnalytics = (props: GoogleAnalyticsProps) => {
+  const { analytics } = useContext(CookieConsentContext);
+
   return (
     <>
-      <script
+      {analytics ? <script
         id={'gtm'}
         async
         suppressHydrationWarning
         nonce={props.nonce}
         src={`https://www.googletagmanager.com/gtag/js?id=${props.googleAnalyticsId}`}
-      />
+      /> : null}
       <script
         id={'google-analytics'}
         suppressHydrationWarning

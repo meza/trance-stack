@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [[ -z "$1" ]]; then
+  echo "Usage: git-init <Git repository URL>"
+  echo "e.g. git-init https://github.com/meza/trance-stack.git"
+  exit 1
+fi
+
+GITHUB_REPO=$( if [[ "$1" == *.git ]]; then echo "$1"; else echo "$1.git"; fi )
+
+git init && \
+git add . && \
+git commit -m "chore: first commit" && \
+git branch -M main
+git remote add origin "$GITHUB_REPO"

@@ -81,6 +81,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['type']
       }
     ],
+    'jsx-quotes': [ 'error', 'prefer-single' ],
     'sonarjs/no-duplicate-string': 'off',
     'no-continue': 'off',
     'dot-notation': 'error',

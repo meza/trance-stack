@@ -83,7 +83,6 @@ const App = () => {
           <ColorModeSensor nonce={nonce}/>
           <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
           <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
-
         </head>
         <body className={colorMode}>
           <ColorModeContext.Provider

@@ -76,6 +76,7 @@
     "i18next-http-backend": "^2.1.1",
     "isbot": "^3.6.6",
     "jose": "^4.12.0",
+    "js-cookie": "^3.0.1",
     "mixpanel-browser": "^2.45.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -83,6 +84,7 @@
     "remix-auth": "^3.4.0",
     "remix-auth-auth0": "^1.5.1",
     "remix-i18next": "^5.0.0",
+    "typescript-cookie": "^1.0.4",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -133,6 +135,7 @@
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/is-ci": "^3.0.0",
+    "@types/js-cookie": "^3.0.3",
     "@types/jsdom": "^21.1.0",
     "@types/mixpanel-browser": "^2.38.1",
     "@types/node": "^18.13.0",

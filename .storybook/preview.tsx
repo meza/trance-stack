@@ -9,25 +9,13 @@ import theme from './theme';
 import { useGlobals } from '@storybook/addons';
 import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub';
 
-const createRemixStoryDecorator = (Story: StoryFn) => {
-  const RemixStub = createRemixStub([
-    {
-      path: '/*',
-      element: <Story/>,
-      action: () => ({ redirect: '/' }),
-      loader: () => ({ redirect: '/' })
-    }
-  ]);
-  return <RemixStub/>;
-};
-
 const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
   const [globals, updateGlobals] = useGlobals();
   const colorMode = globals.colorMode || ColorMode.LIGHT;
 
   const setStoryColorMode = (mode: ColorMode, force = true) => {
     const cl = document.firstElementChild?.classList;
-    document.firstElementChild.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
+    document.firstElementChild?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
     if (cl) {
       cl.remove(ColorMode.LIGHT, ColorMode.DARK);
       cl.add(mode);
@@ -77,6 +65,10 @@ export const parameters = {
     },
     story: {
       inline: true
+    },
+    source: {
+      type: 'dynamic',
+      excludeDecorators: true
     }
   },
   actions: { argTypesRegex: '^on[A-Z].*' },

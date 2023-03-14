@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Form } from '@remix-run/react';
+import Cookies from 'js-cookie';
 
 export interface ConsentData {
   analytics?: boolean | undefined;
@@ -54,6 +55,10 @@ export const CookieConsentBanner = () => {
   const [analyticsConsent, setAnalyticsConsent] = React.useState(analytics || false);
   const [marketingConsent, setMarketingConsent] = React.useState(marketing || false);
   const [performanceConsent, setPerformanceConsent] = React.useState(performance || false);
+
+  useEffect(() => {
+    console.log(Cookies.get());
+  }, [analytics, marketing, performance]);
 
   if (analytics !== undefined && marketing !== undefined && performance !== undefined) {
     return null;

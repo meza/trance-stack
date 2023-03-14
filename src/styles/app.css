@@ -1,9 +1,7 @@
 
 @import url("./dark.css");
-
 @import url("./light.css");
-
-@import url("./components/ColorModeSwitcher/color-mode-toggle.css");
+@import url("./components/_all.css");
 
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);
 
@@ -14,6 +12,9 @@ html {
   font-family: 'IBM Plex Sans', sans-serif;
   height: 100dvh;
   margin: 0;
+
+  --accent-1: #16A799;
+  --accent-2: #FF8A65;
 }
 
 body {

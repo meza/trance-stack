@@ -26,7 +26,7 @@ jobs:
       - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
-          command: install
+          command: install && (cd remix.init && npm install)
           node-version: 19.7.0
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache

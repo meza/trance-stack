@@ -10,15 +10,15 @@ cdk.out
 cdk.context.json
 deployment.result.json
 deploymentSummary.md
+remix.init/
 
 
 # Storybook
 storybook-static
 
 # Remix/Arc
-server/index.js
 server/index.js.map
-server/index.mjs
+server/index.js
 public/build
 
 # ARC

@@ -2,6 +2,7 @@ import { execSync } from 'child_process';
 import fs from 'fs/promises';
 import path from 'node:path';
 import os from 'os';
+import PackageJson from '@npmcli/package-json';
 import inquirer from 'inquirer';
 import isGitRepo from 'is-git-repository';
 
@@ -227,6 +228,12 @@ export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; 
   }
 
   execSync('npm run prepare', { cwd: rootDirectory, stdio: 'inherit' });
+
+  const pkgJson = await PackageJson.load(rootDirectory);
+  const newContent = pkgJson.content;
+  delete newContent.workspaces;
+  pkgJson.update(newContent);
+  await pkgJson.save();
 
   console.log(
     '✅  Project is ready! Start development with "npm run dev"'

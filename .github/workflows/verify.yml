@@ -14,7 +14,7 @@ jobs:
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     with:
-      command: install && (cd remix.init && npm install)
+      command: install
       node-version: "19.7.0"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"

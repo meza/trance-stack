@@ -136,6 +136,7 @@
     "@types/jsdom": "^21.1.0",
     "@types/mixpanel-browser": "^2.38.1",
     "@types/node": "^18.13.0",
+    "@types/npmcli__package-json": "^2.0.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/testing-library__jest-dom": "^5.14.5",
@@ -206,6 +207,9 @@
     ">0.2%",
     "not dead",
     "not op_mini all"
+  ],
+  "workspaces": [
+    "remix.init"
   ],
   "commitlint": {
     "extends": [

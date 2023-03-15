@@ -10,7 +10,7 @@ cdk.out
 cdk.context.json
 deployment.result.json
 deploymentSummary.md
-remix.init
+remix.init/
 
 
 # Storybook

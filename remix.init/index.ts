@@ -216,6 +216,12 @@ export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; 
     execSync('npm run validate', { cwd: rootDirectory, stdio: 'inherit' });
   }
 
+  const pkgJson = await PackageJson.load(rootDirectory);
+  const newContent = pkgJson.content;
+  delete newContent.workspaces;
+  pkgJson.update(newContent);
+  await pkgJson.save();
+
   if (!isGitRepo()) {
     console.log('Initializing git repo...');
     execSync('git init', { cwd: rootDirectory, stdio: 'inherit' });
@@ -229,20 +235,14 @@ export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; 
 
   execSync('npm run prepare', { cwd: rootDirectory, stdio: 'inherit' });
 
-  const pkgJson = await PackageJson.load(rootDirectory);
-  const newContent = pkgJson.content;
-  delete newContent.workspaces;
-  pkgJson.update(newContent);
-  await pkgJson.save();
-
   console.log(
     '✅  Project is ready! Start development with "npm run dev"'
   );
 
   if (!answers.addOrigin) {
     console.log('\n');
-    console.log('You can add a remote origin with the following command:');
-    console.log(chalk.cyan(`git remote add origin ${answers.githubRepo}`));
+    console.log('You can add the git remote origin with the following command:\n');
+    console.log(chalk.cyan(`git remote add origin ${answers.githubRepo}\n\n`));
   }
 };
 

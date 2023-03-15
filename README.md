@@ -64,25 +64,6 @@ If you don't have one, don't worry, you can create it after the setup process.
 > It will contain links relevant to you as the init script will replace the links in this
 > README with the ones customized to your project.
 
-Once it's done, go into the newly created directory and add your git remote
-
-```bash
-cd my-app && \
-git init && \
-git add . && \
-git commit -m "chore: first commit" && \
-git branch -M main && \
-git remote add origin https://github.com/meza/trance-stack.git
-```
-
-Make sure that lefthook is set up. Unfortunately, it can only be set up once you have an active git repository.
-
-```bash
-npx lefthook install
-```
-
-> More about lefthook [here](#lefthook)
-
 Now start the dev server
 
 ```bash

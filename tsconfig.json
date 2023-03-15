@@ -1,5 +1,6 @@
 {
   "include": ["./*", "src", "testUtils", "types", "deployment", "remix.init"],
+  "exclude": ["cdk.out"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "isolatedModules": true,
@@ -27,9 +28,6 @@
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   },
-  "exclude": [
-    "cdk.out"
-  ],
   "ts-node": {
     "compilerOptions": {
       "target": "ES2020",
@@ -50,10 +48,7 @@
       "inlineSourceMap": true,
       "inlineSources": true,
       "experimentalDecorators": true,
-      "strictPropertyInitialization": false,
-      "typeRoots": [
-        "./node_modules/@types"
-      ]
+      "strictPropertyInitialization": false
     },
     "require": ["reflect-metadata", "tsconfig-paths/register"]
   }

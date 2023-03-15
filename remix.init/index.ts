@@ -168,6 +168,14 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
   console.log('Installing Lefthook...');
   execSync('npx lefthook install', { cwd: rootDirectory, stdio: 'inherit' });
 
+  try {
+    const tsConfigPath = path.join(rootDirectory, 'tsconfig.json');
+    const tsConfig = (await fs.readFile(tsConfigPath, { encoding: 'utf-8' })).toString();
+    await fs.writeFile(tsConfigPath, tsConfig.replace(/(, )?"remix.init"/, ''), { encoding: 'utf-8' });
+  } catch (err: unknown) {
+    console.warn('Error editing tsconfig.json');
+  }
+
   console.log(
     '✅  Project is ready! Start development with "npm run dev"',
   );

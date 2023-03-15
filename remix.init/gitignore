@@ -19,6 +19,7 @@ storybook-static
 server/index.js.map
 server/index.js
 public/build
+remix.init
 
 # ARC
 sam.json

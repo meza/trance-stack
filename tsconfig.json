@@ -1,5 +1,5 @@
 {
-  "include": ["./*", "src", "testUtils", "types", "deployment", "remix.init"],
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json"],
   "exclude": ["cdk.out"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],

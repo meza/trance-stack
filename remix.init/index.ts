@@ -6,6 +6,7 @@ import inquirer from 'inquirer';
 import isGitRepo from 'is-git-repository';
 
 interface PromptAnswers {
+  addOrigin: boolean;
   appSlug: string;
   appName: string;
   githubUsername: string;
@@ -13,7 +14,55 @@ interface PromptAnswers {
   validate: boolean;
 }
 
-export default async function main({ isTypeScript, rootDirectory }: { isTypeScript: boolean; rootDirectory: string; }) {
+const getAppName = (appSlug: string) => {
+  return appSlug
+    .replace(/[-_]/g, ' ') // replace underscores and dashes with spaces
+    .replace(/\b\w/g, (l) => l.toUpperCase()) // capitalize first letter of each word
+    .replace(/\s/g, '') // remove spaces
+    .replace(/([a-z])([A-Z])/g, '$1 $2'); // split camel case words with spaces
+};
+
+const cleanUpDeploymentScripts = async (rootDirectory: string) => {
+  //remove all lines with "command: install" in all the yml files in the .github/workflows directory
+  //as that is only necessary for the lockfile-less installations
+
+  const workflowsPath = path.join(rootDirectory, '.github/workflows');
+  const workflows = await fs.readdir(workflowsPath);
+  for (const workflow of workflows) {
+    const workflowPath = path.join(workflowsPath, workflow);
+    const contents = await fs.readFile(workflowPath, 'utf-8');
+    const newContents = contents.split('\n').filter((line) => !line.includes('command: install')).join('\n');
+    await fs.writeFile(workflowPath, newContents, 'utf-8');
+  }
+};
+
+const cleanUpReadme = async (rootDirectory: string) => {
+  // remove all blocks between <!-- initremove:begin --> and <!-- initremove:end --> in the readme
+
+  const readmePath = path.join(rootDirectory, 'README.md');
+  const contents = await fs.readFile(readmePath, 'utf-8');
+
+  const newContents = contents.replaceAll(/<!--\s*initremove:begin\s*-->.*?<!--\s*initremove:end\s*-->/gs, '');
+
+  await fs.writeFile(readmePath, newContents, 'utf-8');
+};
+
+const replaceInFile = async (file: string, replacements: PromptAnswers) => fs.readFile(file, 'utf-8').then((contents) => {
+  const githubSlug = replacements.githubRepo.replace(`https://github.com/${replacements.githubUsername}/`, '');
+  const newContents = contents.replace('REPL_APP_SLUG', replacements.appSlug)
+    .replaceAll('https://github.com/meza/trance-stack', replacements.githubRepo)
+    .replaceAll('Trance Stack', replacements.appName)
+    .replaceAll('TRANCE STACK', replacements.appName.toUpperCase())
+    .replaceAll('trance stack', replacements.appName.toLowerCase())
+    .replaceAll('remix-trance-stack', replacements.appSlug)
+    .replaceAll('REPL_APP_NAME', replacements.appName)
+    .replaceAll('REPL_APP_REPO', replacements.githubRepo)
+    .replaceAll('https://meza.github.io/trance-stack/', `https://${replacements.githubUsername}.github.io/${githubSlug}`);
+
+  return fs.writeFile(file, newContents, 'utf-8');
+});
+
+export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; rootDirectory: string; }) => {
   const { default: chalk } = await import('chalk');
   const appSlug = path.basename(rootDirectory);
   const username = os.userInfo().username;
@@ -46,7 +95,7 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
   const filesToDelete = [
     fundingPath,
     licensePath,
-    contributingPath,
+    contributingPath
   ];
 
   const filesToReplaceThingsIn = [
@@ -61,7 +110,7 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
     ephemeralDestroyWorkflowPath,
     rootPath,
     rootTestPath,
-    e2ePath,
+    e2ePath
   ];
 
   console.log('\n🚀 Initializing your app...\n\n');
@@ -76,7 +125,7 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
           return true;
         }
         return chalk.yellow('The app slug can only contain letters, numbers, dashes, and underscores.');
-      },
+      }
     },
     {
       type: 'input',
@@ -84,7 +133,7 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
       message: `${chalk.cyan('What is the name of your app?')} ${chalk.white('This will be used in the README and the Meta of your app.')}`,
       default: (answers: PromptAnswers) => {
         return getAppName(answers.appSlug);
-      },
+      }
     },
     // {
     //   type: 'confirm',
@@ -102,7 +151,7 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
       type: 'input',
       name: 'githubUsername',
       message: `${chalk.cyan('What is your GitHub username?')} ${chalk.white('This will be used to construct a repo URL for your app.')}`,
-      default: username,
+      default: username
       // when: (answers) => answers.useGithub
     },
     {
@@ -111,23 +160,29 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
       message: `${chalk.cyan('What is the name of your GitHub repo?')} ${chalk.white('This will be used in the github related documentation/policies.')}`,
       default: (answers: PromptAnswers) => {
         return `https://github.com/${answers.githubUsername}/${answers.appSlug}`;
-      },
+      }
       // when: (answers) => answers.useGithub
+    },
+    {
+      type: 'confirm',
+      name: 'addOrigin',
+      message: 'Does this repo already exist on GitHub?',
+      default: false
     },
     {
       name: 'validate',
       type: 'confirm',
       default: true,
       message:
-        'Do you want to run the build/tests/etc to verify things are setup properly?',
-    },
+        'Do you want to run the build/tests/etc to verify things are setup properly?'
+    }
   ]);
 
   await Promise.all(filesToDelete.map((file) =>
     fs.rm(file, {
       recursive: true,
-      force: true,
-    }),
+      force: true
+    })
   ));
 
   await Promise.all(filesToReplaceThingsIn.map((file) => replaceInFile(file, answers)));
@@ -137,12 +192,12 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
     cleanUpDeploymentScripts(rootDirectory),
     fs.copyFile(
       envExamplePath,
-      envPath,
+      envPath
     ),
     fs.copyFile(
       path.join(rootDirectory, 'remix.init', 'gitignore'),
-      path.join(rootDirectory, '.gitignore'),
-    ),
+      path.join(rootDirectory, '.gitignore')
+    )
   ]);
 
   // if (!answers.useAWS) {
@@ -155,78 +210,32 @@ export default async function main({ isTypeScript, rootDirectory }: { isTypeScri
 
   if (answers.validate) {
     console.log(
-      'Running the validate script to make sure everything was set up properly',
+      'Running the validate script to make sure everything was set up properly'
     );
     execSync('npm run validate', { cwd: rootDirectory, stdio: 'inherit' });
   }
 
   if (!isGitRepo()) {
     console.log('Initializing git repo...');
-    execSync(`./remix.init/git-init ${answers.githubRepo}`, { cwd: rootDirectory, stdio: 'inherit' });
+    execSync('git init', { cwd: rootDirectory, stdio: 'inherit' });
+    execSync('git add .', { cwd: rootDirectory, stdio: 'inherit' });
+    execSync('git commit -m\'chore: created the remix app\'', { cwd: rootDirectory, stdio: 'inherit' });
+    execSync('git branch -M main', { cwd: rootDirectory, stdio: 'inherit' });
+    if (answers.addOrigin) {
+      execSync(`git remote add origin ${answers.githubRepo}`, { cwd: rootDirectory, stdio: 'inherit' });
+    }
   }
 
-  console.log('Installing Lefthook...');
-  execSync('npx lefthook install', { cwd: rootDirectory, stdio: 'inherit' });
-
-  try {
-    const tsConfigPath = path.join(rootDirectory, 'tsconfig.json');
-    const tsConfig = (await fs.readFile(tsConfigPath, { encoding: 'utf-8' })).toString();
-    await fs.writeFile(tsConfigPath, tsConfig.replace(/(, )?"remix.init"/, ''), { encoding: 'utf-8' });
-  } catch (err: unknown) {
-    console.warn('Error editing tsconfig.json');
-  }
+  execSync('npm run prepare', { cwd: rootDirectory, stdio: 'inherit' });
 
   console.log(
-    '✅  Project is ready! Start development with "npm run dev"',
+    '✅  Project is ready! Start development with "npm run dev"'
   );
+
+  if (!answers.addOrigin) {
+    console.log('\n');
+    console.log('You can add a remote origin with the following command:');
+    console.log(chalk.cyan(`git remote add origin ${answers.githubRepo}`));
+  }
 };
 
-function getAppName(appSlug: string) {
-  return appSlug
-    .replace(/[-_]/g, ' ') // replace underscores and dashes with spaces
-    .replace(/\b\w/g, (l) => l.toUpperCase()) // capitalize first letter of each word
-    .replace(/\s/g, '') // remove spaces
-    .replace(/([a-z])([A-Z])/g, '$1 $2'); // split camel case words with spaces
-}
-
-async function cleanUpDeploymentScripts(rootDirectory: string) {
-  //remove all lines with "command: install" in all the yml files in the .github/workflows directory
-  //as that is only necessary for the lockfile-less installations
-
-  const workflowsPath = path.join(rootDirectory, '.github/workflows');
-  const workflows = await fs.readdir(workflowsPath);
-  for (const workflow of workflows) {
-    const workflowPath = path.join(workflowsPath, workflow);
-    const contents = await fs.readFile(workflowPath, 'utf-8');
-    const newContents = contents.split('\n').filter((line) => !line.includes('command: install')).join('\n');
-    await fs.writeFile(workflowPath, newContents, 'utf-8');
-  }
-}
-
-async function cleanUpReadme(rootDirectory: string) {
-  // remove all blocks between <!-- initremove:begin --> and <!-- initremove:end --> in the readme
-
-  const readmePath = path.join(rootDirectory, 'README.md');
-  const contents = await fs.readFile(readmePath, 'utf-8');
-
-  const newContents = contents.replaceAll(/<!--\s*initremove:begin\s*-->.*?<!--\s*initremove:end\s*-->/gs, '');
-
-  await fs.writeFile(readmePath, newContents, 'utf-8');
-}
-
-async function replaceInFile(file: string, replacements: PromptAnswers) {
-  return fs.readFile(file, 'utf-8').then((contents) => {
-    const githubSlug = replacements.githubRepo.replace(`https://github.com/${replacements.githubUsername}/`, '');
-    const newContents = contents.replace('REPL_APP_SLUG', replacements.appSlug)
-      .replaceAll('https://github.com/meza/trance-stack', replacements.githubRepo)
-      .replaceAll('Trance Stack', replacements.appName)
-      .replaceAll('TRANCE STACK', replacements.appName.toUpperCase())
-      .replaceAll('trance stack', replacements.appName.toLowerCase())
-      .replaceAll('remix-trance-stack', replacements.appSlug)
-      .replaceAll('REPL_APP_NAME', replacements.appName)
-      .replaceAll('REPL_APP_REPO', replacements.githubRepo)
-      .replaceAll('https://meza.github.io/trance-stack/', `https://${replacements.githubUsername}.github.io/${githubSlug}`);
-
-    return fs.writeFile(file, newContents, 'utf-8');
-  });
-}

@@ -1,0 +1,55 @@
+{
+  "include": ["**/*.ts", "**/*.tsx", "**/*.json"],
+  "exclude": ["cdk.out"],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "isolatedModules": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "module": "esnext",
+    "target": "ES2019",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "rootDir": ".",
+    "paths": {
+      "~/*": ["./src/*"],
+      "@test": ["./testUtils"],
+      "@test/*": ["./testUtils/*"],
+      "@styles": ["./src/styles"],
+      "@styles/*": ["./src/styles/*"]
+    },
+    // Remix takes care of building everything in `remix build`.
+    "noEmit": true
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "commonjs",
+      "lib": [
+        "es2020"
+      ],
+      "declaration": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "noImplicitThis": true,
+      "alwaysStrict": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "noImplicitReturns": true,
+      "noFallthroughCasesInSwitch": false,
+      "inlineSourceMap": true,
+      "inlineSources": true,
+      "experimentalDecorators": true,
+      "strictPropertyInitialization": false
+    },
+    "require": ["reflect-metadata", "tsconfig-paths/register"]
+  }
+}

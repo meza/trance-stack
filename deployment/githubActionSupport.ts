@@ -4,6 +4,8 @@ import path from 'node:path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 
+// Not for long, but for now we need to disable this rule
+// eslint-disable-next-line sonarjs/cognitive-complexity
 const run = async () => {
   const file = path.resolve(process.argv[2]);
   core.info(`Looking for deployment result file at ${file}`);

@@ -15,6 +15,6 @@ jobs:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     with:
       command: install
-      node-version: "latest"
+      node-version: "19.7.0"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"

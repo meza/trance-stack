@@ -36,7 +36,7 @@
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
     "lint:css": "postcss src/**/*.css -d .cache/postcss && rimraf .cache/postcss",
-    "lint:eslint": "eslint --ext .ts,.tsx,.json src",
+    "lint:eslint": "eslint --ext .ts,.tsx,.json **/*.{ts,tsx,json}",
     "lint:typecheck": "tsc",
     "playwright:install": "playwright install --with-deps",
     "postinstall": "remix-esbuild-override",
@@ -64,7 +64,7 @@
     "@sentry/remix": "^7.40.0",
     "@sentry/serverless": "^7.40.0",
     "@splitsoftware/splitio": "^10.22.3",
-    "auth0-remix-server": "^1.0.0",
+    "auth0-remix-server": "1.0.0",
     "aws-cdk-lib": "^2.66.0",
     "constructs": "^10.1.257",
     "cross-env": "^7.0.3",
@@ -139,13 +139,14 @@
     "@types/jsdom": "^21.1.0",
     "@types/mixpanel-browser": "^2.38.1",
     "@types/node": "^18.13.0",
+    "@types/npmcli__package-json": "^2.0.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@types/uuid": "^9.0.0",
     "@types/webpack": "^5.28.0",
-    "@typescript-eslint/eslint-plugin": "5.54.1",
-    "@typescript-eslint/parser": "5.54.1",
+    "@typescript-eslint/eslint-plugin": "5.55.0",
+    "@typescript-eslint/parser": "5.55.0",
     "@vitejs/plugin-react": "^3.1.0",
     "@vitest/coverage-c8": "^0.28.5",
     "autoprefixer": "^10.4.13",
@@ -210,6 +211,9 @@
     "not dead",
     "not op_mini all"
   ],
+  "workspaces": [
+    "remix.init"
+  ],
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -241,6 +245,6 @@
     "exitCode": 1
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18 <=19.7.0"
   }
 }

@@ -26,7 +26,7 @@ jobs:
         uses: meza/action-setup-node-npm@main
         with:
           command: install
-          node-version: latest
+          node-version: 19.7.0
           cache-name: storybook
       - name: Build Storybook
         run: npm run storybook:build

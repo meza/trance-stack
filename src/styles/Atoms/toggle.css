@@ -4,8 +4,8 @@
   font-size: 17px;
   position: relative;
   display: inline-block;
-  width: 3.5em;
-  height: 2em;
+  width: 3.5rem;
+  height: 2rem;
 
   /* Hide default HTML checkbox */
 
@@ -32,11 +32,11 @@
     &:before {
       position: absolute;
       content: "";
-      height: 1.4em;
-      width: 1.4em;
+      height: 1.4rem;
+      width: 1.4rem;
       border-radius: 20px;
-      left: 0.27em;
-      bottom: 0.25em;
+      left: 0.27rem;
+      bottom: 0.25rem;
       background-color: #adb5bd;
       @media (--motion-ok) {
         transition: .4s;
@@ -47,19 +47,28 @@
   & input:checked + .slider {
     background-color: var(--accent-1);
     border: 1px solid var(--text-2);
+
+    &:before {
+      transform: translateX(1.4rem);
+      background-color: #fff;
+    }
   }
 
-  & input:focus + .slider {
-    box-shadow: 0 0 1px var(--text-2);
+  & input:disabled + .slider {
+    background-color: gray;
+    cursor: not-allowed;
+
+    &:before {
+      background-color: transparent;
+      border: 1px solid white;
+    }
   }
 
-  & input:checked + .slider:before {
-    transform: translateX(1.4em);
-    background-color: #fff;
-  }
-
-  &:is(:hover, :focus) input + .slider:before {
-    background-color: black;
+  &:has(input:focus-visible) .slider {
+    background-color: var(--accent-1-200);
+    &:before {
+      background-color: #fff;
+    }
   }
 
 }

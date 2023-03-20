@@ -1,30 +1,41 @@
-
-@import url("./dark.css");
 @import url("./light.css");
-@import url("./components/_all.css");
+@import url("./dark.css");
+@import url("./_all.css");
 
 @custom-media --motion-ok (prefers-reduced-motion: no-preference);
 
+.dark,.light {
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+}
+
 html {
   block-size: 100%;
-  color: var(--color-primary);
-  color-scheme: light;
   font-family: 'IBM Plex Sans', sans-serif;
+  font-size: calc(15px + 0.390625vw);
   height: 100dvh;
   margin: 0;
-
-  --accent-1: #16A799;
+  --accent-1: #16a799;
+  --accent-1-200: #8BD3CC;
   --accent-2: #FF8A65;
 }
 
 body {
   align-items: center;
-  background-color: var(--color-secondary);
   display: grid;
   grid-template-rows: 1fr auto;
   height: inherit;
   justify-items: center;
   margin: 0;
+}
+
+button {
+  font-size: inherit;
+  padding: .5rem 1.2rem .5rem 1.2rem;
+}
+
+button.primary {
+  background-color: var(--accent-1);
 }
 
 .centered-button {
@@ -73,3 +84,18 @@ body {
   }
 }
 
+/**
+ * ----------------------------------------
+ * animation slide-in-bottom
+ * ----------------------------------------
+ */
+@keyframes slide-in-bottom {
+  0% {
+    transform: translateY(1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

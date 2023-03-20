@@ -23,6 +23,7 @@ module.exports = (cfg) => {
       'cssnano': dev ? false : {},
       'stylelint': {
         configFile: '.stylelintrc.json',
+        fix: true
       },
       'postcss-reporter': {},
       'postcss-custom-media': {},

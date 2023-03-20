@@ -6,7 +6,6 @@
   display: inline-block;
   padding: 3px;
 }
-
 .color-mode-toggle {
   --icon-fill: hsl(210deg 10% 30%);
   --icon-fill-hover: hsl(210deg 10% 15%);

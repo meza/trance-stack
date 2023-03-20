@@ -1,19 +1,19 @@
 import i18n from '../testUtils/i18nextForStorybook';
 import React, { useEffect } from 'react';
 import { ColorMode, ColorModeContext } from '~/components/ColorModeSwitcher';
-import { StoryContext, StoryFn } from '@storybook/react';
+import { StoryFn } from '@storybook/react';
 import '../src/styles/app.css';
 import './storybook.css';
 import { I18nextProvider } from 'react-i18next';
 import theme from './theme';
-import { useGlobals } from '@storybook/addons';
+import { useGlobals } from '@storybook/preview-api';
 import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub';
 
-const withAllTheThings = (Story: StoryFn, context: StoryContext) => {
+const withAllTheThings = (Story: StoryFn) => {
   const [globals, updateGlobals] = useGlobals();
   const colorMode = globals.colorMode || ColorMode.LIGHT;
-
   const setStoryColorMode = (mode: ColorMode, force = true) => {
+
     const cl = document.firstElementChild?.classList;
     document.firstElementChild?.classList.remove(ColorMode.LIGHT, ColorMode.DARK);
     if (cl) {
@@ -65,10 +65,6 @@ export const parameters = {
     },
     story: {
       inline: true
-    },
-    source: {
-      type: 'dynamic',
-      excludeDecorators: true
     }
   },
   actions: { argTypesRegex: '^on[A-Z].*' },

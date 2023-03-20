@@ -2,7 +2,6 @@ import { Toggle } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta = {
-  title: 'Components/Atoms/Toggle',
   component: Toggle,
   argTypes: {
     checked: {
@@ -12,6 +11,12 @@ const meta = {
     },
     onChange: {
       action: 'disabled'
+    },
+    id: {
+      description: 'Defaults to the name if not given',
+      control: {
+        type: 'text'
+      }
     },
     name: {
       control: {
@@ -36,9 +41,6 @@ export const Checked: Story = {
 };
 
 export const Unchecked: Story = {
-  parameters: {
-    styles: 'motion-reduce'
-  },
   args: {
     name: 'unchecked-input',
     checked: false

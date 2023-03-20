@@ -2,6 +2,18 @@
   "app": {
     "colorModeToggle": "Toggles the color mode to {{ nextMode }}"
   },
+  "cookieConsent": {
+    "label": {
+      "analytics": "Analytics",
+      "marketing": "Marketing",
+      "performance": "Performance",
+      "necessary": "Necessary"
+    },
+    "accept": "Accept",
+    "deny": "Deny",
+    "title": "Here, have a cookie!",
+    "disclaimer": "We use cookies to provide you with a personalized experience. Some cookies are essential for proper functioning, such as those that keep you logged in and store your language and color theme preferences. Additionally, we use cookies to anonymously analyze your usage to improve the app. We do not use any marketing or tracking cookies that would enable us to track your activities beyond our services. By using our services, you consent to our use of cookies as described in our Privacy Policy."
+  },
   "microcopy": {
     "helloWorld": "Hello World!",
     "goodBye": "Goodbye World!"

@@ -95,7 +95,7 @@ const App = () => {
                 appConfig: appConfig,
                 locale: locale
               }}/>
-            <CookieConsentBanner />
+            {consentData ? null : <CookieConsentBanner/>}
           </ColorModeContext.Provider>
           <ScrollRestoration nonce={nonce}/>
           <Scripts nonce={nonce}/>

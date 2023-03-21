@@ -26,7 +26,6 @@ export const action: ActionFunction = async ({ request }) => {
     marketing: marketing === 'true',
     performance: performance === 'true'
   };
-  console.log(newConsentData);
   session.set('consentData', newConsentData);
 
   return redirect('/', {

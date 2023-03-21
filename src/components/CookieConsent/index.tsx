@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { Form, useFetcher } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import Cookie from '~/atoms/Icons/cookie';
@@ -38,31 +38,32 @@ export const CookieConsentProvider = ({ children, consentData }: { children: Rea
 };
 
 export const CookieConsentBanner = () => {
+  const id = useId();
   const { t } = useTranslation();
   const { analytics, setAnalytics } = React.useContext(CookieConsentContext);
   const formRef = React.useRef<HTMLFormElement>(null);
   const fetcher = useFetcher();
+  const [pendingChange, setPenginChange] = useState(false);
 
   const submit = () => {
-    setTimeout(() => {
+    if (pendingChange === true) {
       fetcher.submit(formRef.current!, {
         method: 'post',
         replace: true
       });
-    }, 50);
+    }
   };
 
   const deny = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    setPenginChange(true);
     setAnalytics(false);
-    submit();
-    return false;
   };
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
+      setPenginChange(true);
       setAnalytics(true);
-      submit();
     }
   };
 
@@ -70,7 +71,12 @@ export const CookieConsentBanner = () => {
     if (analytics === undefined) {
       setAnalytics(true);
     }
-  }, [analytics]);
+
+    if (pendingChange) {
+      submit();
+    }
+
+  }, [analytics, pendingChange]);
 
   useEffect(() => {
     document.addEventListener('keydown', acceptOnKeyDown);
@@ -83,24 +89,24 @@ export const CookieConsentBanner = () => {
   return (
     <div className='cookie-consent-container'
       role={'dialog'}
-      aria-describedby={'cookie-consent-text'}
-      aria-labelledby={'cookie-consent-header'}
+      aria-describedby={id + '-text'}
+      aria-labelledby={id + '-header'}
     >
-      <div id={'cookie-consent-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
-      <div id={'cookie-consent-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
+      <div id={id + '-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
+      <div id={id + '-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
       <Form ref={formRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'}>
         <div className={'cookie-consent-switches'}>
           <div className={'cookie-consent-switch'}>
-            <label htmlFor={'necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
-            <Toggle name={'necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
+            <label htmlFor={id + '-necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
+            <Toggle name={id + '-necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
           </div>
           <div className={'cookie-consent-switch'}>
-            <label htmlFor={'analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
-            <Toggle tabIndex={1} name={'analytics'} id={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
+            <label htmlFor={id + '-analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
+            <Toggle tabIndex={1} name={id + '-analytics'} id={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
           </div>
           <div className={'cookie-consent-switch'}>
-            <label htmlFor={'marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>
-            <Toggle name={'marketing'} id={'marketing'} checked={false} disabled={true} className={'cookie-consent-switch'}/>
+            <label htmlFor={id + '-marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>
+            <Toggle name={'marketing'} id={id + '-marketing'} checked={false} disabled={true} className={'cookie-consent-switch'}/>
           </div>
         </div>
         <div className={'cookie-consent-buttons'}>

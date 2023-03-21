@@ -13,12 +13,12 @@
     animation: slide-in-bottom 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
   }
 
-  & .icon__cookie {
+  & .icon-cookie {
     height: 2.2rem;
     width: 2.2rem;
   }
 
-  & .cookie-consent__header {
+  & .cookie-consent-header {
     display: grid;
     grid-auto-flow: column;
     justify-content: left;
@@ -26,11 +26,11 @@
     font-size: 1.5rem;
   }
 
-  & .cookie-consent__text {
+  & .cookie-consent-text {
     padding: 1rem;
   }
 
-  & .cookie-consent__switches {
+  & .cookie-consent-switches {
     grid-auto-flow: column;
     display: grid;
     grid-column-gap: 2rem;
@@ -40,14 +40,14 @@
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 
-    & .cookie-consent__switch {
+    & .cookie-consent-switch {
       display: grid;
       grid-auto-flow: row;
       justify-self: center;
     }
   }
 
-  & .cookie-consent__buttons {
+  & .cookie-consent-buttons {
     display: grid;
     grid-auto-flow: column;
     justify-content: space-between;

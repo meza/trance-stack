@@ -12,6 +12,8 @@
 html {
   block-size: 100%;
   font-family: 'IBM Plex Sans', sans-serif;
+
+  /* stylelint-disable-next-line number-max-precision */
   font-size: calc(15px + 0.390625vw);
   height: 100dvh;
   margin: 0;
@@ -22,6 +24,7 @@ html {
 
 body {
   align-items: center;
+
   display: grid;
   grid-template-rows: 1fr auto;
   height: inherit;
@@ -39,7 +42,9 @@ button.primary {
 }
 
 .centered-button {
-  animation: slide-in-fwd-center 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.6s both;
+  @media (--motion-ok) {
+    animation: slide-in-fwd-center 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.6s both;
+  }
   text-align: center;
 }
 

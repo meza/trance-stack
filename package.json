@@ -206,7 +206,7 @@
     "webpack": "^5.75.0"
   },
   "browserslist": [
-    ">0.2%",
+    "> 1%",
     "not dead",
     "not op_mini all"
   ],

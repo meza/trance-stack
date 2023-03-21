@@ -56,7 +56,7 @@
 
   & input:disabled + .slider {
     background-color: gray;
-    cursor: not-allowed;
+    cursor: initial;
 
     &:before {
       background-color: transparent;

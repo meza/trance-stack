@@ -43,16 +43,26 @@ export const CookieConsentBanner = () => {
   const formRef = React.useRef<HTMLFormElement>(null);
   const fetcher = useFetcher();
 
-  const deny = () => {
+  const submit = () => {
+    setTimeout(() => {
+      fetcher.submit(formRef.current!, {
+        method: 'post',
+        replace: true
+      });
+    }, 50);
+  };
+
+  const deny = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setAnalytics(false);
+    submit();
+    return false;
   };
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       setAnalytics(true);
-      fetcher.submit(formRef.current!, {
-        replace: true
-      });
+      submit();
     }
   };
 
@@ -76,26 +86,26 @@ export const CookieConsentBanner = () => {
       aria-describedby={'cookie-consent-text'}
       aria-labelledby={'cookie-consent-header'}
     >
-      <div id={'cookie-consent-header'} className={'cookie-consent__header'}><Cookie/>{t('cookieConsent.title')}</div>
-      <div id={'cookie-consent-text'} className={'cookie-consent__text'}>{t('cookieConsent.disclaimer')}</div>
+      <div id={'cookie-consent-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
+      <div id={'cookie-consent-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
       <Form ref={formRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'}>
-        <div className={'cookie-consent__switches'}>
-          <div className={'cookie-consent__switch'}>
-            <label htmlFor={'necessary'} className={'cookie-consent__title'}>{t('cookieConsent.label.necessary')}</label>
-            <Toggle name={'necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent__switch'}/>
+        <div className={'cookie-consent-switches'}>
+          <div className={'cookie-consent-switch'}>
+            <label htmlFor={'necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
+            <Toggle name={'necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
           </div>
-          <div className={'cookie-consent__switch'}>
-            <label htmlFor={'analytics'} className={'cookie-consent__title'}>{t('cookieConsent.label.analytics')}</label>
-            <Toggle tabIndex={1} name={'analytics'} id={'analytics'} checked={analytics} className={'cookie-consent__switch'}/>
+          <div className={'cookie-consent-switch'}>
+            <label htmlFor={'analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
+            <Toggle tabIndex={1} name={'analytics'} id={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
           </div>
-          <div className={'cookie-consent__switch'}>
-            <label htmlFor={'marketing'} className={'cookie-consent__title'}>{t('cookieConsent.label.marketing')}</label>
-            <Toggle name={'marketing'} id={'marketing'} checked={false} disabled={true} className={'cookie-consent__switch'}/>
+          <div className={'cookie-consent-switch'}>
+            <label htmlFor={'marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>
+            <Toggle name={'marketing'} id={'marketing'} checked={false} disabled={true} className={'cookie-consent-switch'}/>
           </div>
         </div>
-        <div className={'cookie-consent__buttons'}>
+        <div className={'cookie-consent-buttons'}>
           <button
-            tabIndex={3} type={'submit'} onClick={deny}>{t('cookieConsent.deny')}</button>
+            tabIndex={3} onClick={deny}>{t('cookieConsent.deny')}</button>
           <button
             className={'primary'} type={'submit'} tabIndex={2}>{t('cookieConsent.accept')}</button>
         </div>

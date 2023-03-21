@@ -12,7 +12,7 @@ module.exports = (cfg) => {
       },
       'colorguard': {},
       'doiuse': {
-        browsers: dev ? packageJson.browserslist.development : packageJson.browserslist.production,
+        browsers: packageJson.browserslist,
         ignoreFiles: [
           '**/node_modules/**/*'
         ]

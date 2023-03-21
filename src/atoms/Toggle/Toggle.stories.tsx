@@ -4,13 +4,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
   component: Toggle,
   argTypes: {
-    checked: {
+    defaultChecked: {
       control: {
         type: 'boolean'
       }
-    },
-    onChange: {
-      action: 'disabled'
     },
     id: {
       description: 'Defaults to the name if not given',
@@ -36,13 +33,13 @@ type Story = StoryObj<typeof meta>;
 export const Checked: Story = {
   args: {
     name: 'checked-input',
-    checked: true
+    defaultChecked: true
   }
 };
 
 export const Unchecked: Story = {
   args: {
     name: 'unchecked-input',
-    checked: false
+    defaultChecked: false
   }
 };

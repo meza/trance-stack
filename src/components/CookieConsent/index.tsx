@@ -1,5 +1,5 @@
-import React, { useEffect, useId, useState } from 'react';
-import { Form, useFetcher } from '@remix-run/react';
+import React, { useEffect, useId } from 'react';
+import { Form } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import Cookie from '~/atoms/Icons/cookie';
 import { Toggle } from '~/atoms/Toggle';
@@ -11,26 +11,20 @@ export interface ConsentData {
 }
 
 interface CookieConsentContextProps {
-  analytics?: boolean | undefined;
-  marketing?: boolean | undefined;
-  performance?: boolean | undefined;
-  setAnalytics: (enabled: boolean) => void;
-  setMarketing: (enabled: boolean) => void;
+  analytics: boolean;
+  marketing: boolean;
+  // performance: boolean;
 }
 
 export const CookieConsentContext = React.createContext<CookieConsentContextProps>({} as CookieConsentContextProps);
 
-export const CookieConsentProvider = ({ children, consentData }: { children: React.ReactNode, consentData?: ConsentData | undefined }) => {
-  const [analytics, setAnalytics] = React.useState(consentData?.analytics);
-  const [marketing, setMarketing] = React.useState(consentData?.marketing);
-
+export const CookieConsentProvider = ({ children, consentData = {} }: { children: React.ReactNode, consentData?: ConsentData | undefined }) => {
+  const { analytics, marketing } = consentData;
   return (
     <CookieConsentContext.Provider
       value={{
-        analytics: analytics,
-        marketing: marketing,
-        setAnalytics: setAnalytics,
-        setMarketing: setMarketing
+        analytics: typeof analytics === 'undefined' ? true : analytics,
+        marketing: typeof marketing === 'undefined' ? false : marketing
       }}>
       {children}
     </CookieConsentContext.Provider>
@@ -40,51 +34,22 @@ export const CookieConsentProvider = ({ children, consentData }: { children: Rea
 export const CookieConsentBanner = () => {
   const id = useId();
   const { t } = useTranslation();
-  const { analytics, setAnalytics } = React.useContext(CookieConsentContext);
-  const formRef = React.useRef<HTMLFormElement>(null);
-  const fetcher = useFetcher();
-  const [pendingChange, setPenginChange] = useState(false);
-
-  const submit = () => {
-    if (pendingChange === true) {
-      fetcher.submit(formRef.current!, {
-        method: 'post',
-        replace: true
-      });
-    }
-  };
-
-  const deny = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setPenginChange(true);
-    setAnalytics(false);
-  };
-
-  const acceptOnKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Escape') {
-      setPenginChange(true);
-      setAnalytics(true);
-    }
-  };
+  const { analytics, marketing } = React.useContext(CookieConsentContext);
+  const acceptFormRef = React.useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (analytics === undefined) {
-      setAnalytics(true);
-    }
+    const acceptOnKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && acceptFormRef.current) {
+        acceptFormRef.current.submit();
+      }
+    };
 
-    if (pendingChange) {
-      submit();
-    }
-
-  }, [analytics, pendingChange]);
-
-  useEffect(() => {
     document.addEventListener('keydown', acceptOnKeyDown);
 
     return () => {
       document.removeEventListener('keydown', acceptOnKeyDown);
     };
-  });
+  }, []);
 
   return (
     <div className='cookie-consent-container'
@@ -92,31 +57,39 @@ export const CookieConsentBanner = () => {
       aria-describedby={id + '-text'}
       aria-labelledby={id + '-header'}
     >
-      <div id={id + '-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
+      <div id={id + '-header'} className={'cookie-consent-header'}><Cookie />{t('cookieConsent.title')}</div>
       <div id={id + '-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
-      <Form ref={formRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'}>
-        <div className={'cookie-consent-switches'}>
+      <div className={'cookie-consent-switches'}>
+
+        <Form style={{ display: 'contents' }} ref={acceptFormRef} action='/settings/cookie-consent' id={'accept-form'} replace reloadDocument={true} method={'post'}>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
-            <Toggle name={id + '-necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
+            <Toggle id={id + '-necessary'} name={'necessary'} defaultChecked={true} readOnly />
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
-            <Toggle tabIndex={1} name={id + '-analytics'} id={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
+            <Toggle id={id + '-analytics'} name={'analytics'} defaultChecked={analytics} tabIndex={1} />
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>
-            <Toggle name={'marketing'} id={id + '-marketing'} checked={false} disabled={true} className={'cookie-consent-switch'}/>
+            <Toggle id={id + '-marketing'} name={'marketing'} defaultChecked={marketing} disabled={true} />
           </div>
-        </div>
-        <div className={'cookie-consent-buttons'}>
-          <button
-            tabIndex={3} onClick={deny}>{t('cookieConsent.deny')}</button>
-          <button
-            className={'primary'} type={'submit'} tabIndex={2}>{t('cookieConsent.accept')}</button>
-        </div>
+        </Form>
 
-      </Form>
+        <Form action='/settings/cookie-consent' id={'deny-form'} replace method={'post'}>
+          <input type={'hidden'} name={'analytics'} value={'false'} />
+          <input type={'hidden'} name={'marketing'} value={'false'} />
+        </Form>
+
+      </div>
+      <div className={'cookie-consent-buttons'}>
+        <button tabIndex={3} type={'submit'} form={'deny-form'}>
+          {t('cookieConsent.deny')}
+        </button>
+        <button tabIndex={2} type={'submit'} form={'accept-form'} className={'primary'}>
+          {t('cookieConsent.accept')}
+        </button>
+      </div>
     </div>
   );
 };

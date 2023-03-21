@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import cx from 'classnames';
 import '../../styles/app.css';
 
 export interface ToggleProps {
-  name: string;
+  name?: string;
   id?: string; // defaults to name
-  checked?: boolean;
-  onChange?: (checked: boolean) => void;
+  defaultChecked?: boolean;
   tabIndex?: number;
-  disabled? :boolean;
-  className? :string;
+  disabled?: boolean;
+  className?: string;
+  readOnly?: boolean;
 }
 
 /**
@@ -17,40 +17,31 @@ export interface ToggleProps {
  * Supports restricted motion. Set your browser to reduce motion to see the effect.
  */
 export const Toggle = (props: ToggleProps) => {
-  const [checked, setChecked] = React.useState(props.checked || false);
-
-  useEffect(() => {
-    if (props.onChange) {
-      props.onChange(checked);
-    }
-  }, [checked]);
-
-  useEffect(() => {
-    if (props.checked !== undefined) {
-      setChecked(props.checked);
-    }
-  }, [props.checked]);
-
-  const onClick = () => {
-    if (props.disabled === true) {
-      return;
-    }
-    setChecked(!checked);
-  };
-
   const elementId = props.id || props.name;
+  const disabled = props.disabled || props.readOnly;
   return (
-    <label className={`toggle-component ${props.className}`}>
-      <input type={'hidden'} aria-hidden='true' name={props.name} value={checked ? 'true' : 'false'}/>
+    <fieldset
+      style={{ margin: 0, padding: 0, border: 0 }}
+      id={elementId}
+      className={cx('toggle-component', props.className)}
+    >
       <input
-        tabIndex={props.tabIndex || 0}
-        id={elementId} type='checkbox'
-        checked={checked}
-        role={'switch'}
-        disabled={props.disabled}
-        onChange={onClick}
+        name={!props.readOnly ? props.name : undefined}
+        type='radio'
+        defaultChecked={!props.defaultChecked}
+        value={'false'}
+        disabled={disabled && props.defaultChecked}
+        tabIndex={disabled ? -1 : (props.tabIndex || 0)}
+      />
+      <input
+        name={!props.readOnly ? props.name : undefined}
+        type='radio'
+        defaultChecked={props.defaultChecked}
+        value={'true'}
+        disabled={disabled && !props.defaultChecked}
+        tabIndex={disabled ? -1 : (props.tabIndex || 0)}
       />
       <span className='slider' aria-hidden='true'></span>
-    </label>
+    </fieldset>
   );
 };

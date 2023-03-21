@@ -1,43 +1,54 @@
 .toggle-component {
+  display: inline-block;
+
   /* The switch - the box around the slider */
 
   font-size: 17px;
-  position: relative;
-  display: inline-block;
-  width: 3.5rem;
   height: 2rem;
+  position: relative;
+  width: 3.5rem;
 
   /* Hide default HTML checkbox */
 
   & input {
+    position: relative;
+    z-index: 10;
     opacity: 0;
+    height: 1.7rem;
+    width: 1.7rem;
+    margin: 0.1rem 0 0 0;
+    padding: 0;
+    cursor: pointer;
+
+    &:first-of-type {
+      margin-right: 0.1rem;
+    }
   }
 
   /* The slider */
 
   & .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     background-color: #fff;
     border: 1px solid #adb5bd;
     border-radius: 30px;
+    cursor: pointer;
+    inset: 0;
+    position: absolute;
+
     @media (--motion-ok) {
       transition: .4s;
     }
 
-    &:before {
-      position: absolute;
+    &::before {
+      background-color: #adb5bd;
+      border-radius: 20px;
+      bottom: 0.25rem;
       content: "";
       height: 1.4rem;
-      width: 1.4rem;
-      border-radius: 20px;
       left: 0.27rem;
-      bottom: 0.25rem;
-      background-color: #adb5bd;
+      position: absolute;
+      width: 1.4rem;
+
       @media (--motion-ok) {
         transition: .4s;
       }
@@ -48,17 +59,17 @@
     background-color: var(--accent-1);
     border: 1px solid var(--text-2);
 
-    &:before {
-      transform: translateX(1.4rem);
+    &::before {
       background-color: #fff;
+      transform: translateX(1.4rem);
     }
   }
 
-  & input:disabled + .slider {
+  & input:disabled ~ .slider {
     background-color: gray;
     cursor: initial;
 
-    &:before {
+    &::before {
       background-color: transparent;
       border: 1px solid white;
     }
@@ -66,9 +77,9 @@
 
   &:has(input:focus-visible) .slider {
     background-color: var(--accent-1-200);
-    &:before {
+
+    &::before {
       background-color: #fff;
     }
   }
-
 }

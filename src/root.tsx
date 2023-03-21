@@ -77,12 +77,12 @@ const App = () => {
     <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} className={colorMode}>
       <CookieConsentProvider consentData={consentData}>
         <head>
-          <Meta/>
-          <Links/>
-          <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-          <ColorModeSensor nonce={nonce}/>
-          <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
-          <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
+          <Meta />
+          <Links />
+          <ExposeAppConfig appConfig={appConfig} nonce={nonce} />
+          <ColorModeSensor nonce={nonce} />
+          <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce} />
+          <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce} />
         </head>
         <body className={colorMode}>
           <ColorModeContext.Provider
@@ -94,12 +94,12 @@ const App = () => {
               context={{
                 appConfig: appConfig,
                 locale: locale
-              }}/>
-            {consentData ? null : <CookieConsentBanner/>}
+              }} />
+            {consentData ? null : <CookieConsentBanner />}
           </ColorModeContext.Provider>
-          <ScrollRestoration nonce={nonce}/>
-          <Scripts nonce={nonce}/>
-          <LiveReload nonce={nonce}/>
+          <ScrollRestoration nonce={nonce} />
+          <Scripts nonce={nonce} />
+          <LiveReload nonce={nonce} />
         </body>
       </CookieConsentProvider>
     </html>

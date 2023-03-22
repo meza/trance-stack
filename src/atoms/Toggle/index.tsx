@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import '../../styles/app.css';
 
 export interface ToggleProps {
   name: string;

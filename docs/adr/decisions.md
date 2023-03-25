@@ -11,4 +11,4 @@
 - [9. No more need to bundle environment variables](0009-no-more-need-to-bundle-environment-variables.md)
 - [10. Auth by Auth0](0010-authentication-is-done-by-auth0.md)
 - [11. Suppressing Hydration Warnings on Scripts](0011-suppressing-hydration-warnings-on-scripts.md)
-- [12. Suppressing Hydration Warnings on Scripts](0012-suppressing-hydration-warnings-on-scripts.md)
+- [12. Session Cookie Same Site None](0012-session-cookie-same-site-none.md)

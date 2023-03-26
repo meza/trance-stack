@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Form } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import { sensorScript, updateScript } from '~/components/ColorModeSwitcher/clientUtils';
+import { CsrfTokenHiddenInput } from '~/components/CsrfTokenHiddenInput';
 
 export enum ColorMode {
   LIGHT = 'light',
@@ -70,7 +71,7 @@ export const ColorModeSensor = (props: ColorModeSensorProps) => {
  const [colorMode, setColorMode] = useState<ColorMode>(ColorMode.LIGHT);
 
  <ColorModeContext.Provider value={{ colorMode: colorMode, setColorMode: setColorMode}}>
-   <ColorModeSwitcher/>
+ <ColorModeSwitcher/>
  </ColorModeContext.Provider>
  ```
 
@@ -107,6 +108,7 @@ export default function ColorModeSwitcher() {
     <div className={'color-mode-toggle-container'}>
       {/*Awesome switcher design by @AdamArgyleInk: https://youtu.be/kZiS1QStIWc*/}
       <Form method='post' action='/settings/color-mode' replace>
+        <CsrfTokenHiddenInput />
         <input type={'hidden'} name={'colorMode'} value={nextColorMode}/>
         <button
           type={'submit'}

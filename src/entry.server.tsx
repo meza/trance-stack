@@ -37,7 +37,7 @@ export default async (
   const markup = renderToString(
     <NonceContext.Provider value={cspNonce}>
       <I18nextProvider i18n={i18nextInstance}>
-        <RemixServer context={remixContext} url={request.url}/>
+        <RemixServer context={remixContext} url={request.url} />
       </I18nextProvider>
     </NonceContext.Provider>
   );

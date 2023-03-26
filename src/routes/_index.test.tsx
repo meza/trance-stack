@@ -1,7 +1,9 @@
-import { json } from '@remix-run/node';
+import { json, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
+import { authenticator } from '~/auth.server';
+import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
 import Root, { links, loader } from './_index';
 
@@ -14,6 +16,11 @@ vi.mock('~/hooks/hasFeature', () => ({
 }));
 vi.mock('@remix-run/react');
 vi.mock('@remix-run/node');
+vi.mock('~/auth.server', () => ({
+  authenticator: {
+    getUser: vi.fn()
+  }
+}));
 
 describe('The index route', () => {
   beforeEach(() => {
@@ -23,7 +30,9 @@ describe('The index route', () => {
 
   describe('when the hello feature is enabled', () => {
     beforeEach(() => {
-      vi.mocked(hasFeature).mockResolvedValueOnce(true);
+      vi.mocked(hasFeature).mockImplementation((_: any, feat: Features) =>
+        Promise.resolve(feat === Features.HELLO)
+      );
       vi.mocked(useLoaderData).mockReturnValue({ isHelloEnabled: true } as never);
     });
 
@@ -32,8 +41,8 @@ describe('The index route', () => {
       const actual = await loader(request);
       expect(actual).toMatchInlineSnapshot(`
         {
-          "isAuthEnabled": true,
-          "isHelloEnabled": undefined,
+          "isAuthEnabled": false,
+          "isHelloEnabled": true,
         }
       `);
     });
@@ -59,15 +68,33 @@ describe('The index route', () => {
 
   describe('when the auth feature is enabled', () => {
     beforeEach(() => {
+      vi.mocked(hasFeature).mockResolvedValue(true);
       vi.mocked(useLoaderData).mockReturnValue({
         isAuthEnabled: true,
         isHelloEnabled: true
       } as never);
     });
 
-    it('should render the login component', async () => {
-      const comp = renderWithi18n(<Root />);
-      expect(comp.asFragment()).toMatchInlineSnapshot(`
+    describe('when logged in', () => {
+      beforeEach(() => {
+        vi.mocked(authenticator.getUser).mockResolvedValue({} as never);
+      });
+
+      it('should redirect to /dashboard', async () => {
+        const request = {} as never;
+        await loader(request);
+        expect(redirect).toHaveBeenCalledWith('/dashboard');
+      });
+    });
+
+    describe('when not logged in', () => {
+      beforeEach(() => {
+        vi.mocked(authenticator.getUser).mockRejectedValue({} as never);
+      });
+
+      it('should render the login component', async () => {
+        const comp = renderWithi18n(<Root />);
+        expect(comp.asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div>
             &lt;Hello /&gt;
@@ -84,13 +111,13 @@ describe('The index route', () => {
           </div>
         </DocumentFragment>
       `);
+      });
     });
   });
 
   describe('when the hello feature is disabled', () => {
     beforeEach(() => {
-      vi.mocked(hasFeature).mockResolvedValueOnce(false);
-      vi.mocked(hasFeature).mockResolvedValueOnce(false);
+      vi.mocked(hasFeature).mockResolvedValue(false);
       vi.mocked(useLoaderData).mockReturnValue({ isHelloEnabled: false } as never);
     });
 

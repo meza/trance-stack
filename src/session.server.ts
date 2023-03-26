@@ -3,7 +3,7 @@ import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
 
 export const getVisitorId = (session: Session, hostname: string) => {
-  const existingId = session.get('visitorId');
+  const existingId = session.get('visitorId') as string;
 
   if (existingId) {
     return existingId;

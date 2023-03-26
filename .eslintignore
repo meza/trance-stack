@@ -6,3 +6,6 @@ remix.config.js
 .eslintrc.js
 cdk.*
 **/tsconfig*.json
+server
+.cache
+public

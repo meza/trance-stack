@@ -12,5 +12,5 @@ export const loader: LoaderFunction = async ({ request }) => {
 };
 
 export default () => {
-  return <Login/>;
+  return <Login />;
 };

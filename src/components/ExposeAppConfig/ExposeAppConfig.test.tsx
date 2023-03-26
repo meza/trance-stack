@@ -7,7 +7,6 @@ describe('ExposeAppConfig', () => {
     googleAnalyticsId: 'ga-id',
     visitorId: 'a-visitor-id',
     isProduction: true,
-    cookieYesToken: 'a-cookieyes-token',
     version: '0.0.0-dev',
     sentryDsn: 'a-sentry-dsn',
     posthogApi: 'a-posthog-api',

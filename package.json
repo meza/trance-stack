@@ -36,7 +36,7 @@
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
     "lint:css": "stylelint --fix --cache-location .cache/stylelint --cache -c .stylelintrc.json src/**/*.css",
-    "lint:eslint": "eslint --ext .ts,.tsx,.json **/*.{ts,tsx,json}",
+    "lint:eslint": "eslint .",
     "lint:typecheck": "tsc",
     "playwright:install": "playwright install --with-deps",
     "postinstall": "remix-esbuild-override",

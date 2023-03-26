@@ -1,4 +1,5 @@
 import { redirect } from '@remix-run/node';
+import { requestValidator } from '~/csrfToken.server';
 import { commitSession, getSessionFromRequest } from '~/session.server';
 import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 
@@ -7,6 +8,7 @@ export const loader: LoaderFunction = async () => {
 };
 
 export const action: ActionFunction = async ({ request }) => {
+  await requestValidator.validate(request);
   const body = await request.formData();
   const colorMode = body.get('colorMode');
 

@@ -1,6 +1,5 @@
 {
-  "include": ["**/*.ts", "**/*.tsx", "**/*.json"],
-  "exclude": ["cdk.out"],
+  "exclude": ["cdk.out", "public", "dist"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "isolatedModules": true,
@@ -25,16 +24,13 @@
       "@styles": ["./src/styles"],
       "@styles/*": ["./src/styles/*"]
     },
-    // Remix takes care of building everything in `remix build`.
     "noEmit": true
   },
   "ts-node": {
     "compilerOptions": {
       "target": "ES2020",
       "module": "commonjs",
-      "lib": [
-        "es2020"
-      ],
+      "lib": ["es2020"],
       "declaration": true,
       "strict": true,
       "noImplicitAny": true,
@@ -51,5 +47,6 @@
       "strictPropertyInitialization": false
     },
     "require": ["reflect-metadata", "tsconfig-paths/register"]
-  }
+  },
+  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"]
 }

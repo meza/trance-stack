@@ -10,12 +10,13 @@ import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
 import { Posthog } from '~/components/Posthog';
+import { getCsrfTokenSession } from '~/csrfToken.server';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
 import styles from './styles/app.css';
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction, LoaderArgs } from '@remix-run/node';
 import type { ColorMode } from '~/components/ColorModeSwitcher';
 
 export const meta: MetaFunction = () => ({
@@ -35,11 +36,12 @@ export const handle = {
   i18n: defaultNS
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const [locale, packageJson, cookieData] = await Promise.all([
+export const loader = async ({ request }: LoaderArgs) => {
+  const [locale, packageJson, sessionCookieData, csrfTokenSessionData] = await Promise.all([
     remixI18next.getLocale(request),
     import('../package.json'),
-    createUserSession(request)
+    createUserSession(request),
+    getCsrfTokenSession(request),
   ]);
   return json({
     appConfig: {
@@ -47,18 +49,19 @@ export const loader: LoaderFunction = async ({ request }) => {
       hotjarId: process.env.HOTJAR_ID,
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
-      visitorId: cookieData.visitorId,
+      visitorId: sessionCookieData.visitorId,
       version: packageJson.default.version,
       sentryDsn: process.env.SENTRY_DSN,
       posthogToken: process.env.POSTHOG_TOKEN,
-      posthogApi: process.env.POSTHOG_API
+      posthogApi: process.env.POSTHOG_API,
+      csrfToken: csrfTokenSessionData.session.get('token')
     },
     locale: locale,
-    colorMode: cookieData.session.get('colorMode'),
-    consentData: cookieData.session.get('consentData')
+    colorMode: sessionCookieData.session.get('colorMode'),
+    consentData: sessionCookieData.session.get('consentData')
   }, {
     headers: {
-      'Set-Cookie': cookieData.cookie
+      'Set-Cookie': [sessionCookieData.cookie, csrfTokenSessionData.cookie].join(',')
     }
   });
 };

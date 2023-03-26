@@ -38,7 +38,7 @@ vi.mock('@sentry/remix', () => ({
       return (
         <>
           {'mock sentry wrapper'}
-          <Component/>
+          <Component />
         </>
       );
     };

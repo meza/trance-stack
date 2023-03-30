@@ -59,7 +59,7 @@
       "matchDepTypes": [
         "engines"
       ],
-      "rangeStrategy": "auto"
+      "rangeStrategy": "widen"
     }
   ],
   "schedule": [

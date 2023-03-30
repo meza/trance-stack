@@ -4,13 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@npmcli/package-json": "^3.0.0",
-    "chalk": "^5.2.0",
-    "inquirer": "^8.2.5",
-    "is-git-repository": "^2.0.0",
-    "semver": "^7.3.8"
+    "@npmcli/package-json": "3.0.0",
+    "chalk": "5.2.0",
+    "inquirer": "8.2.5",
+    "is-git-repository": "2.0.0",
+    "semver": "7.3.8"
   },
   "devDependencies": {
-    "@types/inquirer": "^9.0.3"
+    "@types/inquirer": "9.0.3"
   }
 }

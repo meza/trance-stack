@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { Toggle } from './index';
@@ -39,16 +39,33 @@ describe('The toggle component', () => {
   it('should call the onChange function when toggle state changes.', async () => {
     const user = userEvent.setup();
     const mockOnChange = vi.fn();
-    const comp = render(<Toggle
+    render(<Toggle
       name='testToggle'
       onChange={mockOnChange}
       checked={false}
     />);
-    const toggle = comp.container.firstChild;
+    const toggle = screen.getByRole('switch');
     expect(toggle).not.toBeChecked();
-    await user.click(comp.container?.firstChild as HTMLElement);
+    await user.click(toggle);
     expect(mockOnChange).toHaveBeenCalledTimes(1);
     expect(mockOnChange).toHaveBeenCalledWith(true);
+    expect(toggle).toBeChecked();
+  });
+
+  it('should not call the onChange function when toggle is disabled.', async () => {
+    const user = userEvent.setup();
+    const mockOnChange = vi.fn();
+    render(<Toggle
+      name='testToggle'
+      onChange={mockOnChange}
+      checked={false}
+      disabled={true}
+    />);
+    const toggle = screen.getByRole('switch');
+    expect(toggle).not.toBeChecked();
+    await user.click(toggle);
+    expect(mockOnChange).not.toHaveBeenCalled();
+    expect(toggle).not.toBeChecked();
   });
 
   it('should work', () => {

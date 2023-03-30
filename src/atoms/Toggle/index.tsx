@@ -23,10 +23,6 @@ export const Toggle = (props: ToggleProps) => {
   }, [props.checked]);
 
   const handleInputChange = () => {
-    if (props.disabled === true) {
-      return;
-    }
-
     setChecked((checked) => {
       const nextValue = !checked;
       if (props.onChange) {

@@ -54,6 +54,12 @@
       ],
       "automerge": false,
       "semanticCommitType": "fix"
+    },
+    {
+      "matchDepTypes": [
+        "engines"
+      ],
+      "rangeStrategy": "widen"
     }
   ],
   "schedule": [

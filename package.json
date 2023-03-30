@@ -150,7 +150,7 @@
     "c8": "7.13.0",
     "colorguard": "1.2.1",
     "config-ini-parser": "1.6.1",
-    "cssnano": "5.1.15",
+    "cssnano": "6.0.0",
     "doiuse": "4.4.1",
     "esbuild-copy-static-files": "0.1.0",
     "esbuild-plugin-env": "1.0.5",

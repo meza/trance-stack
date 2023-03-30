@@ -1,6 +1,7 @@
-import { fireEvent, render } from '@testing-library/react';
+// @vitest-environment jsdom
+import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Toggle } from './index';
 
 describe('The toggle component', () => {

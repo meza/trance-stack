@@ -6,8 +6,8 @@ export interface ToggleProps {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   tabIndex?: number;
-  disabled? :boolean;
-  className? :string;
+  disabled?: boolean;
+  className?: string;
 }
 
 /**
@@ -19,37 +19,36 @@ export const Toggle = (props: ToggleProps) => {
   const [checked, setChecked] = React.useState(props.checked || false);
 
   useEffect(() => {
-    if (props.onChange) {
-      console.log('calling change handler', checked);
-      props.onChange(checked);
-    }
-  }, [checked, props]);
-
-  useEffect(() => {
-    if (props.checked !== undefined) {
-      setChecked(props.checked);
-    }
+    setChecked(props.checked || false);
   }, [props.checked]);
 
-  const onClick = () => {
-    console.log('click');
+  const handleInputChange = () => {
     if (props.disabled === true) {
       return;
     }
-    setChecked(!checked);
+
+    setChecked((checked) => {
+      const nextValue = !checked;
+      if (props.onChange) {
+        console.log('calling change handler', nextValue);
+        props.onChange(nextValue);
+      }
+      return nextValue;
+    });
   };
 
   const elementId = props.id || props.name;
   return (
     <label className={`toggle-component ${props.className}`}>
-      <input type={'hidden'} aria-hidden='true' name={props.name} value={checked ? 'true' : 'false'}/>
+      <input type={'hidden'} aria-hidden='true' name={props.name} value={checked ? 'true' : 'false'} />
       <input
         tabIndex={props.tabIndex || 0}
-        id={elementId} type='checkbox'
+        id={elementId}
+        type='checkbox'
         checked={checked}
         role={'switch'}
         disabled={props.disabled}
-        onChange={onClick}
+        onChange={handleInputChange}
       />
       <span className='slider' aria-hidden='true'></span>
     </label>

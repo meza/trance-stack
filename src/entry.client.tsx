@@ -15,7 +15,7 @@ Sentry.init({
   replaysOnErrorSampleRate: 1,
   replaysSessionSampleRate: 0.1,
   integrations: [
-    new Sentry.BrowserTracing({
+    new SentryReact.BrowserTracing({
       routingInstrumentation: Sentry.remixRouterInstrumentation(
         useEffect,
         useLocation,

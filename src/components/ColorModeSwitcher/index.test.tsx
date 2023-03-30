@@ -4,9 +4,9 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
 import ColorModeSwitcher, { ColorMode, ColorModeContext, ColorModeSensor } from './index';
+import type { FormProps } from '@remix-run/react';
 import type { UserEvent } from '@testing-library/user-event/setup/setup';
 import type { FormEvent, PropsWithChildren, ReactElement } from 'react';
-import type { FormProps } from 'react-router-dom';
 
 interface LocalTestContext {
   user: UserEvent;

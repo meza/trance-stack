@@ -9,5 +9,8 @@
     "inquirer": "^8.2.5",
     "is-git-repository": "^2.0.0",
     "semver": "^7.3.8"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.3"
   }
 }

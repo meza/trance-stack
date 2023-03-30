@@ -20,9 +20,10 @@ export const Toggle = (props: ToggleProps) => {
 
   useEffect(() => {
     if (props.onChange) {
+      console.log('calling change handler', checked);
       props.onChange(checked);
     }
-  }, [checked]);
+  }, [checked, props]);
 
   useEffect(() => {
     if (props.checked !== undefined) {
@@ -31,6 +32,7 @@ export const Toggle = (props: ToggleProps) => {
   }, [props.checked]);
 
   const onClick = () => {
+    console.log('click');
     if (props.disabled === true) {
       return;
     }

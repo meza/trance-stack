@@ -29,7 +29,8 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         'no-use-before-define': 'off',
         'max-nested-callbacks': 'off',
-        'sonarjs/no-duplicate-string': 'off'
+        'sonarjs/no-duplicate-string': 'off',
+        'sonarjs/no-identical-functions': 'off'
       }
     }
   ],

@@ -15,7 +15,15 @@ vi.mock('~/components/Mixpanel', () => ({
   Mixpanel: 'Mixpanel'
 }));
 vi.mock('@remix-run/react');
-vi.mock('@sentry/remix');
+vi.mock('@sentry/remix', async () => {
+  const actual = await vi.importActual('@sentry/remix') as object;
+  return {
+    ...actual,
+    init: vi.fn(),
+    BrowserTracing: class BrowserTracing {},
+    Replay: class Replay {}
+  };
+});
 vi.mock('@sentry/react');
 
 describe('The Client Entrypoint', () => {

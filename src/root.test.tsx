@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { PropsWithChildren, useContext } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import { render } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,13 @@ vi.mock('./styles/light.css', () => ({ default: 'light.css' }));
 vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
+vi.mock('~/components/CookieConsent', async () => {
+  const actual = await vi.importActual('~/components/CookieConsent') as object;
+  return {
+    ...actual,
+    CookieConsentBanner: () => <div id={'mock-cookie-consent-banner'}/>
+  };
+});
 vi.mock('react', async () => ({
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   ...await vi.importActual<typeof import('react')>('react'),
@@ -180,7 +187,6 @@ describe('The root module', () => {
     };
 
     beforeEach(() => {
-      vi.mocked(useLoaderData).mockReturnValue({ appConfig: appConfig, locale: 'en' } as never);
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore - weird stuff happening with the useTranslataion mocks
       vi.mocked(useTranslation).mockReturnValue({
@@ -192,16 +198,44 @@ describe('The root module', () => {
       vi.mocked(useChangeLanguage).mockReturnValue();
     });
 
-    it('renders the app', () => {
-      vi.mocked(useContext).mockReturnValue('mocked-nonce');
-      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
-        // There is a DOM Nesting Validation error because we're rendering
-        // the entire html in a test environment. We don't care about that error
+    describe('when there is no consent for cookies', () => {
+      beforeEach(() => {
+        vi.mocked(useLoaderData).mockReturnValue({ appConfig: appConfig, locale: 'en' } as never);
       });
-      const markup = render(<App/>);
-      errorSpy.mockReset();
-      expect(markup.asFragment()).toMatchSnapshot();
-      expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();
+      it('renders the app', () => {
+        vi.mocked(useContext).mockReturnValue('mocked-nonce');
+        const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+          // There is a DOM Nesting Validation error because we're rendering
+          // the entire html in a test environment. We don't care about that error
+        });
+        const markup = render(<App/>);
+        errorSpy.mockReset();
+        expect(markup.asFragment()).toMatchSnapshot();
+        expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();
+      });
+    });
+
+    describe('when there is consent for cookies', () => {
+      beforeEach(() => {
+        vi.mocked(useLoaderData).mockReturnValue({
+          appConfig: appConfig,
+          locale: 'en',
+          colorMode: 'dark',
+          consentData: {
+            analytics: true
+          }
+        } as never);
+      });
+      it('renders the app with analytics scripts', () => {
+        vi.mocked(useContext).mockReturnValue('mocked-nonce');
+        const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+          // There is a DOM Nesting Validation error because we're rendering
+          // the entire html in a test environment. We don't care about that error
+        });
+        const markup = render(<App/>);
+        errorSpy.mockReset();
+        expect(markup.asFragment()).toMatchSnapshot();
+      });
     });
   });
 });

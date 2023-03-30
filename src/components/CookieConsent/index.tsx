@@ -1,36 +1,37 @@
-import React, { useEffect, useId } from 'react';
+import React, { useEffect } from 'react';
 import { useFetcher } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
 import Cookie from '~/atoms/Icons/cookie';
 import { Toggle } from '~/atoms/Toggle';
 
-export interface ConsentData {
+interface ConsentData {
   analytics?: boolean | undefined;
-  marketing?: boolean | undefined;
-  performance?: boolean | undefined;
+  //add your own if you need more
+  // marketing?: boolean | undefined;
+  // tracking?: boolean | undefined;
 }
 
 interface CookieConsentContextProps {
   analytics?: boolean | undefined;
-  marketing?: boolean | undefined;
-  performance?: boolean | undefined;
   setAnalytics: (enabled: boolean) => void;
-  setMarketing: (enabled: boolean) => void;
+  //add your own if you need more
+  // marketing?: boolean | undefined;
+  // setMarketing: (enabled: boolean) => void;
+  // tracking?: boolean | undefined;
+  // setTracking: (enabled: boolean) => void;
 }
 
 export const CookieConsentContext = React.createContext<CookieConsentContextProps>({} as CookieConsentContextProps);
 
 export const CookieConsentProvider = ({ children, consentData }: { children: React.ReactNode, consentData?: ConsentData | undefined }) => {
-  const [analytics, setAnalytics] = React.useState(consentData?.analytics === undefined ? true : consentData?.analytics);
-  const [marketing, setMarketing] = React.useState(consentData?.marketing === undefined ? true : consentData?.marketing);
+  const analyticsDefaultState = consentData?.analytics === undefined ? true : consentData?.analytics;
+  const [analytics, setAnalytics] = React.useState(analyticsDefaultState);
 
   return (
     <CookieConsentContext.Provider
       value={{
         analytics: analytics,
-        marketing: marketing,
-        setAnalytics: setAnalytics,
-        setMarketing: setMarketing
+        setAnalytics: setAnalytics
       }}>
       {children}
     </CookieConsentContext.Provider>
@@ -38,12 +39,11 @@ export const CookieConsentProvider = ({ children, consentData }: { children: Rea
 };
 
 export const CookieConsentBanner = () => {
-  const id = useId();
-  const formId = useId();
+  const id = 'cookie-consent';
+  const formId = id + '-form';
   const { t } = useTranslation();
   const { analytics } = React.useContext(CookieConsentContext);
   const acceptFormRef = React.useRef<HTMLFormElement>(null);
-  const denyFormRef = React.useRef<HTMLFormElement>(null);
   const fetcher = useFetcher();
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
@@ -52,7 +52,7 @@ export const CookieConsentBanner = () => {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { //handle the escape key for keyboard navigation
     document.addEventListener('keydown', acceptOnKeyDown);
 
     return () => {
@@ -88,7 +88,7 @@ export const CookieConsentBanner = () => {
           </div>
         </div>
       </fetcher.Form>
-      <fetcher.Form ref={denyFormRef} action='/settings/cookie-consent' replace method={'post'} id={formId + '-deny'}>
+      <fetcher.Form action='/settings/cookie-consent' replace method={'post'} id={formId + '-deny'}>
         <input type={'hidden'} name={'analytics'} value={'false'}/>
         <input type={'hidden'} name={'marketing'} value={'false'}/>
       </fetcher.Form>

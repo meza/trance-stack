@@ -11,6 +11,7 @@
   ],
   "semanticCommits": "enabled",
   "semanticCommitType": "chore",
+  "rangeStrategy": "pin",
   "packageRules": [
     {
       "matchDepTypes": [
@@ -53,6 +54,12 @@
       ],
       "automerge": false,
       "semanticCommitType": "fix"
+    },
+    {
+      "matchDepTypes": [
+        "engines"
+      ],
+      "rangeStrategy": "widen"
     }
   ],
   "schedule": [

@@ -1,6 +1,6 @@
 import React, { startTransition, StrictMode, useEffect } from 'react';
 import { RemixBrowser, useLocation, useMatches } from '@remix-run/react';
-import { Replay } from '@sentry/react';
+import * as SentryReact from '@sentry/react';
 import * as Sentry from '@sentry/remix';
 import i18next from 'i18next';
 import { hydrateRoot } from 'react-dom/client';
@@ -22,7 +22,7 @@ Sentry.init({
         useMatches
       )
     }),
-    new Replay()
+    new SentryReact.Replay()
   ]
 });
 

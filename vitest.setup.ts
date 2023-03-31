@@ -5,6 +5,8 @@ import { expect, afterEach, vi } from 'vitest';
 
 expect.extend(matchers);
 
+(await import('@remix-run/node')).installGlobals();
+
 afterEach(() => {
   // these run after every single test
   vi.unstubAllEnvs();

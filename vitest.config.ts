@@ -21,7 +21,7 @@ export default defineConfig({
   test: {
     globals: true,
     isolate: true,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     cache: {
       dir: '.cache/.vitest'
     },

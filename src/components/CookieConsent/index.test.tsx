@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react';
+import { redirect } from '@remix-run/node';
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing';
 import { render, waitFor, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { vi, it, describe, expect } from 'vitest';
 import { renderWithi18n } from '@test';
 import { CookieConsentBanner, CookieConsentContext, CookieConsentProvider } from '~/components/CookieConsent/index';
@@ -57,9 +59,8 @@ describe('The Cookie Consent Component', () => {
     });
   });
 
-  describe.skip('the banner', () => {
+  describe('the banner', () => {
     it('renders the form', async () => {
-
       const RemixStub = createRemixStub([
         {
           path: '/*',
@@ -69,6 +70,73 @@ describe('The Cookie Consent Component', () => {
 
       const component = renderWithi18n(<RemixStub/>);
       expect(component.asFragment()).toMatchSnapshot();
+    });
+
+    it('hides and saves the form correctly on deny', async () => {
+      let analytics, marketing;
+      const settingsSpy = vi.fn();
+      const user = userEvent.setup();
+      const RemixStub = createRemixStub([
+        {
+          path: '/',
+          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+        },
+        {
+          path: '/settings/cookie-consent',
+          action: async ({ request }) => {
+            const formData = await request.formData();
+            analytics = formData.get('analytics');
+            marketing = formData.get('marketing');
+            settingsSpy();
+            throw redirect('/');
+          }
+        }
+      ]);
+
+      renderWithi18n(<RemixStub initialEntries={['/']}/>);
+      const denyButton = screen.getByRole('button', { name: 'cookieConsent.deny' });
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+
+      await user.click(denyButton);
+
+      expect(settingsSpy).toHaveBeenCalled();
+      expect(analytics).toBe('false');
+      expect(marketing).toBe('false');
+      expect(dialog).not.toBeInTheDocument();
+    });
+
+    it('hides saves the form correctly on accept', async () => {
+      let analytics, marketing;
+      const settingsSpy = vi.fn();
+      const user = userEvent.setup();
+      const RemixStub = createRemixStub([
+        {
+          path: '/',
+          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+        },
+        {
+          path: '/settings/cookie-consent',
+          action: async ({ request }) => {
+            const formData = await request.formData();
+            analytics = formData.get('analytics');
+            marketing = formData.get('marketing');
+            settingsSpy();
+            throw redirect('/');
+          }
+        }
+      ]);
+
+      renderWithi18n(<RemixStub initialEntries={['/']}/>);
+      const denyButton = screen.getByRole('button', { name: 'cookieConsent.accept' });
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+
+      await user.click(denyButton);
+
+      expect(settingsSpy).toHaveBeenCalled();
+      expect(analytics).toBe('true');
+      expect(marketing).toBe('false');
     });
   });
 });

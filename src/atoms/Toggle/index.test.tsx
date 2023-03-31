@@ -1,4 +1,3 @@
-// @vitest-environment jsdom
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -68,7 +67,14 @@ describe('The toggle component', () => {
     expect(toggle).not.toBeChecked();
   });
 
-  it('should work', () => {
-    expect(1).toBe(1);
+  it('switches between checked and unchecked state.', async () => {
+    const user = userEvent.setup();
+    const { getByRole } = render(<Toggle name='testToggle' />);
+    const toggle = getByRole('switch');
+    expect(toggle).not.toBeChecked();
+    await user.click(toggle);
+    expect(toggle).toBeChecked();
+    await user.click(toggle);
+    expect(toggle).not.toBeChecked();
   });
 });

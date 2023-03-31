@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
 <DocumentFragment>
@@ -130,7 +130,6 @@ exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
           >
             <input
               aria-hidden="true"
-              defaultvalue="true"
               name="cookie-consent-necessary"
               type="hidden"
               value="true"
@@ -163,7 +162,6 @@ exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
           >
             <input
               aria-hidden="true"
-              defaultvalue="true"
               name="cookie-consent-analytics"
               type="hidden"
               value="true"
@@ -195,7 +193,6 @@ exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
           >
             <input
               aria-hidden="true"
-              defaultvalue="false"
               name="marketing"
               type="hidden"
               value="false"
@@ -221,13 +218,11 @@ exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
       method="post"
     >
       <input
-        defaultvalue="false"
         name="analytics"
         type="hidden"
         value="false"
       />
       <input
-        defaultvalue="false"
         name="marketing"
         type="hidden"
         value="false"

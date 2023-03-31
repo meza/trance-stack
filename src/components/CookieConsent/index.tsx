@@ -76,11 +76,11 @@ export const CookieConsentBanner = () => {
         <div className={'cookie-consent-switches'}>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
-            <Toggle name={id + '-necessary'} id={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
+            <Toggle id={id + '-necessary'} name={'necessary'} checked={true} disabled={true} className={'cookie-consent-switch'}/>
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
-            <Toggle tabIndex={1} name={id + '-analytics'} id={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
+            <Toggle tabIndex={1} id={id + '-analytics'} name={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>

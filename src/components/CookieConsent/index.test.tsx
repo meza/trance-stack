@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { redirect } from '@remix-run/node';
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing';
-import { render, waitFor, screen } from '@testing-library/react';
+import { render, waitFor, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, it, describe, expect } from 'vitest';
 import { renderWithi18n } from '@test';
@@ -11,6 +11,10 @@ const TestComponent = () => {
   const { analytics } = useContext(CookieConsentContext);
   return <>{analytics ? 'true' : 'false'}</>;
 };
+
+vi.mock('~/atoms/Icons/cookie', () => ({
+  default: () => <div id={'cookie-icon'}/>
+}));
 
 describe('The Cookie Consent Component', () => {
   describe('the provider', () => {
@@ -128,14 +132,15 @@ describe('The Cookie Consent Component', () => {
       ]);
 
       renderWithi18n(<RemixStub initialEntries={['/']}/>);
-      const denyButton = screen.getByRole('button', { name: 'cookieConsent.accept' });
+      const acceptButton = screen.getByRole('button', { name: 'cookieConsent.accept' });
       const dialog = screen.getByRole('dialog');
       expect(dialog).toBeInTheDocument();
 
-      await user.click(denyButton);
+      await user.click(screen.getByLabelText('cookieConsent.label.analytics'));
+      await user.click(acceptButton);
 
       expect(settingsSpy).toHaveBeenCalled();
-      expect(analytics).toBe('true');
+      expect(analytics).toBe('false');
       expect(marketing).toBe('false');
     });
   });

@@ -234,6 +234,7 @@ exports[`The Cookie Consent Component > the banner > renders the form 1`] = `
       <button
         form="cookie-consent-form-deny"
         tabindex="3"
+        type="submit"
       >
         cookieConsent.deny
       </button>

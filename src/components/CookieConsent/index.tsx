@@ -44,8 +44,7 @@ export const CookieConsentBanner = () => {
   const { t } = useTranslation();
   const { analytics } = React.useContext(CookieConsentContext);
   const acceptFormRef = React.useRef<HTMLFormElement>(null);
-  const settings = useFetcher();
-  const deny = useFetcher();
+  const fetcher = useFetcher();
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && acceptFormRef.current) {
@@ -61,7 +60,7 @@ export const CookieConsentBanner = () => {
     };
   });
 
-  if (settings.state !== 'idle' || deny.state !== 'idle') {
+  if (fetcher.state !== 'idle') {
     return null;
   }
 
@@ -73,7 +72,7 @@ export const CookieConsentBanner = () => {
     >
       <div id={id + '-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
       <div id={id + '-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
-      <settings.Form ref={acceptFormRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'} id={formId + '-accept'}>
+      <fetcher.Form ref={acceptFormRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'} id={formId + '-accept'}>
         <div className={'cookie-consent-switches'}>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-necessary'} className={'cookie-consent-title'}>{t('cookieConsent.label.necessary')}</label>
@@ -88,14 +87,14 @@ export const CookieConsentBanner = () => {
             <Toggle name={'marketing'} id={id + '-marketing'} checked={false} disabled={true} className={'cookie-consent-switch'}/>
           </div>
         </div>
-      </settings.Form>
-      <deny.Form action='/settings/cookie-consent' replace method={'post'} id={formId + '-deny'}>
+      </fetcher.Form>
+      <fetcher.Form action='/settings/cookie-consent' replace method={'post'} id={formId + '-deny'}>
         <input type={'hidden'} name={'analytics'} value={'false'}/>
         <input type={'hidden'} name={'marketing'} value={'false'}/>
-      </deny.Form>
+      </fetcher.Form>
 
       <div className={'cookie-consent-buttons'}>
-        <button form={formId + '-deny'} tabIndex={3}>{t('cookieConsent.deny')}</button>
+        <button form={formId + '-deny'} type={'submit'} tabIndex={3}>{t('cookieConsent.deny')}</button>
         <button form={formId + '-accept'} className={'primary'} type={'submit'} tabIndex={2}>{t('cookieConsent.accept')}</button>
       </div>
     </div>

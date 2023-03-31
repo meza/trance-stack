@@ -106,7 +106,7 @@ describe('The Cookie Consent Component', () => {
       expect(dialog).not.toBeInTheDocument();
     });
 
-    it('hides saves the form correctly on accept', async () => {
+    it('saves the form correctly on accept', async () => {
       let analytics, marketing;
       const settingsSpy = vi.fn();
       const user = userEvent.setup();

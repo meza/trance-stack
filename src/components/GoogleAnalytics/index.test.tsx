@@ -1,9 +1,17 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { useContext } from 'react';
+import { vi } from 'vitest';
 import { GoogleAnalytics } from './index';
+
+vi.mock('react', async () => ({
+  ...(await vi.importActual('react')) as typeof import('react'),
+  useContext: vi.fn(),
+  createContext: vi.fn()
+}));
 
 describe('Google Analytics 4', () => {
   beforeEach(() => {
     vi.resetAllMocks();
+    vi.mocked(useContext).mockReturnValue({ analytics: {} });
   });
 
   it('Should render with the correct arguments', () => {

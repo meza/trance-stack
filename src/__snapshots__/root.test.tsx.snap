@@ -1,116 +1,30 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`The root module > when rendering the app > renders the app 1`] = `
-<DocumentFragment>
-  mock sentry wrapper
-  <html
-    data-version="0.0.0-dev"
-    dir="ltr"
-    lang="en"
-  >
-    <head>
-      <script
-        id="app-config"
-        nonce="mocked-nonce"
-      >
-        window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
-      </script>
-      <script
-        id="color-mode-sensor"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
-  const cl = document.firstElementChild?.classList;
-  if (!(cl?.contains("dark") || cl?.contains("light"))) {
-    cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-})();
-      </script>
-      <script
-        id="color-mode-update"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
-  addEventListener("load", () =&gt; {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
-      const cl = document.firstElementChild?.classList;
-      cl?.remove(e.matches ? "light" : "dark");
-      cl?.add(e.matches ? "dark" : "light");
-    });
-  });
-})();
-      </script>
-      <script
-        async=""
-        id="gtm"
-        nonce="mocked-nonce"
-        src="https://www.googletagmanager.com/gtag/js?id=ga-id"
-      />
-      <script
-        id="google-analytics"
-        nonce="mocked-nonce"
-      >
-        window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
-      </script>
-      <script
-        async=""
-        id="hotjar-init"
-        nonce="mocked-nonce"
-      >
-        (function(h){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
-          })(window);
-          hj('identify', 'a-visitor-id');
-
-      </script>
-      <script
-        async=""
-        id="hotjar-script"
-        nonce="mocked-nonce"
-        src="https://static.hotjar.com/c/hotjar-a-hotjar-id.js?sv=6"
-      />
-    </head>
-    <body />
-  </html>
-</DocumentFragment>
-`;
-
 exports[`The root module > when rendering the app > when there is consent for cookies > renders the app with analytics scripts 1`] = `
 <DocumentFragment>
   mock sentry wrapper
-  <html
-    class="dark"
-    data-version="0.0.0-dev"
-    dir="ltr"
-    lang="en"
+  <script
+    id="app-config"
+    nonce="mocked-nonce"
   >
-    <head>
-      <script
-        id="app-config"
-        nonce="mocked-nonce"
-      >
-        window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
-      </script>
-      <script
-        id="color-mode-sensor"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
+    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
+  </script>
+  <script
+    id="color-mode-sensor"
+    nonce="mocked-nonce"
+  >
+    (() =&gt; {
   const cl = document.firstElementChild?.classList;
   if (!(cl?.contains("dark") || cl?.contains("light"))) {
     cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   }
 })();
-      </script>
-      <script
-        id="color-mode-update"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
+  </script>
+  <script
+    id="color-mode-update"
+    nonce="mocked-nonce"
+  >
+    (() =&gt; {
   addEventListener("load", () =&gt; {
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
       const cl = document.firstElementChild?.classList;
@@ -119,65 +33,56 @@ exports[`The root module > when rendering the app > when there is consent for co
     });
   });
 })();
-      </script>
-      <script
-        id="google-analytics"
-        nonce="mocked-nonce"
-      >
-        window.dataLayer = window.dataLayer || [];
+  </script>
+  <script
+    id="google-analytics"
+    nonce="mocked-nonce"
+  >
+    window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
-      </script>
-      <script
-        async=""
-        id="hotjar-init"
-        nonce="mocked-nonce"
-      >
-        (function(h){
+  </script>
+  <script
+    async=""
+    id="hotjar-init"
+    nonce="mocked-nonce"
+  >
+    (function(h){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
             h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
           })(window);
           hj('identify', 'a-visitor-id');
           
-      </script>
-    </head>
-    <body />
-  </html>
+  </script>
 </DocumentFragment>
 `;
 
 exports[`The root module > when rendering the app > when there is no consent for cookies > renders the app 1`] = `
 <DocumentFragment>
   mock sentry wrapper
-  <html
-    data-version="0.0.0-dev"
-    dir="ltr"
-    lang="en"
+  <script
+    id="app-config"
+    nonce="mocked-nonce"
   >
-    <head>
-      <script
-        id="app-config"
-        nonce="mocked-nonce"
-      >
-        window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
-      </script>
-      <script
-        id="color-mode-sensor"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
+    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
+  </script>
+  <script
+    id="color-mode-sensor"
+    nonce="mocked-nonce"
+  >
+    (() =&gt; {
   const cl = document.firstElementChild?.classList;
   if (!(cl?.contains("dark") || cl?.contains("light"))) {
     cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   }
 })();
-      </script>
-      <script
-        id="color-mode-update"
-        nonce="mocked-nonce"
-      >
-        (() =&gt; {
+  </script>
+  <script
+    id="color-mode-update"
+    nonce="mocked-nonce"
+  >
+    (() =&gt; {
   addEventListener("load", () =&gt; {
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
       const cl = document.firstElementChild?.classList;
@@ -186,34 +91,30 @@ exports[`The root module > when rendering the app > when there is no consent for
     });
   });
 })();
-      </script>
-      <script
-        id="google-analytics"
-        nonce="mocked-nonce"
-      >
-        window.dataLayer = window.dataLayer || [];
+  </script>
+  <script
+    id="google-analytics"
+    nonce="mocked-nonce"
+  >
+    window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
-      </script>
-      <script
-        async=""
-        id="hotjar-init"
-        nonce="mocked-nonce"
-      >
-        (function(h){
+  </script>
+  <script
+    async=""
+    id="hotjar-init"
+    nonce="mocked-nonce"
+  >
+    (function(h){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
             h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
           })(window);
           hj('identify', 'a-visitor-id');
           
-      </script>
-    </head>
-    <body>
-      <div
-        id="mock-cookie-consent-banner"
-      />
-    </body>
-  </html>
+  </script>
+  <div
+    id="mock-cookie-consent-banner"
+  />
 </DocumentFragment>
 `;

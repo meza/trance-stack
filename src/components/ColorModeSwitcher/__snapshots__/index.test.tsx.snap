@@ -40,7 +40,6 @@ exports[`The Color Mode Switch > The color mode switcher > should configure the 
       method="post"
     >
       <input
-        defaultvalue="dark"
         name="colorMode"
         type="hidden"
         value="dark"

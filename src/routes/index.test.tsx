@@ -66,22 +66,19 @@ describe('The index route', () => {
     it('should render the login component', async () => {
       const comp = renderWithi18n(<Root />);
       expect(comp.asFragment()).toMatchInlineSnapshot(`
-        <DocumentFragment>
-          <div>
-            <hello />
-            <div
-              style="position: absolute; top: 0px; right: 0px;"
-            >
-              <div
-                class="color-mode-toggle-container"
-              />
-            </div>
-            <div
-              class="centered-button"
-            />
-          </div>
-        </DocumentFragment>
-      `);
+    <DocumentFragment>
+      <div>
+        &lt;Hello /&gt;
+        <div
+          style="position: absolute; top: 0px; right: 0px;"
+        >
+          <div
+            class="color-mode-toggle-container"
+          />
+        </div>
+      </div>
+    </DocumentFragment>
+  `);
     });
   });
 
@@ -96,22 +93,32 @@ describe('The index route', () => {
       const request = {} as never;
       const actual = await loader(request);
       expect(actual).toMatchInlineSnapshot(`
-        {
-          "isAuthEnabled": false,
-          "isHelloEnabled": false,
-        }
-      `);
+    <DocumentFragment>
+      <div>
+        &lt;Hello /&gt;
+        <div
+          style="position: absolute; top: 0px; right: 0px;"
+        >
+          <div
+            class="color-mode-toggle-container"
+          />
+        </div>
+        <div
+          class="centered-button"
+        />
+      </div>
+    </DocumentFragment>
+  `);
     });
 
     it('should render the goodbye component', async () => {
       const comp = renderWithi18n(<Root />);
       expect(comp.asFragment()).toMatchInlineSnapshot(`
-        <DocumentFragment>
-          <div>
-            microcopy.goodBye
-          </div>
-        </DocumentFragment>
-      `);
+              {
+                "isAuthEnabled": false,
+                "isHelloEnabled": false,
+              }
+            `);
     });
   });
 

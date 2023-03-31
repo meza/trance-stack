@@ -27,7 +27,7 @@ jobs:
         uses: meza/action-setup-node-npm@main
         with:
           command: install
-          node-version: 19.7.0
+          node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache
         uses: actions/cache@v3

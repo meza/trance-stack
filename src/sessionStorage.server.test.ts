@@ -26,7 +26,7 @@ describe('The session storage', () => {
           "maxAge": 31536000,
           "name": "__session",
           "path": "/",
-          "sameSite": "false",
+          "sameSite": false,
           "secrets": [
             "secret",
           ],
@@ -58,7 +58,7 @@ describe('The session storage', () => {
           "path": "/",
           "sameSite": false,
           "secrets": [
-            "secret",
+            "also-a-secret",
           ],
           "secure": true,
         },

@@ -83,15 +83,10 @@ describe('entry.server', () => {
     const actualResponse = await entry(request, responseCode, responseHeaders, context);
     expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, 'mocked nonce');
     expect(actualResponse.status).toBe(200);
-    expect(await actualResponse.headers).toMatchInlineSnapshot(`
-      Headers {
-        Symbol(query): [
-          "cache-control",
-          "no-cache, max-age=0, s-maxage=0",
-          "content-type",
-          "text/html",
-        ],
-        Symbol(context): null,
+    expect(Object.fromEntries(actualResponse.headers.entries())).toMatchInlineSnapshot(`
+      {
+        "cache-control": "no-cache, max-age=0, s-maxage=0",
+        "content-type": "text/html",
       }
     `);
 

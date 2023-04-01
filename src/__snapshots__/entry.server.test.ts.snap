@@ -1,0 +1,8 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`entry.server > should return the correct headers 1`] = `
+{
+  "cache-control": "no-cache, max-age=0, s-maxage=0",
+  "content-type": "text/html",
+}
+`;

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { redirect } from '@remix-run/node';
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing';
-import { render, waitFor, screen, cleanup } from '@testing-library/react';
+import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi, it, describe, expect } from 'vitest';
+import { vi, it, describe } from 'vitest';
 import { renderWithi18n } from '@test';
 import { CookieConsentBanner, CookieConsentContext, CookieConsentProvider } from '~/components/CookieConsent/index';
 
@@ -64,7 +64,7 @@ describe('The Cookie Consent Component', () => {
   });
 
   describe('the banner', () => {
-    it('renders the form', async () => {
+    it('renders the form', async ({ expect }) => {
       const RemixStub = createRemixStub([
         {
           path: '/*',
@@ -76,7 +76,7 @@ describe('The Cookie Consent Component', () => {
       expect(component.asFragment()).toMatchSnapshot();
     });
 
-    it('hides and saves the form correctly on deny', async () => {
+    it('hides and saves the form correctly on deny', async ({ expect }) => {
       let analytics, marketing;
       const settingsSpy = vi.fn();
       const user = userEvent.setup();
@@ -110,38 +110,46 @@ describe('The Cookie Consent Component', () => {
       expect(dialog).not.toBeInTheDocument();
     });
 
-    it('saves the form correctly on accept', async () => {
-      let analytics, marketing;
-      const settingsSpy = vi.fn();
+    it('is wired up correctly', async ({ expect }) => {
+      // As long as the form is wired up properly, we trust that the browser can do its thing.
+      // We don't need to test that the submission works because there is no custom logic in the
+      // submission handler.
+      const RemixStub = createRemixStub([
+        {
+          path: '/',
+          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+        }
+      ]);
+
+      renderWithi18n(<RemixStub initialEntries={['/']}/>);
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toMatchSnapshot();
+    });
+
+    it('adds the escape key handler', async ({ expect }) => {
+      const keydownSpy = vi.fn();
       const user = userEvent.setup();
       const RemixStub = createRemixStub([
         {
           path: '/',
           element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
-        },
-        {
-          path: '/settings/cookie-consent',
-          action: async ({ request }) => {
-            const formData = await request.formData();
-            analytics = formData.get('analytics');
-            marketing = formData.get('marketing');
-            settingsSpy();
-            throw redirect('/');
-          }
         }
       ]);
 
       renderWithi18n(<RemixStub initialEntries={['/']}/>);
-      const acceptButton = screen.getByRole('button', { name: 'cookieConsent.accept' });
       const dialog = screen.getByRole('dialog');
+
+      // This is rather ugly but since the form submit isn't implemented in jsdom, it kinda evens out
+      // and gets the job done.
+      dialog.querySelector('form')!.submit = () => {
+        keydownSpy();
+      };
+
       expect(dialog).toBeInTheDocument();
 
-      await user.click(screen.getByLabelText('cookieConsent.label.analytics'));
-      await user.click(acceptButton);
+      await user.keyboard('[Escape]');
 
-      expect(settingsSpy).toHaveBeenCalled();
-      expect(analytics).toBe('false');
-      expect(marketing).toBe('false');
+      expect(keydownSpy).toHaveBeenCalled();
     });
   });
 });

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useLoaderData } from '@remix-run/react';
 import { render } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';

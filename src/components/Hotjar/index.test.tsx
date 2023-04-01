@@ -2,11 +2,14 @@ import { useContext } from 'react';
 import { vi } from 'vitest';
 import { Hotjar } from './index';
 
-vi.mock('react', async () => ({
-  ...(await vi.importActual('react')) as typeof import('react'),
-  useContext: vi.fn(),
-  createContext: vi.fn()
-}));
+vi.mock('react', async () => {
+  const actual = await vi.importActual('react') as object;
+  return {
+    ...actual,
+    useContext: vi.fn(),
+    createContext: vi.fn()
+  };
+});
 
 describe('Hotjar', () => {
   beforeEach(() => {

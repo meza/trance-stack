@@ -1,50 +1,64 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`securityHeaders > sets the correct security headers 1`] = `
 Headers {
-  Symbol(map): {
-    "Content-Security-Policy": [
-      "script-src 'nonce-noncevalue' 'strict-dynamic'; object-src 'none'; base-uri 'none';",
-    ],
-    "Cross-Origin-Embedder-Policy": [
-      "same-origin",
-    ],
-    "Cross-Origin-Opener-Policy": [
-      "same-origin",
-    ],
-    "Cross-Origin-Resource-Policy": [
-      "same-origin",
-    ],
-    "Origin-Agent-Cluster": [
-      "?1",
-    ],
-    "Permissions-Policy": [
-      "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-    ],
-    "Referrer-Policy": [
-      "origin-when-cross-origin",
-    ],
-    "Strict-Transport-Security": [
-      "max-age=31536000; includeSubDomains",
-    ],
-    "X-Content-Type-Options": [
-      "nosniff",
-    ],
-    "X-DNS-Prefetch-Control": [
-      "off",
-    ],
-    "X-Download-Options": [
-      "noopen",
-    ],
-    "X-Frame-Options": [
-      "SAMEORIGIN",
-    ],
-    "X-Permitted-Cross-Domain-Policies": [
-      "none",
-    ],
-    "X-XSS-Protection": [
-      "0",
-    ],
+  "_entries": {
+    "content-security-policy": {
+      "name": "Content-Security-Policy",
+      "value": "script-src 'nonce-noncevalue' 'strict-dynamic'; object-src 'none'; base-uri 'none';",
+    },
+    "cross-origin-embedder-policy": {
+      "name": "Cross-Origin-Embedder-Policy",
+      "value": "same-origin",
+    },
+    "cross-origin-opener-policy": {
+      "name": "Cross-Origin-Opener-Policy",
+      "value": "same-origin",
+    },
+    "cross-origin-resource-policy": {
+      "name": "Cross-Origin-Resource-Policy",
+      "value": "same-origin",
+    },
+    "origin-agent-cluster": {
+      "name": "Origin-Agent-Cluster",
+      "value": "?1",
+    },
+    "permissions-policy": {
+      "name": "Permissions-Policy",
+      "value": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+    },
+    "referrer-policy": {
+      "name": "Referrer-Policy",
+      "value": "origin-when-cross-origin",
+    },
+    "strict-transport-security": {
+      "name": "Strict-Transport-Security",
+      "value": "max-age=31536000; includeSubDomains",
+    },
+    "x-content-type-options": {
+      "name": "X-Content-Type-Options",
+      "value": "nosniff",
+    },
+    "x-dns-prefetch-control": {
+      "name": "X-DNS-Prefetch-Control",
+      "value": "off",
+    },
+    "x-download-options": {
+      "name": "X-Download-Options",
+      "value": "noopen",
+    },
+    "x-frame-options": {
+      "name": "X-Frame-Options",
+      "value": "SAMEORIGIN",
+    },
+    "x-permitted-cross-domain-policies": {
+      "name": "X-Permitted-Cross-Domain-Policies",
+      "value": "none",
+    },
+    "x-xss-protection": {
+      "name": "X-XSS-Protection",
+      "value": "0",
+    },
   },
 }
 `;

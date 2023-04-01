@@ -175,7 +175,7 @@
     "postcss-cli": "10.1.0",
     "postcss-custom-media": "9.1.2",
     "postcss-nested": "6.0.1",
-    "postcss-preset-env": "8.2.0",
+    "postcss-preset-env": "8.3.0",
     "postcss-reporter": "7.0.5",
     "postcss-scss": "4.0.6",
     "postcss-sorting": "8.0.2",

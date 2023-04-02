@@ -24,8 +24,7 @@ interface CookieConsentContextProps {
 export const CookieConsentContext = React.createContext<CookieConsentContextProps>({} as CookieConsentContextProps);
 
 export const CookieConsentProvider = ({ children, consentData }: { children: React.ReactNode, consentData?: ConsentData | undefined }) => {
-  const analyticsDefaultState = consentData?.analytics === undefined ? true : consentData?.analytics;
-  const [analytics, setAnalytics] = React.useState(analyticsDefaultState);
+  const [analytics, setAnalytics] = React.useState(consentData?.analytics);
 
   return (
     <CookieConsentContext.Provider
@@ -80,7 +79,7 @@ export const CookieConsentBanner = () => {
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-analytics'} className={'cookie-consent-title'}>{t('cookieConsent.label.analytics')}</label>
-            <Toggle tabIndex={1} id={id + '-analytics'} name={'analytics'} checked={analytics} className={'cookie-consent-switch'}/>
+            <Toggle tabIndex={1} id={id + '-analytics'} name={'analytics'} checked={analytics === undefined ? true : analytics} className={'cookie-consent-switch'}/>
           </div>
           <div className={'cookie-consent-switch'}>
             <label htmlFor={id + '-marketing'} className={'cookie-consent-title'}>{t('cookieConsent.label.marketing')}</label>

@@ -77,11 +77,13 @@
     "i18next-http-backend": "2.2.0",
     "isbot": "3.6.7",
     "jose": "4.13.1",
+    "js-cookie": "^3.0.1",
     "mixpanel-browser": "2.46.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "12.2.0",
     "remix-i18next": "5.1.1",
+    "typescript-cookie": "^1.0.4",
     "uuid": "9.0.0"
   },
   "devDependencies": {
@@ -132,6 +134,7 @@
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
     "@types/is-ci": "3.0.0",
+    "@types/js-cookie": "3.0.3",
     "@types/jsdom": "21.1.1",
     "@types/mixpanel-browser": "2.38.1",
     "@types/node": "18.15.11",
@@ -144,7 +147,7 @@
     "@typescript-eslint/eslint-plugin": "5.57.0",
     "@typescript-eslint/parser": "5.57.0",
     "@vitejs/plugin-react": "3.1.0",
-    "@vitest/coverage-c8": "0.29.8",
+    "@vitest/coverage-c8": "0.28.5",
     "autoprefixer": "10.4.14",
     "aws-cdk": "2.72.1",
     "c8": "7.13.0",
@@ -167,7 +170,7 @@
     "happy-dom": "9.1.0",
     "is-ci": "3.0.1",
     "jscpd": "3.5.4",
-    "jsdom": "21.1.1",
+    "jsdom": "^21.1.1",
     "npm-run-all": "4.1.5",
     "npmignore": "0.3.0",
     "postcss": "8.4.21",
@@ -198,12 +201,12 @@
     "typescript": "4.9.5",
     "vite": "4.2.1",
     "vite-tsconfig-paths": "4.0.7",
-    "vitest": "0.29.8",
+    "vitest": "0.28.5",
     "wait-on": "7.0.1",
     "webpack": "5.77.0"
   },
   "browserslist": [
-    ">0.2%",
+    "> 1%",
     "not dead",
     "not op_mini all"
   ],
@@ -241,6 +244,6 @@
     "exitCode": 1
   },
   "engines": {
-    "node": ">=18 <=19.7.0"
+    "node": ">=18.12.0"
   }
 }

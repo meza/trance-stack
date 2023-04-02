@@ -83,7 +83,7 @@ describe('entry.server', () => {
     const actualResponse = await entry(request, responseCode, responseHeaders, context);
     expect(addSecurityHeaders).toHaveBeenCalledWith(responseHeaders, 'mocked nonce');
     expect(actualResponse.status).toBe(200);
-    expect(await actualResponse.headers).toMatchSnapshot();
+    expect(Object.fromEntries(actualResponse.headers.entries())).toMatchSnapshot();
 
   });
 });

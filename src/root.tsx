@@ -4,6 +4,7 @@ import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderD
 import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
 import { ColorModeContext, ColorModeSensor } from '~/components/ColorModeSwitcher';
+import { CookieConsentBanner, CookieConsentProvider } from '~/components/CookieConsent';
 import { ExposeAppConfig } from '~/components/ExposeAppConfig';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
@@ -56,7 +57,8 @@ export const loader: LoaderFunction = async ({ request }) => {
       sentryDsn: process.env.SENTRY_DSN
     },
     locale: locale,
-    colorMode: cookieData.session.get('colorMode')
+    colorMode: cookieData.session.get('colorMode'),
+    consentData: cookieData.session.get('consentData')
   }, {
     headers: {
       'Set-Cookie': cookieData.cookie
@@ -66,39 +68,40 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 const App = () => {
   const nonce = useContext(NonceContext);
-  const { appConfig, locale, colorMode: colorModeFromSession } = useLoaderData<typeof loader>();
+  const { appConfig, locale, colorMode: colorModeFromSession, consentData } = useLoaderData<typeof loader>();
   const { i18n } = useTranslation();
   useChangeLanguage(locale);
-
   const [colorMode, setColorMode] = useState<ColorMode>(colorModeFromSession);
 
   return (
     <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} className={colorMode}>
-      <head>
-        <Meta/>
-        <Links/>
-        <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-        <ColorModeSensor nonce={nonce}/>
-        {/*<CookieYes isProduction={appConfig.isProduction} token={appConfig.cookieYesToken} nonce={nonce}/>*/}
-        <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
-        <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
-      </head>
-      <body>
-        <ColorModeContext.Provider
-          value={{
-            colorMode: colorMode,
-            setColorMode: setColorMode
-          }}>
-          <Outlet
-            context={{
-              appConfig: appConfig,
-              locale: locale
-            }}/>
-        </ColorModeContext.Provider>
-        <ScrollRestoration nonce={nonce}/>
-        <Scripts nonce={nonce}/>
-        <LiveReload nonce={nonce}/>
-      </body>
+      <CookieConsentProvider consentData={consentData}>
+        <head>
+          <Meta/>
+          <Links/>
+          <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
+          <ColorModeSensor nonce={nonce}/>
+          <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
+          <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
+        </head>
+        <body>
+          <ColorModeContext.Provider
+            value={{
+              colorMode: colorMode,
+              setColorMode: setColorMode
+            }}>
+            <Outlet
+              context={{
+                appConfig: appConfig,
+                locale: locale
+              }}/>
+            {consentData ? null : <CookieConsentBanner/>}
+          </ColorModeContext.Provider>
+          <ScrollRestoration nonce={nonce}/>
+          <Scripts nonce={nonce}/>
+          <LiveReload nonce={nonce}/>
+        </body>
+      </CookieConsentProvider>
     </html>
   );
 };

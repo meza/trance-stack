@@ -13,7 +13,7 @@ jobs:
       uses: meza/action-setup-node-npm@main
       with:
         command: install
-        node-version: 19.7.0
+        node-version: latest
         cache-name: 'playwright'
     - name: Create envfile
       uses: SpicyPizza/create-envfile@v1.3

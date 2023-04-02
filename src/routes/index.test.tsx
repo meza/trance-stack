@@ -41,7 +41,7 @@ describe('The index route', () => {
       expect(comp.asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div>
-            <hello />
+            &lt;Hello /&gt;
             <div
               style="position: absolute; top: 0px; right: 0px;"
             >
@@ -68,7 +68,7 @@ describe('The index route', () => {
       expect(comp.asFragment()).toMatchInlineSnapshot(`
         <DocumentFragment>
           <div>
-            <hello />
+            &lt;Hello /&gt;
             <div
               style="position: absolute; top: 0px; right: 0px;"
             >

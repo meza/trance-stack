@@ -23,7 +23,7 @@ You can modify it to your liking and use it as a base for your own remix project
 - [Auth0](https://auth0.com/) for authentication
 - [Split](https://split.io) for feature flags
 - [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
-- [CookieYes](https://cookieyes.com) for cookie consent
+- Custom-built cookie consent banner to maximise security [read more](./docs/adr/0013-custom-cookie-consent.md)
 - Analytics Integrations
   - [Mixpanel](https://mixpanel.com)
   - [Hotjar](https://hotjar.com)
@@ -129,8 +129,6 @@ npm run dev
     * [Adding the Auth0 variables to GitHub](#adding-the-auth0-variables-to-github)
     * [Enabling the Auth0 integration for feature branch/PR deployments](#enabling-the-auth0-integration-for-feature-branchpr-deployments)
     * [Removing the Auth0 integration from the application](#removing-the-auth0-integration-from-the-application)
-  * [CookieYes integration](#cookieyes-integration)
-    * [Removing the CookieYes integration from the application](#removing-the-cookieyes-integration-from-the-application)
   * [Google Analytics 4 integration](#google-analytics-4-integration)
     * [Removing the Google Analytics 4 integration from the application](#removing-the-google-analytics-4-integration-from-the-application)
   * [Hotjar integration](#hotjar-integration)
@@ -149,6 +147,8 @@ npm run dev
   * [Branching Strategy with Semantic Versioning](#branching-strategy-with-semantic-versioning)
     * [Linting](#linting)
     * [Which version am I running?](#which-version-am-i-running)
+  * [Cookie Consent](#cookie-consent)
+    * [Using the consent provider](#using-the-consent-provider)
   * [Dependency Version Updates](#dependency-version-updates)
     * [Runtime dependencies](#runtime-dependencies)
     * [Development dependencies](#development-dependencies)
@@ -409,33 +409,6 @@ http://localhost:3000/auth/callback,https://*.execute-api.us-east-1.amazonaws.co
 2. Delete the `src/auth.server.ts` and the `src/auth.server.test.ts` files.
 3. Delete the `auth0-remix-server` dependency from the `package.json` file.
 4. Follow the compilation and test errors to remove all the code that uses the `auth0-remix-server` dependency.
-
-### CookieYes integration
-
-We use [CookieYes](https://www.cookieyes.com) for cookie consent. You will need to create an account with them and
-[set up a cookie banner](https://www.cookieyes.com/category/documentation/getting-started/).
-
-When you are prompted with installation instructions or navigate to https://app.cookieyes.com/site-settings, you will
-need
-to copy the code following the `client_data/` in the script src and paste it in the `.env` file:
-
-<p align="center">
-  <img src="./docs/images/cookieyes.png" alt="CookieYes Instructions" />
-</p>
-
-You will also have to go to the [variables settings][gh-variables] and add the same variable
-name as the one in the `.env` file.
-
-> **Warning**
-> The `COOKIEYES_TOKEN` is **set as a variable** for the actions.
-
-#### Removing the CookieYes integration from the application
-
-1. Delete the `COOKIEYES_TOKEN` variable from the `.env` file and GitHub variables.
-2. Delete the `src/components/Cookieyes` directory.
-3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-4. Delete the `<Cookieyes ... />` component and its import from the `src/root.tsx` file.
-5. Run `vitest --run --update` to update the snapshots.
 
 ### Google Analytics 4 integration
 
@@ -739,6 +712,72 @@ The linting itself is triggered by [lefthook](#lefthook)
 The version of the app is sent into the `<html data-version="...">` attribute. You can use this to determine which
 version
 of the app is running on any given environment.
+
+### Cookie Consent
+
+We have built a custom cookie consent solution that is compatible with secure XSS protection practices as well as with
+the EU cookie law.
+
+> **Note** 
+> you can read more about this in the [Cookie Consent ADR](./docs/adr/0001-cookie-consent.md)
+
+The solution is in the `src/components/CookieConsent` folder, and **it is meant to be modified to fit your needs.**
+
+When you open up the `index.tsx` file there, you can see the following interfaces:
+
+```ts
+interface ConsentData {
+  analytics?: boolean | undefined;
+  //add your own if you need more
+  // marketing?: boolean | undefined;
+  // tracking?: boolean | undefined;
+}
+
+interface CookieConsentContextProps {
+  analytics?: boolean | undefined;
+  setAnalytics: (enabled: boolean) => void;
+  //add your own if you need more
+  // marketing?: boolean | undefined;
+  // setMarketing: (enabled: boolean) => void;
+  // tracking?: boolean | undefined;
+  // setTracking: (enabled: boolean) => void;
+}
+```
+
+You will need to modify these in order to add your specific cookie types. For example, if you want to add a `marketing`
+cookie, you will need to add the following:
+
+```ts
+interface ConsentData {
+  analytics?: boolean | undefined;
+  marketing?: boolean | undefined;
+}
+
+interface CookieConsentContextProps {
+  analytics?: boolean | undefined;
+  setAnalytics: (enabled: boolean) => void;
+  marketing?: boolean | undefined;
+  setMarketing: (enabled: boolean) => void;
+}
+```
+
+#### Using the consent provider
+
+In order to adhere to the cookie consent, you will need to identify the elements of your project that add a specific
+type of cookie.
+
+> A good example in this stack is the GoogleAnalytics component. It is located in the `src/components/GoogleAnalytics`
+
+The cookie consent provider is use in the `root.tsx` file, so it's available for all your components.
+To use it, all you need to do is:
+
+```tsx
+const { analytics } = useContext(CookieConsentContext);
+
+if (analytics) {
+  //add your analytics code here
+}
+```
 
 ### Dependency Version Updates
 

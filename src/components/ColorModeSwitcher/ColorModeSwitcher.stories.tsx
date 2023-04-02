@@ -24,7 +24,6 @@ const ColorDecorator = (Story: StoryFn) => {
 };
 
 const meta = {
-  title: 'Layout/ColorMode Switcher',
   component: ColorModeSwitcher,
   decorators: [ColorDecorator]
 } satisfies Meta<typeof ColorModeSwitcher>;

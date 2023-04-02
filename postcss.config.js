@@ -12,7 +12,7 @@ module.exports = (cfg) => {
       },
       'colorguard': {},
       'doiuse': {
-        browsers: dev ? packageJson.browserslist.development : packageJson.browserslist.production,
+        browsers: packageJson.browserslist,
         ignoreFiles: [
           '**/node_modules/**/*'
         ]
@@ -23,6 +23,7 @@ module.exports = (cfg) => {
       'cssnano': dev ? false : {},
       'stylelint': {
         configFile: '.stylelintrc.json',
+        fix: true
       },
       'postcss-reporter': {},
       'postcss-custom-media': {},

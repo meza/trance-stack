@@ -29,7 +29,8 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         'no-use-before-define': 'off',
         'max-nested-callbacks': 'off',
-        'sonarjs/no-duplicate-string': 'off'
+        'sonarjs/no-duplicate-string': 'off',
+        'sonarjs/no-identical-functions': 'off'
       }
     }
   ],
@@ -81,6 +82,7 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['type']
       }
     ],
+    'jsx-quotes': [ 'error', 'prefer-single' ],
     'sonarjs/no-duplicate-string': 'off',
     'no-continue': 'off',
     'dot-notation': 'error',

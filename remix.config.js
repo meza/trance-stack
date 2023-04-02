@@ -54,4 +54,5 @@ module.exports = {
   browserBuildDirectory: "public/build",
   serverBuildPath: "server/index.js",
   publicPath: "/_static/build",
+  serverDependenciesToBundle: ['typescript-cookie']
 };

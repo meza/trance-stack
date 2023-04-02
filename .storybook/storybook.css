@@ -2,5 +2,4 @@
 .storybook-canvas {
   background-color: var(--color-secondary) !important;
   color: var(--color-primary) !important;
-  @custom-media --motion-ok true;
 }

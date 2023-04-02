@@ -14,7 +14,7 @@ describe('securityHeaders', () => {
     expect(headers).toStrictEqual(modifiedHeaders);
     expect(headers).toStrictEqual(existingHeaders);
 
-    expect(headers).toMatchSnapshot();
+    expect(Object.fromEntries(headers.entries())).toMatchSnapshot();
   });
 
   it('removes unwanted headers', () => {

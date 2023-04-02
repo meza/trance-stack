@@ -1,64 +1,20 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Vitest Snapshot v1
 
 exports[`securityHeaders > sets the correct security headers 1`] = `
-Headers {
-  "_entries": {
-    "content-security-policy": {
-      "name": "Content-Security-Policy",
-      "value": "script-src 'nonce-noncevalue' 'strict-dynamic'; object-src 'none'; base-uri 'none';",
-    },
-    "cross-origin-embedder-policy": {
-      "name": "Cross-Origin-Embedder-Policy",
-      "value": "same-origin",
-    },
-    "cross-origin-opener-policy": {
-      "name": "Cross-Origin-Opener-Policy",
-      "value": "same-origin",
-    },
-    "cross-origin-resource-policy": {
-      "name": "Cross-Origin-Resource-Policy",
-      "value": "same-origin",
-    },
-    "origin-agent-cluster": {
-      "name": "Origin-Agent-Cluster",
-      "value": "?1",
-    },
-    "permissions-policy": {
-      "name": "Permissions-Policy",
-      "value": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-    },
-    "referrer-policy": {
-      "name": "Referrer-Policy",
-      "value": "origin-when-cross-origin",
-    },
-    "strict-transport-security": {
-      "name": "Strict-Transport-Security",
-      "value": "max-age=31536000; includeSubDomains",
-    },
-    "x-content-type-options": {
-      "name": "X-Content-Type-Options",
-      "value": "nosniff",
-    },
-    "x-dns-prefetch-control": {
-      "name": "X-DNS-Prefetch-Control",
-      "value": "off",
-    },
-    "x-download-options": {
-      "name": "X-Download-Options",
-      "value": "noopen",
-    },
-    "x-frame-options": {
-      "name": "X-Frame-Options",
-      "value": "SAMEORIGIN",
-    },
-    "x-permitted-cross-domain-policies": {
-      "name": "X-Permitted-Cross-Domain-Policies",
-      "value": "none",
-    },
-    "x-xss-protection": {
-      "name": "X-XSS-Protection",
-      "value": "0",
-    },
-  },
+{
+  "content-security-policy": "script-src 'nonce-noncevalue' 'strict-dynamic'; object-src 'none'; base-uri 'none';",
+  "cross-origin-embedder-policy": "same-origin",
+  "cross-origin-opener-policy": "same-origin",
+  "cross-origin-resource-policy": "same-origin",
+  "origin-agent-cluster": "?1",
+  "permissions-policy": "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+  "referrer-policy": "origin-when-cross-origin",
+  "strict-transport-security": "max-age=31536000; includeSubDomains",
+  "x-content-type-options": "nosniff",
+  "x-dns-prefetch-control": "off",
+  "x-download-options": "noopen",
+  "x-frame-options": "SAMEORIGIN",
+  "x-permitted-cross-domain-policies": "none",
+  "x-xss-protection": "0",
 }
 `;

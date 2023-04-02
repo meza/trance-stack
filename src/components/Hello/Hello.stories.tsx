@@ -1,14 +1,11 @@
 import { Hello } from './index';
-import type { Meta, StoryFn } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 
 export default {
-  title: 'Components/Hello',
   component: Hello,
   parameters: {
     layout: 'centered'
   }
-} as Meta<typeof Hello>;
+} satisfies Meta<typeof Hello>;
 
-const Template: StoryFn<typeof Hello> = (args) => <Hello/>;
-
-export const basic = Template.bind({});
+export const Basic = {};

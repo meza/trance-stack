@@ -26,7 +26,7 @@ jobs:
       uses: meza/action-setup-node-npm@main
       with:
         command: install
-        node-version: 19.7.0
+        node-version: latest
         cache-name: destroy-${{ github.event.ref }}
     - name: 🔨 Build
       run: npm run build

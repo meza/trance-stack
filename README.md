@@ -718,7 +718,7 @@ of the app is running on any given environment.
 We have built a custom cookie consent solution that is compatible with secure XSS protection practices as well as with
 the EU cookie law.
 
-> **Note** 
+> **Note**
 > you can read more about this in the [Cookie Consent ADR](./docs/adr/0001-cookie-consent.md)
 
 The solution is in the `src/components/CookieConsent` folder, and **it is meant to be modified to fit your needs.**

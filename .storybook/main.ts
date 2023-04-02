@@ -1,34 +1,25 @@
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { DefinePlugin } from 'webpack';
 import { StorybookConfig } from '@storybook/react-webpack5';
-
 const storybookConfig: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-a11y',
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    {
-      name: '@storybook/addon-postcss',
-      options: {
-        postcssLoaderOptions: {
-          implementation: require('postcss')
-        }
-      }
-    },
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        configureJSX: true,
-        babelOptions: {},
-        sourceLoaderOptions: null,
-        transcludeMarkdown: true
+  addons: ['@storybook/addon-a11y', '@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions', {
+    name: '@storybook/addon-postcss',
+    options: {
+      postcssLoaderOptions: {
+        implementation: require('postcss')
       }
     }
-  ],
+  }, {
+    name: '@storybook/addon-docs',
+    options: {
+      configureJSX: true,
+      babelOptions: {},
+      sourceLoaderOptions: null,
+      transcludeMarkdown: true
+    }
+  }],
   core: {
-    builder: '@storybook/builder-webpack5',
     disableTelemetry: true
   },
   docs: {
@@ -48,7 +39,7 @@ const storybookConfig: StorybookConfig = {
     reactDocgen: 'react-docgen-typescript',
     reactDocgenTypescriptOptions: {
       shouldExtractLiteralValuesFromEnum: true,
-      propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true)
+      propFilter: prop => prop.parent ? !/node_modules/.test(prop.parent.fileName) : true
     }
   },
   webpackFinal: async config => {

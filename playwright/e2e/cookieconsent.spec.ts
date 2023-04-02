@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('has cookie consent banner deny path', async ({ page }) => {
+test('has cookie consent banner deny path', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
   await page.goto('/');
 
   expect(await page.locator('id=hotjar-script').count()).toBe(0);
@@ -21,7 +23,9 @@ test('has cookie consent banner deny path', async ({ page }) => {
 
 });
 
-test('has cookie consent banner accept path', async ({ page }) => {
+test('has cookie consent banner accept path', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
   await page.goto('/');
 
   expect(await page.locator('id=hotjar-script').count()).toBe(0);

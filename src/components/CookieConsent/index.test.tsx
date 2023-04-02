@@ -110,14 +110,20 @@ describe('The Cookie Consent Component', () => {
       expect(dialog).not.toBeInTheDocument();
     });
 
-    it('is wired up correctly', async ({ expect }) => {
+    it.each([undefined, true, false])('is wired up correctly when %s', async (analyticsState) => {
       // As long as the form is wired up properly, we trust that the browser can do its thing.
       // We don't need to test that the submission works because there is no custom logic in the
       // submission handler.
       const RemixStub = createRemixStub([
         {
           path: '/',
-          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+          element: <CookieConsentProvider
+            consentData={
+              {
+                analytics: analyticsState
+              }
+            }
+          ><CookieConsentBanner/></CookieConsentProvider>
         }
       ]);
 

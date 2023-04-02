@@ -75,7 +75,7 @@
     "i18next-browser-languagedetector": "7.0.1",
     "i18next-fs-backend": "2.1.1",
     "i18next-http-backend": "2.2.0",
-    "isbot": "3.6.7",
+    "isbot": "3.6.8",
     "jose": "4.13.1",
     "js-cookie": "3.0.1",
     "mixpanel-browser": "2.46.0",

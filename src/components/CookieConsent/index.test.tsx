@@ -9,7 +9,7 @@ import { CookieConsentBanner, CookieConsentContext, CookieConsentProvider } from
 
 const TestComponent = () => {
   const { analytics } = useContext(CookieConsentContext);
-  return <>{analytics ? 'true' : 'false'}</>;
+  return <>{analytics === undefined ? 'undefined' : String(analytics)}</>;
 };
 
 vi.mock('~/atoms/Icons/cookie', () => ({
@@ -18,14 +18,14 @@ vi.mock('~/atoms/Icons/cookie', () => ({
 
 describe('The Cookie Consent Component', () => {
   describe('the provider', () => {
-    it('sets the default state of analytics to true', async () => {
+    it('does not interfere with the unset status', async () => {
       render(
         <CookieConsentProvider>
           <TestComponent/>
         </CookieConsentProvider>
       );
 
-      await waitFor(() => expect(screen.getByText('true')).toBeInTheDocument());
+      await waitFor(() => expect(screen.getByText('undefined')).toBeInTheDocument());
     });
 
     it('can pass on the initial consent data', async () => {

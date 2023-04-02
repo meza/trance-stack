@@ -3,7 +3,6 @@ import fs from 'fs/promises';
 import path from 'node:path';
 import os from 'os';
 import PackageJson from '@npmcli/package-json';
-import inquirer from 'inquirer';
 import isGitRepo from 'is-git-repository';
 
 interface PromptAnswers {
@@ -115,6 +114,7 @@ export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; 
   ];
 
   console.log('\n🚀 Initializing your app...\n\n');
+  const inquirer = (await import('inquirer')).default;
   const answers = await inquirer.prompt<PromptAnswers>([
     {
       type: 'input',

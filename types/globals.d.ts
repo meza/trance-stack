@@ -10,6 +10,8 @@ declare global {
     visitorId: string;
     version: string;
     sentryDsn: string;
+    posthogToken: string;
+    posthogApi: string;
   }
 
   interface Window {
@@ -31,6 +33,8 @@ declare global {
       SPLIT_SERVER_TOKEN: string;
       I18N_DEBUG: string;
       SENTRY_DSN: string;
+      POSTHOG_TOKEN: string;
+      POSTHOG_API: string;
     }
   }
 }

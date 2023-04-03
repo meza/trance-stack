@@ -25,6 +25,7 @@ You can modify it to your liking and use it as a base for your own remix project
 - [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
 - Custom-built cookie consent banner to maximise security [read more](./docs/adr/0013-custom-cookie-consent.md)
 - Analytics Integrations
+  - [PostHog](https://posthog.com)
   - [Hotjar](https://hotjar.com)
   - [Google Analytics v4](https://analytics.google.com)
 - Static Types with [TypeScript](https://typescriptlang.org)
@@ -132,6 +133,8 @@ npm run dev
     * [Removing the Google Analytics 4 integration from the application](#removing-the-google-analytics-4-integration-from-the-application)
   * [Hotjar integration](#hotjar-integration)
     * [Removing the Hotjar integration from the application](#removing-the-hotjar-integration-from-the-application)
+  * [PostHog integration](#posthog-integration)
+    * [Removing the PostHog integration from the application](#removing-the-posthog-integration-from-the-application)
   * [Renovate bot setup](#renovate-bot-setup)
   * [Sentry integration](#sentry-integration)
     * [How to find the DSN](#how-to-find-the-dsn)
@@ -450,6 +453,28 @@ name as the one in the `.env` file.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
 4. Delete the `<Hotjar ... />` component and its import from the `src/root.tsx` file.
 5. Run `vitest --run --update` to update the snapshots.
+
+### PostHog integration
+
+We use [PostHog](https://posthog.com) for analytics. You will need to create an account with them
+and set up a new project.
+
+When you have your project set up, head to https://posthog.com/project/settings and copy the API key of your project and paste
+set the `POSTHOG_TOKEN` variable in the `.env` file.
+You also need to set the `POSTHOG_API` variable to either `https://eu.posthog.com` or `https://posthog.com` depending on your
+data residency preferences.
+
+You will also have to go to the [variables settings][gh-variables] and add the same variable names as the one in the `.env` file.
+
+#### Removing the PostHog integration from the application
+
+1. Delete the `POSTHOG_TOKEN` and `POSTHOG_API` variables from the `.env` file and GitHub variables.
+2. Delete the `src/components/Posthog` directory.
+3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
+4. Delete the `<Posthog ... />` component and its import from the `src/root.tsx` file.
+5. Run `vitest --run --update` to update the snapshots.
+6. Delete the `posthog` dependency from the `package.json` file.
+7. Follow the compilation and test errors to remove all the code that uses the `posthog` dependency.
 
 ### Renovate bot setup
 

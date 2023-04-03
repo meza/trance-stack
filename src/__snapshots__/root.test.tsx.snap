@@ -3,118 +3,17 @@
 exports[`The root module > when rendering the app > when there is consent for cookies > renders the app with analytics scripts 1`] = `
 <DocumentFragment>
   mock sentry wrapper
-  <script
-    id="app-config"
-    nonce="mocked-nonce"
-  >
-    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","visitorId":"a-visitor-id","isProduction":true,"splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
-  </script>
-  <script
-    id="color-mode-sensor"
-    nonce="mocked-nonce"
-  >
-    (() =&gt; {
-  const cl = document.firstElementChild?.classList;
-  if (!(cl?.contains("dark") || cl?.contains("light"))) {
-    cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-})();
-  </script>
-  <script
-    id="color-mode-update"
-    nonce="mocked-nonce"
-  >
-    (() =&gt; {
-  addEventListener("load", () =&gt; {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
-      const cl = document.firstElementChild?.classList;
-      cl?.remove(e.matches ? "light" : "dark");
-      cl?.add(e.matches ? "dark" : "light");
-    });
-  });
-})();
-  </script>
-  <script
-    id="google-analytics"
-    nonce="mocked-nonce"
-  >
-    window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
-  </script>
-  <script
-    async=""
-    id="hotjar-init"
-    nonce="mocked-nonce"
-  >
-    (function(h){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
-          })(window);
-          hj('identify', 'a-visitor-id');
-          
-  </script>
+  <div
+    id="mock-posthog"
+  />
 </DocumentFragment>
 `;
 
 exports[`The root module > when rendering the app > when there is no consent for cookies > renders the app 1`] = `
 <DocumentFragment>
   mock sentry wrapper
-  <script
-    id="app-config"
-    nonce="mocked-nonce"
-  >
-    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","visitorId":"a-visitor-id","isProduction":true,"splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
-  </script>
-  <script
-    id="color-mode-sensor"
-    nonce="mocked-nonce"
-  >
-    (() =&gt; {
-  const cl = document.firstElementChild?.classList;
-  if (!(cl?.contains("dark") || cl?.contains("light"))) {
-    cl?.add(window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-  }
-})();
-  </script>
-  <script
-    id="color-mode-update"
-    nonce="mocked-nonce"
-  >
-    (() =&gt; {
-  addEventListener("load", () =&gt; {
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) =&gt; {
-      const cl = document.firstElementChild?.classList;
-      cl?.remove(e.matches ? "light" : "dark");
-      cl?.add(e.matches ? "dark" : "light");
-    });
-  });
-})();
-  </script>
-  <script
-    id="google-analytics"
-    nonce="mocked-nonce"
-  >
-    window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'ga-id', { user_id: 'a-visitor-id' });
-  </script>
-  <script
-    async=""
-    id="hotjar-init"
-    nonce="mocked-nonce"
-  >
-    (function(h){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:'a-hotjar-id',hjsv:6,hjdebug:false};
-          })(window);
-          hj('identify', 'a-visitor-id');
-          
-  </script>
   <div
-    id="mock-cookie-consent-banner"
+    id="mock-posthog"
   />
 </DocumentFragment>
 `;

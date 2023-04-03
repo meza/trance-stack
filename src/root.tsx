@@ -9,6 +9,7 @@ import { ExposeAppConfig } from '~/components/ExposeAppConfig';
 import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
+import { Posthog } from '~/components/Posthog';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
@@ -76,31 +77,33 @@ const App = () => {
   return (
     <html lang={i18n.language} dir={i18n.dir()} data-version={appConfig.version} className={colorMode}>
       <CookieConsentProvider consentData={consentData}>
-        <head>
-          <Meta/>
-          <Links/>
-          <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-          <ColorModeSensor nonce={nonce}/>
-          <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
-          <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
-        </head>
-        <body>
-          <ColorModeContext.Provider
-            value={{
-              colorMode: colorMode,
-              setColorMode: setColorMode
-            }}>
-            <Outlet
-              context={{
-                appConfig: appConfig,
-                locale: locale
-              }}/>
-            {consentData ? null : <CookieConsentBanner/>}
-          </ColorModeContext.Provider>
-          <ScrollRestoration nonce={nonce}/>
-          <Scripts nonce={nonce}/>
-          <LiveReload nonce={nonce}/>
-        </body>
+        <Posthog apiKey={appConfig.posthogToken} apiUrl={appConfig.posthogApi} visitorId={appConfig.visitorId}>
+          <head>
+            <Meta/>
+            <Links/>
+            <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
+            <ColorModeSensor nonce={nonce}/>
+            <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
+            <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
+          </head>
+          <body>
+            <ColorModeContext.Provider
+              value={{
+                colorMode: colorMode,
+                setColorMode: setColorMode
+              }}>
+              <Outlet
+                context={{
+                  appConfig: appConfig,
+                  locale: locale
+                }}/>
+              {consentData ? null : <CookieConsentBanner/>}
+            </ColorModeContext.Provider>
+            <ScrollRestoration nonce={nonce}/>
+            <Scripts nonce={nonce}/>
+            <LiveReload nonce={nonce}/>
+          </body>
+        </Posthog>
       </CookieConsentProvider>
     </html>
   );

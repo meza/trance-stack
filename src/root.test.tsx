@@ -18,6 +18,9 @@ vi.mock('./styles/light.css', () => ({ default: 'light.css' }));
 vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
+vi.mock('~/components/Posthog', () => ({
+  Posthog: () => <div id={'mock-posthog'}/>
+}));
 vi.mock('~/components/CookieConsent', async () => {
   const actual = await vi.importActual('~/components/CookieConsent') as object;
   return {
@@ -177,7 +180,9 @@ describe('The root module', () => {
       splitToken: 'a-split-token',
       cookieYesToken: 'a-cookieyes-token',
       version: '0.0.0-dev',
-      sentryDsn: 'a-sentry-dsn'
+      sentryDsn: 'a-sentry-dsn',
+      posthogToken: 'a-posthog-token',
+      posthogApi: 'a-posthog-api'
     };
 
     beforeEach(() => {

@@ -7,7 +7,7 @@ exports[`The root module > when rendering the app > when there is consent for co
     id="app-config"
     nonce="mocked-nonce"
   >
-    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
+    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","visitorId":"a-visitor-id","isProduction":true,"splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
   </script>
   <script
     id="color-mode-sensor"
@@ -65,7 +65,7 @@ exports[`The root module > when rendering the app > when there is no consent for
     id="app-config"
     nonce="mocked-nonce"
   >
-    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","mixpanelToken":"a-mixpanel-token","visitorId":"a-visitor-id","isProduction":true,"mixpanelApi":"a-mixpanel-api","splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
+    window.appConfig = {"hotjarId":"a-hotjar-id","googleAnalyticsId":"ga-id","visitorId":"a-visitor-id","isProduction":true,"splitToken":"a-split-token","cookieYesToken":"a-cookieyes-token","version":"0.0.0-dev","sentryDsn":"a-sentry-dsn"}
   </script>
   <script
     id="color-mode-sensor"

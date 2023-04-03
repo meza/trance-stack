@@ -11,9 +11,6 @@ vi.mock('react-dom/client');
 vi.mock('i18next', () => ({
   default: 'i18next'
 }));
-vi.mock('~/components/Mixpanel', () => ({
-  Mixpanel: 'Mixpanel'
-}));
 vi.mock('@remix-run/react');
 vi.mock('@sentry/remix');
 vi.mock('@sentry/react');

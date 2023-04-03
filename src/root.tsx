@@ -47,14 +47,14 @@ export const loader: LoaderFunction = async ({ request }) => {
     appConfig: {
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
       hotjarId: process.env.HOTJAR_ID,
-      mixpanelToken: process.env.MIXPANEL_TOKEN,
-      mixpanelApi: process.env.MIXPANEL_API,
       splitToken: process.env.SPLIT_CLIENT_TOKEN,
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: cookieData.visitorId,
       version: packageJson.default.version,
-      sentryDsn: process.env.SENTRY_DSN
+      sentryDsn: process.env.SENTRY_DSN,
+      posthogToken: process.env.POSTHOG_TOKEN,
+      posthogApi: process.env.POSTHOG_API
     },
     locale: locale,
     colorMode: cookieData.session.get('colorMode'),

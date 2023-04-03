@@ -5,10 +5,8 @@ describe('ExposeAppConfig', () => {
   const appConfig: AppConfig = {
     hotjarId: 'a-hotjar-id',
     googleAnalyticsId: 'ga-id',
-    mixpanelToken: 'a-mixpanel-token',
     visitorId: 'a-visitor-id',
     isProduction: true,
-    mixpanelApi: 'a-mixpanel-api',
     splitToken: 'a-split-token',
     cookieYesToken: 'a-cookieyes-token',
     version: '0.0.0-dev',

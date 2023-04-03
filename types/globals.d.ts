@@ -4,8 +4,6 @@ declare global {
   interface AppConfig {
     googleAnalyticsId: string;
     hotjarId: string;
-    mixpanelToken: string;
-    mixpanelApi: string;
     splitToken: string;
     cookieYesToken: string;
     isProduction: boolean;
@@ -28,8 +26,6 @@ declare global {
       COOKIEYES_TOKEN: string;
       GOOGLE_ANALYTICS_ID: string;
       HOTJAR_ID: string;
-      MIXPANEL_API: string;
-      MIXPANEL_TOKEN: string;
       NODE_ENV: string;
       SESSION_SECRET: string | undefined
       SPLIT_SERVER_TOKEN: string;

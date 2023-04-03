@@ -14,7 +14,6 @@ import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
-import splitClient from '~/split.server';
 import styles from './styles/app.css';
 import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
 import type { ColorMode } from '~/components/ColorModeSwitcher';
@@ -40,15 +39,12 @@ export const loader: LoaderFunction = async ({ request }) => {
   const [locale, packageJson, cookieData] = await Promise.all([
     remixI18next.getLocale(request),
     import('../package.json'),
-    createUserSession(request),
-    splitClient.ready()
+    createUserSession(request)
   ]);
-  splitClient.track(cookieData.visitorId, 'anonymous', 'page_view');
   return json({
     appConfig: {
       googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
       hotjarId: process.env.HOTJAR_ID,
-      splitToken: process.env.SPLIT_CLIENT_TOKEN,
       cookieYesToken: process.env.COOKIEYES_TOKEN,
       isProduction: process.env.NODE_ENV === 'production',
       visitorId: cookieData.visitorId,

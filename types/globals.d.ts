@@ -4,7 +4,6 @@ declare global {
   interface AppConfig {
     googleAnalyticsId: string;
     hotjarId: string;
-    splitToken: string;
     cookieYesToken: string;
     isProduction: boolean;
     visitorId: string;
@@ -30,7 +29,6 @@ declare global {
       HOTJAR_ID: string;
       NODE_ENV: string;
       SESSION_SECRET: string | undefined
-      SPLIT_SERVER_TOKEN: string;
       I18N_DEBUG: string;
       SENTRY_DSN: string;
       POSTHOG_TOKEN: string;

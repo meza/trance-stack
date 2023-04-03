@@ -9,7 +9,9 @@ vi.mock('~/components/Hello', () => ({
   Hello: () => '<Hello />',
   links: () => ['hello-links']
 }));
-vi.mock('~/hooks/hasFeature');
+vi.mock('~/hooks/hasFeature', () => ({
+  hasFeature: vi.fn()
+}));
 vi.mock('@remix-run/react');
 vi.mock('@remix-run/node');
 

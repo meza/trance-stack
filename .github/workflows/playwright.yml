@@ -25,8 +25,8 @@ jobs:
         envkey_SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
         envkey_NODE_ENV: ${{ vars.NODE_ENV }}
         envkey_HOTJAR_ID: ${{ vars.HOTJAR_ID }}
-        envkey_MIXPANEL_API: ${{ vars.MIXPANEL_API }}
-        envkey_MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+        envkey_POSTHOG_TOKEN: ${{ vars.POSTHOG_TOKEN }}
+        envkey_POSTHOG_API: ${{ vars.POSTHOG_API }}
         envkey_COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
         envkey_SENTRY_DSN: ${{ vars.SENTRY_DSN }}
     - name: Build

@@ -52,8 +52,8 @@ jobs:
           SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
           SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           HOTJAR_ID: ${{ vars.HOTJAR_ID }}
-          MIXPANEL_API: ${{ vars.MIXPANEL_API }}
-          MIXPANEL_TOKEN: ${{ vars.MIXPANEL_TOKEN }}
+          POSTHOG_TOKEN: ${{ vars.POSTHOG_TOKEN }}
+          POSTHOG_API: ${{ vars.POSTHOG_API }}
           COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
           I18N_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}
           SPLIT_DEBUG: ${{ env.ARC_ENV == 'production' && 'false' || 'true' }}

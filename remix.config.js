@@ -52,7 +52,6 @@ module.exports = {
   serverMinify: true,
   ignoredRouteFiles: ['**/__snapshots__/**', '**/.*', '**/*.test.tsx', '**/*.test.ts'],
   appDirectory: 'src',
-  serverBuildDirectory: "server",
   browserBuildDirectory: "public/build",
   serverBuildPath: "server/index.js",
   publicPath: "/_static/build",

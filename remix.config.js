@@ -46,6 +46,7 @@ module.exports = {
   future: {
     unstable_postcss: true,
     v2_errorBoundary: true,
+    v2_normalizeFormMethod: true
   },
   server: './server.js',
   serverMinify: true,

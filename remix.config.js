@@ -44,7 +44,8 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   future: {
-    unstable_postcss: true
+    unstable_postcss: true,
+    v2_errorBoundary: true,
   },
   server: './server.js',
   serverMinify: true,

@@ -3,7 +3,7 @@ import { useLoaderData } from '@remix-run/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
 import { hasFeature } from '~/hooks/hasFeature';
-import Root, { links, loader } from './index';
+import Root, { links, loader } from './_index';
 
 vi.mock('~/components/Hello', () => ({
   Hello: () => '<Hello />',

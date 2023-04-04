@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticator } from '~/auth.server';
-import { action } from '~/routes/auth/auth0';
+import { action } from '~/routes/auth.auth0';
 
 vi.mock('~/auth.server', () => {
   return {

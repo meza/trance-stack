@@ -1,7 +1,7 @@
 import { redirect } from '@remix-run/node';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { commitSession, getSessionFromRequest } from '~/session.server';
-import { action, loader } from './color-mode';
+import { action, loader } from './settings.color-mode';
 import type { Session } from '@remix-run/node';
 
 vi.mock('@remix-run/node');

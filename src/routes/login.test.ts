@@ -5,8 +5,10 @@ import { hasFeature } from '~/hooks/hasFeature';
 import login, { loader } from './login';
 
 vi.mock('~/components/Login');
-vi.mock('~/hooks/hasFeature');
 vi.mock('@remix-run/node');
+vi.mock('~/hooks/hasFeature', () => ({
+  hasFeature: vi.fn()
+}));
 
 const redirectError = 'redirect was called';
 describe('The Login Route', () => {

@@ -11,8 +11,8 @@ describe('The feature flags', () => {
     `);
     expect(Object.values(Features)).toMatchInlineSnapshot(`
       [
-        "auth_enabled",
-        "hello_split",
+        "auth",
+        "hello",
       ]
     `);
   });

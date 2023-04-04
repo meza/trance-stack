@@ -21,11 +21,11 @@ You can modify it to your liking and use it as a base for your own remix project
 - i18n with [i18next](https://www.i18next.com/) and its remix
   integration [remix-i18next](https://github.com/sergiodxa/remix-i18next)
 - [Auth0](https://auth0.com/) for authentication
-- [Split](https://split.io) for feature flags
+- [PostHog](https://posthog.com) for feature flags
 - [Sentry](https://sentry.io) for Client Side error tracking (server side soon)
 - Custom-built cookie consent banner to maximise security [read more](./docs/adr/0013-custom-cookie-consent.md)
 - Analytics Integrations
-  - [Mixpanel](https://mixpanel.com)
+  - [PostHog](https://posthog.com)
   - [Hotjar](https://hotjar.com)
   - [Google Analytics v4](https://analytics.google.com)
 - Static Types with [TypeScript](https://typescriptlang.org)
@@ -133,8 +133,8 @@ npm run dev
     * [Removing the Google Analytics 4 integration from the application](#removing-the-google-analytics-4-integration-from-the-application)
   * [Hotjar integration](#hotjar-integration)
     * [Removing the Hotjar integration from the application](#removing-the-hotjar-integration-from-the-application)
-  * [Mixpanel integration](#mixpanel-integration)
-    * [Removing the Mixpanel integration from the application](#removing-the-mixpanel-integration-from-the-application)
+  * [PostHog integration](#posthog-integration)
+    * [Removing the PostHog integration from the application](#removing-the-posthog-integration-from-the-application)
   * [Renovate bot setup](#renovate-bot-setup)
   * [Sentry integration](#sentry-integration)
     * [How to find the DSN](#how-to-find-the-dsn)
@@ -454,39 +454,35 @@ name as the one in the `.env` file.
 4. Delete the `<Hotjar ... />` component and its import from the `src/root.tsx` file.
 5. Run `vitest --run --update` to update the snapshots.
 
-### Mixpanel integration
+### PostHog integration
 
-We use [Mixpanel](https://mixpanel.com) for analytics. You will need to create an account with them
+We use [PostHog](https://posthog.com) for analytics. You will need to create an account with them
 and set up a new project.
 
-When you have your project set up, head to project settings and copy the `Project Token` and paste it
-set the `MIXPANEL_TOKEN` variable in the `.env` file.
+When you have your project set up, head to https://posthog.com/project/settings and copy the API key of your project and paste
+set the `POSTHOG_TOKEN` variable in the `.env` file.
+You also need to set the `POSTHOG_API` variable to either `https://eu.posthog.com` or `https://posthog.com` depending on your
+data residency preferences.
 
-Mixpanel allows you to choose the region where your data is stored. You can find the API endpoint for your region in the
-[documentation](https://help.mixpanel.com/hc/en-us/articles/360039135652-Data-Residency-in-EU).
+You will also have to go to the [variables settings][gh-variables] and add the same variable names as the one in the `.env` file.
 
-You also need to set the `MIXPANEL_API` variable. This is the API endpoint that the stack will use to send events to
-Mixpanel.
-There is no default value to this because you should understand how you're dealing with data residency.
+#### Differentiating between environments
 
-The values for the `MIXPANEL_API` variable are:
+In PostHog, your main unit is called an Organization. An organization can have multiple "projects" which are
+essentially environments. For example, you can have a `production` project and a `staging` project.
 
-- `https://api-eu.mixpanel.com` - for the European Union
-- `https://api.mixpanel.com` - for the rest of the world
+This allows you to have different feature flags, users and data for each environment. Feel free to create a new
+project for each environment and then set the appropriate environment variables.
 
-You will also have to go to the [variables settings][gh-variables] and add the same variable
-names as the one in the `.env` file.
+#### Removing the PostHog integration from the application
 
-> **Warning**
-> The `MIXPANEL_TOKEN` and the `MIXPANEL_API` are **set as a variable** for the actions.
-
-#### Removing the Mixpanel integration from the application
-
-1. Delete the `MIXPANEL_TOKEN` and `MIXPANEL_API` variables from the `.env` file and GitHub variables.
-2. Delete the `src/components/Mixpanel` directory.
+1. Delete the `POSTHOG_TOKEN` and `POSTHOG_API` variables from the `.env` file and GitHub variables.
+2. Delete the `src/components/Posthog` directory.
 3. Delete the relevant types off the `appConfig` type in the `src/types/global.d.ts` file.
-4. Delete the `<Mixpanel ... />` component and its import from the `src/entry.client.tsx` file.
+4. Delete the `<Posthog ... />` component and its import from the `src/root.tsx` file.
 5. Run `vitest --run --update` to update the snapshots.
+6. Delete the `posthog` dependency from the `package.json` file.
+7. Follow the compilation and test errors to remove all the code that uses the `posthog` dependency.
 
 ### Renovate bot setup
 
@@ -567,38 +563,6 @@ Finally, copy the `DSN` value
 6. Follow the compilation and test errors to remove all the code that uses Sentry.
 7. Open the `.github/workflows/deploy.yml` and the `.github/workflows/ephemeralDeply.yml` files and remove
    the `Sentry Sourcemaps` step.
-
-### Split integration
-
-We use [Split](https://split.io) for feature flags. You will need to create an account with them
-and set up a new project.
-
-When you have your project set up, head to the workspace settings > API Keys section.
-We're only interested in the server-side keys. Copy the `API Key` and paste it
-set the `SPLIT_SERVER_TOKEN` variable in the `.env` file.
-
-For now, go to the Splits section on your workspace and set up 2 splits:
-
-- `auth_enabled`
-- `hello_split`
-
-Make sure to click on them and add new targeting rules!
-
-Go to the [secrets settings][gh-secrets] and add the Auth0 secrets with the same name as the
-variables in the `.env` file.
-
-> **Warning**
-> The `SPLIT_SERVER_TOKEN` is **set as a secret** for the actions.
-
-#### Removing the Split integration from the application
-
-1. Delete the `SPLIT_SERVER_TOKEN` variable from the `.env` file and GitHub secrets.
-2. Delete the following files:
-1. `src/split.server.ts` and the `src/split.server.test.ts`
-2. `src/feature.ts` and the `src/feature.test.ts`
-3. `devFeatures.yml` (from the project root)
-3. Follow the compilation and test errors to remove all the code that uses the feature flags.
-4. Run `vitest --run --update` to update the snapshots.
 
 ---
 
@@ -1069,7 +1033,7 @@ You can prevent certain keys to get bundled by adding them to the deny list in t
 
 Feature flags are a fantastic way to test new features in production without having to worry about breaking anything.
 It enables you to decouple the release of new code from the release of new
-features. [Read more](https://www.split.io/product/feature-flags/)
+features. [Read more](https://posthog.com/docs/feature-flags/manual)
 
 Let's look at an example which is in the `src/routes/index.tsx` file
 
@@ -1097,65 +1061,13 @@ export default () => {
 Here all elements of the page are wrapped in a feature flag. The `Hello` component will only be rendered if the `HELLO`
 feature is enabled. The `Login` component will only be rendered if the `AUTH` feature is enabled.
 
-Don't worry about using `hasFeature` a lot in your code. Split caches the results of the feature flags, so it's not a
-performance issue. Split works with streaming data and will check for changes in the feature flags every minute by
-default.
+#### Differentiating between environments
 
-You can check all the available options in
-the [Split documentation](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#configuration),
-and then set them as you wish in the `src/split.server.ts` file.
+In PostHog, your main unit is called an Organization. An organization can have multiple "projects" which are
+essentially environments. For example, you can have a `production` project and a `staging` project.
 
-Before we continue, let's talk about the difference between production and local development.
-
-#### Production
-
-When you're running the application in production, the `SPLIT_SERVER_TOKEN` variable is set to the API key of your
-Split.
-You also need to manage all your flags (or splits as they're called in Split) in the Split Workspace dashboard.
-
-Always use the Splits of your workspace as the source of truth.
-
-#### The `features.ts` file
-
-The `features.ts` file is a list of all the features that you have in your application. It's a good idea to keep this
-file
-in sync with the Splits in your workspace. This way you can easily see which features are available and which are not.
-
-```ts
-// src/features.ts
-export enum Features {
-  AUTH = 'auth_enabled', // the name of the split from the split.io workspace
-  HELLO = 'hello_split'
-}
-```
-
-Having this allows us to reference the features in our code without having to worry about typos.
-
-#### Local development
-
-When you're developing locally, you can set the `SPLIT_SERVER_TOKEN` variable to `localhost`.
-This sets split into
-a [localhost mode](https://help.split.io/hc/en-us/articles/360020564931-Node-js-SDK#localhost-mode),
-and it will use the `devFeatures.yml` file to determine if a feature is enabled or not. This file is located in the
-project root.
-
-```yml
-# devFeatures.yml
-
-- auth_enabled:
-    treatment: "on"
-- hello_split:
-    treatment: "on"
-```
-
-This file is a list of all the features that you have in your application. The `treatment` property determines if the
-feature is enabled or not. If the treatment is set to `on`, the feature is enabled. If it's set to `off`, the feature is
-disabled. [Read more about treatments](https://docs.split.io/reference/treatment) as they can be more than just `on`
-and `off`.
-
-> **Warning**
-> Unfortunately, there is no simple way to keep the `devFeatures.yml` file, the `src/features.ts` final
-> and the Splits in your split.io workspace in sync. You will have to do this manually.
+This allows you to have different feature flags, users and data for each environment. Feel free to create a new
+project for each environment and then set the appropriate environment variables.
 
 ### I18N - Internationalization
 

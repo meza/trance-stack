@@ -1,5 +1,5 @@
+import { posthog } from '~/posthog.server';
 import { getVisitorIdFromRequest } from '~/session.server';
-import splitClient from '~/split.server';
 import type { Features } from '~/features';
 
 /**
@@ -7,10 +7,8 @@ import type { Features } from '~/features';
  * @description
  */
 export const hasFeature = async (request: Request, feature: Features): Promise<boolean> => {
-  await splitClient.ready();
   const visitorId = await getVisitorIdFromRequest(request);
-  const serverTreatment = splitClient.getTreatment(visitorId, feature);
-
-  return serverTreatment === 'on';
+  const isEnabled = await posthog.isFeatureEnabled(feature, visitorId);
+  return !!isEnabled;
 };
 

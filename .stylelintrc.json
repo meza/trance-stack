@@ -3,7 +3,8 @@
     "stylelint-config-standard"
   ],
   "plugins": [
-    "stylelint-order"
+    "stylelint-order",
+    "stylelint-no-unsupported-browser-features"
   ],
   "rules": {
     "order/properties-alphabetical-order": true,
@@ -13,6 +14,9 @@
         "first-nested"
       ],
       "ignore": ["after-comment"]
+    }],
+    "plugin/no-unsupported-browser-features": [true, {
+      "ignorePartialSupport": true
     }]
   },
   "reportDescriptionlessDisables": true,

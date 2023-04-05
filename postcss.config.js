@@ -10,21 +10,10 @@ module.exports = (cfg) => {
       'postcss-preset-env': {
         stage: 0
       },
-      'colorguard': {},
-      'doiuse': {
-        browsers: packageJson.browserslist,
-        ignoreFiles: [
-          '**/node_modules/**/*'
-        ]
-      },
       'autoprefixer': {
         grid: true
       },
       'cssnano': dev ? false : {},
-      'stylelint': {
-        configFile: '.stylelintrc.json',
-        fix: true
-      },
       'postcss-reporter': {},
       'postcss-custom-media': {},
     }

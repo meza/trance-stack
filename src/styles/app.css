@@ -13,10 +13,11 @@ html {
   block-size: 100%;
   font-family: 'IBM Plex Sans', sans-serif;
 
-  /* stylelint-disable-next-line number-max-precision */
+  /* stylelint-disable-next-line number-max-precision -- This precision is required for the exact font sizes */
   font-size: calc(15px + 0.390625vw);
   height: 100dvh;
   margin: 0;
+
   --accent-1: #16a799;
   --accent-1-200: #8BD3CC;
   --accent-2: #FF8A65;
@@ -24,7 +25,6 @@ html {
 
 body {
   align-items: center;
-
   display: grid;
   grid-template-rows: 1fr auto;
   height: inherit;
@@ -34,7 +34,7 @@ body {
 
 button {
   font-size: inherit;
-  padding: .5rem 1.2rem .5rem 1.2rem;
+  padding: .5rem 1.2rem;
 }
 
 button.primary {
@@ -45,6 +45,7 @@ button.primary {
   @media (--motion-ok) {
     animation: slide-in-fwd-center 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.6s both;
   }
+
   text-align: center;
 }
 
@@ -96,11 +97,12 @@ button.primary {
  */
 @keyframes slide-in-bottom {
   0% {
-    transform: translateY(1000px);
     opacity: 0;
+    transform: translateY(1000px);
   }
+
   100% {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
 }

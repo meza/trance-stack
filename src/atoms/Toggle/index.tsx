@@ -26,7 +26,6 @@ export const Toggle = (props: ToggleProps) => {
     setChecked((checked) => {
       const nextValue = !checked;
       if (props.onChange) {
-        console.log('calling change handler', nextValue);
         props.onChange(nextValue);
       }
       return nextValue;

@@ -1,6 +1,6 @@
 import { beforeEach, describe, it, vi } from 'vitest';
 import { commitSession, getSessionFromRequest } from '~/session.server';
-import { action } from './cookie-consent';
+import { action } from './settings.cookie-consent';
 import type { Session } from '@remix-run/node';
 import type { TestContext } from 'vitest';
 

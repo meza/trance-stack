@@ -687,7 +687,7 @@ the EU cookie law.
 
 The solution is in the `src/components/CookieConsent` folder, and **it is meant to be modified to fit your needs.**
 
-When you open up the `index.tsx` file there, you can see the following interfaces:
+When you open up the `_index.tsx` file there, you can see the following interfaces:
 
 ```ts
 interface ConsentData {
@@ -1035,7 +1035,7 @@ Feature flags are a fantastic way to test new features in production without hav
 It enables you to decouple the release of new code from the release of new
 features. [Read more](https://posthog.com/docs/feature-flags/manual)
 
-Let's look at an example which is in the `src/routes/index.tsx` file
+Let's look at an example which is in the `src/routes/_index.tsx` file
 
 ```tsx
 export const loader: LoaderFunction = async ({ request, context }) => {
@@ -1371,7 +1371,7 @@ It also has a `links` export that returns the stylesheet link.
 
 In Remix terms however, a component is not a route, so we need to "surface" the links up to the routes that use the
 components.
-You can see an example of this in the `src/routes/index.tsx` file:
+You can see an example of this in the `src/routes/_index.tsx` file:
 
 ```tsx
 import { Hello, links as helloLinks } from '~/components/Hello';
@@ -1381,7 +1381,7 @@ export const links: LinksFunction = () => ([
 ]);
 ```
 
-We import the `links` export from the `Hello` component and add it to the `links` export of the `index.tsx` route.
+We import the `links` export from the `Hello` component and add it to the `links` export of the `_index.tsx` route.
 
 Yes, this is more complicated than it should be but with the rapid development of Remix, we hope that this will be
 simplified in the future.

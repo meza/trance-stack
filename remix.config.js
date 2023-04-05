@@ -44,14 +44,16 @@ withEsbuildOverride((option /* { isServer, isDev } */) => {
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   future: {
-    unstable_postcss: true
+    unstable_postcss: true,
+    v2_errorBoundary: true,
+    v2_normalizeFormMethod: true,
+    v2_routeConvention: true
   },
   server: './server.js',
   serverMinify: true,
   ignoredRouteFiles: ['**/__snapshots__/**', '**/.*', '**/*.test.tsx', '**/*.test.ts'],
   appDirectory: 'src',
-  serverBuildDirectory: "server",
-  browserBuildDirectory: "public/build",
+  assetsBuildDirectory: "public/build",
   serverBuildPath: "server/index.js",
   publicPath: "/_static/build",
   serverDependenciesToBundle: ['typescript-cookie']

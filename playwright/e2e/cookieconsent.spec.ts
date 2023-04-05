@@ -3,6 +3,7 @@ import { test, expect } from '@playwright/test';
 test('has cookie consent banner deny path', async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
+  // await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
 
   expect(await page.locator('id=hotjar-script').count()).toBe(0);
@@ -15,6 +16,7 @@ test('has cookie consent banner deny path', async ({ browser }) => {
 
   const denyButton = await page.getByRole('button', { name: 'Deny' });
   await denyButton.click();
+  await page.waitForLoadState('networkidle');
 
   await expect(dialog).not.toBeInViewport();
 
@@ -26,6 +28,7 @@ test('has cookie consent banner deny path', async ({ browser }) => {
 test('has cookie consent banner accept path', async ({ browser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
+  // await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
 
   expect(await page.locator('id=hotjar-script').count()).toBe(0);
@@ -41,6 +44,7 @@ test('has cookie consent banner accept path', async ({ browser }) => {
 
   const denyButton = await page.getByRole('button', { name: 'Accept' });
   await denyButton.click();
+  await page.waitForLoadState('networkidle');
 
   await expect(dialog).not.toBeInViewport();
 

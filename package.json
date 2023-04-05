@@ -35,7 +35,7 @@
     "dev:remix": "cross-env NODE_ENV=development remix watch",
     "int": "playwright test",
     "lint": "run-p \"lint:*\"",
-    "lint:css": "stylelint --fix --cache-location .cache/stylelint --cache -c .stylelintrc.json src/**/*.css src/**/*.md src/*.md",
+    "lint:css": "stylelint --fix --cache-location .cache/stylelint --cache -c .stylelintrc.json src/**/*.css",
     "lint:eslint": "eslint --ext .ts,.tsx,.json **/*.{ts,tsx,json}",
     "lint:typecheck": "tsc",
     "playwright:install": "playwright install --with-deps",

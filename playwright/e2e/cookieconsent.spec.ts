@@ -16,6 +16,7 @@ test('has cookie consent banner deny path', async ({ browser }) => {
 
   const denyButton = await page.getByRole('button', { name: 'Deny' });
   await denyButton.click();
+  await page.waitForLoadState('networkidle');
 
   await expect(dialog).not.toBeInViewport();
 
@@ -43,6 +44,7 @@ test('has cookie consent banner accept path', async ({ browser }) => {
 
   const denyButton = await page.getByRole('button', { name: 'Accept' });
   await denyButton.click();
+  await page.waitForLoadState('networkidle');
 
   await expect(dialog).not.toBeInViewport();
 

@@ -17,13 +17,13 @@ vi.mock('@remix-run/react');
 vi.mock('react-i18next');
 vi.mock('~/hooks/useChangeLanguage');
 vi.mock('~/components/Posthog', () => ({
-  Posthog: () => <div id={'mock-posthog'}/>
+  Posthog: () => <div id={'mock-posthog'} />
 }));
 vi.mock('~/components/CookieConsent', async () => {
   const actual = await vi.importActual('~/components/CookieConsent') as object;
   return {
     ...actual,
-    CookieConsentBanner: () => <div id={'mock-cookie-consent-banner'}/>
+    CookieConsentBanner: () => <div id={'mock-cookie-consent-banner'} />
   };
 });
 vi.mock('react', async () => ({
@@ -168,11 +168,11 @@ describe('The root module', () => {
       googleAnalyticsId: 'ga-id',
       visitorId: 'a-visitor-id',
       isProduction: true,
-      cookieYesToken: 'a-cookieyes-token',
       version: '0.0.0-dev',
       sentryDsn: 'a-sentry-dsn',
       posthogToken: 'a-posthog-token',
-      posthogApi: 'a-posthog-api'
+      posthogApi: 'a-posthog-api',
+      csrfToken: 'csrf-token'
     };
 
     beforeEach(() => {
@@ -197,7 +197,7 @@ describe('The root module', () => {
           // There is a DOM Nesting Validation error because we're rendering
           // the entire html in a test environment. We don't care about that error
         });
-        const markup = render(<App/>);
+        const markup = render(<App />);
         errorSpy.mockReset();
         expect(markup.asFragment()).toMatchSnapshot();
         expect(markup.getByText('mock sentry wrapper')).toBeInTheDocument();
@@ -221,7 +221,7 @@ describe('The root module', () => {
           // There is a DOM Nesting Validation error because we're rendering
           // the entire html in a test environment. We don't care about that error
         });
-        const markup = render(<App/>);
+        const markup = render(<App />);
         errorSpy.mockReset();
         expect(markup.asFragment()).toMatchSnapshot();
       });

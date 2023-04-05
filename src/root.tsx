@@ -41,7 +41,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     remixI18next.getLocale(request),
     import('../package.json'),
     createUserSession(request),
-    getCsrfTokenSession(request),
+    getCsrfTokenSession(request)
   ]);
   return json({
     appConfig: {
@@ -54,7 +54,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       sentryDsn: process.env.SENTRY_DSN,
       posthogToken: process.env.POSTHOG_TOKEN,
       posthogApi: process.env.POSTHOG_API,
-      csrfToken: csrfTokenSessionData.session.get('token')
+      csrfToken: csrfTokenSessionData.session.get('csrfToken') as string // fix with Zod
     },
     locale: locale,
     colorMode: sessionCookieData.session.get('colorMode'),
@@ -78,12 +78,12 @@ const App = () => {
       <CookieConsentProvider consentData={consentData}>
         <Posthog apiKey={appConfig.posthogToken} apiUrl={appConfig.posthogApi} visitorId={appConfig.visitorId}>
           <head>
-            <Meta/>
-            <Links/>
-            <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
-            <ColorModeSensor nonce={nonce}/>
-            <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
-            <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
+            <Meta />
+            <Links />
+            <ExposeAppConfig appConfig={appConfig} nonce={nonce} />
+            <ColorModeSensor nonce={nonce} />
+            <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce} />
+            <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce} />
           </head>
           <body>
             <ColorModeContext.Provider
@@ -95,12 +95,12 @@ const App = () => {
                 context={{
                   appConfig: appConfig,
                   locale: locale
-                }}/>
-              {consentData ? null : <CookieConsentBanner/>}
+                }} />
+              {consentData ? null : <CookieConsentBanner />}
             </ColorModeContext.Provider>
-            <ScrollRestoration nonce={nonce}/>
-            <Scripts nonce={nonce}/>
-            <LiveReload nonce={nonce}/>
+            <ScrollRestoration nonce={nonce} />
+            <Scripts nonce={nonce} />
+            <LiveReload nonce={nonce} />
           </body>
         </Posthog>
       </CookieConsentProvider>

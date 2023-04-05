@@ -1,11 +1,7 @@
 import { createCookieSessionStorage } from '@remix-run/node';
+import { generateCsrfToken } from 'auth0-remix-server';
 
-const bytesToHex = (bytes: Uint8Array) =>
-  bytes.reduce((hexstring, byte) => `${hexstring}${byte.toString(16).padStart(2, '0')}`, '');
-
-const generateCsrfToken = () => bytesToHex(crypto.getRandomValues(new Uint8Array(32)));
-
-const csrfCookie = createCookieSessionStorage({
+const csrfCookieStorage = createCookieSessionStorage({
   cookie: {
     name: '__csrf-token',
     httpOnly: true,
@@ -16,20 +12,22 @@ const csrfCookie = createCookieSessionStorage({
   }
 });
 
-export const createCrsfCookie = async (request: Request): Promise<string> => {
-  const session = await csrfCookie.getSession(request.headers.get('Cookie'));
-  if (!session.get('token')) {
-    session.set('token', generateCsrfToken());
+export const getCsrfCookieStorage = () => csrfCookieStorage;
+
+export const createCsrfCookie = async (request: Request, { refreshToken } = { refreshToken: false }): Promise<string> => {
+  const session = await csrfCookieStorage.getSession(request.headers.get('Cookie'));
+  if (!session.get('csrfToken') || refreshToken) {
+    session.set('csrfToken', generateCsrfToken());
   }
-  return csrfCookie.commitSession(session);
+  return csrfCookieStorage.commitSession(session);
 };
 
-export const destroyCrsfCookie = async (request: Request): Promise<string> => {
-  const session = await csrfCookie.getSession(request.headers.get('Cookie'));
-  return csrfCookie.destroySession(session);
+export const destroyCsrfCookie = async (request: Request): Promise<string> => {
+  const session = await csrfCookieStorage.getSession(request.headers.get('Cookie'));
+  return csrfCookieStorage.destroySession(session);
 };
 export const getCsrfToken = async (request: Request): Promise<undefined | string> => {
   const cookieStr = request.headers.get('Cookie');
-  const session = await csrfCookie.getSession(cookieStr);
-  return session.get<string>('token');
+  const session = await csrfCookieStorage.getSession(cookieStr);
+  return session.get<string>('csrfToken');
 };

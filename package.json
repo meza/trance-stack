@@ -128,7 +128,7 @@
     "@storybook/manager-api": "7.0.2",
     "@storybook/react": "7.0.2",
     "@storybook/react-webpack5": "7.0.2",
-    "@storybook/testing-library": "0.0.14-next.2",
+    "@storybook/testing-library": "0.1.0",
     "@storybook/theming": "7.0.2",
     "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "5.16.5",

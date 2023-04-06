@@ -58,6 +58,7 @@ test('the cookie consent can be accepted via ESC', async ({ browser }) => {
   const page = await context.newPage();
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
+  await page.waitForLoadState('networkidle');
 
   const dialog = await page.getByRole('dialog');
   await expect(dialog).toBeInViewport();

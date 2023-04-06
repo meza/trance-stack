@@ -47,7 +47,8 @@ export const CookieConsentBanner = () => {
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && acceptFormRef.current) {
-      acceptFormRef.current.submit();
+      event.preventDefault();
+      acceptFormRef.current.requestSubmit();
     }
   };
 

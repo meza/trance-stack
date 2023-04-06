@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticator } from '~/auth.server';
-import { getCsrfToken } from '~/csrf-cookie.server';
+import { requestValidator } from '~/csrfToken.server';
 import { action } from '~/routes/auth.auth0';
 
 vi.mock('~/auth.server', () => ({
@@ -8,7 +8,7 @@ vi.mock('~/auth.server', () => ({
     authorize: vi.fn()
   }
 }));
-vi.mock('~/csrf-cookie.server');
+vi.mock('~/csrfToken.server');
 
 describe('auth0', () => {
   beforeEach(() => {
@@ -16,16 +16,15 @@ describe('auth0', () => {
   });
 
   it('should call the authorize function', async () => {
-    vi.mocked(getCsrfToken).mockResolvedValue('abc');
+    vi.mocked(requestValidator.validate).mockResolvedValue(undefined);
     vi.mocked(authenticator.authorize).mockResolvedValue({} as never);
-    await action({} as never);
+    await action({ request: new Request('https://somewhere.com/logout', { method: 'post' }) } as never);
     expect(vi.mocked(authenticator.authorize)).toHaveBeenCalled();
   });
 
-  it('should throw 400 response for missing CSRF token', async () => {
-    vi.mocked(getCsrfToken).mockResolvedValue(undefined);
-    vi.mocked(authenticator.authorize).mockResolvedValue({} as never);
-    expect(action({} as never)).rejects.toMatchObject({
+  it('should throw 400 response for invalid CSRF token', async () => {
+    vi.unmock('~/csrfToken.server');
+    expect(action({ request: new Request('https://somewhere.com/logout', { method: 'post' }) } as never)).rejects.toMatchObject({
       status: 400
     });
     expect(vi.mocked(authenticator.authorize)).not.toHaveBeenCalled();

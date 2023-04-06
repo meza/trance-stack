@@ -10,7 +10,7 @@ import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
 import { Posthog } from '~/components/Posthog';
-import { getCsrfTokenSession } from '~/csrfToken.server';
+import { CSRF_TOKEN_KEY, requestValidator } from '~/csrfToken.server';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
@@ -41,7 +41,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     remixI18next.getLocale(request),
     import('../package.json'),
     createUserSession(request),
-    getCsrfTokenSession(request)
+    requestValidator.getCsrfTokenSession(request)
   ]);
   return json({
     appConfig: {
@@ -54,7 +54,8 @@ export const loader = async ({ request }: LoaderArgs) => {
       sentryDsn: process.env.SENTRY_DSN,
       posthogToken: process.env.POSTHOG_TOKEN,
       posthogApi: process.env.POSTHOG_API,
-      csrfToken: csrfTokenSessionData.session.get('csrfToken') as string // fix with Zod
+      csrfToken: csrfTokenSessionData.token,
+      csrfTokenKey: CSRF_TOKEN_KEY
     },
     locale: locale,
     colorMode: sessionCookieData.session.get('colorMode'),

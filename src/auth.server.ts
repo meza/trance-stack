@@ -1,5 +1,5 @@
 import { Auth0RemixServer } from 'auth0-remix-server';
-import { getCsrfCookieStorage } from '~/csrf-cookie.server';
+import { CSRF_TOKEN_KEY, getCsrfCookieStorage } from '~/csrfToken.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 
 export const authenticator = new Auth0RemixServer({
@@ -15,7 +15,7 @@ export const authenticator = new Auth0RemixServer({
     store: getSessionStorage()
   },
   csrfSession: {
-    key: 'csrfToken',
+    key: CSRF_TOKEN_KEY,
     store: getCsrfCookieStorage()
   }
 });

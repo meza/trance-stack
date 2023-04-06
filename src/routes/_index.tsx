@@ -6,7 +6,6 @@ import { authenticator } from '~/auth.server';
 import ColorModeSwitcher from '~/components/ColorModeSwitcher';
 import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
-import { createCsrfCookie } from '~/csrf-cookie.server';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
 import type { LinksFunction, LoaderFunction } from '@remix-run/node';
@@ -20,21 +19,17 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 
   if (isAuth) {
     try {
-      console.log('** checking user...');
-      const user = await authenticator.getUser(request, context);
-      console.log('** user', user);
+      await authenticator.getUser(request, context);
       return redirect('/dashboard');
     } catch (_) {
-      console.error('OH NO', _);
+      // console.error('OH NO', _);
+
     }
   }
 
-  const cookieData = isAuth ? await createCsrfCookie(request) : null;
   return json({
     isHelloEnabled: await hasFeature(request, Features.HELLO),
     isAuthEnabled: isAuth
-  }, {
-    ...(cookieData ? { headers: { 'Set-Cookie': cookieData } } : {})
   });
 };
 

@@ -11,6 +11,7 @@ declare global {
     posthogToken: string;
     posthogApi: string;
     csrfToken: string;
+    csrfTokenKey: string;
   }
 
   interface Window {
@@ -32,6 +33,7 @@ declare global {
       SENTRY_DSN: string;
       POSTHOG_TOKEN: string;
       POSTHOG_API: string;
+      CSRF_SESSION_SECRET: string;
     }
   }
 }

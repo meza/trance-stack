@@ -11,7 +11,8 @@ describe('ExposeAppConfig', () => {
     sentryDsn: 'a-sentry-dsn',
     posthogApi: 'a-posthog-api',
     posthogToken: 'a-posthog-token',
-    csrfToken: 'csrf-token'
+    csrfToken: 'csrf-token',
+    csrfTokenKey: 'csrf-token-key'
   };
 
   it('can expose the app config correctly', () => {

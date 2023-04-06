@@ -172,7 +172,8 @@ describe('The root module', () => {
       sentryDsn: 'a-sentry-dsn',
       posthogToken: 'a-posthog-token',
       posthogApi: 'a-posthog-api',
-      csrfToken: 'csrf-token'
+      csrfToken: 'csrf-token',
+      csrfTokenKey: 'csrf-token-key'
     };
 
     beforeEach(() => {

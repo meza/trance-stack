@@ -896,7 +896,7 @@ In order to deploy the application, you will need to set the following environme
 |                          | AWS_ACCESS_KEY_ID     | The AWS access key ID used to deploy the application.     |
 |                          | AWS_CERT_ARN          | The ARN of the certificate used for the domain.           |
 |                          | AWS_SECRET_ACCESS_KEY | The AWS secret access key used to deploy the application. |
-| AWS_DOMAIN NAME          |                       | The final domain name of the application.                 |
+| AWS_DOMAIN_NAME          |                       | The final domain name of the application.                 |
 | AWS_HOSTED_ZONE_NAME     |                       | The name of the hosted zone in Route53.                   |
 
 If you came here from the top of the document, [go back to where you were](#setup-for-continuous-deployment) and

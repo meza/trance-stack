@@ -147,7 +147,7 @@ describe('The Cookie Consent Component', () => {
 
       // This is rather ugly but since the form submit isn't implemented in jsdom, it kinda evens out
       // and gets the job done.
-      dialog.querySelector('form')!.submit = () => {
+      dialog.querySelector('form')!.requestSubmit = () => {
         keydownSpy();
       };
 

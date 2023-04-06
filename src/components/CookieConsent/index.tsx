@@ -52,10 +52,10 @@ export const CookieConsentBanner = () => {
   };
 
   useEffect(() => { //handle the escape key for keyboard navigation
-    document.addEventListener('keydown', acceptOnKeyDown);
+    window.addEventListener('keydown', acceptOnKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', acceptOnKeyDown);
+      window.removeEventListener('keydown', acceptOnKeyDown);
     };
   });
 

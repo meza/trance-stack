@@ -52,3 +52,21 @@ test('has cookie consent banner accept path', async ({ browser }) => {
   expect(await page.locator('id=gtm').count()).toBe(1);
 
 });
+
+test('the cookie consent can be accepted via ESC', async ({ browser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+
+  const dialog = await page.getByRole('dialog');
+  await expect(dialog).toBeInViewport();
+  await page.keyboard.press('Escape');
+  await page.waitForLoadState('networkidle');
+
+  await expect(dialog).not.toBeInViewport();
+
+  expect(await page.locator('id=hotjar-script').count()).toBe(1);
+  expect(await page.locator('id=gtm').count()).toBe(1);
+
+});

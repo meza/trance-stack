@@ -59,11 +59,9 @@
       "matchDepTypes": [
         "engines"
       ],
+      "automerge": true,
       "rangeStrategy": "widen"
     }
   ],
-  "schedule": [
-    "after 10pm and before 5am every weekday",
-    "every weekend"
-  ]
+  "schedule": ["at any time"]
 }

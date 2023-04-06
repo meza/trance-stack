@@ -47,15 +47,16 @@ export const CookieConsentBanner = () => {
 
   const acceptOnKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && acceptFormRef.current) {
-      acceptFormRef.current.submit();
+      event.preventDefault();
+      acceptFormRef.current.requestSubmit();
     }
   };
 
   useEffect(() => { //handle the escape key for keyboard navigation
-    document.addEventListener('keydown', acceptOnKeyDown);
+    window.addEventListener('keydown', acceptOnKeyDown);
 
     return () => {
-      document.removeEventListener('keydown', acceptOnKeyDown);
+      window.removeEventListener('keydown', acceptOnKeyDown);
     };
   });
 

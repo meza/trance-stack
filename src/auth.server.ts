@@ -1,8 +1,9 @@
 import { Auth0RemixServer } from 'auth0-remix-server';
-import { CSRF_TOKEN_KEY, getCsrfCookieStorage } from '~/csrfToken.server';
+import { CSRF_TOKEN_KEY, getCsrfCookieStorage } from '~/csrfTokenStorage.server';
 import { getSessionStorage } from '~/sessionStorage.server';
 
 export const authenticator = new Auth0RemixServer({
+  csrfTokenSecret: '',
   clientDetails: {
     domain: process.env.AUTH0_DOMAIN,
     clientID: process.env.AUTH0_CLIENT_ID,

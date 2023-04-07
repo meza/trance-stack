@@ -10,7 +10,8 @@ import { GoogleAnalytics } from '~/components/GoogleAnalytics';
 import { Hotjar } from '~/components/Hotjar';
 import { NonceContext } from '~/components/NonceContext';
 import { Posthog } from '~/components/Posthog';
-import { CSRF_TOKEN_KEY, requestValidator } from '~/csrfToken.server';
+import { requestValidator } from '~/csrfToken.server';
+import { CSRF_TOKEN_KEY } from '~/csrfTokenStorage.server';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
@@ -55,15 +56,16 @@ export const loader = async ({ request }: LoaderArgs) => {
       posthogToken: process.env.POSTHOG_TOKEN,
       posthogApi: process.env.POSTHOG_API,
       csrfToken: csrfTokenSessionData.token,
-      csrfTokenKey: CSRF_TOKEN_KEY
+      csrfTokenKey: CSRF_TOKEN_KEY // the `name` of the hidden input used in forms to send the CSRF token, naming is hard
     },
     locale: locale,
     colorMode: sessionCookieData.session.get('colorMode'),
     consentData: sessionCookieData.session.get('consentData')
   }, {
-    headers: {
-      'Set-Cookie': [sessionCookieData.cookie, csrfTokenSessionData.cookie].join(',')
-    }
+    headers: [
+      ['set-cookie', sessionCookieData.cookie],
+      ['set-cookie', csrfTokenSessionData.cookie]
+    ]
   });
 };
 

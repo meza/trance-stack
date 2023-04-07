@@ -15,13 +15,11 @@ export const action: ActionFunction = async ({ request }) => {
     destroySession(session),
     requestValidator.refreshCsrfTokenSession(request)
   ]);
-  console.log('** new cookiee', [userCookie, csrfCookie].join(','));
 
-  const headers = new Headers();
-  headers.append('Set-Cookie', userCookie);
-  headers.append('Set-Cookie', csrfCookie);
-
-  await authenticator.logout(process.env.APP_DOMAIN, headers);
+  await authenticator.logout(process.env.APP_DOMAIN, [
+    ['set-cookie', userCookie],
+    ['set-cookie', csrfCookie]
+  ]);
 };
 
 export const loader = action;

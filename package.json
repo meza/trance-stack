@@ -199,7 +199,7 @@
     "tsconfig-paths-webpack-plugin": "4.0.1",
     "typescript": "5.0.4",
     "vite": "4.2.1",
-    "vite-tsconfig-paths": "4.0.8",
+    "vite-tsconfig-paths": "4.1.0",
     "vitest": "0.28.5",
     "wait-on": "7.0.1",
     "webpack": "5.78.0"

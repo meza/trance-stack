@@ -11,7 +11,7 @@ Accepted
 Remix/React streaming is definitely the future however it is currently not supported by the
 AWS lambda environment.
 
-To leverage the benefits of streaming we would need to move to a serverless environment that
+To leverage the benefits (including the use of <Suspense>) of streaming we would need to move to a serverless environment that
 supports streaming.
 
 Or we could not use streaming and go with AWS lambda.

@@ -84,7 +84,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "12.2.0",
     "remix-i18next": "5.1.1",
-    "typescript-cookie": "1.0.5",
+    "typescript-cookie": "1.0.6",
     "uuid": "9.0.0"
   },
   "devDependencies": {

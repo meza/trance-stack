@@ -76,7 +76,7 @@
     "i18next-fs-backend": "2.1.1",
     "i18next-http-backend": "2.2.0",
     "isbot": "3.6.10",
-    "jose": "4.14.1",
+    "jose": "4.14.2",
     "js-cookie": "3.0.5",
     "posthog-js": "1.53.4",
     "posthog-node": "2.6.0",

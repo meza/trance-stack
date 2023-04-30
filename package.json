@@ -67,7 +67,7 @@
     "@splitsoftware/splitio": "10.22.4",
     "auth0-remix-server": "2.0.9",
     "aws-cdk-lib": "2.77.0",
-    "constructs": "10.2.10",
+    "constructs": "10.2.11",
     "cross-env": "7.0.3",
     "csp-header": "5.1.0",
     "esbuild": "0.17.18",

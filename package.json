@@ -157,7 +157,7 @@
     "esbuild-copy-static-files": "0.1.0",
     "esbuild-plugin-env": "1.0.6",
     "esbuild-plugin-environment": "0.2.4",
-    "eslint": "8.40.0",
+    "eslint": "8.41.0",
     "eslint-config-tailored-tunes": "5.0.2",
     "eslint-gitignore": "0.1.0",
     "eslint-plugin-i18next": "6.0.1",

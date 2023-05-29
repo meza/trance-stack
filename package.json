@@ -72,7 +72,7 @@
     "csp-header": "5.1.0",
     "esbuild": "0.17.19",
     "i18next": "22.5.0",
-    "i18next-browser-languagedetector": "7.0.1",
+    "i18next-browser-languagedetector": "7.0.2",
     "i18next-fs-backend": "2.1.2",
     "i18next-http-backend": "2.2.1",
     "isbot": "3.6.10",

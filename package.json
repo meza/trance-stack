@@ -78,7 +78,7 @@
     "isbot": "3.6.10",
     "jose": "4.14.4",
     "js-cookie": "3.0.5",
-    "posthog-js": "1.63.0",
+    "posthog-js": "1.63.1",
     "posthog-node": "2.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

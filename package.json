@@ -177,7 +177,7 @@
     "postcss-cli": "10.1.0",
     "postcss-custom-media": "9.1.4",
     "postcss-nested": "6.0.1",
-    "postcss-preset-env": "8.4.1",
+    "postcss-preset-env": "8.4.2",
     "postcss-reporter": "7.0.5",
     "postcss-sorting": "8.0.2",
     "react-docgen-typescript": "2.2.2",

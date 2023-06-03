@@ -190,7 +190,7 @@
     "storybook": "7.0.18",
     "storybook-addon-themes": "6.1.0",
     "storybook-dark-mode-v7": "3.0.0-alpha.0",
-    "stylelint": "15.6.2",
+    "stylelint": "15.6.3",
     "stylelint-config-standard": "32.0.0",
     "stylelint-no-unsupported-browser-features": "6.1.0",
     "stylelint-order": "6.0.3",

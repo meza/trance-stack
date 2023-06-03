@@ -148,7 +148,7 @@
     "@typescript-eslint/eslint-plugin": "5.59.8",
     "@typescript-eslint/parser": "5.59.8",
     "@vitejs/plugin-react": "3.1.0",
-    "@vitest/coverage-c8": "0.31.3",
+    "@vitest/coverage-c8": "0.31.4",
     "autoprefixer": "10.4.14",
     "aws-cdk": "2.81.0",
     "c8": "7.14.0",
@@ -200,7 +200,7 @@
     "typescript": "5.0.4",
     "vite": "4.3.9",
     "vite-tsconfig-paths": "4.2.0",
-    "vitest": "0.31.3",
+    "vitest": "0.31.4",
     "wait-on": "7.0.1",
     "webpack": "5.85.0"
   },

@@ -1,7 +1,7 @@
 import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import { AnyPrincipal, Effect, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { Bucket, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
+import { BlockPublicAccess, Bucket, BucketAccessControl, ObjectOwnership } from 'aws-cdk-lib/aws-s3';
 import { BucketDeployment, CacheControl, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { Construct } from 'constructs';
 import type { LambdaDeployment } from './LambdaDeployment';
@@ -24,7 +24,10 @@ export class StaticDeployment extends Construct {
       websiteIndexDocument: 'index.html',
       websiteErrorDocument: '404.html',
       autoDeleteObjects: true,
-      removalPolicy: RemovalPolicy.DESTROY
+      removalPolicy: RemovalPolicy.DESTROY,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
+      accessControl: BucketAccessControl.BUCKET_OWNER_FULL_CONTROL,
+      publicReadAccess: true
     });
 
     const bucketPolicy = new PolicyStatement({

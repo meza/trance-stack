@@ -184,7 +184,7 @@
     "reflect-metadata": "0.1.13",
     "remix-esbuild-override": "3.1.0",
     "require-from-string": "2.0.2",
-    "rimraf": "4.4.1",
+    "rimraf": "5.0.1",
     "semantic-release": "21.0.3",
     "semantic-release-export-data": "1.0.1",
     "storybook": "7.0.18",

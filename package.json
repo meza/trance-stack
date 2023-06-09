@@ -43,7 +43,7 @@
     "prepack": "npmignore --auto",
     "prepare": "lefthook install 1>/dev/null 2>/dev/null || true",
     "release": "semantic-release",
-    "report": "vitest --coverage",
+    "report": "vitest --coverage.enabled --coverage.provider c8",
     "storybook": "run-s storybook:serve",
     "storybook:build": "storybook build",
     "storybook:deploy": "gh-pages -d storybook-static -m 'chore(deploy): storybook to gh-pages'",

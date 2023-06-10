@@ -185,7 +185,7 @@
     "remix-esbuild-override": "3.1.0",
     "require-from-string": "2.0.2",
     "rimraf": "5.0.1",
-    "semantic-release": "21.0.3",
+    "semantic-release": "21.0.5",
     "semantic-release-export-data": "1.0.1",
     "storybook": "7.0.20",
     "storybook-addon-themes": "6.1.0",

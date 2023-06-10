@@ -138,7 +138,7 @@
     "@types/js-cookie": "3.0.3",
     "@types/jsdom": "21.1.1",
     "@types/mixpanel-browser": "2.38.1",
-    "@types/node": "18.16.16",
+    "@types/node": "18.16.17",
     "@types/npmcli__package-json": "2.0.0",
     "@types/react": "18.2.9",
     "@types/react-dom": "18.2.4",

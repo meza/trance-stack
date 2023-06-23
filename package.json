@@ -140,7 +140,7 @@
     "@types/mixpanel-browser": "2.47.0",
     "@types/node": "18.16.18",
     "@types/npmcli__package-json": "2.0.0",
-    "@types/react": "18.2.13",
+    "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@types/testing-library__jest-dom": "5.14.6",
     "@types/uuid": "9.0.2",

@@ -55,7 +55,7 @@
     "validate:unit": "run-s ci"
   },
   "dependencies": {
-    "@aws-sdk/smithy-client": "3.357.0",
+    "@aws-sdk/smithy-client": "3.358.0",
     "@aws-sdk/types": "3.357.0",
     "@remix-run/architect": "1.17.1",
     "@remix-run/node": "1.17.1",

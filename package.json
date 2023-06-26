@@ -70,7 +70,7 @@
     "constructs": "10.2.60",
     "cross-env": "7.0.3",
     "csp-header": "5.1.0",
-    "esbuild": "0.18.9",
+    "esbuild": "0.18.10",
     "i18next": "22.5.1",
     "i18next-browser-languagedetector": "7.0.2",
     "i18next-fs-backend": "2.1.5",

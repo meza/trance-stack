@@ -202,7 +202,7 @@
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.32.2",
     "wait-on": "7.0.1",
-    "webpack": "5.88.0"
+    "webpack": "5.88.1"
   },
   "browserslist": [
     "> 1%",

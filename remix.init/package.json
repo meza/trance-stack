@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@npmcli/package-json": "3.1.1",
+    "@npmcli/package-json": "4.0.1",
     "chalk": "5.3.0",
     "inquirer": "9.2.7",
     "is-git-repository": "2.0.0",

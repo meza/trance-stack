@@ -47,7 +47,8 @@ module.exports = {
     unstable_postcss: true,
     v2_errorBoundary: true,
     v2_normalizeFormMethod: true,
-    v2_routeConvention: true
+    v2_routeConvention: true,
+    v2_dev: true
   },
   server: './server.js',
   serverMinify: true,

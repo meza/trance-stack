@@ -100,7 +100,7 @@
     "@commitlint/cli": "17.6.6",
     "@commitlint/config-conventional": "17.6.6",
     "@commitlint/prompt-cli": "17.6.6",
-    "@evilmartians/lefthook": "1.4.4",
+    "@evilmartians/lefthook": "1.4.9",
     "@jscpd/badge-reporter": "3.4.5",
     "@jscpd/html-reporter": "3.5.9",
     "@meza/adr-tools": "1.0.10",

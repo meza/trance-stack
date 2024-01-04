@@ -71,7 +71,7 @@
     "cross-env": "7.0.3",
     "csp-header": "5.1.0",
     "esbuild": "0.18.11",
-    "i18next": "22.5.1",
+    "i18next": "23.7.16",
     "i18next-browser-languagedetector": "7.1.0",
     "i18next-fs-backend": "2.1.5",
     "i18next-http-backend": "2.2.1",

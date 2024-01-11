@@ -1,6 +1,6 @@
+import type { Features } from '~/features';
 import { posthog } from '~/posthog.server';
 import { getVisitorIdFromRequest } from '~/session.server';
-import type { Features } from '~/features';
 
 /**
  * @name hasFeature

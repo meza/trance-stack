@@ -10,8 +10,6 @@ module.exports = {
     'plugin:json/recommended',
     'plugin:security/recommended',
     'plugin:@typescript-eslint/recommended',
-    '@remix-run/eslint-config',
-    '@remix-run/eslint-config/node',
     'plugin:i18next/recommended',
     'plugin:sonarjs/recommended'
   ],
@@ -52,7 +50,8 @@ module.exports = {
     'i18next',
     'json',
     '@typescript-eslint',
-    'sonarjs'
+    'sonarjs',
+    'import'
   ],
   root: true,
   rules: {
@@ -82,6 +81,10 @@ module.exports = {
         pathGroupsExcludedImportTypes: ['type']
       }
     ],
+    "import/first": 2,
+    "import/no-amd": 2,
+    "import/no-duplicates": 2,
+    "import/no-webpack-loader-syntax": 2,
     'jsx-quotes': [ 'error', 'prefer-single' ],
     'sonarjs/no-duplicate-string': 'off',
     'no-continue': 'off',

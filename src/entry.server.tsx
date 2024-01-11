@@ -4,10 +4,10 @@ import { Response } from '@remix-run/node';
 import { RemixServer } from '@remix-run/react';
 import { renderToString } from 'react-dom/server';
 import { I18nextProvider } from 'react-i18next';
-import { initServerI18n } from '~/i18n';
-import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 import { NonceContext } from './components/NonceContext';
 import type { EntryContext } from '@remix-run/node';
+import { initServerI18n } from '~/i18n';
+import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
 
 // @see https://github.com/getsentry/sentry-javascript/issues/6062 <- subscribe to this for a resolution
 // @see https://github.com/getsentry/sentry-javascript/issues/7332

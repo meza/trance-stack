@@ -1,9 +1,9 @@
 import crypto from 'node:crypto';
 import { renderToString } from 'react-dom/server';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import entry from './entry.server';
 import { initServerI18n } from '~/i18n';
 import { addSecurityHeaders, sanitizeHeaders } from '~/utils/securityHeaders';
-import entry from './entry.server';
 
 vi.mock('~/i18n');
 vi.mock('~/session.server');

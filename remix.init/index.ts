@@ -121,7 +121,7 @@ export default async ({ isTypeScript, rootDirectory }: { isTypeScript: boolean; 
       name: 'appSlug',
       message: `${chalk.cyan('What is the slug of your app?')} ${chalk.white('This will be used in the Arc file and the deployment stages of your app')}`,
       default: appSlug,
-      validate: (input: string, answers: PromptAnswers) => {
+      validate: (input: string) => {
         if (input.match(/^[a-zA-Z0-9-_]*$/)) {
           return true;
         }

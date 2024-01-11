@@ -1,8 +1,8 @@
 import { redirect } from '@remix-run/node';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import login, { loader } from './login';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
-import login, { loader } from './login';
 
 vi.mock('~/components/Login');
 vi.mock('@remix-run/node');

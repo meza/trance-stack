@@ -3,10 +3,10 @@ import { useLoaderData } from '@remix-run/react';
 import { render } from '@testing-library/react';
 import { useTranslation } from 'react-i18next';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import App, { handle, links, loader, meta } from './root';
 import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { createUserSession } from '~/session.server';
-import App, { handle, links, loader, meta } from './root';
 
 vi.mock('~/session.server');
 vi.mock('~/i18n');

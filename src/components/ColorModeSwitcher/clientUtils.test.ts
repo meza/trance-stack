@@ -1,7 +1,7 @@
 import { JSDOM } from 'jsdom';
 import { beforeEach, describe, it, vi } from 'vitest';
-import { sensorScript, updateScript } from '~/components/ColorModeSwitcher/clientUtils';
 import type { MockedFunction } from 'vitest';
+import { sensorScript, updateScript } from '~/components/ColorModeSwitcher/clientUtils';
 
 interface SensorTestContext {
   dom: JSDOM;
@@ -99,7 +99,7 @@ describe('The color switcher client utils', () => {
       vi.stubGlobal('window', { matchMedia: context.matchMediaMock });
     });
 
-    it<SensorTestContext>('adds a listener to the load event', (context) => {
+    it<SensorTestContext>('adds a listener to the load event', () => {
       const addWindowEventListenerMock = vi.fn();
       vi.stubGlobal('addEventListener', addWindowEventListenerMock);
       updateScript();

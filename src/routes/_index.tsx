@@ -2,18 +2,18 @@ import React from 'react';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { useTranslation } from 'react-i18next';
+import type { LinksFunction, LoaderFunction } from '@remix-run/node';
 import ColorModeSwitcher from '~/components/ColorModeSwitcher';
 import { Hello, links as helloLinks } from '~/components/Hello';
 import Login from '~/components/Login';
 import { Features } from '~/features';
 import { hasFeature } from '~/hooks/hasFeature';
-import type { LinksFunction, LoaderFunction } from '@remix-run/node';
 
 export const links: LinksFunction = () => ([
   ...helloLinks()
 ]);
 
-export const loader: LoaderFunction = async ({ request, context }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const isAuth = await hasFeature(request, Features.AUTH);
   return json({
     isHelloEnabled: await hasFeature(request, Features.HELLO),

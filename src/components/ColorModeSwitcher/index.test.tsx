@@ -1,8 +1,8 @@
 import { Form } from '@remix-run/react';
+import { renderWithi18n } from '@test';
 import { fireEvent, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { renderWithi18n } from '@test';
 import ColorModeSwitcher, { ColorMode, ColorModeContext, ColorModeSensor } from './index';
 import type { FormProps } from '@remix-run/react';
 import type { UserEvent } from '@testing-library/user-event/setup/setup';
@@ -68,7 +68,7 @@ describe('The Color Mode Switch', () => {
       expect(inputDark.value).toEqual(ColorMode.LIGHT);
     });
 
-    it<LocalTestContext>('should change the color mode', async ({ user }) => {
+    it<LocalTestContext>('should change the color mode', async () => {
       let colorMode = ColorMode.LIGHT;
       const setColorModeCallback = vi.fn().mockImplementation((newColorMode: ColorMode) => {
         colorMode = newColorMode;

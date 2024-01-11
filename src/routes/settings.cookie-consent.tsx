@@ -1,6 +1,6 @@
 import { redirect } from '@remix-run/node';
-import { commitSession, getSessionFromRequest } from '~/session.server';
 import type { ActionFunction } from '@remix-run/node';
+import { commitSession, getSessionFromRequest } from '~/session.server';
 
 export const action: ActionFunction = async ({ request }) => {
   let body;

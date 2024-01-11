@@ -15,11 +15,11 @@ jobs:
       group: one-at-a-time
       cancel-in-progress: true
     name: 🧪 Verify PR
-    uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
     with:
-      command: install --no-package-lock --no-audit --no-fund
+      command: "install --no-package-lock --no-audit --no-fund"
       node-version: "latest"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"
@@ -39,7 +39,7 @@ jobs:
       - name: 🔧 Set up node
         uses: meza/action-setup-node-npm@main
         with:
-          command: install --no-package-lock --no-audit --no-fund
+          command: "install --no-package-lock --no-audit --no-fund"
           node-version: latest
           cache-name: ${{ needs.verify.outputs.cache-name }}
       - name: 🔂 CDK Cache
@@ -114,7 +114,7 @@ jobs:
         if: ${{ needs.deploy.outputs.APP_DOMAIN }}
         uses: meza/action-setup-node-npm@main
         with:
-          command: install --no-package-lock --no-audit --no-fund
+          command: "install --no-package-lock --no-audit --no-fund"
           node-version: latest
           cache-name: npm
       - name: Install Playwright Browsers

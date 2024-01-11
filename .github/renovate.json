@@ -6,5 +6,6 @@
   "enabledManagers": [
     "npm"
   ],
-  "prConcurrentLimit": 1
+  "prConcurrentLimit": 1,
+  "schedule": ["every minute"]
 }

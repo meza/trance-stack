@@ -64,7 +64,7 @@
     "@sentry/react": "7.57.0",
     "@sentry/remix": "7.57.0",
     "@sentry/serverless": "7.57.0",
-    "@splitsoftware/splitio": "10.22.6",
+    "@splitsoftware/splitio": "10.25.0",
     "auth0-remix-server": "2.2.3",
     "aws-cdk-lib": "2.118.0",
     "constructs": "10.3.0",

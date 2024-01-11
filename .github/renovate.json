@@ -7,5 +7,5 @@
     "npm"
   ],
   "prConcurrentLimit": 1,
-  "schedule": ["every minute"]
+  "schedule": ["* * * * *"]
 }

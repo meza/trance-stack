@@ -102,7 +102,7 @@
     "@commitlint/prompt-cli": "17.6.6",
     "@evilmartians/lefthook": "1.4.9",
     "@jscpd/badge-reporter": "3.4.5",
-    "@jscpd/html-reporter": "3.5.9",
+    "@jscpd/html-reporter": "3.5.10",
     "@meza/adr-tools": "1.0.10",
     "@playwright/test": "1.35.1",
     "@remix-run/dev": "1.18.1",

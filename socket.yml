@@ -6,5 +6,5 @@ issueRules:
 
 githubApp:
   enabled: true # enable/disable the Socket.dev GitHub app entirely
-  pullRequestAlertsEnabled: true # enable/disable GitHub app pull request alert checks
+  pullRequestAlertsEnabled: false # enable/disable GitHub app pull request alert checks
   projectReportsEnabled: true # enable/disable Github app project report checks

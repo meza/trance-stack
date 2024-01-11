@@ -6,11 +6,17 @@ on:
 
 env:
   LEFTHOOK: 0
+  GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
+  REF_NAME: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
 
 jobs:
   verify:
+    concurrency:
+      group: one-at-a-time
+      cancel-in-progress: true
     name: 🧪 Verify PR
     uses: meza/shared-github-workflows/.github/workflows/default-node-npm-ci.yml@main
+    needs: [ verify ]
     secrets:
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
     with:
@@ -18,3 +24,108 @@ jobs:
       node-version: "latest"
       junit-report-path: "reports/junit.xml"
       cobertura-report-path: "reports/**/cobertura-coverage.xml"
+
+  deploy:
+    concurrency:
+      group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
+      cancel-in-progress: false
+    environment: Ephemeral
+    if: github.actor != 'renovate[bot]'
+    name: Deploy ${{ github.head_ref == '' && github.ref_name || github.head_ref }} to an ephemeral environment
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: ⏬ Checkout
+        uses: actions/checkout@v3
+      - name: 🔧 Set up node
+        uses: meza/action-setup-node-npm@main
+        with:
+          command: install
+          node-version: latest
+          cache-name: ${{ needs.verify.outputs.cache-name }}
+      - name: 🔂 CDK Cache
+        uses: actions/cache@v3
+        with:
+          path: ./cdk.out
+          key: cdk-${{ env.REF_NAME }}-${{ hashFiles('deployment/**/*.ts') }}
+      - name: 🔢 Set version
+        run: npm version --no-git-tag-version 0.0.0-ephemeral.${{ github.run_number }}
+      - name: 🔨 Build
+        run: npm run build -- --sourcemap
+        env:
+          NODE_ENV: production
+          AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+          AUTH0_CLIENT_SECRET: ${{ secrets.AUTH0_CLIENT_SECRET }}
+          GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
+          SPLIT_SERVER_TOKEN: ${{ secrets.SPLIT_SERVER_TOKEN }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          HOTJAR_ID: ${{ vars.HOTJAR_ID }}
+          POSTHOG_TOKEN: ${{ vars.POSTHOG_TOKEN }}
+          POSTHOG_API: ${{ vars.POSTHOG_API }}
+          COOKIEYES_TOKEN: ${{ vars.COOKIEYES_TOKEN }}
+          SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+          I18N_DEBUG: 'true'
+          SPLIT_DEBUG: 'true'
+      - name: Sentry Sourcemaps
+        run: npx sentry-upload-sourcemaps --release 0.0.0-ephemeral.${{ github.run_number }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      - name: Remove Sourcemaps from the deployment
+        run: rm -rf ./public/**/*.map ./build/**/*.map
+      - name: 📦 Deploy ${{ env.REF_NAME }}
+        if: contains( github.event.pull_request.labels.*.name, 'runtime dependencies')
+        run: npx cdk deploy remix-trance-stack-ephemeral -O /tmp/deployment.result.json --require-approval never --context environmentName=${{ env.REF_NAME }} --context domainName=${{ vars.AWS_DOMAIN_NAME }} --context certificateArn=${{ secrets.AWS_CERT_ARN }} --context hostedZoneName=${{ vars.AWS_HOSTED_ZONE_NAME }}
+        env:
+          GITHUB_STEP_SUMMARY: $GITHUB_STEP_SUMMARY
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: ✍️ Publish deployment results
+        if: contains( github.event.pull_request.labels.*.name, 'runtime dependencies')
+        run: npx ts-node --prefer-ts-exts deployment/githubActionSupport.ts /tmp/deployment.result.json
+        env:
+          ISSUE_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Upload server js
+        uses: actions/upload-artifact@v2
+        with:
+          name: Generated Sources
+          path: |
+            ./server/index.js
+            ./public/build
+    outputs:
+      APP_DOMAIN: ${{ steps.deployment-data.outputs.APP_DOMAIN }}
+
+  test:
+    name: "Playwright Tests"
+    concurrency:
+      group: ${{ github.head_ref == '' && github.ref_name || github.head_ref }}
+      cancel-in-progress: true
+    timeout-minutes: 20
+    needs: [ deploy ]
+    runs-on: ubuntu-latest
+    env:
+      APP_DOMAIN: ${{ needs.deploy.outputs.APP_DOMAIN }}
+      PW_PASS: ${{ secrets.PW_PASS }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up node
+        if: ${{ needs.deploy.outputs.APP_DOMAIN }}
+        uses: meza/action-setup-node-npm@main
+        with:
+          node-version: latest
+          cache-name: npm
+      - name: Install Playwright Browsers
+        if: ${{ needs.deploy.outputs.APP_DOMAIN }}
+        run: npm run playwright:install
+      - name: Run Playwright tests
+        if: ${{ needs.deploy.outputs.APP_DOMAIN }}
+        run: npm run int
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: reports/e2e
+          retention-days: 30
+

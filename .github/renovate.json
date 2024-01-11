@@ -1,67 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base"
+    "github>stateshifters/renovate-common"
   ],
   "enabledManagers": [
     "npm"
-  ],
-  "baseBranches": [
-    "main"
-  ],
-  "semanticCommits": "enabled",
-  "semanticCommitType": "chore",
-  "rangeStrategy": "pin",
-  "packageRules": [
-    {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true,
-      "semanticCommitType": "chore"
-    },
-    {
-      "matchDepTypes": [
-        "devDependencies"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false,
-      "semanticCommitType": "chore"
-    },
-    {
-      "matchDepTypes": [
-        "dependencies"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true,
-      "semanticCommitType": "fix"
-    },
-    {
-      "matchDepTypes": [
-        "dependencies"
-      ],
-      "matchUpdateTypes": [
-        "major"
-      ],
-      "automerge": false,
-      "semanticCommitType": "fix"
-    },
-    {
-      "matchDepTypes": [
-        "engines"
-      ],
-      "automerge": true,
-      "rangeStrategy": "widen"
-    }
-  ],
-  "schedule": ["at any time"]
+  ]
 }

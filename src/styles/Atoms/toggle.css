@@ -20,8 +20,8 @@
     background-color: #fff;
     border: 1px solid #adb5bd;
     border-radius: 30px;
-    inset: 0;
     cursor: pointer;
+    inset: 0;
     position: absolute;
 
     @media (--motion-ok) {

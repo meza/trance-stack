@@ -19,18 +19,9 @@ if (!isCi) {
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
-    globals: true,
-    isolate: true,
-    environment: 'jsdom',
     cache: {
       dir: '.cache/.vitest'
     },
-    setupFiles: ['./vitest.setup.ts'],
-    dir: 'src',
-    testTimeout: 10000,
-    watch: false,
-    outputFile: 'reports/junit.xml',
-    reporters: testReporters,
     coverage: {
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: [
@@ -43,6 +34,7 @@ export default defineConfig({
         'testUtils/**.*'
       ],
       all: true,
+      provider: 'v8',
       reportsDirectory: './reports/coverage/unit',
       reporter: coverageReporters,
       thresholds: {
@@ -51,7 +43,16 @@ export default defineConfig({
         functions: 100,
         lines: 100
       }
-    }
+    },
+    dir: 'src',
+    environment: 'jsdom',
+    globals: true,
+    isolate: true,
+    outputFile: 'reports/junit.xml',
+    reporters: testReporters,
+    setupFiles: ['./vitest.setup.ts'],
+    testTimeout: 10000,
+    watch: false
   },
   resolve: {
     alias: {

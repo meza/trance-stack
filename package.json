@@ -85,7 +85,7 @@
     "react-i18next": "12.3.1",
     "remix-i18next": "5.1.1",
     "typescript-cookie": "1.0.6",
-    "uuid": "9.0.0",
+    "uuid": "9.0.1",
     "vitest-dom": "0.1.1"
   },
   "devDependencies": {
@@ -143,7 +143,7 @@
     "@types/react": "18.2.46",
     "@types/react-dom": "18.2.18",
     "@types/testing-library__jest-dom": "5.14.9",
-    "@types/uuid": "9.0.2",
+    "@types/uuid": "9.0.7",
     "@types/webpack": "5.28.5",
     "@typescript-eslint/eslint-plugin": "6.18.1",
     "@typescript-eslint/parser": "6.18.1",

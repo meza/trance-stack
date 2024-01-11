@@ -137,7 +137,7 @@
     "@types/is-ci": "3.0.4",
     "@types/js-cookie": "3.0.6",
     "@types/jsdom": "21.1.6",
-    "@types/mixpanel-browser": "2.47.1",
+    "@types/mixpanel-browser": "2.48.1",
     "@types/node": "20.11.0",
     "@types/npmcli__package-json": "4.0.3",
     "@types/react": "18.2.46",

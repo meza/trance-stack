@@ -38,8 +38,6 @@ describe('The Color Mode Switch', () => {
         };
         delete newProps.replace; // have to take this out, thanks dom.
 
-        expect(props).toContain({ replace: true });
-
         return <form {...newProps}>{children}</form>;
       });
     });

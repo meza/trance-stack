@@ -41,8 +41,26 @@ describe('The Client Entrypoint', () => {
       {
         "dsn": "sentryDsn",
         "integrations": [
-          BrowserTracing {},
-          Replay {},
+          BrowserTracing {
+            "__init": [MockFunction __init],
+            "__init2": [MockFunction __init2],
+            "_createRouteTransaction": [MockFunction _createRouteTransaction],
+            "_registerInteractionListener": [MockFunction _registerInteractionListener],
+            "constructor": [MockFunction BrowserTracing],
+            "setupOnce": [MockFunction setupOnce],
+          },
+          Replay {
+            "__init": [MockFunction __init],
+            "_initialize": [MockFunction _initialize],
+            "_setup": [MockFunction _setup],
+            "constructor": [MockFunction Replay],
+            "flush": [MockFunction flush],
+            "getReplayId": [MockFunction getReplayId],
+            "setupOnce": [MockFunction setupOnce],
+            "start": [MockFunction start],
+            "startBuffering": [MockFunction startBuffering],
+            "stop": [MockFunction stop],
+          },
         ],
         "release": "0.1.2-dev",
         "replaysOnErrorSampleRate": 1,

@@ -24,12 +24,11 @@ html {
 }
 
 body {
-  align-items: center;
   display: grid;
   grid-template-rows: 1fr auto;
   height: inherit;
-  justify-items: center;
   margin: 0;
+  place-items: center center;
 }
 
 button {

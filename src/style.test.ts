@@ -28,8 +28,8 @@ describe('The style module', () => {
           "s3": 16,
         },
         "type": {
-          "code": "\\"SFMono-Regular\\", Consolas, \\"Liberation Mono\\", Menlo, Courier, monospace",
-          "primary": "\\"Nunito Sans\\", \\"Helvetica Neue\\", Helvetica, Arial, sans-serif",
+          "code": ""SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace",
+          "primary": ""Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif",
         },
         "weight": {
           "bold": "700",

@@ -2,7 +2,10 @@ import { RemixI18Next } from 'remix-i18next';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('node:path', () => ({
-  resolve: vi.fn().mockImplementation((...args: string[]) => args.join('/'))
+  resolve: vi.fn().mockImplementation((...args: string[]) => args.join('/')),
+  default: {
+    resolve: vi.fn().mockImplementation((...args: string[]) => args.join('/'))
+  }
 }));
 
 vi.mock('i18next-fs-backend', () => ({

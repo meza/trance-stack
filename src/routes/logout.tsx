@@ -1,6 +1,6 @@
+import type { ActionFunction } from '@remix-run/node';
 import { authenticator } from '~/auth.server';
 import { destroySession, getSessionFromRequest } from '~/session.server';
-import type { ActionFunction } from '@remix-run/node';
 
 export const action: ActionFunction = async ({ request }) => {
   const session = await getSessionFromRequest(request);

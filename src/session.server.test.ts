@@ -1,8 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Session } from '@remix-run/node';
 import { commitSession, createUserSession, destroySession, getSessionFromRequest, getVisitorId, getVisitorIdFromRequest } from '~/session.server';
 import { getSessionStorage } from '~/sessionStorage.server';
-import type { Session } from '@remix-run/node';
 
 vi.mock('~/sessionStorage.server');
 vi.mock('uuid');

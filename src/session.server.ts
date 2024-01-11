@@ -1,6 +1,6 @@
 import { v4 as uuid } from 'uuid';
-import { getSessionStorage } from '~/sessionStorage.server';
 import type { Session } from '@remix-run/node';
+import { getSessionStorage } from '~/sessionStorage.server';
 
 export const getVisitorId = (session: Session, hostname: string) => {
   const existingId = session.get('visitorId');

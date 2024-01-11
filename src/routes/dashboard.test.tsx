@@ -1,7 +1,7 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { authenticator } from '~/auth.server';
 import Dashboard, { loader } from '~/routes/dashboard';
 

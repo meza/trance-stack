@@ -13,3 +13,4 @@
 - [11. Suppressing Hydration Warnings on Scripts](0011-suppressing-hydration-warnings-on-scripts.md)
 - [12. Session Cookie Same Site None](0012-session-cookie-same-site-none.md)
 - [13. Custom Cookie Consent](0013-custom-cookie-consent.md)
+- [14. Removing Remix Eslint](0014-removing-remix-eslint.md)

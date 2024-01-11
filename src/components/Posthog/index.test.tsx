@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import posthog from 'posthog-js';
 import { describe, expect, it, vi } from 'vitest';
-import { CookieConsentProvider } from '~/components/CookieConsent';
 import { Posthog } from './index';
+import { CookieConsentProvider } from '~/components/CookieConsent';
 
 vi.mock('posthog-js');
 

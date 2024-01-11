@@ -1,9 +1,9 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { renderWithi18n } from '@test';
-import { hasFeature } from '~/hooks/hasFeature';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Root, { links, loader } from './_index';
+import { hasFeature } from '~/hooks/hasFeature';
 
 vi.mock('~/components/Hello', () => ({
   Hello: () => '<Hello />',

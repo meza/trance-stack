@@ -1,10 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { redirect } from '@remix-run/node';
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing';
+import { renderWithi18n } from '@test';
 import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { vi, it, describe } from 'vitest';
-import { renderWithi18n } from '@test';
 import { CookieConsentBanner, CookieConsentContext, CookieConsentProvider } from '~/components/CookieConsent/index';
 
 const TestComponent = () => {

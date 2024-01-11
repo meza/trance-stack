@@ -1,8 +1,8 @@
 import { beforeEach, describe, it, vi } from 'vitest';
-import { commitSession, getSessionFromRequest } from '~/session.server';
 import { action } from './settings.cookie-consent';
 import type { Session } from '@remix-run/node';
 import type { TestContext } from 'vitest';
+import { commitSession, getSessionFromRequest } from '~/session.server';
 
 vi.mock('~/session.server');
 
@@ -62,7 +62,7 @@ describe('The cookie consent settings', () => {
     });
   });
 
-  it<LocalTestContext>('returns the redirect with the correct cookies', async ({ expect, session }) => {
+  it<LocalTestContext>('returns the redirect with the correct cookies', async ({ expect }) => {
     const request = new Request('https://example.com', {
       method: 'POST'
     });

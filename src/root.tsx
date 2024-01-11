@@ -3,6 +3,9 @@ import { json } from '@remix-run/node';
 import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import { withSentry } from '@sentry/remix';
 import { useTranslation } from 'react-i18next';
+import styles from './styles/app.css';
+import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
+import type { ColorMode } from '~/components/ColorModeSwitcher';
 import { ColorModeContext, ColorModeSensor } from '~/components/ColorModeSwitcher';
 import { CookieConsentBanner, CookieConsentProvider } from '~/components/CookieConsent';
 import { ExposeAppConfig } from '~/components/ExposeAppConfig';
@@ -14,9 +17,6 @@ import { useChangeLanguage } from '~/hooks/useChangeLanguage';
 import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
-import styles from './styles/app.css';
-import type { LinksFunction, LoaderFunction, MetaFunction } from '@remix-run/node';
-import type { ColorMode } from '~/components/ColorModeSwitcher';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',

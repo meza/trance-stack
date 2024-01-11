@@ -75,7 +75,7 @@
     "i18next-browser-languagedetector": "7.1.0",
     "i18next-fs-backend": "2.1.5",
     "i18next-http-backend": "2.2.1",
-    "isbot": "3.6.12",
+    "isbot": "4.3.0",
     "jose": "4.14.4",
     "js-cookie": "3.0.5",
     "posthog-js": "1.70.1",

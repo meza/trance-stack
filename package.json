@@ -110,7 +110,7 @@
     "@remix-run/serve": "1.18.1",
     "@remix-run/testing": "1.18.1",
     "@semantic-release/commit-analyzer": "11.1.0",
-    "@semantic-release/github": "9.0.4",
+    "@semantic-release/github": "9.2.6",
     "@semantic-release/release-notes-generator": "12.1.0",
     "@storybook/addon-a11y": "7.0.26",
     "@storybook/addon-actions": "7.0.26",

@@ -1,0 +1,20 @@
+name: Clear Cache
+
+permissions: write-all
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *' # Runs once an hour
+jobs:
+  clear:
+    name: Clear cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: MyAlbum/purge-cache@v2
+        with:
+          accessed: true # Purge caches by their last accessed time (default)
+          created: false # Purge caches by their created time (default)
+          token: ${{ secrets.GH_TOKEN }}
+          debug: true
+          max-age: 3600 # Cache max 1 hour since last use (this is the default)

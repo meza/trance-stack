@@ -94,7 +94,7 @@
     "@aws-cdk/aws-apigatewayv2-alpha": "2.66.0-alpha.0",
     "@aws-cdk/aws-apigatewayv2-integrations-alpha": "2.66.0-alpha.0",
     "@babel/core": "7.23.7",
-    "@babel/preset-env": "7.23.7",
+    "@babel/preset-env": "7.23.8",
     "@babel/preset-react": "7.23.3",
     "@babel/preset-typescript": "7.23.3",
     "@commitlint/cli": "18.4.3",

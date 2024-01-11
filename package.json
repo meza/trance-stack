@@ -41,7 +41,7 @@
     "playwright:install": "playwright install --with-deps",
     "postinstall": "remix-esbuild-override",
     "prepack": "npmignore --auto",
-    "prepare": "lefthook install 1>/dev/null 2>/dev/null || true",
+    "prepare": "lefthook install",
     "release": "semantic-release",
     "report": "vitest --coverage.enabled --coverage.provider c8",
     "storybook": "run-s storybook:serve",

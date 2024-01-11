@@ -152,7 +152,7 @@
     "autoprefixer": "10.4.16",
     "aws-cdk": "2.87.0",
     "config-ini-parser": "1.6.1",
-    "cssnano": "6.0.1",
+    "cssnano": "6.0.3",
     "esbuild-copy-static-files": "0.1.0",
     "esbuild-plugin-env": "1.0.7",
     "esbuild-plugin-environment": "0.2.4",

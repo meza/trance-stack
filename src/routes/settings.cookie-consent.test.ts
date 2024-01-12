@@ -69,7 +69,7 @@ describe('The cookie consent settings', () => {
 
     vi.mocked(commitSession).mockResolvedValue('mock-cookie');
 
-    const response = await action({ request: request } as never);
+    const response = (await action({ request: request } as never) as Response);
 
     expect(Object.fromEntries(response.headers.entries())).toMatchInlineSnapshot(`
       {

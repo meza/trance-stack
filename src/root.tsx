@@ -18,11 +18,15 @@ import { remixI18next } from '~/i18n';
 import { defaultNS } from '~/i18n/i18n.config';
 import { createUserSession } from '~/session.server';
 
-export const meta: MetaFunction = () => ({
-  charset: 'utf-8',
-  title: 'REPL_APP_NAME',
-  viewport: 'width=device-width,initial-scale=1'
-});
+export const meta: MetaFunction = () => ([
+  {
+    charset: 'utf-8'
+  }, {
+    title: 'REPL_APP_NAME'
+  }, {
+    viewport: 'width=device-width,initial-scale=1'
+  }
+]);
 
 export const links: LinksFunction = () => {
   return [
@@ -79,7 +83,10 @@ const App = () => {
             <Links/>
             <ExposeAppConfig appConfig={appConfig} nonce={nonce}/>
             <ColorModeSensor nonce={nonce}/>
-            <GoogleAnalytics googleAnalyticsId={appConfig.googleAnalyticsId} visitorId={appConfig.visitorId} nonce={nonce}/>
+            <GoogleAnalytics
+              googleAnalyticsId={appConfig.googleAnalyticsId}
+              visitorId={appConfig.visitorId}
+              nonce={nonce}/>
             <Hotjar hotjarId={appConfig.hotjarId} visitorId={appConfig.visitorId} nonce={nonce}/>
           </head>
           <body>

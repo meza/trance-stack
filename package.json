@@ -127,7 +127,7 @@
     "@storybook/core-events": "7.6.8",
     "@storybook/manager-api": "7.6.8",
     "@storybook/react": "7.6.8",
-    "@storybook/react-webpack5": "7.6.7",
+    "@storybook/react-webpack5": "7.6.8",
     "@storybook/testing-library": "0.2.2",
     "@storybook/theming": "7.6.8",
     "@testing-library/dom": "9.3.4",

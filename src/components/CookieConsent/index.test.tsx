@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { redirect } from '@remix-run/node';
-import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing';
+import { createRemixStub } from '@remix-run/testing';
 import { renderWithi18n } from '@test';
 import { render, waitFor, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -68,7 +68,7 @@ describe('The Cookie Consent Component', () => {
       const RemixStub = createRemixStub([
         {
           path: '/*',
-          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+          Component: () => <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
         }
       ]);
 
@@ -83,7 +83,7 @@ describe('The Cookie Consent Component', () => {
       const RemixStub = createRemixStub([
         {
           path: '/',
-          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+          Component: () => <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
         },
         {
           path: '/settings/cookie-consent',
@@ -117,7 +117,7 @@ describe('The Cookie Consent Component', () => {
       const RemixStub = createRemixStub([
         {
           path: '/',
-          element: <CookieConsentProvider
+          Component: () => <CookieConsentProvider
             consentData={
               {
                 analytics: analyticsState
@@ -138,7 +138,7 @@ describe('The Cookie Consent Component', () => {
       const RemixStub = createRemixStub([
         {
           path: '/',
-          element: <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
+          Component: () => <CookieConsentProvider><CookieConsentBanner/></CookieConsentProvider>
         }
       ]);
 

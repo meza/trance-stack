@@ -52,11 +52,17 @@ describe('The root module', () => {
 
   it('should have a consistent meta function', () => {
     expect(meta({} as never)).toMatchInlineSnapshot(`
-      {
-        "charset": "utf-8",
-        "title": "REPL_APP_NAME",
-        "viewport": "width=device-width,initial-scale=1",
-      }
+      [
+        {
+          "charset": "utf-8",
+        },
+        {
+          "title": "REPL_APP_NAME",
+        },
+        {
+          "viewport": "width=device-width,initial-scale=1",
+        },
+      ]
     `);
   });
 
@@ -109,7 +115,7 @@ describe('The root module', () => {
 
     it('should return the app config for dev', async () => {
       const request = new Request('https://example.com');
-      const response = await loader({ request: request } as never);
+      const response = (await loader({ request: request } as never) as Response);
       const data = await response.json();
       expect(data).toMatchInlineSnapshot(`
         {
@@ -128,14 +134,14 @@ describe('The root module', () => {
 
     it('should set the cookie header', async () => {
       const request = new Request('https://example.com');
-      const response = await loader({ request: request } as never);
+      const response = (await loader({ request: request } as never) as Response);
       expect(response.headers.get('Set-Cookie')).toMatchInlineSnapshot('"a-cookie"');
     });
 
     it('should return the app config for prod', async () => {
       vi.stubEnv('NODE_ENV', 'production');
       const request = new Request('https://example.com');
-      const response = await loader({ request: request } as never);
+      const response = (await loader({ request: request } as never) as Response);
       const data = await response.json();
       expect(data).toMatchInlineSnapshot(`
         {

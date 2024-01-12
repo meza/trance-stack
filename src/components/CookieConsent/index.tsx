@@ -72,6 +72,8 @@ export const CookieConsentBanner = () => {
     >
       <div id={id + '-header'} className={'cookie-consent-header'}><Cookie/>{t('cookieConsent.title')}</div>
       <div id={id + '-text'} className={'cookie-consent-text'}>{t('cookieConsent.disclaimer')}</div>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-expect-error */}
       <fetcher.Form ref={acceptFormRef} action='/settings/cookie-consent' replace reloadDocument={true} method={'post'} id={formId + '-accept'}>
         <div className={'cookie-consent-switches'}>
           <div className={'cookie-consent-switch'}>
@@ -88,6 +90,8 @@ export const CookieConsentBanner = () => {
           </div>
         </div>
       </fetcher.Form>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-expect-error */}
       <fetcher.Form action='/settings/cookie-consent' replace method={'post'} id={formId + '-deny'}>
         <input type={'hidden'} name={'analytics'} value={'false'}/>
         <input type={'hidden'} name={'marketing'} value={'false'}/>

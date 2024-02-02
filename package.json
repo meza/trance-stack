@@ -143,7 +143,7 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@types/testing-library__jest-dom": "5.14.9",
-    "@types/uuid": "9.0.7",
+    "@types/uuid": "9.0.8",
     "@types/webpack": "5.28.5",
     "@typescript-eslint/eslint-plugin": "6.18.1",
     "@typescript-eslint/parser": "6.18.1",

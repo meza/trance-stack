@@ -105,7 +105,7 @@
     "@jscpd/badge-reporter": "3.4.5",
     "@jscpd/html-reporter": "3.5.10",
     "@meza/adr-tools": "1.0.10",
-    "@playwright/test": "1.40.1",
+    "@playwright/test": "1.41.1",
     "@remix-run/dev": "2.5.1",
     "@remix-run/serve": "2.5.1",
     "@remix-run/testing": "2.5.1",

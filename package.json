@@ -127,7 +127,7 @@
     "@storybook/core-events": "7.6.10",
     "@storybook/manager-api": "7.6.10",
     "@storybook/react": "7.6.10",
-    "@storybook/react-webpack5": "7.6.8",
+    "@storybook/react-webpack5": "7.6.10",
     "@storybook/testing-library": "0.2.2",
     "@storybook/theming": "7.6.10",
     "@testing-library/dom": "9.3.4",
@@ -203,7 +203,7 @@
     "vite-tsconfig-paths": "4.3.1",
     "vitest": "1.2.2",
     "wait-on": "7.2.0",
-    "webpack": "5.89.0"
+    "webpack": "5.90.0"
   },
   "browserslist": [
     "> 1%",

@@ -171,7 +171,7 @@
     "is-ci": "3.0.1",
     "jscpd": "3.5.10",
     "jsdom": "24.0.0",
-    "npm-run-all2": "5.0.0",
+    "npm-run-all2": "6.1.1",
     "npmignore": "0.3.1",
     "postcss": "8.4.33",
     "postcss-advanced-variables": "3.0.1",

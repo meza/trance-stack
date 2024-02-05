@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "@aws-sdk/smithy-client": "3.370.0",
-    "@aws-sdk/types": "3.489.0",
+    "@aws-sdk/types": "3.496.0",
     "@remix-run/architect": "2.5.1",
     "@remix-run/node": "2.5.1",
     "@remix-run/react": "2.5.1",
